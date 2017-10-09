@@ -1,0 +1,17 @@
+<resources>
+
+    <style name="main_tab_radio">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:checked">false</item>
+        <item name="android:clickable">false</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/common_txt_select_color</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+</resources>

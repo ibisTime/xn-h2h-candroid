@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#48b0fb</color>
+    <color name="colorPrimaryDark">#48b0fb</color>
+    <color name="colorAccent">#48b0fb</color>
+
+
+
+
+    <color name="text_select">#48b0fb</color>
+
+</resources>

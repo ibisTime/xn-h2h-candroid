@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:clipChildren="false">
+
+        <RadioGroup
+            android:id="@+id/radiogroup"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <RadioButton
+                android:id="@+id/radio_main_tab_1"
+                style="@style/main_tab_radio"
+                android:checked="true"
+                android:drawableTop="@drawable/main_buttom_tab_1"
+                android:text="首页" />
+
+            <RadioButton
+                android:id="@+id/radio_main_tab_2"
+                style="@style/main_tab_radio"
+                android:drawableTop="@drawable/main_buttom_tab_2"
+                android:text="分类" />
+
+            <LinearLayout
+                android:id="@+id/layout_release"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/main_tab_mid" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="发布"
+                    android:textColor="@drawable/common_txt_select_color"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/radio_main_tab_3"
+                style="@style/main_tab_radio"
+                android:drawableTop="@drawable/main_buttom_tab_3"
+                android:text="消息" />
+
+
+            <RadioButton
+                android:id="@+id/radio_main_tab_4"
+                style="@style/main_tab_radio"
+                android:drawableTop="@drawable/main_buttom_tab_1"
+                android:text="我的" />
+        </RadioGroup>
+    </RelativeLayout>
+</layout>
