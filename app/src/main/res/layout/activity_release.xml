@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:background="@color/background_gray_app"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:paddingBottom="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <View
+                    style="@style/line_gray"
+                    android:background="@color/line_gray_app" />
+
+                <include
+                    android:id="@+id/layout_check_camera"
+                    layout="@layout/layout_act_check_camera" />
+
+                <View
+                    style="@style/line_gray"
+                    android:layout_height="10dp"
+                    android:background="@color/background_gray_app" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/layout_left_right_interval"
+                        android:layout_marginRight="@dimen/layout_left_right_interval"
+                        android:layout_marginTop="22dp"
+                        android:background="@null"
+                        android:hint="商品名称"
+                        android:textColor="@color/text_gray_app"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_marginLeft="@dimen/layout_left_right_interval"
+                        android:layout_marginRight="@dimen/layout_left_right_interval"
+                        android:layout_marginTop="16dp"
+                        android:background="@null"
+                        android:gravity="top"
+                        android:hint="在这里写下宝贝的广告语吧"
+                        android:textColor="@color/text_gray_app"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+
+                <include layout="@layout/layout_location_city" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/layout_left_right_interval"
+                    android:paddingRight="@dimen/layout_left_right_interval">
+
+                    <TextView
+                        style="@style/text_black"
+                        android:text="分类"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        style="@style/text_gray"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:text="选择分类"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/more_down" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/layout_left_right_interval"
+                    android:paddingRight="@dimen/layout_left_right_interval">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        style="@style/text_black"
+                        android:text="价格"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        style="@style/text_gray"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:text="开个价"
+                        android:textSize="15dp" />
+
+                </LinearLayout>
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/layout_left_right_interval"
+                    android:paddingRight="@dimen/layout_left_right_interval">
+
+                    <TextView
+                        style="@style/text_black"
+                        android:layout_gravity="center_vertical"
+                        android:text="同步到圈子"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:src="@drawable/default_pic" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="@dimen/layout_left_right_interval"
+            android:layout_marginRight="@dimen/layout_left_right_interval"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/selector_btn_round"
+            android:text="发布"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
+
+</layout>

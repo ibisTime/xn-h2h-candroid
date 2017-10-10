@@ -3,6 +3,7 @@ package com.cdkj.baselibrary.base;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -16,10 +17,10 @@ import com.cdkj.baselibrary.databinding.ActivityAbsBaseBinding;
  * 带空页面，错误页面显示的BaseActivity
  */
 public abstract class AbsBaseActivity extends BaseActivity {
-    private View mErrorView;
-    private View mMainView;
-    private View mTopTitleView;
-    private ActivityAbsBaseBinding mBaseBinding;
+    protected View mErrorView;
+    protected View mMainView;
+    protected View mTopTitleView;
+    protected ActivityAbsBaseBinding mBaseBinding;
 
     /**
      * 布局文件xml的resId,无需添加标题栏、加载、错误及空页面
@@ -172,6 +173,17 @@ public abstract class AbsBaseActivity extends BaseActivity {
         }
         TextView tvTitle = (TextView) mTopTitleView.findViewById(R.id.tv_top_title_abs);
         tvTitle.setText(title);
+    }
+    /**
+     * 设置标题颜色
+     * @param
+     */
+    public void setTopTitleColor(int color) {
+        if(mTopTitleView == null){
+            return;
+        }
+        TextView tvTitle = (TextView) mTopTitleView.findViewById(R.id.tv_top_title_abs);
+        tvTitle.setTextColor(ContextCompat.getColor(this,color));
     }
 
 

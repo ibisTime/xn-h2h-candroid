@@ -2,9 +2,8 @@
 
     <style name="main_tab_radio">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">50dp</item>
         <item name="android:layout_gravity">bottom</item>
-        <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:button">@null</item>
         <item name="android:checked">false</item>
@@ -13,5 +12,27 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@drawable/common_txt_select_color</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:background">@color/white</item>
     </style>
+
+    <style name="text_black">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+    <style name="text_gray">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_gray_app</item>
+    </style>
+
+
+    <!--长的分割线styles设置-->
+    <style name="line_gray">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/line_gray_2_app</item>
+    </style>
+
 </resources>

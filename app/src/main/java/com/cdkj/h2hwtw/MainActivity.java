@@ -18,6 +18,7 @@ import com.cdkj.h2hwtw.databinding.ActivityMainBinding;
 import com.cdkj.h2hwtw.module.firstpage.fragments.FirstPageFragment;
 import com.cdkj.h2hwtw.module.goodstype.fragments.GoodsTypeFragment;
 import com.cdkj.h2hwtw.module.im.fragments.ImFragment;
+import com.cdkj.h2hwtw.module.product.activitys.ProductReleaseActivity;
 import com.cdkj.h2hwtw.module.user.fragments.MyFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -87,7 +88,7 @@ public class MainActivity extends AbsBaseActivity {
     private void initListener() {
 
         //首页
-        mBinding.layoutMainButtom.radioMainTab1.setOnClickListener(new View.OnClickListener() {
+        mBinding.radioMainTab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setShowIndex(0);
@@ -96,7 +97,7 @@ public class MainActivity extends AbsBaseActivity {
 
 
         //类别
-        mBinding.layoutMainButtom.radioMainTab2.setOnClickListener(new View.OnClickListener() {
+        mBinding.radioMainTab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setShowIndex(1);
@@ -105,16 +106,15 @@ public class MainActivity extends AbsBaseActivity {
 
 
         //消息
-        mBinding.layoutMainButtom.radioMainTab3.setOnClickListener(new View.OnClickListener() {
+        mBinding.radioMainTab3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setShowIndex(2);
             }
         });
 
-
         //我的
-        mBinding.layoutMainButtom.radioMainTab4.setOnClickListener(new View.OnClickListener() {
+        mBinding.radioMainTab4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setShowIndex(3);
@@ -122,10 +122,10 @@ public class MainActivity extends AbsBaseActivity {
         });
 
         //发布
-        mBinding.layoutMainButtom.layoutRelease.setOnClickListener(new View.OnClickListener() {
+        mBinding.layoutRelease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ProductReleaseActivity.open(MainActivity.this);
             }
         });
 
@@ -136,16 +136,16 @@ public class MainActivity extends AbsBaseActivity {
 
         switch (mShowIndex) {
             case 0:
-                mBinding.layoutMainButtom.radioMainTab1.setChecked(true);
+                mBinding.radioMainTab1.setChecked(true);
                 break;
             case 1:
-                mBinding.layoutMainButtom.radioMainTab2.setChecked(true);
+                mBinding.radioMainTab2.setChecked(true);
                 break;
             case 2:
-                mBinding.layoutMainButtom.radioMainTab3.setChecked(true);
+                mBinding.radioMainTab3.setChecked(true);
                 break;
             case 3:
-                mBinding.layoutMainButtom.radioMainTab4.setChecked(true);
+                mBinding.radioMainTab4.setChecked(true);
                 break;
         }
 

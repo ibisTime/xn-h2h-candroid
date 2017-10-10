@@ -16,6 +16,11 @@ android {
             }
         }
 
+        ndk {
+            // 需要将 x86 架构过滤掉
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+        }
+
     }
     buildTypes {
         release {
@@ -44,6 +49,18 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':cdcommon')
+
+    compile files('libs/imsdk_group_ext.jar')
+    compile files('libs/imsdk_msg_ext.jar')
+    compile files('libs/imsdk_sns_ext.jar')
+    compile files('libs/bugly_2.4.0_imsdk_release.jar')
+    compile files('libs/imsdk.jar')
+    compile files('libs/mobilepb.jar')
+    compile files('libs/qalsdk.jar')
+    compile files('libs/soload.jar')
+    compile files('libs/tls_sdk.jar')
+    compile files('libs/wup-1.0.0-SNAPSHOT.jar')
+
 
     //路由
     compile 'com.alibaba:arouter-api:1.2.2'

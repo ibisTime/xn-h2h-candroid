@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -41,19 +42,19 @@ public class LoadingView extends View {
         super(context, attrs, defStyleAttr);
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.LoadingView, defStyleAttr, 0);
         mSize = array.getDimensionPixelSize(R.styleable.LoadingView_loading_view_size, DensityUtil.dp2px(32));
-        mPaintColor = array.getInt(R.styleable.LoadingView_android_color, Color.WHITE);
+        mPaintColor = array.getColor(R.styleable.LoadingView_loading_view_color, Color.WHITE);
         array.recycle();
-        initPaint();
+        initPaint(context);
     }
 
     public LoadingView(Context context, int size, int color) {
         super(context);
         mSize = size;
         mPaintColor = color;
-        initPaint();
+        initPaint(context);
     }
 
-    private void initPaint() {
+    private void initPaint(Context context) {
         mPaint = new Paint();
         mPaint.setColor(mPaintColor);
         mPaint.setAntiAlias(true);
