@@ -58,6 +58,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/balck_app</item>
         <item name="android:textSize">30sp</item>
+        <item name="android:background">@drawable/selector_gray</item>
     </style>
 
 </resources>

@@ -6,17 +6,12 @@ package com.cdkj.baselibrary.appmanager;
 
 public class MyCdConfig {
 
-    public final static String COMPANYCODE="CD-YLQ000014";
-    public final static String SYSTEMCODE="CD-YLQ000014";
+    public final static String COMPANYCODE = "CD-WTW000016";
+    public final static String SYSTEMCODE = "CD-WTW000016";
 
-    public final static String USERTYPE="C";//用户类型
+    public final static String USERTYPE = "C";//用户类型
 
-    public final static String IMGURL="http://oucrrtx1y.bkt.clouddn.com/";
-
-
-    private static final String USERTOKEN = "user_toke_ylq";
-    private static final String USERID = "user_id_ylq";
-
+    public final static String QINIUURL = "http://ounm8iw2d.bkt.clouddn.com/";
 
 
     /**

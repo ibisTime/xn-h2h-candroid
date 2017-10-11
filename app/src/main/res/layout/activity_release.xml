@@ -90,11 +90,10 @@
                 </FrameLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_price"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/white"
+                    android:background="@drawable/selector_gray"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/layout_left_right_interval"
                     android:paddingRight="@dimen/layout_left_right_interval">
@@ -123,10 +122,11 @@
 
 
                 <LinearLayout
+                    android:id="@+id/layout_price"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/white"
+                    android:background="@drawable/selector_gray"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/layout_left_right_interval"
                     android:paddingRight="@dimen/layout_left_right_interval">

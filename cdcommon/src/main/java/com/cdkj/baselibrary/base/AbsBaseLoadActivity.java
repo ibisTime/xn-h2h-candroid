@@ -39,7 +39,7 @@ public abstract class AbsBaseLoadActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (!canFinish()) {
-                    leftClick();
+                    topTitleViewleftClick();
                 }
                 finish();
             }
@@ -47,7 +47,7 @@ public abstract class AbsBaseLoadActivity extends BaseActivity {
         mBaseBinding.titleView.setRightFraClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rightClick();
+                topTitleViewRightClick();
             }
         });
 
@@ -82,11 +82,11 @@ public abstract class AbsBaseLoadActivity extends BaseActivity {
      */
     public abstract void afterCreate(Bundle savedInstanceState);
 
-    public void leftClick() {
+    public void topTitleViewleftClick() {
 
     }
 
-    public void rightClick() {
+    public void topTitleViewRightClick() {
 
     }
 

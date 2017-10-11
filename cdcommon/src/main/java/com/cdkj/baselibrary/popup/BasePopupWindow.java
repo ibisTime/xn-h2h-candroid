@@ -4,6 +4,7 @@ package com.cdkj.baselibrary.popup;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.util.Log;
@@ -32,10 +33,10 @@ import java.lang.reflect.Field;
 public abstract class BasePopupWindow implements BasePopup, PopupWindow.OnDismissListener, PopupController {
     private static final String TAG = "BasePopupWindow";
     //元素定义
-    private PopupWindowProxy mPopupWindow;
+    protected PopupWindowProxy mPopupWindow;
     //popup视图
-    private View mPopupView;
-    private Activity mContext;
+    protected View mPopupView;
+    protected Activity mContext;
     protected View mAnimaView;
     protected View mDismissView;
     //是否自动弹出输入框(default:false)
@@ -69,6 +70,8 @@ public abstract class BasePopupWindow implements BasePopup, PopupWindow.OnDismis
     private boolean dismissWhenTouchOuside;
 
     private int popupLayoutid;
+
+
 
     public BasePopupWindow(Activity context) {
         initView(context, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

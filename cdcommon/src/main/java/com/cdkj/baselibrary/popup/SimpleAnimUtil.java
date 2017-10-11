@@ -72,7 +72,7 @@ public class SimpleAnimUtil {
      * 生成默认的AlphaAnimation
      */
     public static Animation getDefaultAlphaAnimation() {
-        Animation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
+        Animation alphaAnimation = new AlphaAnimation(1.0f, 0f);
         alphaAnimation.setDuration(300);
         alphaAnimation.setInterpolator(new AccelerateInterpolator());
         alphaAnimation.setFillEnabled(true);

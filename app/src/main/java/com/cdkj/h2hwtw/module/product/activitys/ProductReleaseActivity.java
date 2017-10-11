@@ -12,6 +12,7 @@ import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.databinding.ActivityReleaseBinding;
 import com.cdkj.h2hwtw.module.common.MyBaseLoadActivity;
+import com.cdkj.h2hwtw.pop.PriceKeyboardPop;
 
 /**
  * 产品发布
@@ -39,16 +40,18 @@ public class ProductReleaseActivity extends MyBaseLoadActivity {
     }
 
 
-
     @Override
     public void afterCreate(Bundle savedInstanceState) {
-       setBGWhite();
-       setLeftImg();
-       mBaseBinding.titleView.setMidTitle(getString(R.string.text_release));
-       mBaseBinding.titleView.setRightTitle(getString(R.string.text_cancel));
-
+        setBGWhite();
+        setLeftImg();
+        mBaseBinding.titleView.setMidTitle(getString(R.string.text_release));
+        mBaseBinding.titleView.setRightTitle(getString(R.string.text_cancel));
         initListener();
+    }
 
+    @Override
+    public void topTitleViewRightClick() {
+        finish();
     }
 
     private void initListener() {
@@ -57,6 +60,7 @@ public class ProductReleaseActivity extends MyBaseLoadActivity {
             @Override
             public void onClick(View view) {
 
+                new PriceKeyboardPop(ProductReleaseActivity.this).showPopupWindow();
             }
         });
 

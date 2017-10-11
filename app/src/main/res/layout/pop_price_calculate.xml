@@ -2,118 +2,120 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <FrameLayout
+    <ScrollView
+        android:id="@+id/pop_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/title_height"
-        android:background="@color/pop_black_bg"
-        android:orientation="vertical">
+        android:background="@color/pop_black_bg">
 
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/lin_keyboard_root"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/text_black"
+                android:layout_marginLeft="@dimen/layout_left_right_interval"
+                android:layout_marginTop="10dp"
+                android:text="想卖多少钱？"
+                android:textSize="12sp" />
 
             <LinearLayout
+                android:id="@+id/lin_price"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="@color/white"
-                android:orientation="vertical">
+                android:layout_marginLeft="@dimen/layout_left_right_interval"
+                android:layout_marginRight="@dimen/layout_left_right_interval"
+                android:orientation="horizontal">
 
                 <TextView
-                    style="@style/text_black"
+                    style="@style/text_gray"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="@dimen/layout_left_right_interval"
-                    android:layout_marginTop="10dp"
-                    android:text="想卖多少钱？"
-                    android:textSize="12sp" />
+                    android:text="@string/money_sing"
+                    android:textSize="18sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/layout_left_right_interval"
-                    android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/edit_price"
+                    style="@style/edit_style"
+                    android:layout_marginBottom="10dp"
+                    android:enabled="false"
+                    android:hint="0.00"
+                    android:textSize="18sp" />
 
-                    <TextView
-                        style="@style/text_gray"
-                        android:layout_marginBottom="10dp"
-                        android:text="@string/money_sing"
-                        android:textSize="18sp" />
-
-                    <EditText
-                        style="@style/edit_style"
-                        android:layout_marginBottom="10dp"
-                        android:hint="0.00"
-                        android:textSize="18sp" />
-
-
-                </LinearLayout>
-
-                <View style="@style/line_gray" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="@dimen/layout_left_right_interval"
-                    android:layout_marginRight="@dimen/layout_left_right_interval"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/text_black"
-                        android:text="原价"
-                        android:textSize="18sp" />
-
-                    <EditText
-                        style="@style/edit_style"
-                        android:layout_marginLeft="20dp"
-                        android:hint="￥0.00"
-                        android:maxLength="1"
-                        android:textSize="18sp" />
-
-
-                </LinearLayout>
-
-                <View style="@style/line_gray" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="@dimen/layout_left_right_interval"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        style="@style/text_black"
-                        android:text="运费"
-                        android:textSize="18sp" />
-
-                    <EditText
-                        style="@style/edit_style"
-                        android:layout_width="120dp"
-                        android:layout_marginLeft="20dp"
-                        android:hint="￥0.00"
-                        android:maxLines="1"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        style="@style/text_black"
-                        android:layout_marginRight="20dp"
-                        android:text="包邮"
-                        android:textSize="18sp" />
-
-                    <CheckBox style="@style/check_box" />
-
-
-                </LinearLayout>
-
-                <View style="@style/line_gray" />
-
-                <include layout="@layout/layout_keyboard" />
 
             </LinearLayout>
 
-        </ScrollView>
+            <View style="@style/line_gray" />
 
-    </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="@dimen/layout_left_right_interval"
+                android:layout_marginRight="@dimen/layout_left_right_interval"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_black"
+                    android:text="原价"
+                    android:textSize="18sp" />
+
+                <EditText
+                    style="@style/edit_style"
+                    android:layout_marginLeft="20dp"
+                    android:hint="￥0.00"
+                    android:maxLength="1"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+
+            <View style="@style/line_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="@dimen/layout_left_right_interval"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/text_black"
+                    android:text="运费"
+                    android:textSize="18sp" />
+
+                <EditText
+                    style="@style/edit_style"
+                    android:layout_width="120dp"
+                    android:layout_marginLeft="20dp"
+                    android:hint="￥0.00"
+                    android:maxLines="1"
+                    android:textSize="18sp" />
+
+                <TextView
+                    style="@style/text_black"
+                    android:layout_marginRight="20dp"
+                    android:text="包邮"
+                    android:textSize="18sp" />
+
+                <CheckBox style="@style/check_box" />
+
+
+            </LinearLayout>
+
+            <View style="@style/line_gray" />
+
+            <include
+                android:id="@+id/layouot_keyboard"
+                layout="@layout/layout_keyboard" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
 
 </layout>

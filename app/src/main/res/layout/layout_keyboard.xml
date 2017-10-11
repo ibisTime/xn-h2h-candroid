@@ -20,19 +20,25 @@
                 android:weightSum="3">
 
                 <TextView
+                    android:id="@+id/tv_key_1"
                     style="@style/text_calculate_number"
+                    android:tag="1"
                     android:text="1" />
 
                 <View style="@style/style_split_vline" />
 
                 <TextView
+                    android:id="@+id/tv_key_2"
                     style="@style/text_calculate_number"
+                    android:tag="2"
                     android:text="2" />
 
                 <View style="@style/style_split_vline" />
 
                 <TextView
+                    android:id="@+id/tv_key_3"
                     style="@style/text_calculate_number"
+                    android:tag="3"
                     android:text="3" />
 
             </LinearLayout>
@@ -44,20 +50,27 @@
                 android:layout_height="@dimen/keybooard_height"
                 android:orientation="horizontal">
 
+
                 <TextView
+                    android:id="@+id/tv_key_4"
                     style="@style/text_calculate_number"
+                    android:tag="4"
                     android:text="4" />
 
                 <View style="@style/style_split_vline" />
 
                 <TextView
+                    android:id="@+id/tv_key_5"
                     style="@style/text_calculate_number"
+                    android:tag="5"
                     android:text="5" />
 
                 <View style="@style/style_split_vline" />
 
                 <TextView
+                    android:id="@+id/tv_key_6"
                     style="@style/text_calculate_number"
+                    android:tag="6"
                     android:text="6" />
 
             </LinearLayout>
@@ -70,19 +83,25 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_key_7"
                     style="@style/text_calculate_number"
+                    android:tag="7"
                     android:text="7" />
 
                 <View style="@style/style_split_vline" />
 
                 <TextView
+                    android:id="@+id/tv_key_8"
                     style="@style/text_calculate_number"
+                    android:tag="8"
                     android:text="8" />
 
                 <View style="@style/style_split_vline" />
 
                 <TextView
+                    android:id="@+id/tv_key_9"
                     style="@style/text_calculate_number"
+                    android:tag="9"
                     android:text="9" />
 
             </LinearLayout>
@@ -95,21 +114,27 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_key_null"
                     style="@style/text_calculate_number"
+                    android:tag="."
                     android:text="." />
 
                 <View style="@style/style_split_vline" />
 
                 <TextView
+                    android:id="@+id/tv_key_0"
                     style="@style/text_calculate_number"
+                    android:tag="0"
                     android:text="0" />
 
                 <View style="@style/style_split_vline" />
 
                 <FrameLayout
+                    android:id="@+id/fra_cancel"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_gray">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -133,9 +158,11 @@
             android:weightSum="2">
 
             <FrameLayout
+                android:id="@+id/fra__delete"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/selector_gray">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -145,17 +172,18 @@
 
             </FrameLayout>
 
-            <TextView
+            <Button
+                android:id="@+id/btn_sure"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@color/btn_click_un_app"
+                android:background="@drawable/selector_btn_keybooard"
                 android:gravity="center"
                 android:text="确定"
                 android:textColor="@color/white">
 
 
-            </TextView>
+            </Button>
 
 
         </LinearLayout>
