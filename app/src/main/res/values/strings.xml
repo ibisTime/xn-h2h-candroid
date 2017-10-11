@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">我淘网</string>
     <string name="text_release">发布</string>
+    <string name="text_cancel">取消</string>
 </resources>

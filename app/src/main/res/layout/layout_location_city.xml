@@ -3,17 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
-        android:background="@color/white"
-        android:layout_width="match_parent"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="@dimen/layout_left_right_interval"
-            android:src="@drawable/default_pic" />
+
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/location_gray" />
 
         <TextView
             style="@style/text_black"

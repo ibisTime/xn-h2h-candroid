@@ -45,6 +45,21 @@ public class ProductReleaseActivity extends MyBaseLoadActivity {
        setBGWhite();
        setLeftImg();
        mBaseBinding.titleView.setMidTitle(getString(R.string.text_release));
+       mBaseBinding.titleView.setRightTitle(getString(R.string.text_cancel));
+
+        initListener();
+
+    }
+
+    private void initListener() {
+
+        mBinding.layoutPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
 
     }
 }

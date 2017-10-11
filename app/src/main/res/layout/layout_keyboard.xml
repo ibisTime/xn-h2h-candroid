@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/keybooard_height"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    style="@style/text_calculate_number"
+                    android:text="1" />
+
+                <View style="@style/style_split_vline" />
+
+                <TextView
+                    style="@style/text_calculate_number"
+                    android:text="2" />
+
+                <View style="@style/style_split_vline" />
+
+                <TextView
+                    style="@style/text_calculate_number"
+                    android:text="3" />
+
+            </LinearLayout>
+
+            <View style="@style/line_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/keybooard_height"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_calculate_number"
+                    android:text="4" />
+
+                <View style="@style/style_split_vline" />
+
+                <TextView
+                    style="@style/text_calculate_number"
+                    android:text="5" />
+
+                <View style="@style/style_split_vline" />
+
+                <TextView
+                    style="@style/text_calculate_number"
+                    android:text="6" />
+
+            </LinearLayout>
+
+            <View style="@style/line_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/keybooard_height"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_calculate_number"
+                    android:text="7" />
+
+                <View style="@style/style_split_vline" />
+
+                <TextView
+                    style="@style/text_calculate_number"
+                    android:text="8" />
+
+                <View style="@style/style_split_vline" />
+
+                <TextView
+                    style="@style/text_calculate_number"
+                    android:text="9" />
+
+            </LinearLayout>
+
+            <View style="@style/line_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/keybooard_height"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_calculate_number"
+                    android:text="." />
+
+                <View style="@style/style_split_vline" />
+
+                <TextView
+                    style="@style/text_calculate_number"
+                    android:text="0" />
+
+                <View style="@style/style_split_vline" />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/keyboard_down" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <View style="@style/line_gray" />
+        </LinearLayout>
+
+        <View style="@style/style_split_vline" />
+
+        <LinearLayout
+            android:layout_width="105dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="2">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/keyboard_delete" />
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/btn_click_un_app"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/white">
+
+
+            </TextView>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

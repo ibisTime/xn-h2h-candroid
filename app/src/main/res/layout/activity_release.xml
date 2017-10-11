@@ -2,22 +2,22 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <ScrollView
-            android:background="@color/background_gray_app"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@color/background_gray_app">
 
             <LinearLayout
-                android:paddingBottom="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="50dp">
 
                 <View
                     style="@style/line_gray"
@@ -39,35 +39,58 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/edit_style"
                         android:layout_marginLeft="@dimen/layout_left_right_interval"
                         android:layout_marginRight="@dimen/layout_left_right_interval"
                         android:layout_marginTop="22dp"
-                        android:background="@null"
                         android:hint="商品名称"
-                        android:textColor="@color/text_gray_app"
+                        android:maxLength="30"
                         android:textSize="18sp" />
 
                     <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="120dp"
+                        style="@style/edit_style"
+                        android:layout_height="100dp"
                         android:layout_marginLeft="@dimen/layout_left_right_interval"
                         android:layout_marginRight="@dimen/layout_left_right_interval"
                         android:layout_marginTop="16dp"
-                        android:background="@null"
                         android:gravity="top"
-                        android:hint="在这里写下宝贝的广告语吧"
-                        android:textColor="@color/text_gray_app"
+                        android:hint="在这里写下商品的广告语吧"
                         android:textSize="15sp" />
 
                 </LinearLayout>
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/layout_left_right_interval"
+                    android:paddingRight="@dimen/layout_left_right_interval">
 
-                <include layout="@layout/layout_location_city" />
+                    <include layout="@layout/layout_location_city" />
 
+                    <LinearLayout
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:gravity="center_vertical">
+
+                        <CheckBox style="@style/check_box" />
+
+                        <TextView
+                            style="@style/text_black"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="6dp"
+                            android:text="全新宝贝" />
+
+
+                    </LinearLayout>
+
+
+                </FrameLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_price"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
@@ -91,10 +114,10 @@
                         android:textSize="15dp" />
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@drawable/more_down" />
+                        android:src="@drawable/more_right" />
 
                 </LinearLayout>
 
@@ -140,11 +163,13 @@
                         android:text="同步到圈子"
                         android:textSize="15dp" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:src="@drawable/default_pic" />
+                    <CheckBox
+                        android:layout_width="50dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:background="@drawable/selector_switch"
+                        android:button="@null"
+                        android:checked="true" />
 
                 </FrameLayout>
 
