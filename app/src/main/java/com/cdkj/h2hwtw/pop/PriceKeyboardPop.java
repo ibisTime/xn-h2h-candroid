@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.popup.BasePopupWindow;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.utils.ToastUtil;
@@ -131,7 +132,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
                     return;
                 }
                 if (StringUtils.parseInt(mPriceEditInputString.toString()) > 999999) {
-                    ToastUtil.show(mContext, "价格不能超过999999哦");
+                    UITipDialog.showInfo(mContext, "价格不能超过999999哦");
                     return;
                 }
                 mPriceEditInputString.append(view.getTag().toString());
@@ -143,7 +144,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
                     return;
                 }
                 if (StringUtils.parseInt(mPriceOldEditInputString.toString()) > 999999) {
-                    ToastUtil.show(mContext, "原价不能超过999999哦");
+                    UITipDialog.showInfo(mContext, "原价不能超过999999哦");
                     return;
                 }
                 mPriceOldEditInputString.append(view.getTag().toString());
@@ -155,7 +156,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
                     return;
                 }
                 if (StringUtils.parseInt(mPriceSendEditInputString.toString()) > 999) {
-                    ToastUtil.show(mContext, "运费价不能超过999哦");
+                    UITipDialog.showInfo(mContext, "运费价不能超过999哦");
                     return;
                 }
                 mPriceSendEditInputString.append(view.getTag().toString());

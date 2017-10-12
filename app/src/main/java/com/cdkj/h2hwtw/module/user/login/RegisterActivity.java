@@ -11,6 +11,7 @@ import com.cdkj.baselibrary.api.BaseApiServer;
 import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.interfaces.SendCodeInterface;
 import com.cdkj.baselibrary.interfaces.SendPhoneCoodePresenter;
 import com.cdkj.baselibrary.model.IsSuccessModes;
@@ -83,23 +84,23 @@ public class RegisterActivity extends MyBaseLoadActivity implements SendCodeInte
             @Override
             public void onClick(View view) {
                 if (TextUtils.isEmpty(mBinding.editUsername.getText().toString())) {
-                    showToast("请输入手机号");
+                    UITipDialog.showFall(RegisterActivity.this,"请输入手机号");
                     return;
                 }
                 if (TextUtils.isEmpty(mBinding.editPhoneCode.getText().toString())) {
-                    showToast("请输入验证码");
+                    UITipDialog.showFall(RegisterActivity.this,"请输入验证码");
                     return;
                 }
                 if (TextUtils.isEmpty(mBinding.editPassword.getText().toString())) {
-                    showToast("请输入密码");
+                    UITipDialog.showFall(RegisterActivity.this,"请输入密码");
                     return;
                 }
                 if (TextUtils.isEmpty(mBinding.editPasswordRepet.getText().toString())) {
-                    showToast("请重新输入密码");
+                    UITipDialog.showFall(RegisterActivity.this,"请重新输入密码");
                     return;
                 }
                 if (!TextUtils.equals(mBinding.editPasswordRepet.getText().toString(), mBinding.editPassword.getText().toString())) {
-                    showToast("两次输入密码不一致");
+                    UITipDialog.showFall(RegisterActivity.this,"两次输入密码不一致");
                     return;
                 }
 
@@ -115,7 +116,7 @@ public class RegisterActivity extends MyBaseLoadActivity implements SendCodeInte
      */
     private void checkPhoneNumAndSendCode() {
         if (TextUtils.isEmpty(mBinding.editUsername.getText().toString())) {
-            showToast("请输入手机号");
+            UITipDialog.showFall(RegisterActivity.this,"请输入手机号");
             return;
         }
 
@@ -134,7 +135,7 @@ public class RegisterActivity extends MyBaseLoadActivity implements SendCodeInte
                 if (data.isSuccess()) {
                     mSendCOdePresenter.sendCodeRequest(mBinding.editUsername.getText().toString(), "805041", MyCdConfig.USERTYPE, RegisterActivity.this);
                 } else {
-                    showToast("手机号已经存在");
+                    UITipDialog.showFall(RegisterActivity.this,"手机号已经存在");
                 }
             }
 
@@ -196,13 +197,13 @@ public class RegisterActivity extends MyBaseLoadActivity implements SendCodeInte
     //获取验证码相关
     @Override
     public void CodeSuccess(String msg) {
-        ToastUtil.show(this, msg);
+        UITipDialog.showSuccess(RegisterActivity.this,msg);
         mSubscription.add(AppUtils.startCodeDown(60, mBinding.btnSendCode));//启动倒计时
     }
 
     @Override
     public void CodeFailed(String code, String msg) {
-        showToast(msg);
+        UITipDialog.showFall(RegisterActivity.this,msg);
     }
 
     @Override
