@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,10 +21,13 @@ import com.cdkj.h2hwtw.module.goodstype.fragments.GoodsTypeFragment;
 import com.cdkj.h2hwtw.module.im.fragments.ImFragment;
 import com.cdkj.h2hwtw.module.product.activitys.ProductReleaseActivity;
 import com.cdkj.h2hwtw.module.user.fragments.MyFragment;
+import com.cdkj.h2hwtw.module.user.login.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +41,22 @@ public class MainActivity extends AbsBaseActivity {
 
     private ActivityMainBinding mBinding;
 
-    private int mShowIndex = 0;//显示相应页面
 
     public static final int SHOWFIRST = 0;//显示首页
     public static final int SHOWTYPE = 1;//显示类别
     public static final int SHOWIM = 2;//显示消息界面
     public static final int SHOWMy = 3;//显示我的界面
+
+
+    @IntDef({SHOWFIRST, SHOWTYPE, SHOWIM, SHOWMy})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface showType {
+    }
+
+    private
+    @MainActivity.showType
+    int mShowIndex = SHOWFIRST;//显示相应页面 默认首页
+
 
     private List<Fragment> fragments;
     private UpdateManager updateManager;
@@ -91,7 +105,7 @@ public class MainActivity extends AbsBaseActivity {
         mBinding.radioMainTab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setShowIndex(0);
+                setShowIndex(SHOWFIRST);
             }
         });
 
@@ -100,7 +114,7 @@ public class MainActivity extends AbsBaseActivity {
         mBinding.radioMainTab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setShowIndex(1);
+                setShowIndex(SHOWTYPE);
             }
         });
 
@@ -109,7 +123,7 @@ public class MainActivity extends AbsBaseActivity {
         mBinding.radioMainTab3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setShowIndex(2);
+                setShowIndex(SHOWIM);
             }
         });
 
@@ -117,7 +131,7 @@ public class MainActivity extends AbsBaseActivity {
         mBinding.radioMainTab4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setShowIndex(3);
+                setShowIndex(SHOWMy);
             }
         });
 
@@ -135,16 +149,17 @@ public class MainActivity extends AbsBaseActivity {
     public void setShowTabIndex() {
 
         switch (mShowIndex) {
-            case 0:
+            case SHOWFIRST:
+                LoginActivity.open(MainActivity.this,true);
                 mBinding.radioMainTab1.setChecked(true);
                 break;
-            case 1:
+            case SHOWTYPE:
                 mBinding.radioMainTab2.setChecked(true);
                 break;
-            case 2:
+            case SHOWIM:
                 mBinding.radioMainTab3.setChecked(true);
                 break;
-            case 3:
+            case SHOWMy:
                 mBinding.radioMainTab4.setChecked(true);
                 break;
         }
@@ -174,7 +189,7 @@ public class MainActivity extends AbsBaseActivity {
      *
      * @param index
      */
-    private void setShowIndex(int index) {
+    private void setShowIndex(@showType int index) {
         if (index < 0 && index >= fragments.size()) {
             return;
         }
@@ -184,13 +199,8 @@ public class MainActivity extends AbsBaseActivity {
     }
 
     @Subscribe
-    public void MainEventBus(EventBusModel eventBusModel) {
-        if (eventBusModel == null) {
-            return;
-        }
-        if (TextUtils.equals(eventBusModel.getTag(), MAINCHANGESHOWINDEX)) {
-            setShowIndex(eventBusModel.getEvInt());
-        }
+    public void MainEventBus(@showType int eventBusModel) {
+        setShowIndex(eventBusModel);
     }
 
     @Subscribe

@@ -16,5 +16,7 @@ public class EventTags {
     public final static String MAINCHANGESHOWINDEX = "4";
     //结束MAINACTIVITY
     public final static String MAINFINISH = "5";
+    //登录成功
+    public final static String LOGINREFRESH = "6";
 
 }

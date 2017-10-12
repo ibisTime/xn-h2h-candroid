@@ -251,7 +251,7 @@ public abstract class BaseRefreshFragment<T> extends BaseLazyFragment {
         }
         ImageView img = (ImageView) mTopTitleView.findViewById(R.id.img_right);
         img.setVisibility(View.VISIBLE);
-        ImgUtils.loadFraImgId(this, rid, img);
+        ImgUtils.loadImg(this, rid, img);
         mTopTitleView.findViewById(R.id.fllayout_right).setOnClickListener(listener);
     }
 

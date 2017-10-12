@@ -32,17 +32,17 @@ public class LoginPresenter {
     public void login(String username, String password, Context context) {
         this.mContext = context;
         if (TextUtils.isEmpty(username)) {
-            ToastUtil.show(context, "请输入帐号");
+            ToastUtil.show(context, "请输入手机号");
             return;
         }
         if (TextUtils.isEmpty(password)) {
             ToastUtil.show(context, "请输入密码");
             return;
         }
-        HashMap<String,String> hashMap=new HashMap<>();
+        HashMap<String, String> hashMap = new HashMap<>();
 
-        hashMap.put("loginName",username);
-        hashMap.put("loginPwd",password);
+        hashMap.put("loginName", username);
+        hashMap.put("loginPwd", password);
         hashMap.put("kind", MyCdConfig.USERTYPE);
         hashMap.put("systemCode", MyCdConfig.SYSTEMCODE);
 
@@ -70,7 +70,7 @@ public class LoginPresenter {
 
     //处理持有对象
     public void clear() {
-        if(this.call!=null){
+        if (this.call != null) {
             this.call.cancel();
             this.call = null;
         }

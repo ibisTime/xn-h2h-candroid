@@ -34,6 +34,16 @@ public interface BaseApiServer {
     Call<BaseResponseModel<UserLoginModel>> userLogin(@Field("code") String code, @Field("json") String  json);
 
     /**
+     * 登录
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<UserLoginModel>> userRegister(@Field("code") String code, @Field("json") String  json);
+
+    /**
      *只返回成功失败
      * @param code
      * @param json

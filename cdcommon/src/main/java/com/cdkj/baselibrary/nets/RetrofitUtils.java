@@ -66,8 +66,8 @@ public class RetrofitUtils {
 //            case "debugDev":
 //        return "http://121.43.101.148:3701/forward-service/";//研发环境
 //
-//            default:
-                return "http://116.62.193.233:3701/forward-service/";//正式环境
+
+        return "http://121.43.101.148:3901/forward-service/";//正式环境
 //        }
     }
 

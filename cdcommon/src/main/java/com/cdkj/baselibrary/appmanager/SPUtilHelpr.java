@@ -8,14 +8,17 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.cdkj.baselibrary.CdApplication;
 import com.cdkj.baselibrary.utils.SPUtils;
 
+import static com.cdkj.baselibrary.appmanager.MyCdConfig.PROJECTNAME;
+import static com.cdkj.baselibrary.appmanager.RouteHelper.APPLOGIN;
+
 /**
  * SPUtils 工具辅助类
  */
 
 public class SPUtilHelpr {
 
-    private static final String USERTOKEN = "user_toke_ylq";
-    private static final String USERID = "user_id_ylq";
+    private static final String USERTOKEN = "user_toke" ;
+    private static final String USERID = "user_id";
 
     /**
      * 设置用户token
@@ -51,7 +54,7 @@ public class SPUtilHelpr {
      * @param s
      */
     public static void saveUserPhoneNum(String s) {
-        SPUtils.put(CdApplication.getContext(), "user_phone", s);
+        SPUtils.put(CdApplication.getContext(), "user_phone"+PROJECTNAME, s);
     }
 
     /**
@@ -113,11 +116,8 @@ public class SPUtilHelpr {
     public static boolean isLogin(Context context, boolean canopenmain) {
         if (TextUtils.isEmpty(getUserId())) {
             SPUtilHelpr.logOutClear();
-//			ToastUtil.show(context,"请先登录");
             // 路由跳转登录页面
-            ARouter.getInstance().build("/user/login")
-                    .withBoolean("canOpenMain", canopenmain)
-                    .navigation();
+            RouteHelper.openLogin(canopenmain);
             return false;
         }
 

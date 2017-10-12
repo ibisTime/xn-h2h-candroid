@@ -33,6 +33,10 @@ android {
     dataBinding {
         enabled true;
     }
+    dexOptions{
+        jumboMode=true;
+        incremental false;
+    }
     repositories {
         flatDir{
             dirs 'libs'
@@ -60,8 +64,8 @@ dependencies {
     compile files('libs/soload.jar')
     compile files('libs/tls_sdk.jar')
     compile files('libs/wup-1.0.0-SNAPSHOT.jar')
-
-
+    //相册选择
+    compile 'com.yanzhenjie:album:1.0.7'
     //路由
     compile 'com.alibaba:arouter-api:1.2.2'
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.3'

@@ -116,8 +116,9 @@
                 <TextView
                     android:id="@+id/tv_key_null"
                     style="@style/text_calculate_number"
+                    android:background="@color/white"
                     android:tag="."
-                    android:text="." />
+                    android:text="" />
 
                 <View style="@style/style_split_vline" />
 

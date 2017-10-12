@@ -17,110 +17,83 @@ import com.cdkj.baselibrary.utils.glidetransforms.GlideCircleTransform;
  */
 public class ImgUtils {
 
-    public static void loadActLogo(Activity context, String imgid, ImageView img){
-        if (!AppUtils.isActivityExist(context)){
+
+    public static void loadImg(Object obj, Object imgid, ImageView img) {
+
+        if (imgid instanceof Integer || imgid instanceof String) {
+
+            if (obj instanceof Context) {
+                try {
+                    Glide.with((Context) obj).load(imgid).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(img);
+                } catch (Exception e) {
+                    LogUtil.E("图片加载错误");
+                }
+            } else if (obj instanceof Activity) {
+
+                if (!AppUtils.isActivityExist((Activity) obj)) {
+
+                    LogUtil.E("图片加载界面销毁");
+                    return;
+                }
+                if (obj == null || img == null) {
+                    return;
+                }
+                try {
+                    Glide.with((Activity) obj).load(imgid).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(img);
+                } catch (Exception e) {
+                    LogUtil.E("图片加载错误");
+                }
+
+            } else if (obj instanceof Fragment) {
+                try {
+                    Glide.with((Fragment) obj).load(imgid).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(img);
+                } catch (Exception e) {
+                    LogUtil.E("图片加载错误");
+                }
+            }
+        }
+    }
+
+
+    public static void loadActLogo(Activity context, String imgid, ImageView img) {
+        if (!AppUtils.isActivityExist(context)) {
             return;
         }
-        if(context==null || img==null)
-        {
+        if (context == null || img == null) {
             return;
         }
-        LogUtil.E("图片"+imgid);
+        LogUtil.E("图片" + imgid);
 
         try {
             Glide.with(context).load(imgid).placeholder(R.drawable.photo_default).error(R.drawable.photo_default).transform(new GlideCircleTransform(context)).into(img);
-        }catch (Exception e){
+        } catch (Exception e) {
             LogUtil.E("图片加载错误");
         }
     }
 
 
-    public static void  loadActImg(Activity context,String imgid,ImageView img){
+    public static void loadActImgListener(Activity context, String imgid, ImageView img, RequestListener<String, GlideDrawable> listener) {
 
-        if (!AppUtils.isActivityExist(context)){
-
-            LogUtil.E("图片加载界面销毁");
-            return;
-        }
-
-        if(context==null || img==null)
-        {
-            return;
-        }
-
-        LogUtil.E("图片"+imgid);
-
-        try {
-            Glide.with(context).load(imgid).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(img);
-        }catch (Exception e){
-            LogUtil.E("图片加载错误");
-        }
-
-    }
-
-    public static void  loadActImgListener(Activity context, String imgid, ImageView img, RequestListener<String, GlideDrawable> listener){
-
-        if (!AppUtils.isActivityExist(context)){
+        if (!AppUtils.isActivityExist(context)) {
 
             LogUtil.E("图片加载界面销毁");
             return;
         }
 
-        if(context==null || img==null)
-        {
+        if (context == null || img == null) {
             return;
         }
 
-        LogUtil.E("图片"+imgid);
+        LogUtil.E("图片" + imgid);
 
         try {
             Glide.with(context).load(imgid).error(R.drawable.default_pic).listener(listener).into(img);
-        }catch (Exception e){
+        } catch (Exception e) {
             LogUtil.E("图片加载错误");
         }
 
     }
 
-    public static void  loadActImgId(Activity context,int imgid,ImageView img){
-
-        if (!AppUtils.isActivityExist(context)){
-
-            LogUtil.E("图片加载界面销毁");
-            return;
-        }
-
-        if(context==null || img==null)
-        {
-            return;
-        }
-
-        LogUtil.E("图片"+imgid);
-
-        try {
-            Glide.with(context).load(imgid).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(img);
-        }catch (Exception e){
-            LogUtil.E("图片加载错误");
-        }
-
-    }
-
-
-    public static void  loadFraImgId(Fragment context, int imgid, ImageView img){
-
-        if(context==null || img==null)
-        {
-            return;
-        }
-
-        LogUtil.E("图片"+imgid);
-
-        try {
-            Glide.with(context).load(imgid).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(img);
-        }catch (Exception e){
-            LogUtil.E("图片加载错误");
-        }
-
-    }
 
     public static void loadBankBg(Context context, int imgid, ImageView img) {
 

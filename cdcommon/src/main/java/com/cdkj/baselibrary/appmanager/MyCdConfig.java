@@ -13,16 +13,17 @@ public class MyCdConfig {
 
     public final static String QINIUURL = "http://ounm8iw2d.bkt.clouddn.com/";
 
+    public final static String PROJECTNAME="h2hwtw";
 
     /**
      * 保存的SharedPreferences工具类文件名
      */
-    public static final String FILE_NAME = "share_h2h_wtw";
+    public static final String FILE_NAME = "share_"+PROJECTNAME;
 
     /**
      * 相片保存文件名
      */
-    public static final String CACHDIR = "wtwpiccach";
+    public static final String CACHDIR = "piccach"+PROJECTNAME;
 
 
 }

@@ -1,5 +1,6 @@
 package com.cdkj.h2hwtw.module.common;
 
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
@@ -11,29 +12,39 @@ import com.cdkj.h2hwtw.R;
  */
 public abstract class MyBaseLoadActivity extends AbsBaseLoadActivity {
 
-    private int loadType;
+    public abstract int getLoadTitleBg();//加载什么颜色的背景 //0 蓝色 白色
 
-    public void setBGBlue() {
-        mBaseBinding.titleView.setBackgroundColor(ContextCompat.getColor(this, R.color.title_bg));
-        mBaseBinding.titleView.setLeftTitleColor(R.color.white);
-        mBaseBinding.titleView.setRightTitleColor(R.color.white);
-        mBaseBinding.titleView.setMidTitleColor(R.color.white);
-        loadType = 0;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setBG();
     }
 
-    public void setBGWhite() {
-        mBaseBinding.titleView.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
-        mBaseBinding.titleView.setLeftTitleColor(R.color.text_black_app);
-        mBaseBinding.titleView.setRightTitleColor(R.color.text_black_app);
-        mBaseBinding.titleView.setMidTitleColor(R.color.text_black_app);
-        loadType = 1;
+    public void setBG() {
+        switch (getLoadTitleBg()) {
+            case 1:
+                mBaseBinding.titleView.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+                mBaseBinding.titleView.setLeftTitleColor(R.color.text_black_app);
+                mBaseBinding.titleView.setRightTitleColor(R.color.text_black_app);
+                mBaseBinding.titleView.setMidTitleColor(R.color.text_black_app);
+                break;
+            default:
+                mBaseBinding.titleView.setBackgroundColor(ContextCompat.getColor(this, R.color.title_bg));
+                mBaseBinding.titleView.setLeftTitleColor(R.color.white);
+                mBaseBinding.titleView.setRightTitleColor(R.color.white);
+                mBaseBinding.titleView.setMidTitleColor(R.color.white);
+        }
+
     }
+
 
     public void setLeftImg() {
-        if (loadType == 0) {
-            mBaseBinding.titleView.setLeftImg(R.drawable.back_img);
-        } else {
-            mBaseBinding.titleView.setLeftImg(R.drawable.back_img);
+        switch (getLoadTitleBg()) {
+            case 1:
+                mBaseBinding.titleView.setLeftImg(R.drawable.back_img);
+                break;
+            default:
+                mBaseBinding.titleView.setLeftImg(R.drawable.back_img);
         }
     }
 
