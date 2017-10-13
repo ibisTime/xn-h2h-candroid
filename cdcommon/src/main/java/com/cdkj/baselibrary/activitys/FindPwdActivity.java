@@ -158,6 +158,11 @@ public class FindPwdActivity extends AbsBaseLoadActivity implements SendCodeInte
             }
 
             @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(FindPwdActivity.this, errorMessage);
+            }
+
+            @Override
             protected void onFinish() {
                 disMissLoading();
             }

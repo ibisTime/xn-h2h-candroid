@@ -43,6 +43,7 @@ public class ReleasePagePhotoAdapter extends BaseQuickAdapter<ReleasePagePhotoMo
 
     @Override
     protected void convert(BaseViewHolder helper, ReleasePagePhotoModel item) {
+        if (item == null) return;
 
         switch (helper.getItemViewType()) {
             case 0:

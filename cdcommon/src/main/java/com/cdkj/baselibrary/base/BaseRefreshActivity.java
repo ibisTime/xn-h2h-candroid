@@ -92,7 +92,7 @@ public abstract class BaseRefreshActivity<T> extends AbsBaseLoadActivity {
         mBinding.refreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                onMRefresh(1,mLimit,false);
+                onMRefresh(1, mLimit, false);
             }
 
             @Override
@@ -113,7 +113,7 @@ public abstract class BaseRefreshActivity<T> extends AbsBaseLoadActivity {
     protected abstract void getListData(int pageIndex, int limit, boolean canShowDialog);
 
     //刷新
-    protected void onMRefresh(int pageindex,int limit,boolean isShowDialog) {
+    protected void onMRefresh(int pageindex, int limit, boolean isShowDialog) {
         mPageIndex = pageindex;
         getListData(pageindex, limit, isShowDialog);
     }
@@ -128,6 +128,18 @@ public abstract class BaseRefreshActivity<T> extends AbsBaseLoadActivity {
 
     //获取空提醒信息
     public abstract String getEmptyInfo();
+
+
+    //获取kngView
+    public View getEmptyView() {
+        return null;
+    }
+
+    public
+    @DrawableRes
+    int getEmptyImg() {
+        return R.drawable.default_pic;
+    }
 
     //加载错误布局
     public void loadError(String str) {
@@ -206,12 +218,4 @@ public abstract class BaseRefreshActivity<T> extends AbsBaseLoadActivity {
         }
     }
 
-    //获取kngView
-    public View getEmptyView() {
-        return null;
-    }
-
-    public abstract
-    @DrawableRes
-    int getEmptyImg();
 }

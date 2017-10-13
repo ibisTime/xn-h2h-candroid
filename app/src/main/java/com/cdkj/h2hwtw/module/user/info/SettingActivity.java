@@ -17,6 +17,7 @@ import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.CommonDialog;
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.EventBusModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
@@ -165,6 +166,13 @@ public class SettingActivity extends AbsBaseLoadActivity {
             }
         });
 
+        mBinding.linPayAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddressListActivity.open(SettingActivity.this);
+            }
+        });
+
 
     }
 
@@ -222,6 +230,11 @@ public class SettingActivity extends AbsBaseLoadActivity {
                     showToast("头像上传成功");
                     ImgUtils.loadLogo(SettingActivity.this, MyCdConfig.QINIUURL + key, mBinding.imgPhoto);
                 }
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(SettingActivity.this, errorMessage);
             }
 
             @Override

@@ -3,6 +3,7 @@ package com.cdkj.baselibrary.interfaces;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.UserLoginModel;
@@ -33,11 +34,11 @@ public class LoginPresenter {
     public void login(String username, String password, Context context) {
         this.mContext = context;
         if (TextUtils.isEmpty(username)) {
-            UITipDialog.showFall(context,"请输入手机号");
+            UITipDialog.showFall(context, "请输入手机号");
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            UITipDialog.showFall(context,"请输入密码");
+            UITipDialog.showFall(context, "请输入密码");
             return;
         }
         HashMap<String, String> hashMap = new HashMap<>();
@@ -61,6 +62,10 @@ public class LoginPresenter {
                 }
             }
 
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                mListener.LoginFailed(errorCode, errorMessage);
+            }
 
             @Override
             protected void onFinish() {

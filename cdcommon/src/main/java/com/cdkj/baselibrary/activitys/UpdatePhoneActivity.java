@@ -13,6 +13,7 @@ import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.databinding.ActivityModifyPhoneBinding;
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.interfaces.SendCodeInterface;
 import com.cdkj.baselibrary.interfaces.SendPhoneCoodePresenter;
 import com.cdkj.baselibrary.model.EventBusModel;
@@ -130,6 +131,11 @@ public class UpdatePhoneActivity extends AbsBaseLoadActivity implements SendCode
                     EventBus.getDefault().post(eventBusModel);
                     finish();
                 }
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(UpdatePhoneActivity.this, errorMessage);
             }
 
             @Override

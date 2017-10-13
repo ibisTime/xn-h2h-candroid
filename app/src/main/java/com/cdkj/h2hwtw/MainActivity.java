@@ -20,7 +20,6 @@ import com.cdkj.h2hwtw.module.goodstype.fragments.GoodsTypeFragment;
 import com.cdkj.h2hwtw.module.im.fragments.ImFragment;
 import com.cdkj.h2hwtw.module.product.activitys.ProductReleaseActivity;
 import com.cdkj.h2hwtw.module.user.fragments.MyFragment;
-import com.cdkj.h2hwtw.module.user.info.SettingActivity;
 import com.cdkj.h2hwtw.module.user.login.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -130,7 +129,6 @@ public class MainActivity extends AbsBaseLoadActivity {
         mBinding.radioMainTab4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SettingActivity.open(MainActivity.this,null);
                 setShowIndex(SHOWMy);
             }
         });
@@ -150,7 +148,7 @@ public class MainActivity extends AbsBaseLoadActivity {
 
         switch (mShowIndex) {
             case SHOWFIRST:
-                LoginActivity.open(MainActivity.this,true);
+                LoginActivity.open(MainActivity.this, true);
                 mBinding.radioMainTab1.setChecked(true);
                 break;
             case SHOWTYPE:

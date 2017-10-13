@@ -85,7 +85,7 @@
                 android:id="@+id/radio_main_tab_4"
                 style="@style/main_tab_radio"
                 android:drawableTop="@drawable/main_buttom_tab_1"
-                android:text="我的" />
+                android:text="@string/mind" />
         </RadioGroup>
 
     </FrameLayout>

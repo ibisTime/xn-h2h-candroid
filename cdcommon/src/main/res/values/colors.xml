@@ -69,8 +69,10 @@
     <color name="line_gray_app">#dedede</color>
     <color name="line_gray_2_app">#eeeeee</color>
     <color name="title_bg_app">#48b0fb</color>
+    <color name="account_page_app">#48b0fb</color>
     <color name="pop_black_bg">#88000000</color>
     <color name="balck_app">#000000</color>
+    <color name="my_page_txt_black_app">#666666</color>
 
 
 </resources>

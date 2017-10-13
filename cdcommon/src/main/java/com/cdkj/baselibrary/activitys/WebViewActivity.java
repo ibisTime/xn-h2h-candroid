@@ -15,6 +15,7 @@ import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.databinding.ActivityWebviewBinding;
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.IntroductionInfoModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
@@ -148,6 +149,11 @@ public class WebViewActivity extends AbsBaseLoadActivity {
                     return;
                 }
                 mBinding.webView.loadData(data.getCvalue(), "text/html;charset=UTF-8", "UTF-8");
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(WebViewActivity.this, errorMessage);
             }
 
             @Override

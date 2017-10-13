@@ -3,7 +3,9 @@ package com.cdkj.baselibrary.interfaces;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.cdkj.baselibrary.activitys.UpdateBackCardActivity;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
@@ -14,7 +16,8 @@ import java.util.HashMap;
 
 import retrofit2.Call;
 
-/**发送验证码
+/**
+ * 发送验证码
  * Created by 李先俊 on 2017/8/8.
  */
 public class SendPhoneCoodePresenter {
@@ -28,28 +31,27 @@ public class SendPhoneCoodePresenter {
     }
 
     //处理登录逻辑
-    public void sendCodeRequest(String phone,String bizType,String kind,Context context) {
+    public void sendCodeRequest(String phone, String bizType, String kind, Context context) {
         this.mContext = context;
         if (TextUtils.isEmpty(phone)) {
             ToastUtil.show(context, "请输入手机号");
             return;
         }
 
-        request(phone,bizType,kind);
+        request(phone, bizType, kind);
     }
 
     /**
      * 请求
      */
-    private void request(String phone,String bizType,String kind) {
+    private void request(String phone, String bizType, String kind) {
 
-        HashMap<String,String> hashMap=new HashMap<>();
+        HashMap<String, String> hashMap = new HashMap<>();
 
         hashMap.put("systemCode", MyCdConfig.SYSTEMCODE);
         hashMap.put("companyCode", MyCdConfig.COMPANYCODE);
-        hashMap.put("mobile",phone);
-        hashMap.put("bizType",bizType);
-        hashMap.put("kind",kind);
+        hashMap.put("mobile", phone);
+        hashMap.put("bizType", bizType);
 
         call = RetrofitUtils.getBaseAPiService().successRequest("805950", StringUtils.getJsonToString(hashMap));
 
@@ -57,21 +59,22 @@ public class SendPhoneCoodePresenter {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(mContext) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
-                if(data.isSuccess()){
+                if (data.isSuccess()) {
                     mListener.CodeSuccess("验证码已经发送请注意查收");
-                }else{
+                } else {
                     mListener.CodeFailed("", "验证码发送失败");
                 }
             }
 
             @Override
-            protected void onBuinessFailure(String code, String error) {
-                mListener.CodeFailed(code, error);
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                mListener.CodeFailed(errorCode, errorMessage);
             }
+
 
             @Override
             protected void onNoNet(String msg) {
-                ToastUtil.show(mContext,msg);
+                ToastUtil.show(mContext, msg);
             }
 
             @Override
@@ -83,7 +86,7 @@ public class SendPhoneCoodePresenter {
 
     //处理持有对象
     public void clear() {
-        if(this.call!=null){
+        if (this.call != null) {
             this.call.cancel();
             this.call = null;
         }

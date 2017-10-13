@@ -41,11 +41,11 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
     /**
      * 网络异常状态错误码
      */
-    public static final int NETERRORCODE0 = 0;  //请求成功，但是服务器返回除1000外错误码
-    public static final int NETERRORCODE1 = 1;  //网络异常
-    public static final int NETERRORCODE2 = 2;  //响应超时
-    public static final int NETERRORCODE3 = 3;  //连接超时
-    public static final int NETERRORCODE4 = 4;  //其它错误
+    public static final String NETERRORCODE0 = "10";  //请求成功，但是服务器返回除1000外错误码
+    public static final String NETERRORCODE1 = "11";  //网络异常
+    public static final String NETERRORCODE2 = "12";  //响应超时
+    public static final String NETERRORCODE3 = "13";  //连接超时
+    public static final String NETERRORCODE4 = "14";  //其它错误
 
     private Context context;
 
@@ -81,7 +81,6 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
             onReqFailure(NETERRORCODE4, "网络请求失败");
         }
 
-
     }
 
     @Override
@@ -98,7 +97,7 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
 
         String errorString = "";
 
-        int errorCode = 0;
+        String errorCode = NETERRORCODE4;
 
         if (t instanceof UnknownHostException) { // 网络错误
             errorString = "网络加载异常";
@@ -148,13 +147,10 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
             onSuccess(t, baseModelNew.getErrorInfo());
 
         } else if (REQUESTFECODE4.equals(state)) {
-            OnOkFailure.StartDoFailure(context, baseModelNew.getErrorInfo());
-//        } else if (REQUESTFECODE2.equals(state) || REQUESTFECODE3.equals(state) || REQUESTFECODE9.equals(state)) {
-//            onBuinessFailure(state, baseModelNew.getErrorInfo());
+            onLoginFailure(context, baseModelNew);
         } else {
-            onBuinessFailure(state, baseModelNew.getErrorInfo());
+            onReqFailure(state, baseModelNew.getErrorInfo());
         }
-
     }
 
 
@@ -171,19 +167,15 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
      * @param errorCode
      * @param errorMessage
      */
-    protected void onReqFailure(int errorCode, String errorMessage) {
-        LogUtil.E("数据  错误" + errorMessage);
-        ToastUtil.show(context, errorMessage);
-    }
+    protected abstract void onReqFailure(String errorCode, String errorMessage);
 
     /**
-     * 业务逻辑错误
+     * 重新登录
      *
-     * @param error
+     * @param
      */
-    protected void onBuinessFailure(String code, String error) {
-        LogUtil.E("数据  错误" + error);
-        ToastUtil.show(context, error);
+    protected void onLoginFailure(Context context, BaseResponseModel baseModelNew) {
+        OnOkFailure.StartDoFailure(context, baseModelNew.getErrorInfo());
     }
 
 

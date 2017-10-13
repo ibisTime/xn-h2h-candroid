@@ -3,4 +3,7 @@
     <string name="text_release">发布</string>
     <string name="text_cancel">取消</string>
     <string name="photo_selset">选择图片</string>
+    <string name="mind">我的</string>
+    <string name="address_manager">地址管理</string>
+    <string name="no_address_tips">您还没有添加收货地址</string>
 </resources>

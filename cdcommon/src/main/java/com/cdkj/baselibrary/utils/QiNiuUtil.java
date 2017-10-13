@@ -144,12 +144,7 @@ public class QiNiuUtil {
             }
 
             @Override
-            protected void onBuinessFailure(String code, String error) {
-                callBack.onFal("图片上传失败");
-            }
-
-            @Override
-            protected void onReqFailure(int errorCode, String errorMessage) {
+            protected void onReqFailure(String errorCode, String errorMessage) {
                 callBack.onFal("图片上传失败");
             }
 

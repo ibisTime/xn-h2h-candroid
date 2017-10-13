@@ -15,7 +15,6 @@ import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.interfaces.SendCodeInterface;
 import com.cdkj.baselibrary.interfaces.SendPhoneCoodePresenter;
-import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.model.UserLoginModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
@@ -28,7 +27,6 @@ import com.cdkj.h2hwtw.databinding.ActivityRegisterBinding;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 
@@ -93,6 +91,11 @@ public class RegisterActivity extends AbsBaseLoadActivity implements SendCodeInt
                     UITipDialog.showFall(RegisterActivity.this, "请输入密码");
                     return;
                 }
+                if (mBinding.edtPassword.getText().toString().length() < 6) {
+                    UITipDialog.showFall(RegisterActivity.this, "密码不能小于6位数");
+                    return;
+                }
+
                 if (TextUtils.isEmpty(mBinding.edtRepassword.getText().toString())) {
                     UITipDialog.showFall(RegisterActivity.this, "请重新输入密码");
                     return;
@@ -158,6 +161,11 @@ public class RegisterActivity extends AbsBaseLoadActivity implements SendCodeInt
                     finish();
 
                 }
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(RegisterActivity.this, errorMessage);
             }
 
             @Override

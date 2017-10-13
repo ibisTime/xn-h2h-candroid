@@ -11,6 +11,7 @@ import com.cdkj.baselibrary.activitys.FindPwdActivity;
 import com.cdkj.baselibrary.appmanager.RouteHelper;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.interfaces.LoginInterface;
 import com.cdkj.baselibrary.interfaces.LoginPresenter;
 import com.cdkj.baselibrary.model.UserLoginModel;
@@ -104,7 +105,7 @@ public class LoginActivity extends AbsBaseLoadActivity implements LoginInterface
 
     @Override
     public void LoginFailed(String code, String msg) {
-        showToast(msg);
+        UITipDialog.showFall(LoginActivity.this, msg);
     }
 
     @Override

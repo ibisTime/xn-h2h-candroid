@@ -35,12 +35,20 @@
         <item name="android:background">@color/line_gray_2_app</item>
     </style>
 
+    <!--长的分割线styles设置-->
+    <style name="vine_gray">
+        <item name="android:layout_width">0.5dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/line_gray_2_app</item>
+    </style>
+
     <style name="edit_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@null</item>
         <item name="android:textColor">@color/text_black_app</item>
         <item name="android:textColorHint">@color/text_hint_app</item>
+        <item name="android:maxLength">1</item>
     </style>
 
     <style name="check_box">
@@ -59,6 +67,23 @@
         <item name="android:textColor">@color/balck_app</item>
         <item name="android:textSize">30sp</item>
         <item name="android:background">@drawable/selector_gray</item>
+    </style>
+
+    <style name="txt_my_account_page">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/white_line_txt_account</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">35dp</item>
+        <item name="android:paddingRight">35dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="text_white">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>

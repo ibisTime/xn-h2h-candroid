@@ -1,6 +1,7 @@
 package com.cdkj.h2hwtw;
 
 import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -18,7 +19,7 @@ import org.greenrobot.eventbus.EventBus;
  * Created by Administrator on 2016/8/29.
  */
 
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
 
     private static MyApplication application;
 

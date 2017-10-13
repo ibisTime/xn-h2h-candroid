@@ -119,6 +119,16 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
+        <!--//地址列表-->
+        <activity
+            android:name=".module.user.info.AddressListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".module.user.info.AddAddressActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
     </application>
 
 </manifest>

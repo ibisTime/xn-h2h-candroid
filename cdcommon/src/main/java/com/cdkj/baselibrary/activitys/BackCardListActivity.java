@@ -11,6 +11,7 @@ import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseRefreshActivity;
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.BankCardModel;
 import com.cdkj.baselibrary.model.MyBankCardListMode;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
@@ -95,6 +96,11 @@ public class BackCardListActivity extends BaseRefreshActivity {
                 } else {
                     mBaseBinding.titleView.setRightTitle("添加");
                 }
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(BackCardListActivity.this, errorMessage);
             }
 
             @Override

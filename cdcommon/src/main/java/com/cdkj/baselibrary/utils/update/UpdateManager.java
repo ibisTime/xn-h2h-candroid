@@ -12,6 +12,7 @@ import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.AppUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
+import com.cdkj.baselibrary.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -64,6 +65,11 @@ public class UpdateManager {
                     }
                 }
 
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                ToastUtil.show(context,errorMessage);
             }
 
             @Override

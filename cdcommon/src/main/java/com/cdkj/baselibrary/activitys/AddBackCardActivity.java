@@ -14,6 +14,7 @@ import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.databinding.ActivityBindBankCardBinding;
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.BankModel;
 import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
@@ -144,6 +145,11 @@ public class AddBackCardActivity extends AbsBaseLoadActivity {
             }
 
             @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(AddBackCardActivity.this, errorMessage);
+            }
+
+            @Override
             protected void onFinish() {
                 disMissLoading();
             }
@@ -183,6 +189,11 @@ public class AddBackCardActivity extends AbsBaseLoadActivity {
                 if (mBankNames.length != 0 && mBankNames.length == mBankCodes.length) {
                     chooseBankCard();
                 }
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(AddBackCardActivity.this, errorMessage);
             }
 
             @Override

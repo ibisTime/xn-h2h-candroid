@@ -15,6 +15,7 @@ import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.databinding.ActivityBindBankCardBinding;
 import com.cdkj.baselibrary.dialog.CommonDialog;
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.BankCardModel;
 import com.cdkj.baselibrary.model.BankModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
@@ -150,6 +151,11 @@ public class UpdateBackCardActivity extends AbsBaseLoadActivity {
             }
 
             @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(UpdateBackCardActivity.this, errorMessage);
+            }
+
+            @Override
             protected void onFinish() {
                 disMissLoading();
             }
@@ -186,6 +192,11 @@ public class UpdateBackCardActivity extends AbsBaseLoadActivity {
                     SPUtilHelpr.saveUserIsBindCard(true);
                     finish();
                 }
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(UpdateBackCardActivity.this, errorMessage);
             }
 
             @Override
@@ -251,6 +262,11 @@ public class UpdateBackCardActivity extends AbsBaseLoadActivity {
                 if (mBankNames.length != 0 && mBankNames.length == mBankCodes.length) {
                     chooseBankCard();
                 }
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(UpdateBackCardActivity.this, errorMessage);
             }
 
             @Override

@@ -16,7 +16,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/top_center_title_size"
                 tools:text="title" />
 
             <FrameLayout
