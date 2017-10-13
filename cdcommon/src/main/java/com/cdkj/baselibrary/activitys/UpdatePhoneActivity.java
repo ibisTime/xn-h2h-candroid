@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.appmanager.EventTags;
+import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
-import com.cdkj.baselibrary.base.AbsBaseActivity;
+import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.databinding.ActivityModifyPhoneBinding;
 import com.cdkj.baselibrary.interfaces.SendCodeInterface;
 import com.cdkj.baselibrary.interfaces.SendPhoneCoodePresenter;
@@ -34,7 +34,7 @@ import retrofit2.Call;
  * Created by 李先俊 on 2017/6/16.
  */
 
-public class UpdatePhoneActivity extends AbsBaseActivity implements SendCodeInterface {
+public class UpdatePhoneActivity extends AbsBaseLoadActivity implements SendCodeInterface {
 
     private ActivityModifyPhoneBinding mBinding;
 
@@ -64,8 +64,7 @@ public class UpdatePhoneActivity extends AbsBaseActivity implements SendCodeInte
     @Override
     public void afterCreate(Bundle savedInstanceState) {
 
-        setTopTitle("修改手机号");
-        setSubLeftImgState(true);
+        mBaseBinding.titleView.setMidTitle("修改手机号");
 
         mSendCodePresenter = new SendPhoneCoodePresenter(this);
 
@@ -125,11 +124,11 @@ public class UpdatePhoneActivity extends AbsBaseActivity implements SendCodeInte
 
                     showToast("修改成功");
 
-                    EventBusModel eventBusModel=new EventBusModel();      //刷新上一页数据
+                    EventBusModel eventBusModel = new EventBusModel();      //刷新上一页数据
                     eventBusModel.setTag(EventTags.CHANGEPHONENUMBER_REFRESH);
                     eventBusModel.setEvInfo(mBinding.edtPhoneNew.getText().toString());
                     EventBus.getDefault().post(eventBusModel);
-                   finish();
+                    finish();
                 }
             }
 
@@ -163,9 +162,9 @@ public class UpdatePhoneActivity extends AbsBaseActivity implements SendCodeInte
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mSendCodePresenter!=null){
+        if (mSendCodePresenter != null) {
             mSendCodePresenter.clear();
-            mSendCodePresenter=null;
+            mSendCodePresenter = null;
         }
     }
 }

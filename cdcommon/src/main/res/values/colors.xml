@@ -37,7 +37,7 @@
 
 
     <color name="btn_white">#ffffff</color>
-    <color name="btn_blue">#0cb8ae</color>
+    <color name="btn_blue">#48b0fb</color>
     <color name="btn_title_bg">#ff6702</color>
 
 
@@ -46,14 +46,31 @@
     <color name="fontColor_hint">#aaaaaa</color>
 
 
-    <color name="btn_select_un">#0b978f</color>
-    <color name="btn_select">#0cb8ae</color>
-    <color name="tablayout_select">#0cb8ae</color>
+    <color name="btn_select_un">#48b0fb</color>
+    <color name="btn_select">#358ecf</color>
+    <color name="tablayout_select">#48b0fb</color>
     <color name="lineColor">#ebeaea</color>
 
 
     <color name="updateProgress_bg">#E7E7E7</color>
 
     <color name="updateProgress">#3DA3FF</color>
+
+    <!--app模块  -->
+
+
+    <color name="text_select_app">#48b0fb</color>
+    <color name="btn_click_app">#358ecf</color>
+    <color name="btn_click_un_app">#48b0fb</color>
+    <color name="text_black_app">#484848</color>
+    <color name="text_gray_app">#999999</color>
+    <color name="text_hint_app">#999999</color>
+    <color name="background_gray_app">#f5f5f5</color>
+    <color name="line_gray_app">#dedede</color>
+    <color name="line_gray_2_app">#eeeeee</color>
+    <color name="title_bg_app">#48b0fb</color>
+    <color name="pop_black_bg">#88000000</color>
+    <color name="balck_app">#000000</color>
+
 
 </resources>

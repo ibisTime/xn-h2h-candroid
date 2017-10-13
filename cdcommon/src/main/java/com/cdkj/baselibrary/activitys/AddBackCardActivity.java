@@ -12,7 +12,7 @@ import android.view.View;
 import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
-import com.cdkj.baselibrary.base.AbsBaseActivity;
+import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.databinding.ActivityBindBankCardBinding;
 import com.cdkj.baselibrary.model.BankModel;
 import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
@@ -32,7 +32,7 @@ import retrofit2.Call;
  * Created by 李先俊 on 2017/6/29.
  */
 
-public class AddBackCardActivity extends AbsBaseActivity {
+public class AddBackCardActivity extends AbsBaseLoadActivity {
 
     private ActivityBindBankCardBinding mBinding;
 
@@ -64,9 +64,7 @@ public class AddBackCardActivity extends AbsBaseActivity {
     public void afterCreate(Bundle savedInstanceState) {
 
 
-        setTopTitle("绑定银行卡");
-
-        setSubLeftImgState(true);
+        mBaseBinding.titleView.setMidTitle("绑定银行卡");
 
         //添加银行类型
         mBinding.txtBankName.setOnClickListener(new View.OnClickListener() {

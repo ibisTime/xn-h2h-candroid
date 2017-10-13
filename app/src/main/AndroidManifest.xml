@@ -91,25 +91,31 @@
         </activity>
 
 
-        //主页
+        <!--//主页-->
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
-        //产品发布
+        <!--//产品发布-->
         <activity
             android:name=".module.product.activitys.ProductReleaseActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        //登录
+        <!--//登录-->
         <activity
             android:name=".module.user.login.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        //注册
+        <!--//注册-->
         <activity
             android:name=".module.user.login.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!--//设置界面-->
+        <activity
+            android:name=".module.user.info.SettingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 

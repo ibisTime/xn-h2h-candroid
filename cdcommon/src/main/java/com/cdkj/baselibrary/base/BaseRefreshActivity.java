@@ -25,7 +25,7 @@ import java.util.List;
  * Created by 李先俊 on 2017/7/19.
  */
 //TODO 刷新方法抽取
-public abstract class BaseRefreshActivity<T> extends AbsBaseActivity {
+public abstract class BaseRefreshActivity<T> extends AbsBaseLoadActivity {
 
     protected LayoutCommonRecyclerRefreshBinding mBinding;
 

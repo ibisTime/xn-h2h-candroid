@@ -12,7 +12,7 @@ import android.view.View;
 import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
-import com.cdkj.baselibrary.base.AbsBaseActivity;
+import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.databinding.ActivityBindBankCardBinding;
 import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.model.BankCardModel;
@@ -35,7 +35,7 @@ import retrofit2.Call;
  * Created by 李先俊 on 2017/6/29.
  */
 
-public class UpdateBackCardActivity extends AbsBaseActivity {
+public class UpdateBackCardActivity extends AbsBaseLoadActivity {
 
     private ActivityBindBankCardBinding mBinding;
 
@@ -66,30 +66,27 @@ public class UpdateBackCardActivity extends AbsBaseActivity {
     }
 
     @Override
+    public void topTitleViewRightClick() {
+        showDoubleWarnListen("您确定要删除该银行卡吗?", new CommonDialog.OnPositiveListener() {
+            @Override
+            public void onPositive(View view) {
+                deleteBank();
+            }
+        });
+    }
+
+    @Override
     public void afterCreate(Bundle savedInstanceState) {
 
         if (getIntent() != null) {
             mBankModel = getIntent().getParcelableExtra("data");
         }
 
-        setTopTitle("修改银行卡");
+        mBaseBinding.titleView.setMidTitle("修改银行卡");
+        mBaseBinding.titleView.setRightTitle("删除");
 
         setShowData();
 
-        setSubRightTitleAndClick("删除", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showDoubleWarnListen("您确定要删除该银行卡吗?", new CommonDialog.OnPositiveListener() {
-                            @Override
-                            public void onPositive(View view) {
-                                deleteBank();
-                            }
-                        });
-                    }
-                }
-        );
-
-        setSubLeftImgState(true);
 
         //添加银行类型
         mBinding.txtBankName.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +113,7 @@ public class UpdateBackCardActivity extends AbsBaseActivity {
                     return;
                 }
 
-                if(mBinding.edtCardId.getText().toString().length()<16){
+                if (mBinding.edtCardId.getText().toString().length() < 16) {
                     showToast("银行卡号最低为16位数字");
                     return;
                 }
@@ -215,9 +212,9 @@ public class UpdateBackCardActivity extends AbsBaseActivity {
         mBinding.edtCardId.setText(mBankModel.getBankcardNumber());
         mSelectCardId = mBankModel.getBankCode();
 
-        if(!TextUtils.isEmpty(mBankModel.getRealName())){
+        if (!TextUtils.isEmpty(mBankModel.getRealName())) {
             mBinding.editName.setEnabled(false);
-        }else{
+        } else {
             mBinding.editName.setEnabled(true);
         }
 
@@ -248,7 +245,7 @@ public class UpdateBackCardActivity extends AbsBaseActivity {
                 for (BankModel b : r) {
                     mBankNames[i] = b.getBankName();
                     mBankCodes[i] = b.getBankCode();
-                    LogUtil.E("银行卡code"+b.getBankCode());
+                    LogUtil.E("银行卡code" + b.getBankCode());
                     i++;
                 }
                 if (mBankNames.length != 0 && mBankNames.length == mBankCodes.length) {
@@ -273,7 +270,7 @@ public class UpdateBackCardActivity extends AbsBaseActivity {
 //                        txtBankCard.setText(list.get(which).getBankName());
                         mBinding.txtBankName.setText(mBankNames[which]);
                         mSelectCardId = mBankCodes[which];
-                        LogUtil.E("选择银行卡code"+mSelectCardId);
+                        LogUtil.E("选择银行卡code" + mSelectCardId);
                         dialog.dismiss();
                     }
                 }).setNegativeButton("取消", null).show();

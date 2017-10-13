@@ -10,6 +10,7 @@
     </style>
 
     //tabyout
+
     <style name="MyTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@color/tablayout_select</item>
         <item name="tabIndicatorHeight">1dp</item>
@@ -104,17 +105,17 @@
         <item name="android:windowExitAnimation">@anim/pop_bottom_out</item>
     </style>
 
-    <!--pop底部弹出弹框动画-->
+    <!--pop渐变动画-->
     <style name="popwin_anim_style">
-        <item name="android:windowEnterAnimation">@anim/pop_bottom_in</item>
-        <item name="android:windowExitAnimation">@anim/pop_bottom_out</item>
+        <item name="android:windowEnterAnimation">@anim/pop_alpha_in</item>
+        <item name="android:windowExitAnimation">@anim/pop_alpha_out</item>
     </style>
 
 
     <attr name="LoadingViewStyle" format="reference" />
     <declare-styleable name="LoadingView">
-        <attr name="loading_view_size" format="dimension"/>
-        <attr name="loading_view_color" format="color"/>
+        <attr name="loading_view_size" format="dimension" />
+        <attr name="loading_view_color" format="color" />
     </declare-styleable>
 
     <style name="TipDialog" parent="android:Theme.Dialog">

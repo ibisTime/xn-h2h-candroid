@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.cdkj.baselibrary.activitys.FindPwdActivity;
 import com.cdkj.baselibrary.appmanager.RouteHelper;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
-import com.cdkj.baselibrary.base.AbsBaseActivity;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.interfaces.LoginInterface;
 import com.cdkj.baselibrary.interfaces.LoginPresenter;
@@ -77,6 +77,13 @@ public class LoginActivity extends AbsBaseLoadActivity implements LoginInterface
             @Override
             public void onClick(View view) {
                 RegisterActivity.open(LoginActivity.this);
+            }
+        });
+
+        mBinding.tvFindPwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FindPwdActivity.open(LoginActivity.this, "");
             }
         });
 

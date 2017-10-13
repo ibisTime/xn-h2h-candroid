@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.appmanager.EventTags;
+import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
-import com.cdkj.baselibrary.base.AbsBaseActivity;
+import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.databinding.ActivityModifyPayPasswordBinding;
 import com.cdkj.baselibrary.interfaces.SendCodeInterface;
 import com.cdkj.baselibrary.interfaces.SendPhoneCoodePresenter;
@@ -33,7 +33,7 @@ import retrofit2.Call;
  * 修改 设置 支付密码
  * Created by 李先俊 on 2017/6/29.
  */
-public class PayPwdModifyActivity extends AbsBaseActivity implements SendCodeInterface {
+public class PayPwdModifyActivity extends AbsBaseLoadActivity implements SendCodeInterface {
 
     private ActivityModifyPayPasswordBinding mBinding;
 
@@ -65,7 +65,6 @@ public class PayPwdModifyActivity extends AbsBaseActivity implements SendCodeInt
 
     @Override
     public void afterCreate(Bundle savedInstanceState) {
-        setSubLeftImgState(true);
 
         if (getIntent() != null) {
             mIsSetPwd = getIntent().getBooleanExtra("isSetPwd", false);
@@ -74,9 +73,9 @@ public class PayPwdModifyActivity extends AbsBaseActivity implements SendCodeInt
         }
 
         if (mIsSetPwd) {
-            setTopTitle("修改支付密码");
+            mBaseBinding.titleView.setMidTitle("修改支付密码");
         } else {
-            setTopTitle("设置支付密码");
+            mBaseBinding.titleView.setMidTitle("设置支付密码");
         }
         mSendCoodePresenter = new SendPhoneCoodePresenter(this);
         setListener();

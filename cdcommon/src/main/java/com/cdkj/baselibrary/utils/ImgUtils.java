@@ -55,20 +55,42 @@ public class ImgUtils {
     }
 
 
-    public static void loadActLogo(Activity context, String imgid, ImageView img) {
-        if (!AppUtils.isActivityExist(context)) {
-            return;
-        }
-        if (context == null || img == null) {
-            return;
-        }
-        LogUtil.E("图片" + imgid);
+    public static void loadLogo(Object obj, Object imgid, ImageView img) {
 
-        try {
-            Glide.with(context).load(imgid).placeholder(R.drawable.photo_default).error(R.drawable.photo_default).transform(new GlideCircleTransform(context)).into(img);
-        } catch (Exception e) {
-            LogUtil.E("图片加载错误");
+
+        if (imgid instanceof Integer || imgid instanceof String) {
+
+            if (obj instanceof Context) {
+                try {
+                    Glide.with((Context) obj).load(imgid).placeholder(R.drawable.photo_default).error(R.drawable.photo_default).transform(new GlideCircleTransform(((Context) obj))).into(img);
+                } catch (Exception e) {
+                    LogUtil.E("图片加载错误");
+                }
+            } else if (obj instanceof Activity) {
+
+                if (!AppUtils.isActivityExist((Activity) obj)) {
+
+                    LogUtil.E("图片加载界面销毁");
+                    return;
+                }
+                if (obj == null || img == null) {
+                    return;
+                }
+                try {
+                    Glide.with((Activity) obj).load(imgid).placeholder(R.drawable.photo_default).error(R.drawable.photo_default).transform(new GlideCircleTransform(((Activity) obj))).into(img);
+                } catch (Exception e) {
+                    LogUtil.E("图片加载错误");
+                }
+
+            } else if (obj instanceof Fragment) {
+                try {
+                    Glide.with((Fragment) obj).load(imgid).placeholder(R.drawable.photo_default).error(R.drawable.photo_default).transform(new GlideCircleTransform(((Fragment) obj).getContext())).into(img);
+                } catch (Exception e) {
+                    LogUtil.E("图片加载错误");
+                }
+            }
         }
+
     }
 
 

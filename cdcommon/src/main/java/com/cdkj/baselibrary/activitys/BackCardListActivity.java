@@ -63,9 +63,7 @@ public class BackCardListActivity extends BaseRefreshActivity {
             mIsselect = getIntent().getBooleanExtra("isSelect", true);
         }
 
-        setTopTitle("我的银行卡");
-
-        setSubLeftImgState(true);
+        mBaseBinding.titleView.setMidTitle("我的银行卡");
 
         mBinding.refreshLayout.setEnableLoadmore(false);
         mBinding.refreshLayout.setEnableRefresh(false);
@@ -93,14 +91,9 @@ public class BackCardListActivity extends BaseRefreshActivity {
                 setData(data.getList());
 
                 if (mAdapter.getData() != null && mAdapter.getData().size() > 0) {
-                    setSubRightTitleAndClick("", null);
+                    mBaseBinding.titleView.setRightTitle("");
                 } else {
-                    setSubRightTitleAndClick("添加", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            AddBackCardActivity.open(BackCardListActivity.this);
-                        }
-                    });
+                    mBaseBinding.titleView.setRightTitle("添加");
                 }
             }
 
@@ -109,6 +102,11 @@ public class BackCardListActivity extends BaseRefreshActivity {
                 disMissLoading();
             }
         });
+    }
+
+    @Override
+    public void topTitleViewRightClick() {
+        AddBackCardActivity.open(BackCardListActivity.this);
     }
 
     @Override

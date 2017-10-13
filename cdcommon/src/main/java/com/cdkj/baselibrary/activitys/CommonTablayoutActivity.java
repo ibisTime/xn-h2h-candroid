@@ -2,22 +2,22 @@ package com.cdkj.baselibrary.activitys;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.adapters.TablayoutAdapter;
-import com.cdkj.baselibrary.base.AbsBaseActivity;
+import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.databinding.ActivityTabBinding;
 
 import java.util.List;
 
-/**TablayoutActivity
+/**
+ * TablayoutActivity
  * Created by 李先俊 on 2017/6/15.
  */
 
-public abstract class CommonTablayoutActivity extends AbsBaseActivity {
+public abstract class CommonTablayoutActivity extends AbsBaseLoadActivity {
 
     protected ActivityTabBinding mbinding;
 
@@ -26,7 +26,7 @@ public abstract class CommonTablayoutActivity extends AbsBaseActivity {
 
     @Override
     public View addMainView() {
-        mbinding= DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_tab,null,false);
+        mbinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_tab, null, false);
         return mbinding.getRoot();
     }
 
@@ -34,16 +34,17 @@ public abstract class CommonTablayoutActivity extends AbsBaseActivity {
     public void afterCreate(Bundle savedInstanceState) {
         initViewPager();
     }
+
     private void initViewPager() {
 
-        tablayoutAdapter=new TablayoutAdapter(getSupportFragmentManager());
+        tablayoutAdapter = new TablayoutAdapter(getSupportFragmentManager());
 
-        List<Fragment> mFragments=getFragments();
-        List<String> mTitles=getFragmentTitles();
+        List<Fragment> mFragments = getFragments();
+        List<String> mTitles = getFragmentTitles();
 
-        if(mFragments!=null && mTitles!=null && mFragments.size() == mTitles.size()){
+        if (mFragments != null && mTitles != null && mFragments.size() == mTitles.size()) {
             for (int i = 0; i < mFragments.size(); i++) {
-                tablayoutAdapter.addFrag(mFragments.get(i),mTitles.get(i));
+                tablayoutAdapter.addFrag(mFragments.get(i), mTitles.get(i));
             }
         }
         mbinding.viewpager.setAdapter(tablayoutAdapter);
@@ -51,8 +52,10 @@ public abstract class CommonTablayoutActivity extends AbsBaseActivity {
         mbinding.viewpager.setOffscreenPageLimit(tablayoutAdapter.getCount());
 //        mbinding.tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置滑动模式 /TabLayout.MODE_SCROLLABLE 可滑动 ，TabLayout.MODE_FIXED表示不可滑动
     }
+
     //获取要显示的fragment
     public abstract List<Fragment> getFragments();
+
     //获取要显示的title
     public abstract List<String> getFragmentTitles();
 

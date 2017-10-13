@@ -11,9 +11,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.R;
-import com.cdkj.baselibrary.base.AbsBaseActivity;
+import com.cdkj.baselibrary.appmanager.MyCdConfig;
+import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.databinding.ActivityWebviewBinding;
 import com.cdkj.baselibrary.model.IntroductionInfoModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
@@ -29,7 +29,7 @@ import retrofit2.Call;
 /**
  * 介绍类webview
  */
-public class WebViewActivity extends AbsBaseActivity {
+public class WebViewActivity extends AbsBaseLoadActivity {
 
     private ActivityWebviewBinding mBinding;
 
@@ -77,7 +77,6 @@ public class WebViewActivity extends AbsBaseActivity {
 
     @Override
     public void afterCreate(Bundle savedInstanceState) {
-        setSubLeftImgState(true);
         initLayout();
         initData();
 
@@ -114,7 +113,7 @@ public class WebViewActivity extends AbsBaseActivity {
             return;
         }
 
-        setTopTitle(getIntent().getStringExtra("title"));
+        mBaseBinding.titleView.setMidTitle(getIntent().getStringExtra("title"));
 
         if (TextUtils.isEmpty(getIntent().getStringExtra("url"))) {
             getKeyUrl(getIntent().getStringExtra("code"));

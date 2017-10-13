@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.R;
-import com.cdkj.baselibrary.base.AbsBaseActivity;
+import com.cdkj.baselibrary.appmanager.MyCdConfig;
+import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.databinding.ActivityModifyPasswordBinding;
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.interfaces.SendCodeInterface;
 import com.cdkj.baselibrary.interfaces.SendPhoneCoodePresenter;
 import com.cdkj.baselibrary.model.IsSuccessModes;
@@ -27,7 +28,7 @@ import retrofit2.Call;
 /**
  * 找回密码
  */
-public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterface {
+public class FindPwdActivity extends AbsBaseLoadActivity implements SendCodeInterface {
 
     private ActivityModifyPasswordBinding mBinding;
 
@@ -59,9 +60,9 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
 
     @Override
     public void afterCreate(Bundle savedInstanceState) {
-        setTopTitle("修改密码");
-        setSubLeftImgState(true);
-        mSendCOdePresenter=new SendPhoneCoodePresenter(this);
+        mBaseBinding.titleView.setMidTitle("修改密码");
+
+        mSendCOdePresenter = new SendPhoneCoodePresenter(this);
         if (getIntent() != null) {
             mPhoneNumber = getIntent().getStringExtra("phonenumber");
         }
@@ -83,7 +84,7 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
         mBinding.btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSendCOdePresenter.sendCodeRequest(mBinding.edtPhone.getText().toString(),"805063", MyCdConfig.USERTYPE,FindPwdActivity.this);
+                mSendCOdePresenter.sendCodeRequest(mBinding.edtPhone.getText().toString(), "805063", MyCdConfig.USERTYPE, FindPwdActivity.this);
             }
         });
 
@@ -93,31 +94,31 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(mBinding.edtPhone.getText().toString())) {
-                    showToast("请输入手机号");
+                    UITipDialog.showFall(FindPwdActivity.this,"请输入手机号");
                     return;
                 }
 
                 if (TextUtils.isEmpty(mBinding.edtCode.getText().toString())) {
-                    showToast("请输入验证码");
+                    UITipDialog.showFall(FindPwdActivity.this,"请输入验证码");
                     return;
                 }
 
                 if (TextUtils.isEmpty(mBinding.edtPassword.getText().toString())) {
-                    showToast("请输入密码");
+                    UITipDialog.showFall(FindPwdActivity.this,"请输入密码");
                     return;
                 }
                 if (TextUtils.isEmpty(mBinding.edtRepassword.getText().toString())) {
-                    showToast("请重新输入密码");
+                    UITipDialog.showFall(FindPwdActivity.this,"请重新输入密码");
                     return;
                 }
 
                 if (mBinding.edtPassword.getText().length() < 6) {
-                    showToast("密码不少于6位");
+                    UITipDialog.showFall(FindPwdActivity.this,"密码不少于6位");
                     return;
                 }
 
                 if (!mBinding.edtPassword.getText().toString().equals(mBinding.edtRepassword.getText().toString())) {
-                    showToast("两次密码输入不一致");
+                    UITipDialog.showFall(FindPwdActivity.this,"两次密码输入不一致");
                     return;
                 }
 
@@ -141,7 +142,7 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
         hashMap.put("systemCode", MyCdConfig.SYSTEMCODE);
         hashMap.put("companyCode", MyCdConfig.COMPANYCODE);
 
-        Call call=RetrofitUtils.getBaseAPiService().successRequest("805063", StringUtils.getJsonToString(hashMap));
+        Call call = RetrofitUtils.getBaseAPiService().successRequest("805063", StringUtils.getJsonToString(hashMap));
 
         addCall(call);
 
@@ -149,16 +150,16 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 if (data.isSuccess()) {
-                    showToast("密码修改成功");
+                    UITipDialog.showFall(FindPwdActivity.this,"密码修改成功");
                     finish();
                 } else {
-                    showToast("密码修改失败");
+                    UITipDialog.showFall(FindPwdActivity.this,"密码修改失败");
                 }
             }
 
             @Override
             protected void onFinish() {
-             disMissLoading();
+                disMissLoading();
             }
         });
 
@@ -173,7 +174,7 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
 
     @Override
     public void CodeFailed(String code, String msg) {
-        showToast(msg);
+        UITipDialog.showFall(FindPwdActivity.this,msg);
     }
 
     @Override
@@ -190,9 +191,10 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
     protected void onDestroy() {
         super.onDestroy();
 
-        if(mSendCOdePresenter!=null){
+        if (mSendCOdePresenter != null) {
             mSendCOdePresenter.clear();
-            mSendCOdePresenter=null;
+            mSendCOdePresenter = null;
         }
     }
+
 }

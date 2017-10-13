@@ -11,9 +11,8 @@ import android.view.View;
 
 import com.cdkj.baselibrary.adapters.ViewPagerAdapter;
 import com.cdkj.baselibrary.appmanager.EventTags;
-import com.cdkj.baselibrary.base.AbsBaseActivity;
+import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.CommonDialog;
-import com.cdkj.baselibrary.model.EventBusModel;
 import com.cdkj.baselibrary.utils.update.UpdateManager;
 import com.cdkj.h2hwtw.databinding.ActivityMainBinding;
 import com.cdkj.h2hwtw.module.firstpage.fragments.FirstPageFragment;
@@ -21,6 +20,7 @@ import com.cdkj.h2hwtw.module.goodstype.fragments.GoodsTypeFragment;
 import com.cdkj.h2hwtw.module.im.fragments.ImFragment;
 import com.cdkj.h2hwtw.module.product.activitys.ProductReleaseActivity;
 import com.cdkj.h2hwtw.module.user.fragments.MyFragment;
+import com.cdkj.h2hwtw.module.user.info.SettingActivity;
 import com.cdkj.h2hwtw.module.user.login.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,13 +31,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.cdkj.baselibrary.appmanager.EventTags.MAINCHANGESHOWINDEX;
 import static com.cdkj.baselibrary.appmanager.EventTags.MAINFINISH;
 
 /**
  * 主页
  */
-public class MainActivity extends AbsBaseActivity {
+public class MainActivity extends AbsBaseLoadActivity {
 
     private ActivityMainBinding mBinding;
 
@@ -131,6 +130,7 @@ public class MainActivity extends AbsBaseActivity {
         mBinding.radioMainTab4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SettingActivity.open(MainActivity.this,null);
                 setShowIndex(SHOWMy);
             }
         });

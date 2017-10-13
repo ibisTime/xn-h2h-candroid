@@ -10,15 +10,12 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.cdkj.baselibrary.base.AbsBaseActivity;
 import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.utils.AppUtils;
 import com.cdkj.baselibrary.utils.LogUtil;
@@ -31,7 +28,7 @@ import java.util.List;
  * Created by Administrator on 2017-02-13.
  */
 
-public abstract class BaseLocationActivity extends AbsBaseActivity {
+public abstract class BaseLocationActivity extends AbsBaseLoadActivity {
 
     protected static final int PERMISSION__LOCATION_REQUESTCODE = 13;//定位权限检测请求码
     protected static final int APPLICATION_DETAIL_REQUESTCODE = 14;//应用详情界面请求码

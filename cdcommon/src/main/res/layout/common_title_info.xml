@@ -32,7 +32,7 @@
                     android:layout_width="13dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/back_img"
+                    tools:src="@drawable/back_img"
                     android:visibility="gone" />
 
                 <TextView

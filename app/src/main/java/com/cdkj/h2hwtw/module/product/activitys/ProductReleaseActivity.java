@@ -8,11 +8,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.adapters.ReleasePagePhotoAdapter;
 import com.cdkj.h2hwtw.databinding.ActivityReleaseBinding;
 import com.cdkj.h2hwtw.model.ReleasePagePhotoModel;
-import com.cdkj.h2hwtw.module.common.MyBaseLoadActivity;
 import com.cdkj.h2hwtw.pop.PriceKeyboardPop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yanzhenjie.album.Album;
@@ -24,7 +24,7 @@ import java.util.List;
  * 产品发布
  * Created by cdkj on 2017/10/10.
  */
-public class ProductReleaseActivity extends MyBaseLoadActivity {
+public class ProductReleaseActivity extends AbsBaseLoadActivity {
 
     private ActivityReleaseBinding mBinding;
     private final int requestPhotoCode = 20;
@@ -51,7 +51,7 @@ public class ProductReleaseActivity extends MyBaseLoadActivity {
 
     @Override
     public void afterCreate(Bundle savedInstanceState) {
-        setLeftImg();
+//        setLeftImg();
         mBaseBinding.titleView.setMidTitle(getString(R.string.text_release));
         mBaseBinding.titleView.setRightTitle(getString(R.string.text_cancel));
         initListener();
@@ -156,10 +156,5 @@ public class ProductReleaseActivity extends MyBaseLoadActivity {
 
             }
         }
-    }
-
-    @Override
-    public int getLoadTitleBg() {
-        return 1;
     }
 }

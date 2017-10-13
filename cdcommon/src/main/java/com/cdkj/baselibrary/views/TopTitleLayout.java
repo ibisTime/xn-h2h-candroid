@@ -90,16 +90,16 @@ public class TopTitleLayout extends FrameLayout {
     public void setLeftImg(@DrawableRes int img) {
         mLeftImg.setVisibility(img != 0 ? VISIBLE : GONE);
         mLeftFra.setVisibility(img != 0 ? VISIBLE : GONE);
-        if (img <= 0) {
-            mLeftImg.setImageResource(R.drawable.default_pic);
+        if (img != 0) {
+            mLeftImg.setImageResource(img);
         }
     }
 
     public void setRightImg(@DrawableRes int img) {
         mRightImg.setVisibility(img != 0 ? VISIBLE : GONE);
         mRightFra.setVisibility(img != 0 ? VISIBLE : GONE);
-        if (img <= 0) {
-            mRightImg.setImageResource(R.drawable.default_pic);
+        if (img != 0) {
+            mRightImg.setImageResource(img);
         }
     }
 

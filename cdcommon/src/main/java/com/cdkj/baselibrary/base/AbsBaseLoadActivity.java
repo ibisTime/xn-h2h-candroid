@@ -4,17 +4,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.cdkj.baselibrary.R;
-import com.cdkj.baselibrary.databinding.ActivityAbsBaseBinding;
 import com.cdkj.baselibrary.databinding.ActivityAbsBaseLoadBinding;
-import com.cdkj.baselibrary.views.TopTitleLayout;
-import com.cdkj.baselibrary.views.ViewLoadLayout;
-
-import io.reactivex.annotations.NonNull;
 
 
 /**
@@ -50,7 +42,7 @@ public abstract class AbsBaseLoadActivity extends BaseActivity {
                 topTitleViewRightClick();
             }
         });
-
+        setTitleWhileBg();
         afterCreate(savedInstanceState);
     }
 
@@ -88,6 +80,17 @@ public abstract class AbsBaseLoadActivity extends BaseActivity {
 
     public void topTitleViewRightClick() {
 
+    }
+
+    /**
+     * 设置title背景信息
+     */
+    protected void setTitleWhileBg() {
+        mBaseBinding.titleView.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+        mBaseBinding.titleView.setLeftTitleColor(R.color.text_black_app);
+        mBaseBinding.titleView.setRightTitleColor(R.color.text_black_app);
+        mBaseBinding.titleView.setMidTitleColor(R.color.text_black_app);
+        mBaseBinding.titleView.setLeftImg(R.drawable.back_black);
     }
 
 
