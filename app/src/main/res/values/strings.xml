@@ -6,4 +6,5 @@
     <string name="mind">我的</string>
     <string name="address_manager">地址管理</string>
     <string name="no_address_tips">您还没有添加收货地址</string>
+    <string name="_0_00">0.00</string>
 </resources>

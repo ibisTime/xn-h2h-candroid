@@ -78,7 +78,7 @@ public class MoneyUtils {
             return  doubleFormatMoney((big.multiply(bigDecimal).doubleValue()/1000));
         }
 
-        return "0";
+        return "0.00";
 
     }
 

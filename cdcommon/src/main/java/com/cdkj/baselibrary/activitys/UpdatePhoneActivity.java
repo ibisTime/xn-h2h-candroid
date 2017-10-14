@@ -85,12 +85,12 @@ public class UpdatePhoneActivity extends AbsBaseLoadActivity implements SendCode
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(mBinding.edtPhoneNew.getText().toString())) {
-                    UITipDialog.showFall(UpdatePhoneActivity.this,"请输入手机号");
+                    UITipDialog.showFall(UpdatePhoneActivity.this, "请输入手机号");
                     return;
                 }
 
                 if (TextUtils.isEmpty(mBinding.edtCodeNew.getText().toString())) {
-                    UITipDialog.showFall(UpdatePhoneActivity.this,"请输入验证码");
+                    UITipDialog.showFall(UpdatePhoneActivity.this, "请输入验证码");
                     return;
                 }
 
@@ -129,6 +129,8 @@ public class UpdatePhoneActivity extends AbsBaseLoadActivity implements SendCode
                     eventBusModel.setTag(EventTags.CHANGEPHONENUMBER_REFRESH);
                     eventBusModel.setEvInfo(mBinding.edtPhoneNew.getText().toString());
                     EventBus.getDefault().post(eventBusModel);
+
+                    SPUtilHelpr.saveUserPhoneNum(mBinding.edtPhoneNew.getText().toString());
                     finish();
                 }
             }
@@ -152,7 +154,7 @@ public class UpdatePhoneActivity extends AbsBaseLoadActivity implements SendCode
 
     @Override
     public void CodeFailed(String code, String msg) {
-        UITipDialog.showFall(UpdatePhoneActivity.this,msg);
+        UITipDialog.showFall(UpdatePhoneActivity.this, msg);
     }
 
     @Override

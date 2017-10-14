@@ -54,6 +54,42 @@ public class ImgUtils {
         }
     }
 
+    public static void loadImgNoPlaceholder(Object obj, Object imgid, ImageView img) {
+
+        if (imgid instanceof Integer || imgid instanceof String) {
+
+            if (obj instanceof Context) {
+                try {
+                    Glide.with((Context) obj).load(imgid).error(R.drawable.default_pic).into(img);
+                } catch (Exception e) {
+                    LogUtil.E("图片加载错误");
+                }
+            } else if (obj instanceof Activity) {
+
+                if (!AppUtils.isActivityExist((Activity) obj)) {
+
+                    LogUtil.E("图片加载界面销毁");
+                    return;
+                }
+                if (obj == null || img == null) {
+                    return;
+                }
+                try {
+                    Glide.with((Activity) obj).load(imgid).error(R.drawable.default_pic).into(img);
+                } catch (Exception e) {
+                    LogUtil.E("图片加载错误");
+                }
+
+            } else if (obj instanceof Fragment) {
+                try {
+                    Glide.with((Fragment) obj).load(imgid).error(R.drawable.default_pic).into(img);
+                } catch (Exception e) {
+                    LogUtil.E("图片加载错误");
+                }
+            }
+        }
+    }
+
 
     public static void loadLogo(Object obj, Object imgid, ImageView img) {
 

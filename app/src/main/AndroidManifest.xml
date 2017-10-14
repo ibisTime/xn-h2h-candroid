@@ -158,6 +158,16 @@
             android:name=".module.user.info.UserInfoEditActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!--积分流水-->
+        <activity
+            android:name=".module.user.account.MyJfListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--充值-->
+        <activity
+            android:name=".module.pay.PutMoneyActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
 
     </application>

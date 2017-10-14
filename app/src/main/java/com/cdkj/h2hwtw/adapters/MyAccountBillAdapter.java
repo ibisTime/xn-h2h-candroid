@@ -43,12 +43,12 @@ public class MyAccountBillAdapter extends BaseQuickAdapter<BillModel, BaseViewHo
 
 
         if (BigDecimalUtils.intValue(item.getTransAmount()) > 0) {
+            ImgUtils.loadImgNoPlaceholder(mContext, R.drawable.bill_get, imgType);
             tvprice.setTextColor(ContextCompat.getColor(mContext, R.color.bill_color_orange));
-            ImgUtils.loadImg(mContext, R.drawable.bill_get, imgType);
             tvprice.setText("+" + MoneyUtils.showPrice(item.getTransAmount()));
         } else {
+            ImgUtils.loadImgNoPlaceholder(mContext, R.drawable.bill_pay, imgType);
             tvprice.setTextColor(ContextCompat.getColor(mContext, R.color.bill_color_orange));
-            ImgUtils.loadImg(mContext, R.drawable.bill_pay, imgType);
             tvprice.setText(MoneyUtils.showPrice(item.getTransAmount()));
         }
 

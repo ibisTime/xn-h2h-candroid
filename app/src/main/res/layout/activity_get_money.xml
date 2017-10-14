@@ -30,6 +30,7 @@
                     android:textColor="@color/text_black_app" />
 
                 <TextView
+                    android:id="@+id/tv_bank_select"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
@@ -65,7 +66,7 @@
                 android:background="@color/white"
                 android:orientation="horizontal">
 
-                <EditText
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -78,6 +79,7 @@
                     android:textSize="25sp" />
 
                 <EditText
+                    android:id="@+id/edit_get_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/layout_left_right_interval"
@@ -85,9 +87,11 @@
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:hint="0.00"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:paddingTop="25dp"
                     android:textColor="@color/black_app"
+                    android:textColorHint="@color/text_hint_app"
                     android:textSize="25sp" />
 
 
@@ -111,6 +115,7 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/tv_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -138,17 +143,19 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/tv_fei"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:paddingLeft="@dimen/layout_left_right_interval"
-                    android:textColor="@color/get_money_txt_blue"
-                    tools:text="10y元" />
+                    android:text="0元"
+                    android:textColor="@color/get_money_txt_blue" />
 
             </LinearLayout>
 
 
             <Button
+                android:id="@+id/btn_get_money"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginLeft="@dimen/layout_left_right_interval"
@@ -168,28 +175,31 @@
                 android:textColor="@color/text_gray_app" />
 
             <TextView
+                android:id="@+id/tv_tip1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_left_right_interval"
                 android:layout_marginTop="5dp"
-                android:text="1 每月最大提现次数100次。"
-                android:textColor="@color/text_gray_app" />
+                android:textColor="@color/text_gray_app"
+                tools:text="1 每月最大提现次数100次。" />
 
             <TextView
+                android:id="@+id/tv_tip2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_left_right_interval"
                 android:layout_marginTop="5dp"
-                android:text="2 提现金额必须是5的倍数，单笔最高50000元。"
-                android:textColor="@color/text_gray_app" />
+                android:textColor="@color/text_gray_app"
+                tools:text="2 提现金额必须是5的倍数，单笔最高50000元。" />
 
             <TextView
+                android:id="@+id/tv_tip3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_left_right_interval"
                 android:layout_marginTop="5dp"
-                android:text="3 T+1到账。"
-                android:textColor="@color/text_gray_app" />
+                android:textColor="@color/text_gray_app"
+                tools:text="3 T+1到账。" />
 
 
         </LinearLayout>

@@ -50,6 +50,7 @@ public class UserInfoModel implements Parcelable {
      * userId : U201708031733541317064
      * userReferee : U2017080317335413170
      * workTime : 3
+     * "totalFollowNum":0.0,"totalFansNum":0.0
      */
 
     private String address;
@@ -92,6 +93,25 @@ public class UserInfoModel implements Parcelable {
     private String userReferee;
     private String workTime;
     private boolean tradepwdFlag;
+    private long totalFollowNum;
+
+    public long getTotalFollowNum() {
+        return totalFollowNum;
+    }
+
+    public void setTotalFollowNum(long totalFollowNum) {
+        this.totalFollowNum = totalFollowNum;
+    }
+
+    public long getTotalFansNum() {
+        return totalFansNum;
+    }
+
+    public void setTotalFansNum(long totalFansNum) {
+        this.totalFansNum = totalFansNum;
+    }
+
+    private long totalFansNum;
 
     public boolean isTradepwdFlag() {
         return tradepwdFlag;

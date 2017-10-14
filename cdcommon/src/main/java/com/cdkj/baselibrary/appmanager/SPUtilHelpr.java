@@ -17,7 +17,7 @@ import static com.cdkj.baselibrary.appmanager.RouteHelper.APPLOGIN;
 
 public class SPUtilHelpr {
 
-    private static final String USERTOKEN = "user_toke" ;
+    private static final String USERTOKEN = "user_toke";
     private static final String USERID = "user_id";
 
     /**
@@ -54,7 +54,7 @@ public class SPUtilHelpr {
      * @param s
      */
     public static void saveUserPhoneNum(String s) {
-        SPUtils.put(CdApplication.getContext(), "user_phone"+PROJECTNAME, s);
+        SPUtils.put(CdApplication.getContext(), "user_phone", s);
     }
 
     /**
@@ -136,6 +136,41 @@ public class SPUtilHelpr {
         return true;
     }
 
+    /**
+     * 保存流水账户信息
+     *
+     * @param s
+     */
+    public static void saveAmountaccountNumber(String s) {
+        SPUtils.put(CdApplication.getContext(), "mAmountaccountNumber", s);
+    }
+
+    /**
+     * 保存流水账户信息
+     *
+     * @param
+     */
+    public static String getAmountaccountNumber() {
+        return SPUtils.getString(CdApplication.getContext(), "mAmountaccountNumber", "");
+    }
+
+    /**
+     * 保存是否设置过支付密码
+     *
+     * @param s
+     */
+    public static void saveisTradepwdFlag(boolean s) {
+        SPUtils.put(CdApplication.getContext(), "isTradepwdFlag", s);
+    }
+
+    /**
+     * 是否设置过支付密码
+     *
+     * @param
+     */
+    public static boolean isTradepwdFlag() {
+        return SPUtils.getBoolean(CdApplication.getContext(), "isTradepwdFlag", false);
+    }
 
     /**
      * 退出登录清除数据
@@ -144,7 +179,9 @@ public class SPUtilHelpr {
         saveUserToken("");
         saveUserId("");
         saveUserPhoneNum("");
+        saveAmountaccountNumber("");
         saveUserName("");
+        saveisTradepwdFlag(false);
         saveUserIsBindCard(false);
     }
 

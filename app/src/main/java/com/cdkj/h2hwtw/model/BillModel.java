@@ -1,12 +1,15 @@
 package com.cdkj.h2hwtw.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.math.BigDecimal;
 
 /**
  * Created by LeiQ on 2016/12/30.
  */
 
-public class BillModel {
+public class BillModel implements Parcelable {
 
     /**
      * code : AJ201707181935421546289284138
@@ -32,8 +35,45 @@ public class BillModel {
 
     private String code;
     private String refNo;
+
+    public BigDecimal getFrozenAmount() {
+        return frozenAmount;
+    }
+
+    public void setFrozenAmount(BigDecimal frozenAmount) {
+        this.frozenAmount = frozenAmount;
+    }
+
+    public BigDecimal getAddAmount() {
+        return addAmount;
+    }
+
+    public void setAddAmount(BigDecimal addAmount) {
+        this.addAmount = addAmount;
+    }
+
+    public BigDecimal getInAmount() {
+        return inAmount;
+    }
+
+    public void setInAmount(BigDecimal inAmount) {
+        this.inAmount = inAmount;
+    }
+
+    public BigDecimal getOutAmount() {
+        return outAmount;
+    }
+
+    public void setOutAmount(BigDecimal outAmount) {
+        this.outAmount = outAmount;
+    }
+
     private String accountNumber;
     private BigDecimal transAmount;
+    private BigDecimal frozenAmount;
+    private BigDecimal addAmount;
+    private BigDecimal inAmount;
+    private BigDecimal outAmount;
     private String userId;
     private String realName;
     private String type;
@@ -202,4 +242,77 @@ public class BillModel {
     public void setCompanyCode(String companyCode) {
         this.companyCode = companyCode;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.code);
+        dest.writeString(this.refNo);
+        dest.writeString(this.accountNumber);
+        dest.writeSerializable(this.transAmount);
+        dest.writeSerializable(this.frozenAmount);
+        dest.writeSerializable(this.addAmount);
+        dest.writeSerializable(this.inAmount);
+        dest.writeSerializable(this.outAmount);
+        dest.writeString(this.userId);
+        dest.writeString(this.realName);
+        dest.writeString(this.type);
+        dest.writeString(this.currency);
+        dest.writeString(this.bizType);
+        dest.writeString(this.bizNote);
+        dest.writeSerializable(this.preAmount);
+        dest.writeSerializable(this.postAmount);
+        dest.writeString(this.status);
+        dest.writeString(this.remark);
+        dest.writeString(this.createDatetime);
+        dest.writeString(this.workDate);
+        dest.writeString(this.channelType);
+        dest.writeString(this.systemCode);
+        dest.writeString(this.companyCode);
+    }
+
+    public BillModel() {
+    }
+
+    protected BillModel(Parcel in) {
+        this.code = in.readString();
+        this.refNo = in.readString();
+        this.accountNumber = in.readString();
+        this.transAmount = (BigDecimal) in.readSerializable();
+        this.frozenAmount = (BigDecimal) in.readSerializable();
+        this.addAmount = (BigDecimal) in.readSerializable();
+        this.inAmount = (BigDecimal) in.readSerializable();
+        this.outAmount = (BigDecimal) in.readSerializable();
+        this.userId = in.readString();
+        this.realName = in.readString();
+        this.type = in.readString();
+        this.currency = in.readString();
+        this.bizType = in.readString();
+        this.bizNote = in.readString();
+        this.preAmount = (BigDecimal) in.readSerializable();
+        this.postAmount = (BigDecimal) in.readSerializable();
+        this.status = in.readString();
+        this.remark = in.readString();
+        this.createDatetime = in.readString();
+        this.workDate = in.readString();
+        this.channelType = in.readString();
+        this.systemCode = in.readString();
+        this.companyCode = in.readString();
+    }
+
+    public static final Parcelable.Creator<BillModel> CREATOR = new Parcelable.Creator<BillModel>() {
+        @Override
+        public BillModel createFromParcel(Parcel source) {
+            return new BillModel(source);
+        }
+
+        @Override
+        public BillModel[] newArray(int size) {
+            return new BillModel[size];
+        }
+    };
 }

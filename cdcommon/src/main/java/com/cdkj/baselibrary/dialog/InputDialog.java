@@ -382,6 +382,12 @@ public class InputDialog {
         });
         return this;
     }
+
+    public EditText getContentView(){
+        return mContentInput;
+    }
+
+
     /** end----------------------------------------- */
     
 

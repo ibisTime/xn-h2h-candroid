@@ -14,6 +14,8 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
@@ -277,7 +279,6 @@ public class AppUtils {
         }
         return list;
     }
-
 
 
 

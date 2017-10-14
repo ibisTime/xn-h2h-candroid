@@ -28,9 +28,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
 
-                <EditText
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -43,6 +44,7 @@
                     android:textSize="25sp" />
 
                 <EditText
+                    android:id="@+id/edit_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/layout_left_right_interval"
@@ -50,39 +52,16 @@
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:hint="0.00"
+                    android:inputType="numberDecimal"
                     android:maxLines="1"
                     android:paddingTop="25dp"
                     android:textColor="@color/black_app"
+                    android:textColorHint="@color/text_hint_app"
                     android:textSize="25sp" />
 
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/layout_left_right_interval"
-                    android:text="可提现金额"
-                    android:textColor="@color/get_money_txt_blue"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:textColor="@color/get_money_txt_blue"
-                    tools:text="10元" />
-
-            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -134,6 +113,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/btn_put_money"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginLeft="@dimen/layout_left_right_interval"

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseRefreshActivity;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
@@ -23,11 +24,11 @@ import java.util.Map;
 import retrofit2.Call;
 
 /**
- * 账单流水
+ * 积分流水
  * Created by cdkj on 2017/10/14.
  */
 
-public class MyAccountBillListActivity extends BaseRefreshActivity<BillModel> {
+public class MyJfListActivity extends BaseRefreshActivity<BillModel> {
 
 
     private String mCode;
@@ -40,14 +41,14 @@ public class MyAccountBillListActivity extends BaseRefreshActivity<BillModel> {
         if (context == null) {
             return;
         }
-        Intent intent = new Intent(context, MyAccountBillListActivity.class);
+        Intent intent = new Intent(context, MyJfListActivity.class);
         intent.putExtra("code", code);
         context.startActivity(intent);
     }
 
     @Override
     protected void onInit(Bundle savedInstanceState, int pageIndex, int limit) {
-        mBaseBinding.titleView.setMidTitle("我的账单");
+        mBaseBinding.titleView.setMidTitle("积分账单");
         if (getIntent() != null) {
             mCode = getIntent().getStringExtra("code");
         }
@@ -62,11 +63,15 @@ public class MyAccountBillListActivity extends BaseRefreshActivity<BillModel> {
         }
 
         Map<String, String> map = new HashMap<>();
-        map.put("accountNumber", mCode);
+        map.put("systemCode", MyCdConfig.SYSTEMCODE);
+        map.put("companyCode", MyCdConfig.COMPANYCODE);
         map.put("token", SPUtilHelpr.getUserToken());
+        map.put("accountNumber", mCode);
+        map.put("accountType", "C");
+        map.put("currency", "JF");
         map.put("start", pageIndex + "");
-        map.put("limit", limit + "");
-        Call call = RetrofitUtils.createApi(MyApiServer.class).getBillList("802524", StringUtils.getJsonToString(map));
+        map.put("limit", "10");
+        Call call = RetrofitUtils.createApi(MyApiServer.class).getBillList("802520", StringUtils.getJsonToString(map));
 
         addCall(call);
 
@@ -89,7 +94,6 @@ public class MyAccountBillListActivity extends BaseRefreshActivity<BillModel> {
                 if (canShowDialog) disMissLoading();
             }
         });
-
     }
 
     @Override

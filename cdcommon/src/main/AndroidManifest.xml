@@ -49,9 +49,11 @@
             android:name="com.cdkj.baselibrary.activitys.BackCardListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!--图片选择-->
         <activity
-            android:name="com.cdkj.baselibrary.activitys.ImageSelectActivity"
+            android:name=".activitys.ImageSelectActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/ActivityDialogStyleBottom"
             android:windowSoftInputMode="adjustPan" />
         <!--支付密码修改-->
         <activity

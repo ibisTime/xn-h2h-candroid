@@ -107,20 +107,20 @@ public class PayPwdModifyActivity extends AbsBaseLoadActivity implements SendCod
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(mBinding.edtPhone.getText())) {
-                    UITipDialog.showFall(PayPwdModifyActivity.this,"请输入手机号");
+                    UITipDialog.showFall(PayPwdModifyActivity.this, "请输入手机号");
                     return;
                 }
                 if (TextUtils.isEmpty(mBinding.edtCode.getText())) {
-                    UITipDialog.showFall(PayPwdModifyActivity.this,"请输入验证码");
+                    UITipDialog.showFall(PayPwdModifyActivity.this, "请输入验证码");
                     return;
                 }
 
                 if (TextUtils.isEmpty(mBinding.edtRepassword.getText())) {
-                    UITipDialog.showFall(PayPwdModifyActivity.this,"请输入支付密码");
+                    UITipDialog.showFall(PayPwdModifyActivity.this, "请输入支付密码");
                     return;
                 }
                 if (mBinding.edtRepassword.getText().length() < 6) {
-                    UITipDialog.showFall(PayPwdModifyActivity.this,"支付密码不能低于6位数");
+                    UITipDialog.showFall(PayPwdModifyActivity.this, "支付密码不能低于6位数");
                     return;
                 }
 
@@ -172,7 +172,7 @@ public class PayPwdModifyActivity extends AbsBaseLoadActivity implements SendCod
                     EventBus.getDefault().post(eventBusModel);
 
                 }
-
+                SPUtilHelpr.saveisTradepwdFlag(true);
                 finish();
             }
 
@@ -198,7 +198,7 @@ public class PayPwdModifyActivity extends AbsBaseLoadActivity implements SendCod
 
     @Override
     public void CodeFailed(String code, String msg) {
-        UITipDialog.showFall(PayPwdModifyActivity.this,msg);
+        UITipDialog.showFall(PayPwdModifyActivity.this, msg);
     }
 
     @Override

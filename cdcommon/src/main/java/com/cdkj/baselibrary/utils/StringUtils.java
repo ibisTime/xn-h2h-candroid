@@ -241,4 +241,28 @@ public class StringUtils {
         return isMatch(REGEX_IP, input);
     }
 
+
+    public static void setEditMoneyInput(EditText edit) {
+
+        //限制金额数据
+        edit.setFilters(new InputFilter[]{new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if (source.equals(".") && dest.toString().length() == 0) {
+                    return "0.";
+                }
+                if (dest.toString().contains(".")) {
+                    int index = dest.toString().indexOf(".");
+                    int mlength = dest.toString().substring(index).length();
+                    if (mlength == 3) {
+                        return "";
+                    }
+                }
+                return null;
+            }
+        }});
+
+    }
+
+
 }

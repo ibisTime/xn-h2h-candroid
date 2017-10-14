@@ -74,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
                             android:orientation="horizontal"
-                            android:weightSum="2">
+                            android:weightSum="2.5">
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -83,13 +83,15 @@
 
                                 <TextView
                                     style="@style/text_white"
-                                    android:layout_width="50dp"
+                                    android:layout_width="40dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="关注"
                                     android:textSize="16sp" />
 
                                 <TextView
+                                    android:id="@+id/tv_follow_sum"
+                                    android:layout_width="wrap_content"
                                     style="@style/text_white"
                                     android:ellipsize="end"
                                     android:maxLines="1"
@@ -100,34 +102,34 @@
                             </LinearLayout>
 
                             <View
-                                android:layout_width="1dp"
+                                android:layout_width="0.5dp"
                                 android:layout_height="match_parent"
                                 android:background="@color/white" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_marginLeft="20dp"
+                                android:layout_marginLeft="15dp"
                                 android:layout_weight="1"
                                 android:weightSum="2">
 
                                 <TextView
+                                    android:id="@+id/textView6"
                                     style="@style/text_white"
-                                    android:layout_width="0dp"
-                                    android:layout_weight="1"
+                                    android:layout_width="45dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="粉丝"
                                     android:textSize="16sp" />
 
                                 <TextView
+                                    android:id="@+id/tv_fans_num"
                                     style="@style/text_white"
-                                    android:layout_width="0dp"
                                     android:layout_weight="1"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:textSize="16sp"
-                                    tools:text="2424242424" />
+                                    tools:text="2424" />
 
 
                             </LinearLayout>
@@ -174,24 +176,26 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tv_amount"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:gravity="left"
-                        android:maxLength="1"
+                        android:maxLines="1"
+                        android:text="@string/_0_00"
                         android:textColor="@color/text_select_app"
-                        android:textSize="16sp"
-                        tools:text="0000" />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
 
                 <LinearLayout
+                    android:id="@+id/lin_jf_list"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="1dp"
+                    android:layout_marginLeft="0.5dp"
                     android:layout_weight="1"
                     android:background="@color/white"
                     android:gravity="center"
@@ -207,6 +211,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tv_amount_jf"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -216,7 +221,7 @@
                         android:maxLength="1"
                         android:textColor="@color/text_select_app"
                         android:textSize="16sp"
-                        tools:text="4444" />
+                        android:text="0" />
 
                 </LinearLayout>
 
@@ -260,7 +265,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
+                android:layout_marginTop="0.5dp"
                 android:weightSum="5">
 
                 <LinearLayout
@@ -427,8 +432,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginLeft="0.5dp"
+                    android:layout_marginRight="0.5dp"
                     android:layout_weight="1"
                     android:background="@drawable/selector_gray"
                     android:gravity="center"
@@ -482,7 +487,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
+                android:layout_marginTop="0.5dp"
                 android:weightSum="3">
 
                 <LinearLayout
@@ -513,8 +518,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginLeft="0.5dp"
+                    android:layout_marginRight="0.5dp"
                     android:layout_weight="1"
                     android:background="@drawable/selector_gray"
                     android:gravity="center"
