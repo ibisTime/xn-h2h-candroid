@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.databinding.ActivityAbsBaseLoadBinding;
-import com.cdkj.baselibrary.utils.UIStatusBarHelper;
 
 
 /**
@@ -89,9 +88,9 @@ public abstract class AbsBaseLoadActivity extends BaseActivity {
      */
     protected void setTitleWhileBg() {
         mBaseBinding.titleView.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
-        mBaseBinding.titleView.setLeftTitleColor(R.color.text_black_app);
-        mBaseBinding.titleView.setRightTitleColor(R.color.text_black_app);
-        mBaseBinding.titleView.setMidTitleColor(R.color.text_black_app);
+        mBaseBinding.titleView.setLeftTitleColor(R.color.text_black_cd);
+        mBaseBinding.titleView.setRightTitleColor(R.color.text_black_cd);
+        mBaseBinding.titleView.setMidTitleColor(R.color.text_black_cd);
         mBaseBinding.titleView.setLeftImg(R.drawable.back_black);
 //        if (canLoadTopTitleView()) {
 //            UIStatusBarHelper.setStatusBarLightMode(this); // 沉浸式状态栏

@@ -89,7 +89,7 @@ public class SettingActivity extends AbsBaseLoadActivity {
             return;
         }
 
-        ImgUtils.loadLogo(SettingActivity.this, MyCdConfig.QINIUURL + mUserInfoData.getPhoto(), mBinding.imgPhoto);
+//        ImgUtils.loadLogo(SettingActivity.this, MyCdConfig.QINIUURL + mUserInfoData.getPhoto(), mBinding.imgPhoto);
 
         mBinding.txtPhone.setText(mUserInfoData.getMobile());
 
@@ -202,7 +202,7 @@ public class SettingActivity extends AbsBaseLoadActivity {
 
                 @Override
                 public void onFal(String info) {
-                    showToast(info);
+                    UITipDialog.showFall(SettingActivity.this, info);
                 }
             }, path);
 
@@ -227,7 +227,7 @@ public class SettingActivity extends AbsBaseLoadActivity {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 if (data.isSuccess()) {
-                    showToast("头像上传成功");
+                    UITipDialog.showSuccess(SettingActivity.this, "头像上传成功");
                     ImgUtils.loadLogo(SettingActivity.this, MyCdConfig.QINIUURL + key, mBinding.imgPhoto);
                 }
             }

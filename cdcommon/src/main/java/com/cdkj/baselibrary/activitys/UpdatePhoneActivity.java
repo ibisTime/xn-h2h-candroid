@@ -85,12 +85,12 @@ public class UpdatePhoneActivity extends AbsBaseLoadActivity implements SendCode
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(mBinding.edtPhoneNew.getText().toString())) {
-                    showToast("请输入手机号");
+                    UITipDialog.showFall(UpdatePhoneActivity.this,"请输入手机号");
                     return;
                 }
 
                 if (TextUtils.isEmpty(mBinding.edtCodeNew.getText().toString())) {
-                    showToast("请输入验证码");
+                    UITipDialog.showFall(UpdatePhoneActivity.this,"请输入验证码");
                     return;
                 }
 
@@ -152,7 +152,7 @@ public class UpdatePhoneActivity extends AbsBaseLoadActivity implements SendCode
 
     @Override
     public void CodeFailed(String code, String msg) {
-        showToast(msg);
+        UITipDialog.showFall(UpdatePhoneActivity.this,msg);
     }
 
     @Override

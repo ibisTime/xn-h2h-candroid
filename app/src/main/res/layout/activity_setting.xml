@@ -13,6 +13,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/layout_photo"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
@@ -54,9 +55,6 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
 
             <LinearLayout
                 android:id="@+id/layout_phoneNumber"

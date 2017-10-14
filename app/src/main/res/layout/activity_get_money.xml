@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_gray_app">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
+
+            <LinearLayout
+                android:id="@+id/lin_select_bankcard"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/selector_gray"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/layout_left_right_interval"
+                android:paddingRight="@dimen/layout_left_right_interval">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="银行卡"
+                    android:textColor="@color/text_black_app" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_weight="1"
+                    android:hint="请选择银行卡"
+                    android:textColor="@color/text_black_app"
+                    android:textColorHint="@color/text_black_app"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/more_right" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/layout_left_right_interval"
+                android:paddingTop="18dp"
+                android:text="提现金额"
+                android:textColor="@color/text_black_app" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/layout_left_right_interval"
+                    android:paddingTop="25dp"
+                    android:text="￥"
+                    android:textColor="@color/balck_app"
+                    android:textSize="25sp" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/layout_left_right_interval"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="0.00"
+                    android:maxLines="1"
+                    android:paddingTop="25dp"
+                    android:textColor="@color/black_app"
+                    android:textSize="25sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/layout_left_right_interval"
+                    android:text="可提现金额"
+                    android:textColor="@color/get_money_txt_blue"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:textColor="@color/get_money_txt_blue"
+                    tools:text="10元" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/layout_left_right_interval"
+                    android:text="本次提现手续费"
+                    android:textColor="@color/text_black_app"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/layout_left_right_interval"
+                    android:textColor="@color/get_money_txt_blue"
+                    tools:text="10y元" />
+
+            </LinearLayout>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginLeft="@dimen/layout_left_right_interval"
+                android:layout_marginRight="@dimen/layout_left_right_interval"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/selector_btn_round"
+                android:gravity="center"
+                android:text="提现"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_left_right_interval"
+                android:layout_marginTop="15dp"
+                android:text="取现规则:"
+                android:textColor="@color/text_gray_app" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_left_right_interval"
+                android:layout_marginTop="5dp"
+                android:text="1 每月最大提现次数100次。"
+                android:textColor="@color/text_gray_app" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_left_right_interval"
+                android:layout_marginTop="5dp"
+                android:text="2 提现金额必须是5的倍数，单笔最高50000元。"
+                android:textColor="@color/text_gray_app" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_left_right_interval"
+                android:layout_marginTop="5dp"
+                android:text="3 T+1到账。"
+                android:textColor="@color/text_gray_app" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</layout>

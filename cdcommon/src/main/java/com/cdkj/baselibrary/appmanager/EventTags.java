@@ -19,6 +19,8 @@ public class EventTags {
     //登录成功
     public final static String LOGINREFRESH = "6";
 
+    //昵称编辑
+    public final static String USERNAMEEDITREFRESH = "8";
 
     public final static String ADDRESSUPDATE = "7";
 

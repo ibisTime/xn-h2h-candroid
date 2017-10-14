@@ -90,20 +90,20 @@ public class AddBackCardActivity extends AbsBaseLoadActivity {
             public void onClick(View v) {
 
                 if (TextUtils.isEmpty(mBinding.editName.getText().toString())) {
-                    showToast("请输入姓名");
+                    UITipDialog.showFall(AddBackCardActivity.this, "请输入姓名");
                     return;
                 }
                 if (TextUtils.isEmpty(mSelectCardId)) {
-                    showToast("请选择银行");
+                    UITipDialog.showFall(AddBackCardActivity.this, "请选择银行");
                     return;
                 }
                 if (TextUtils.isEmpty(mBinding.edtCardId.getText().toString())) {
-                    showToast("请输入卡号");
+                    UITipDialog.showFall(AddBackCardActivity.this, "请输入卡号");
                     return;
                 }
 
                 if (mBinding.edtCardId.getText().toString().length() < 16) {
-                    showToast("银行卡号最低为16位数字");
+                    UITipDialog.showFall(AddBackCardActivity.this, "银行卡号最低为16位数字");
                     return;
                 }
 

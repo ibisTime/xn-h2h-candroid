@@ -37,5 +37,23 @@ public class MyAccountActivity extends AbsBaseLoadActivity {
     @Override
     public void afterCreate(Bundle savedInstanceState) {
         mBaseBinding.titleView.setMidTitle("我的账户");
+
+        initListener();
+    }
+
+    private void initListener() {
+        mBinding.layoutAccountList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyAccountBillListActivity.open(MyAccountActivity.this, "");
+            }
+        });
+
+        mBinding.tvGetMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GetMoneyActivity.open(MyAccountActivity.this);
+            }
+        });
     }
 }

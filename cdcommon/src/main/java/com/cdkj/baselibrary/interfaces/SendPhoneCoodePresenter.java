@@ -3,7 +3,6 @@ package com.cdkj.baselibrary.interfaces;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.cdkj.baselibrary.activitys.UpdateBackCardActivity;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.IsSuccessModes;
@@ -34,7 +33,7 @@ public class SendPhoneCoodePresenter {
     public void sendCodeRequest(String phone, String bizType, String kind, Context context) {
         this.mContext = context;
         if (TextUtils.isEmpty(phone)) {
-            ToastUtil.show(context, "请输入手机号");
+            UITipDialog.showFall(context, "请输入手机号");
             return;
         }
 

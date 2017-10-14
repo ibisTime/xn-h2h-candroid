@@ -19,15 +19,30 @@
                 android:background="@drawable/my_page_top_bg"
                 android:orientation="vertical">
 
-                <TextView
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:text="@string/mind"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/top_center_title_size" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="@string/mind"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/top_center_title_size" />
+
+                    <ImageView
+                        android:id="@+id/img_setting"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/setting" />
+
+                </FrameLayout>
 
                 <LinearLayout
+                    android:id="@+id/lin_user_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/layout_left_right_interval"
@@ -141,11 +156,11 @@
                 android:weightSum="2">
 
                 <LinearLayout
-                    android:id="@+id/layout_myaccount"
+                    android:id="@+id/lin_my_account"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/selector_gray"
+                    android:background="@color/white"
                     android:gravity="center"
                     android:weightSum="2">
 

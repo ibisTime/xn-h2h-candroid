@@ -15,6 +15,10 @@ public class MyCdConfig {
 
     public final static String PROJECTNAME="h2hwtw";
 
+
+    public final static String GENDERMAN="1";
+    public final static String GENDERWOMAN="0";
+
     /**
      * 保存的SharedPreferences工具类文件名
      */

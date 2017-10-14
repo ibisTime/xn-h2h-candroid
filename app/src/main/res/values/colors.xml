@@ -4,6 +4,23 @@
     <color name="colorPrimaryDark">#48b0fb</color>
     <color name="colorAccent">#48b0fb</color>
 
+    <color name="text_select_app">#48b0fb</color>
+    <color name="btn_click_app">#358ecf</color>
+    <color name="btn_click_un_app">#48b0fb</color>
+    <color name="text_black_app">#484848</color>
+    <color name="black_app">#000000</color>
+    <color name="text_gray_app">#999999</color>
+    <color name="text_hint_app">#999999</color>
+    <color name="background_gray_app">#f5f5f5</color>
+    <color name="line_gray_app">#dedede</color>
+    <color name="line_gray_2_app">#eeeeee</color>
+    <color name="title_bg_app">#48b0fb</color>
+    <color name="account_page_app">#48b0fb</color>
+    <color name="get_money_txt_blue">#48b0fb</color>
+    <color name="pop_black_bg">#88000000</color>
+    <color name="balck_app">#000000</color>
+    <color name="my_page_txt_black_app">#666666</color>
+    <color name="bill_color_orange">#ff6702</color>
 
 
 

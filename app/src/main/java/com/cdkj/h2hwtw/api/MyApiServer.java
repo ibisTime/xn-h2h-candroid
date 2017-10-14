@@ -4,6 +4,7 @@ import com.cdkj.baselibrary.api.BaseResponseListModel;
 import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.h2hwtw.model.AddressModel;
+import com.cdkj.h2hwtw.model.BillListMode;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 
 import io.reactivex.Observable;
@@ -60,5 +61,13 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<Boolean>> setDefultAddress(@Field("code") String code, @Field("json") String  json);
+
+    /**
+     * 获取 流水
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<BillListMode>> getBillList(@Field("code") String code, @Field("json") String  json);
 
 }

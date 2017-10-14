@@ -138,11 +138,12 @@ public abstract class BaseRefreshActivity<T> extends AbsBaseLoadActivity {
     public
     @DrawableRes
     int getEmptyImg() {
-        return R.drawable.default_pic;
+        return 0;
     }
 
     //加载错误布局
     public void loadError(String str) {
+
 
         if (mPageIndex == 1 && mBinding.refreshLayout.isRefreshing()) {
             mBinding.refreshLayout.finishRefresh();

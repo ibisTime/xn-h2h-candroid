@@ -14,34 +14,44 @@
             android:background="@color/account_page_app"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/layout_account_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:gravity="center"
-                android:text="账户余额（元）"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:background="@color/account_page_app"
+                android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="18dp"
-                android:layout_gravity="right"
-                android:layout_marginRight="38dp"
-                android:src="@drawable/more_right_white" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:gravity="center"
+                    android:text="账户余额（元）"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="0"
-                android:textColor="@color/white"
-                android:textSize="32sp" />
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="38dp"
+                    android:src="@drawable/more_right_white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="32sp" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,6 +66,7 @@
                     android:text="充值" />
 
                 <TextView
+                    android:id="@+id/tv_get_money"
                     style="@style/txt_my_account_page"
                     android:layout_marginLeft="50dp"
                     android:text="提现" />

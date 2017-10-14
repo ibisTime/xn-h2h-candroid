@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
+import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.api.MyApiServer;
@@ -19,6 +21,7 @@ import com.cdkj.h2hwtw.databinding.FragmentMyBinding;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.module.user.account.MyAccountActivity;
 import com.cdkj.h2hwtw.module.user.info.SettingActivity;
+import com.cdkj.h2hwtw.module.user.info.UserInfoEditActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,20 +64,28 @@ public class MyFragment extends BaseLazyFragment {
      */
     private void initListener() {
 
-        mBinding.imgUserLogo.setOnClickListener(new View.OnClickListener() {
+        mBinding.linUserInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SettingActivity.open(mActivity, mUserInfoMode);
+                if (mUserInfoMode == null) return;
+                UserInfoEditActivity.open(mActivity, mUserInfoMode);
             }
         });
 
-        mBinding.layoutMyaccount.setOnClickListener(new View.OnClickListener() {
+        mBinding.linMyAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MyAccountActivity.open(mActivity);
             }
         });
 
+        mBinding.imgSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mUserInfoMode == null) return;
+                SettingActivity.open(mActivity, mUserInfoMode);
+            }
+        });
 
     }
 
@@ -121,7 +132,7 @@ public class MyFragment extends BaseLazyFragment {
             @Override
             protected void onSuccess(UserInfoModel data, String SucMessage) {
                 mUserInfoMode = data;
-//                setShowData(mUserInfoMode);
+                setShowData(mUserInfoMode);
             }
 
             @Override
@@ -136,4 +147,15 @@ public class MyFragment extends BaseLazyFragment {
         });
     }
 
+    /**
+     * 设置数据显示
+     *
+     * @param showData
+     */
+    public void setShowData(UserInfoModel showData) {
+        if (showData == null) return;
+
+        ImgUtils.loadLogo(this, MyCdConfig.QINIUURL + showData.getPhoto(), mBinding.imgUserLogo);
+
+    }
 }
