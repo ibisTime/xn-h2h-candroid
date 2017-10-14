@@ -19,4 +19,7 @@ public class EventTags {
     //登录成功
     public final static String LOGINREFRESH = "6";
 
+
+    public final static String ADDRESSUPDATE = "7";
+
 }

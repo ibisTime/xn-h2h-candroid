@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.cdkj.baselibrary.adapters.ViewPagerAdapter;
 import com.cdkj.baselibrary.appmanager.EventTags;
+import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.utils.update.UpdateManager;
@@ -43,10 +44,10 @@ public class MainActivity extends AbsBaseLoadActivity {
     public static final int SHOWFIRST = 0;//显示首页
     public static final int SHOWTYPE = 1;//显示类别
     public static final int SHOWIM = 2;//显示消息界面
-    public static final int SHOWMy = 3;//显示我的界面
+    public static final int SHOWMY = 3;//显示我的界面
 
 
-    @IntDef({SHOWFIRST, SHOWTYPE, SHOWIM, SHOWMy})
+    @IntDef({SHOWFIRST, SHOWTYPE, SHOWIM, SHOWMY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface showType {
     }
@@ -129,7 +130,7 @@ public class MainActivity extends AbsBaseLoadActivity {
         mBinding.radioMainTab4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setShowIndex(SHOWMy);
+                setShowIndex(SHOWMY);
             }
         });
 
@@ -143,26 +144,6 @@ public class MainActivity extends AbsBaseLoadActivity {
 
     }
 
-
-    public void setShowTabIndex() {
-
-        switch (mShowIndex) {
-            case SHOWFIRST:
-                LoginActivity.open(MainActivity.this, true);
-                mBinding.radioMainTab1.setChecked(true);
-                break;
-            case SHOWTYPE:
-                mBinding.radioMainTab2.setChecked(true);
-                break;
-            case SHOWIM:
-                mBinding.radioMainTab3.setChecked(true);
-                break;
-            case SHOWMy:
-                mBinding.radioMainTab4.setChecked(true);
-                break;
-        }
-
-    }
 
     /**
      * 初始化ViewPager
@@ -191,9 +172,28 @@ public class MainActivity extends AbsBaseLoadActivity {
         if (index < 0 && index >= fragments.size()) {
             return;
         }
-        mBinding.pagerMain.setCurrentItem(index, false);
+
+        switch (index) {
+            case SHOWFIRST:
+                mBinding.radioMainTab1.setChecked(true);
+                break;
+            case SHOWTYPE:
+                mBinding.radioMainTab2.setChecked(true);
+                break;
+            case SHOWIM:
+                mBinding.radioMainTab3.setChecked(true);
+                break;
+            case SHOWMY:
+                if (!SPUtilHelpr.isLogin(MainActivity.this, false)) {
+                    return;
+                }
+                mBinding.radioMainTab4.setChecked(true);
+                break;
+        }
         mShowIndex = index;
-        setShowTabIndex();
+        mBinding.pagerMain.setCurrentItem(index, false);
+
+
     }
 
     @Subscribe
@@ -229,6 +229,7 @@ public class MainActivity extends AbsBaseLoadActivity {
             @Override
             public void onPositive(View view) {
                 EventBus.getDefault().post(EventTags.AllFINISH);
+                EventBus.getDefault().post(EventTags.MAINFINISH);
                 finish();
             }
         });

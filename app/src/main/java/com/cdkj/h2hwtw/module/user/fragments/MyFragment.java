@@ -17,6 +17,7 @@ import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.FragmentMyBinding;
 import com.cdkj.h2hwtw.model.UserInfoModel;
+import com.cdkj.h2hwtw.module.user.account.MyAccountActivity;
 import com.cdkj.h2hwtw.module.user.info.SettingActivity;
 
 import java.util.HashMap;
@@ -63,7 +64,14 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.imgUserLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SettingActivity.open(mActivity,mUserInfoMode );
+                SettingActivity.open(mActivity, mUserInfoMode);
+            }
+        });
+
+        mBinding.layoutMyaccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyAccountActivity.open(mActivity);
             }
         });
 
@@ -74,7 +82,7 @@ public class MyFragment extends BaseLazyFragment {
     public void onResume() {
         super.onResume();
         if (getUserVisibleHint()) {
-            getUserInfoRequest(true);
+            getUserInfoRequest(false);
         }
     }
 

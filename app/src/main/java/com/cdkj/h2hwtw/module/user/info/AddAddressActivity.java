@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
@@ -50,16 +51,14 @@ public class AddAddressActivity extends AbsBaseLoadActivity {
 
     /**
      * @param context
-     * @param isDefault 是否设置为默认地址
-     * @param data      地址数据
+     * @param data    地址数据
      */
-    public static void open(Context context, boolean isDefault, AddressModel data) {
+    public static void open(Context context, AddressModel data) {
         if (context == null) {
             return;
         }
         Intent intent = new Intent(context, AddAddressActivity.class);
 
-        intent.putExtra("isDefault", isDefault);
         intent.putExtra("data", data);
 
         context.startActivity(intent);
@@ -75,7 +74,6 @@ public class AddAddressActivity extends AbsBaseLoadActivity {
     public void afterCreate(Bundle savedInstanceState) {
         mBaseBinding.titleView.setMidTitle("添加地址");
         if (getIntent() != null) {
-            isDefault = getIntent().getBooleanExtra("isDefault", true);
             mAddressData = getIntent().getParcelableExtra("data");
         }
 
@@ -95,7 +93,7 @@ public class AddAddressActivity extends AbsBaseLoadActivity {
         if (mAddressData == null) {
             return;
         }
-
+        isDefault = mAddressData.isDefaultAddress();
         mProvince = mAddressData.getProvince();
         mCity = mAddressData.getCity();
         mDistrict = mAddressData.getDistrict();
@@ -244,6 +242,7 @@ public class AddAddressActivity extends AbsBaseLoadActivity {
             @Override
             protected void onSuccess(CodeModel data, String SucMessage) {
                 showToast("添加成功");
+                EventBus.getDefault().post(EventTags.ADDRESSUPDATE);//更新上一页地址数据
                 finish();
             }
 
@@ -263,6 +262,11 @@ public class AddAddressActivity extends AbsBaseLoadActivity {
 
     private void editAddressRequest() {
         Map<String, String> object = new HashMap<>();
+        if (isDefault) {
+            object.put("isDefault", "1");
+        } else {
+            object.put("isDefault", "0");
+        }
         object.put("code", mAddressData.getCode());
         object.put("userId", SPUtilHelpr.getUserId());
         object.put("addressee", mBinding.edtName.getText().toString().trim());
@@ -284,6 +288,7 @@ public class AddAddressActivity extends AbsBaseLoadActivity {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 if (data != null && data.isSuccess()) {
+                    EventBus.getDefault().post(EventTags.ADDRESSUPDATE);//更新上一页地址数据
                     finish();
                 } else {
                     UITipDialog.showFall(AddAddressActivity.this, "添加地址失败");

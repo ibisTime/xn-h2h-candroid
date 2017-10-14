@@ -48,7 +48,7 @@
         <item name="android:background">@null</item>
         <item name="android:textColor">@color/text_black_app</item>
         <item name="android:textColorHint">@color/text_hint_app</item>
-        <item name="android:maxLength">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="check_box">

@@ -37,7 +37,7 @@ public class AddressListAdapter extends BaseQuickAdapter<AddressModel, BaseViewH
         ImageView imgChoose = viewHolder.getView(R.id.img_choose);
 
 
-        if ("1".equals(item.getIsDefault())) {
+        if (item.isDefaultAddress()) {
             imgChoose.setBackgroundResource(R.drawable.check_on);
         } else {
             imgChoose.setBackgroundResource(R.drawable.check_off);

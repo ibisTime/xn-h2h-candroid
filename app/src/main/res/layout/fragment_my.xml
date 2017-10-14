@@ -141,10 +141,11 @@
                 android:weightSum="2">
 
                 <LinearLayout
+                    android:id="@+id/layout_myaccount"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/white"
+                    android:background="@drawable/selector_gray"
                     android:gravity="center"
                     android:weightSum="2">
 

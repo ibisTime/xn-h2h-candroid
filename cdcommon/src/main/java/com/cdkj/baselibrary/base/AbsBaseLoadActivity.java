@@ -93,11 +93,12 @@ public abstract class AbsBaseLoadActivity extends BaseActivity {
         mBaseBinding.titleView.setRightTitleColor(R.color.text_black_app);
         mBaseBinding.titleView.setMidTitleColor(R.color.text_black_app);
         mBaseBinding.titleView.setLeftImg(R.drawable.back_black);
-
 //        if (canLoadTopTitleView()) {
 //            UIStatusBarHelper.setStatusBarLightMode(this); // 沉浸式状态栏
 //        }
     }
+
+
 
 
 }

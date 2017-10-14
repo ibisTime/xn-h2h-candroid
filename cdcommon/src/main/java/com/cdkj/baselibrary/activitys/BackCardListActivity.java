@@ -134,12 +134,6 @@ public class BackCardListActivity extends BaseRefreshActivity {
                     }
                 });
 
-                holder.setText(R.id.txt_name, bankCardModel.getBankName());
-                if (!TextUtils.isEmpty(bankCardModel.getBankcardNumber()) && bankCardModel.getBankcardNumber().length() > 5) {
-                    holder.setText(R.id.txt_number, bankCardModel.getBankcardNumber().substring(bankCardModel.getBankcardNumber().length() - 4, bankCardModel.getBankcardNumber().length()));
-                } else {
-                    holder.setText(R.id.txt_number, bankCardModel.getBankcardNumber());
-                }
                 int logoId = R.mipmap.logo_defalut;
                 int backId = R.mipmap.back_default;
                 if (!TextUtils.isEmpty(bankCardModel.getBankCode())) {
@@ -149,6 +143,13 @@ public class BackCardListActivity extends BaseRefreshActivity {
 
                 ImgUtils.loadBankLogo(mContext, logoId, (ImageView) holder.getView(R.id.img_bankCart));
                 ImgUtils.loadBankBg(mContext, backId, (ImageView) holder.getView(R.id.img_back_bg));
+
+                holder.setText(R.id.txt_name, bankCardModel.getBankName());
+                if (!TextUtils.isEmpty(bankCardModel.getBankcardNumber()) && bankCardModel.getBankcardNumber().length() > 5) {
+                    holder.setText(R.id.txt_number, bankCardModel.getBankcardNumber().substring(bankCardModel.getBankcardNumber().length() - 4, bankCardModel.getBankcardNumber().length()));
+                } else {
+                    holder.setText(R.id.txt_number, bankCardModel.getBankcardNumber());
+                }
 
             }
         };

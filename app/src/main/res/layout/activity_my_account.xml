@@ -39,9 +39,9 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:singleLine="true"
+                android:text="0"
                 android:textColor="@color/white"
-                android:textSize="32sp"
-                tools:text="12121212" />
+                android:textSize="32sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,13 +67,92 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:orientation="horizontal"
             android:paddingBottom="20dp"
-            android:paddingTop="20dp">
+            android:paddingTop="20dp"
+            android:weightSum="3">
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_black"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="0"
+                    android:textSize="18sp" />
+
+                <TextView
+                    style="@style/text_black"
+                    android:layout_marginTop="10dp"
+                    android:text="小费金额"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
+
+            <View style="@style/vine_gray" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_black"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="0"
+                    android:textSize="18sp" />
+
+                <TextView
+                    style="@style/text_black"
+                    android:layout_marginTop="10dp"
+                    android:text="充值金额"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
+
+            <View style="@style/vine_gray" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_black"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="0"
+                    android:textSize="18sp" />
+
+                <TextView
+                    style="@style/text_black"
+                    android:layout_marginTop="10dp"
+                    android:text="提现金额"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
 
 
         </LinearLayout>

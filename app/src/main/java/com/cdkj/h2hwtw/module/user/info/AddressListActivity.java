@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseRefreshActivity;
@@ -24,6 +25,7 @@ import com.cdkj.h2hwtw.model.AddressModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,9 +51,9 @@ public class AddressListActivity extends BaseRefreshActivity<AddressModel> {
     @Override
     public void topTitleViewRightClick() {
         if (mAdapter != null && mAdapter.getData().size() == 0) {     //还没有添加地址时设置为默认地址
-            AddAddressActivity.open(this, true, null);
+            AddAddressActivity.open(this, null);
         } else {
-            AddAddressActivity.open(this, false, null);
+            AddAddressActivity.open(this, null);
         }
     }
 
@@ -72,7 +74,7 @@ public class AddressListActivity extends BaseRefreshActivity<AddressModel> {
                             break;
                         case R.id.layout_edit://编辑
                             AddressModel addressModel = (AddressModel) mAdapter.getItem(position);
-                            AddAddressActivity.open(AddressListActivity.this, false, addressModel);
+                            AddAddressActivity.open(AddressListActivity.this, addressModel);
                             break;
 
                         case R.id.real_address://选择
@@ -141,6 +143,13 @@ public class AddressListActivity extends BaseRefreshActivity<AddressModel> {
     @Override
     public int getEmptyImg() {
         return 0;
+    }
+
+    @Subscribe
+    public void eventUpdate(String str) {
+        if (TextUtils.equals(str, EventTags.ADDRESSUPDATE)) {
+            getListData(1, 10, false);
+        }
     }
 
     /**
