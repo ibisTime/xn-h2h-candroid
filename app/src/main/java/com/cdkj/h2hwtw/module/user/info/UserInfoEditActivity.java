@@ -218,8 +218,9 @@ public class UserInfoEditActivity extends AbsBaseLoadActivity {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 if (data.isSuccess()) {
-                    mData.setBirthday(s);
-                    mBinding.tvGender.setText(s);
+                    mData.setGender(s);
+
+                    mBinding.tvGender.setText(TextUtils.equals(s, MyCdConfig.GENDERWOMAN) ? "女" : "男");
                 } else {
                     UITipDialog.showFall(UserInfoEditActivity.this, "操作失败");
                 }

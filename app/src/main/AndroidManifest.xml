@@ -170,6 +170,7 @@
             android:windowSoftInputMode="adjustPan" />
 
 
+
     </application>
 
 </manifest>

@@ -4,28 +4,24 @@ import android.content.Context;
 
 import com.cdkj.baselibrary.CdApplication;
 import com.cdkj.baselibrary.api.BaseResponseListModel;
-import com.cdkj.baselibrary.api.BaseResponseModel;
+import com.cdkj.baselibrary.appmanager.RouteHelper;
+import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.utils.LogUtil;
-import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.utils.ToastUtil;
 
 import java.lang.ref.SoftReference;
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.HttpException;
 import retrofit2.Response;
 
-import static com.cdkj.baselibrary.nets.BaseResponseModelCallBack.NETERRORCODE1;
-import static com.cdkj.baselibrary.nets.BaseResponseModelCallBack.NETERRORCODE2;
-import static com.cdkj.baselibrary.nets.BaseResponseModelCallBack.NETERRORCODE3;
-import static com.cdkj.baselibrary.nets.BaseResponseModelCallBack.NETERRORCODE4;
-import static com.cdkj.baselibrary.nets.BaseResponseModelCallBack.REQUESTFECODE4;
-import static com.cdkj.baselibrary.nets.BaseResponseModelCallBack.REQUESTOK;
+import static com.cdkj.baselibrary.nets.NetHelper.NETERRORCODE4;
+import static com.cdkj.baselibrary.nets.NetHelper.REQUESTFECODE4;
+import static com.cdkj.baselibrary.nets.NetHelper.REQUESTOK;
+import static com.cdkj.baselibrary.nets.NetHelper.getThrowableStateCode;
+import static com.cdkj.baselibrary.nets.NetHelper.getThrowableStateString;
+
 
 /**
  * 网络请求回调
@@ -81,32 +77,7 @@ public abstract class BaseResponseListCallBack<T> implements Callback<BaseRespon
             return;
         }
 
-        String errorString = "";
-
-        String errorCode = NETERRORCODE4;
-
-        if (t instanceof UnknownHostException) { // 网络错误
-            errorString = "网络加载异常";
-            errorCode = NETERRORCODE1;
-        } else if (t instanceof SocketTimeoutException) {//响应超时
-            errorString = "服务器响应超时";
-            errorCode = NETERRORCODE2;
-        } else if (t instanceof ConnectException) {//请求超时
-            errorString = "网络请求超时";
-            errorCode = NETERRORCODE3;
-        } else if (t instanceof HttpException) {
-            errorString = "网络异常";
-            errorCode = NETERRORCODE1;
-        } else {
-            errorString = "未知错误";
-            errorCode = NETERRORCODE4;
-        }
-
-        if (LogUtil.isDeBug) {
-            errorString += t.toString();
-        }
-
-        onReqFailure(errorCode, errorString);
+        onReqFailure(getThrowableStateCode(t), getThrowableStateString(t));
 
     }
 
@@ -132,9 +103,7 @@ public abstract class BaseResponseListCallBack<T> implements Callback<BaseRespon
             onSuccess(t, baseModelNew.getErrorInfo());
 
         } else if (REQUESTFECODE4.equals(state)) {
-            onLoginFailure(context, baseModelNew);
-//        } else if (REQUESTFECODE2.equals(state) || REQUESTFECODE3.equals(state) || REQUESTFECODE9.equals(state)) {
-//            onBuinessFailure(state, baseModelNew.getErrorInfo());
+            onLoginFailure(context, baseModelNew.getErrorInfo());
         } else {
             onReqFailure(state, baseModelNew.getErrorInfo());
         }
@@ -161,8 +130,11 @@ public abstract class BaseResponseListCallBack<T> implements Callback<BaseRespon
      *
      * @param
      */
-    protected void onLoginFailure(Context context, BaseResponseListModel baseModelNew) {
-        OnOkFailure.StartDoFailure(context, baseModelNew.getErrorInfo());
+    protected void onLoginFailure(Context context, String errorMessage) {
+        SPUtilHelpr.logOutClear();
+        ToastUtil.show(context, errorMessage);
+        // 路由跳转登录页面
+        RouteHelper.openLogin(false);
     }
 
     /**

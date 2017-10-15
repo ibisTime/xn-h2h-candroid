@@ -19,6 +19,7 @@ import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.dialog.InputDialog;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.BankCardModel;
+import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.model.IntroductionInfoModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.model.MyBankCardListMode;
@@ -282,25 +283,25 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
         }
         Map<String, String> object = new HashMap<>();
         object.put("accountNumber", mAmountaccountNumber);
-        object.put("amount", mBinding.editGetAmount.getText().toString());
-        object.put("payCardInfo", mSelectBankCard.getBankName());
+        object.put("amount", MoneyUtils.getRequestPrice(mBinding.editGetAmount.getText().toString()));
+        object.put("payCardInfo", mSelectBankCard.getBankCode());
         object.put("payCardNo", mSelectBankCard.getBankcardNumber());
         object.put("applyUser", SPUtilHelpr.getUserId());
         object.put("tradePwd", pwd);
         object.put("token", SPUtilHelpr.getUserToken());
 
-        Call call = RetrofitUtils.getBaseAPiService().successRequest("802750", StringUtils.getJsonToString(object));
+        Call call = RetrofitUtils.getBaseAPiService().codeRequest("802750", StringUtils.getJsonToString(object));
 
         addCall(call);
 
         showLoadingDialog();
 
-        call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
+        call.enqueue(new BaseResponseModelCallBack<CodeModel>(this) {
             @Override
-            protected void onSuccess(IsSuccessModes data, String SucMessage) {
-                if (data.isSuccess()) {
+            protected void onSuccess(CodeModel data, String SucMessage) {
+                if (!TextUtils.isEmpty(data.getCode())){
                     GetMoneySuccessfulActivity.open(GetMoneyActivity.this);
-                } else {
+                } else{
                     UITipDialog.showFall(GetMoneyActivity.this, "提现失败");
                 }
 

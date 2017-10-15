@@ -6,11 +6,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ViewStub
-            android:id="@+id/toptitlelayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/title_height"
-            android:layout="@layout/common_title_info" />
+        <!--<ViewStub-->
+        <!--android:id="@+id/toptitlelayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/title_height"-->
+        <!--android:layout="@layout/common_title_info" />-->
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/refreshLayout"

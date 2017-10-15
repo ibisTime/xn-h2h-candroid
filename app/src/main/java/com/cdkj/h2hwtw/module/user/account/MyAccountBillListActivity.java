@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
-import com.cdkj.baselibrary.base.BaseRefreshActivity;
+import com.cdkj.baselibrary.base.BaseRefreshHelperActivity;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
@@ -27,7 +27,7 @@ import retrofit2.Call;
  * Created by cdkj on 2017/10/14.
  */
 
-public class MyAccountBillListActivity extends BaseRefreshActivity<BillModel> {
+public class MyAccountBillListActivity extends BaseRefreshHelperActivity<BillModel> {
 
 
     private String mCode;
@@ -45,17 +45,14 @@ public class MyAccountBillListActivity extends BaseRefreshActivity<BillModel> {
         context.startActivity(intent);
     }
 
+
     @Override
-    protected void onInit(Bundle savedInstanceState, int pageIndex, int limit) {
-        mBaseBinding.titleView.setMidTitle("我的账单");
-        if (getIntent() != null) {
-            mCode = getIntent().getStringExtra("code");
-        }
-        getListData(1, 10, true);
+    public BaseQuickAdapter getAdapter(List<BillModel> listData) {
+        return new MyAccountBillAdapter(listData);
     }
 
     @Override
-    protected void getListData(int pageIndex, int limit, final boolean canShowDialog) {
+    public void getListDataRequest(int pageindex, int limit, final boolean canShowDialog) {
 
         if (TextUtils.isEmpty(mCode)) {
             return;
@@ -64,7 +61,7 @@ public class MyAccountBillListActivity extends BaseRefreshActivity<BillModel> {
         Map<String, String> map = new HashMap<>();
         map.put("accountNumber", mCode);
         map.put("token", SPUtilHelpr.getUserToken());
-        map.put("start", pageIndex + "");
+        map.put("start", pageindex + "");
         map.put("limit", limit + "");
         Call call = RetrofitUtils.createApi(MyApiServer.class).getBillList("802524", StringUtils.getJsonToString(map));
 
@@ -76,12 +73,12 @@ public class MyAccountBillListActivity extends BaseRefreshActivity<BillModel> {
 
             @Override
             protected void onSuccess(BillListMode data, String SucMessage) {
-                setData(data.getList());
+                mRefreshHelper.setData(data.getList());
             }
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
-                loadError(errorMessage);
+                mRefreshHelper.loadError(errorMessage);
             }
 
             @Override
@@ -93,12 +90,16 @@ public class MyAccountBillListActivity extends BaseRefreshActivity<BillModel> {
     }
 
     @Override
-    protected BaseQuickAdapter onCreateAdapter(List<BillModel> mDataList) {
-        return new MyAccountBillAdapter(mDataList);
+    protected void onInit(Bundle savedInstanceState) {
+        mBaseBinding.titleView.setMidTitle("我的账单");
+        if (getIntent() != null) {
+            mCode = getIntent().getStringExtra("code");
+        }
+        mRefreshHelper.onDefaluteMRefresh(true);
     }
 
     @Override
-    public String getEmptyInfo() {
+    protected String getErrorInfo() {
         return "暂无流水";
     }
 }
