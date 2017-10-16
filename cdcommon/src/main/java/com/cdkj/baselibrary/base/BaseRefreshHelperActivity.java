@@ -52,6 +52,15 @@ public abstract class BaseRefreshHelperActivity<T> extends AbsBaseLoadActivity i
         return null;
     }
 
+    @Override
+    public void onRefresh(int pageindex, int limit) {
+
+    }
+
+    @Override
+    public void onLoadMore(int pageindex, int limit) {
+
+    }
 
     @Override
     public View addMainView() {

@@ -151,6 +151,7 @@ public class RefreshHelper<T> {
         mPageIndex = pageindex;
         mLimit = limit;
         mRefreshInterface.getListDataRequest(pageindex, limit, isShowDialog);
+        mRefreshInterface.onRefresh(pageindex, limit);
     }
 
     //加载
@@ -158,6 +159,7 @@ public class RefreshHelper<T> {
         mPageIndex = pageIndex;
         mLimit = limit;
         mRefreshInterface.getListDataRequest(pageIndex, limit, false);
+        mRefreshInterface.onLoadMore(pageIndex, limit);
     }
 
     //加载错误布局

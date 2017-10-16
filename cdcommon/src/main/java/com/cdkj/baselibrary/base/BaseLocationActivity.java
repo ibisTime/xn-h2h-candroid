@@ -52,9 +52,8 @@ public abstract class BaseLocationActivity extends AbsBaseLoadActivity {
     /**
      * 定位失败
      *
-     * @param aMapLocation
      */
-    protected abstract void locationFailure(AMapLocation aMapLocation);
+    protected abstract void locationFailure();
 
 
     /**
@@ -79,7 +78,7 @@ public abstract class BaseLocationActivity extends AbsBaseLoadActivity {
                     LogUtil.E("定位成功");
                     locationSuccessful(aMapLocation);
                 } else {                                        //定位失败
-                    locationFailure(aMapLocation);
+                    locationFailure();
                 }
                 //停止定位
                 stopLocation();
@@ -211,7 +210,7 @@ public abstract class BaseLocationActivity extends AbsBaseLoadActivity {
     private void showMissingPermissionDialog() {
 
         new CommonDialog(this).builder()
-                .setTitle("系统提示").setContentMsg("未取得您的位置信息使用权限，定位功能无法使用。请前往应用权限设置打开权限。")
+                .setTitle("系统提示").setContentMsg("未取得定位权限，定位功能无法使用。请前往应用权限设置打开定位权限。")
 
                 .setPositiveBtn("去打开", new CommonDialog.OnPositiveListener() {
                     @Override

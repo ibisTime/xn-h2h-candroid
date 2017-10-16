@@ -7,4 +7,11 @@
     <string name="address_manager">地址管理</string>
     <string name="no_address_tips">您还没有添加收货地址</string>
     <string name="_0_00">0.00</string>
+    <string name="please_add_photo">请添加图片</string>
+    <string name="please_input_name">请填写名称</string>
+    <string name="please_input_info">请填写广告语</string>
+    <string name="please_select_type">请选择类别</string>
+    <string name="please_set_price">请设置价格</string>
+    <string name="error_location">未知位置</string>
+    <string name="no_product">暂无产品</string>
 </resources>

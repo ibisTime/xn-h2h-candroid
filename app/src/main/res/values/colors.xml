@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#48b0fb</color>
-    <color name="colorPrimaryDark">#48b0fb</color>
-    <color name="colorAccent">#48b0fb</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#000000</color>
 
     <color name="text_select_app">#48b0fb</color>
     <color name="btn_click_app">#358ecf</color>
@@ -16,6 +16,8 @@
     <color name="line_gray_2_app">#eeeeee</color>
     <color name="title_bg_app">#48b0fb</color>
     <color name="account_page_app">#48b0fb</color>
+    <color name="type_page_app">#48b0fb</color>
+    <color name="type_page_red_app">#ff5000</color>
     <color name="get_money_txt_blue">#48b0fb</color>
     <color name="pop_black_bg">#88000000</color>
     <color name="balck_app">#000000</color>

@@ -91,7 +91,6 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.imgSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mUserInfoMode == null) return;
                 SettingActivity.open(mActivity, mUserInfoMode);
             }
         });

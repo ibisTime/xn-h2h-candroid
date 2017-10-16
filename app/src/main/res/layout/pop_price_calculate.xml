@@ -105,7 +105,9 @@
                     android:text="包邮"
                     android:textSize="18sp" />
 
-                <CheckBox style="@style/check_box" />
+                <CheckBox
+                    android:id="@+id/checkbox_can_send"
+                    style="@style/check_box" />
 
 
             </LinearLayout>

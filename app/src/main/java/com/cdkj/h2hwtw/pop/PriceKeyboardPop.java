@@ -13,9 +13,9 @@ import android.widget.EditText;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.popup.BasePopupWindow;
 import com.cdkj.baselibrary.utils.StringUtils;
-import com.cdkj.baselibrary.utils.ToastUtil;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.databinding.PopPriceCalculateBinding;
+import com.cdkj.h2hwtw.model.PriceKeyBoardListenerModel;
 
 /**
  * 发布价格计算pupup
@@ -32,9 +32,11 @@ public class PriceKeyboardPop extends BasePopupWindow {
     private StringBuffer mPriceOldEditInputString;//输入的原价记录
     private StringBuffer mPriceSendEditInputString;//输入的运费记录
 
+    private PriceKeyBoardPopListener mSureListener;
 
-    public PriceKeyboardPop(Activity context) {
+    public PriceKeyboardPop(Activity context, PriceKeyBoardPopListener listener) {
         super(context);
+        mSureListener = listener;
     }
 
     @Override
@@ -75,8 +77,35 @@ public class PriceKeyboardPop extends BasePopupWindow {
         popBinding.layouotKeyboard.btnSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                hideKeyboard(view.getWindowToken());
-                popBinding.editPrice.setEnabled(true);
+                PriceKeyBoardListenerModel model = new PriceKeyBoardListenerModel();
+
+                model.setCanSend(popBinding.checkboxCanSend.isChecked());
+                if (TextUtils.isEmpty(popBinding.editPrice.getText().toString())) {
+                    model.setPrice("0");
+                } else {
+                    model.setPrice(popBinding.editPrice.getText().toString());
+                }
+                if (TextUtils.isEmpty(popBinding.editPriceOld.getText().toString())) {
+                    model.setOldPrice("0");
+                } else {
+                    model.setOldPrice(popBinding.editPriceOld.getText().toString());
+                }
+
+                if (TextUtils.isEmpty(popBinding.editSendPrice.getText().toString())) {
+                    model.setSendPrice("0");
+                } else {
+                    model.setSendPrice(popBinding.editSendPrice.getText().toString());
+                }
+                if (popBinding.checkboxCanSend.isChecked()) {
+                    model.setSendPrice("0");
+                }
+
+                if(mSureListener!=null){
+                    mSureListener.sureInputDone(model);
+                }
+
+
+                dismiss();
             }
         });
 
@@ -222,5 +251,11 @@ public class PriceKeyboardPop extends BasePopupWindow {
     @Override
     public View getClickToDismissView() {
         return popBinding.layouotKeyboard.fraCancel;
+    }
+
+    public interface PriceKeyBoardPopListener {
+
+        void sureInputDone(PriceKeyBoardListenerModel model);
+
     }
 }

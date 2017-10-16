@@ -19,10 +19,6 @@
                 android:orientation="vertical"
                 android:paddingBottom="50dp">
 
-                <View
-                    style="@style/line_gray"
-                    android:background="@color/line_gray_app" />
-
                 <include
                     android:id="@+id/layout_check_camera"
                     layout="@layout/layout_act_check_camera" />
@@ -39,6 +35,7 @@
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/edit_name"
                         style="@style/edit_style"
                         android:layout_marginLeft="@dimen/layout_left_right_interval"
                         android:layout_marginRight="@dimen/layout_left_right_interval"
@@ -48,6 +45,7 @@
                         android:textSize="18sp" />
 
                     <EditText
+                        android:id="@+id/edit_description"
                         style="@style/edit_style"
                         android:layout_height="100dp"
                         android:layout_marginLeft="@dimen/layout_left_right_interval"
@@ -63,19 +61,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:paddingBottom="5dp"
                     android:paddingLeft="@dimen/layout_left_right_interval"
-                    android:paddingRight="@dimen/layout_left_right_interval">
+                    android:paddingRight="@dimen/layout_left_right_interval"
+                    android:paddingTop="10dp">
 
-                    <include layout="@layout/layout_location_city" />
+                    <include
+                        android:id="@+id/location"
+                        layout="@layout/layout_location_city" />
 
                     <LinearLayout
-
+                        android:id="@+id/lin_is_new"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right|center_vertical"
                         android:gravity="center_vertical">
 
-                        <CheckBox style="@style/check_box" />
+                        <CheckBox
+                            android:id="@+id/checkbox_isnew"
+                            style="@style/check_box"
+                            android:layout_height="20dp"
+                            android:layout_width="20dp" />
 
                         <TextView
                             style="@style/text_black"
@@ -90,6 +96,7 @@
                 </FrameLayout>
 
                 <LinearLayout
+                    android:id="@+id/line_type"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
@@ -104,6 +111,7 @@
                         android:textSize="15dp" />
 
                     <TextView
+                        android:id="@+id/tv_type"
                         style="@style/text_gray"
                         android:layout_weight="1"
                         android:ellipsize="end"
@@ -138,6 +146,7 @@
                         android:textSize="15dp" />
 
                     <TextView
+                        android:id="@+id/tv_price"
                         style="@style/text_gray"
                         android:layout_weight="1"
                         android:ellipsize="end"
@@ -164,6 +173,7 @@
                         android:textSize="15dp" />
 
                     <CheckBox
+                        android:id="@+id/checkbox_isPublish"
                         android:layout_width="50dp"
                         android:layout_height="35dp"
                         android:layout_gravity="right|center_vertical"
@@ -179,6 +189,7 @@
         </ScrollView>
 
         <Button
+            android:id="@+id/btn_next"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginBottom="10dp"

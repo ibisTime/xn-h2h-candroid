@@ -14,6 +14,7 @@ import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.CommonDialog;
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.utils.update.UpdateManager;
 import com.cdkj.h2hwtw.databinding.ActivityMainBinding;
 import com.cdkj.h2hwtw.module.firstpage.fragments.FirstPageFragment;
@@ -21,7 +22,6 @@ import com.cdkj.h2hwtw.module.goodstype.fragments.GoodsTypeFragment;
 import com.cdkj.h2hwtw.module.im.fragments.ImFragment;
 import com.cdkj.h2hwtw.module.product.activitys.ProductReleaseActivity;
 import com.cdkj.h2hwtw.module.user.fragments.MyFragment;
-import com.cdkj.h2hwtw.module.user.login.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.cdkj.baselibrary.appmanager.EventTags.MAINFINISH;
+import static com.cdkj.baselibrary.appmanager.EventTags.RELEASESUSS;
 
 /**
  * 主页
@@ -206,7 +207,13 @@ public class MainActivity extends AbsBaseLoadActivity {
 
         if (TextUtils.equals(evbusTag, MAINFINISH)) { //结束主页
             finish();
+            return;
         }
+        if (TextUtils.equals(evbusTag, RELEASESUSS)) {//发布成功
+            setShowIndex(SHOWTYPE);
+            UITipDialog.showSuccess(this, "发布成功");
+        }
+
     }
 
     @Override

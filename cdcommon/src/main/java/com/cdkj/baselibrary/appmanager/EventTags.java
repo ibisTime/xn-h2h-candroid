@@ -23,5 +23,7 @@ public class EventTags {
     public final static String USERNAMEEDITREFRESH = "8";
 
     public final static String ADDRESSUPDATE = "7";
+    //发布成功
+    public final static String RELEASESUSS = "9";
 
 }

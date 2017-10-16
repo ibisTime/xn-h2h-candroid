@@ -29,6 +29,10 @@ public interface RefreshInterface<T> {
 
     View getEmptyView();
 
+    void onRefresh(int pageindex, int limit);
+
+    void onLoadMore(int pageindex, int limit);
+
     void getListDataRequest(int pageindex, int limit, boolean isShowDialog);
 
 }

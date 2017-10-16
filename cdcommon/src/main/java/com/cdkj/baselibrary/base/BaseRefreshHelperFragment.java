@@ -2,31 +2,18 @@ package com.cdkj.baselibrary.base;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.databinding.EmptyViewBinding;
 import com.cdkj.baselibrary.databinding.FragmentRecyclerRefreshBinding;
 import com.cdkj.baselibrary.interfaces.RefreshHelper;
 import com.cdkj.baselibrary.interfaces.RefreshInterface;
-import com.cdkj.baselibrary.utils.ImgUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 实现下拉刷新 上拉加载 分页逻辑
@@ -35,7 +22,7 @@ import java.util.List;
 
 public abstract class BaseRefreshHelperFragment<T> extends BaseLazyFragment implements RefreshInterface<T> {
 
-    protected FragmentRecyclerRefreshBinding mBinding;
+    private FragmentRecyclerRefreshBinding mRefreshBinding;
     protected RefreshHelper mRefreshHelper;
     private LayoutInflater inflater;
 
@@ -43,27 +30,34 @@ public abstract class BaseRefreshHelperFragment<T> extends BaseLazyFragment impl
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
-        return getCreateView();
+        return getCreateView(inflater);
     }
 
-    protected View getCreateView() {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recycler_refresh, null, false);
-        mRefreshHelper = new RefreshHelper(mActivity, this);
-        mRefreshHelper.setErrorInfo(getErrorInfo());
-        mRefreshHelper.init(0, 10);
-        return mBinding.getRoot();
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mRefreshHelper == null) {
+            mRefreshHelper = new RefreshHelper(mActivity, this);
+            mRefreshHelper.setErrorInfo(getErrorInfo());
+            mRefreshHelper.init(0, 10);
+        }
+    }
+
+    protected View getCreateView(LayoutInflater inflater) {
+        mRefreshBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recycler_refresh, null, false);
+        return mRefreshBinding.getRoot();
     }
 
     protected abstract String getErrorInfo();
 
     @Override
     public SmartRefreshLayout getRefreshLayout() {
-        return mBinding.refreshLayout;
+        return mRefreshBinding.refreshLayout;
     }
 
     @Override
     public RecyclerView getRecyclerView() {
-        return mBinding.rv;
+        return mRefreshBinding.rv;
     }
 
     @Override
@@ -74,6 +68,17 @@ public abstract class BaseRefreshHelperFragment<T> extends BaseLazyFragment impl
     @Override
     public EmptyViewBinding getEmptyViewBindin() {
         return DataBindingUtil.inflate(inflater, R.layout.empty_view, null, false);
+    }
+
+
+    @Override
+    public void onRefresh(int pageindex, int limit) {
+
+    }
+
+    @Override
+    public void onLoadMore(int pageindex, int limit) {
+
     }
 
     @Override

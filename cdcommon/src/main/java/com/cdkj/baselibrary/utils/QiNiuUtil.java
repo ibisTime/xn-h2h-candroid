@@ -172,7 +172,6 @@ public class QiNiuUtil {
             }
 
             try {
-
                 compressorUpload(callBack, imgPath, mToekn);
             } catch (Exception e) {
                 if (callBack != null) {

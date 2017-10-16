@@ -29,7 +29,7 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/MyAppTheme">
 
         <!--腾讯im-->
 
@@ -169,6 +169,17 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
+        <!--产品筛选-->
+        <activity
+            android:name=".module.product.activitys.ProductScreeningActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!--发布分类-->
+        <activity
+            android:name=".module.product.activitys.ReleaseTypeSelectActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
 
     </application>
