@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/img_user_logo"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_gravity="center"
         android:src="@drawable/photo_default" />
 

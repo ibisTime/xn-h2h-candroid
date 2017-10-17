@@ -17,6 +17,7 @@ import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.interfaces.BaseRefreshmethods;
 import com.cdkj.baselibrary.interfaces.RefreshHelper;
+import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.MoneyUtils;
@@ -40,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+
 
 /**
  * 产品详情
@@ -78,6 +80,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
     public void afterCreate(Bundle savedInstanceState) {
         mBaseBinding.contentView.hindAll();
         mBaseBinding.titleView.setMidTitle("产品详情");
+        mBaseBinding.titleView.setRightImg(R.drawable.want_un);
         if (getIntent() != null) {
             mProductCode = getIntent().getStringExtra("productCode");
         }
@@ -89,7 +92,14 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         getProductDetail(mProductCode);
 
         initListener();
+    }
 
+    @Override
+    public void topTitleViewRightClick() {
+        if (!SPUtilHelpr.isLogin(this, false)) {
+            return;
+        }
+        isShowAndGetRequest("1", mProductCode);
     }
 
     private void initListener() {
@@ -201,6 +211,8 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
                 setShowData(mProductData);
                 mCommentsReshHelper.onDefaluteMRefresh(false);//请求评论数据
                 getCommentSum(mProductCode);
+                isShowAndGetRequest("3", mProductCode);//请求浏览数据
+                getShowSumRequest(mProductCode);//请求浏览数据
             }
 
             @Override
@@ -259,6 +271,92 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
             }
         });
 
+    }
+
+    /**
+     * 浏览收藏接口
+     *
+     * @param type 类型（1、收藏，2、点赞，3、浏览）
+     */
+    private void isShowAndGetRequest(final String type, String entityCode) {
+
+        if (!SPUtilHelpr.isLoginNoStart() || TextUtils.isEmpty(entityCode)) {
+            return;
+        }
+        Map<String, String> map = new HashMap<>();
+
+        map.put("type", type);
+        map.put("systemCode", MyCdConfig.SYSTEMCODE);
+        map.put("companyCode", MyCdConfig.COMPANYCODE);
+        map.put("category", "P");
+        map.put("entityCode", entityCode);
+        map.put("interacter", SPUtilHelpr.getUserId());
+
+        Call call = RetrofitUtils.getBaseAPiService().codeRequest("801030", StringUtils.getJsonToString(map));
+
+        call.enqueue(new BaseResponseModelCallBack<CodeModel>(this) {
+            @Override
+            protected void onSuccess(CodeModel data, String SucMessage) {
+                if (TextUtils.equals(type, "3")) {
+                    mBaseBinding.titleView.setRightImg(R.drawable.want_red);
+                }
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+            }
+
+            @Override
+            protected void onNoNet(String msg) {
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 获取浏览数量
+     *
+     * @param
+     */
+    private void getShowSumRequest(String entityCode) {
+
+        if (TextUtils.isEmpty(entityCode)) {
+            return;
+        }
+
+        Map<String, String> map = new HashMap<>();
+
+        map.put("type", "3");
+        map.put("systemCode", MyCdConfig.SYSTEMCODE);
+        map.put("companyCode", MyCdConfig.COMPANYCODE);
+        map.put("category", "P");
+        map.put("entityCode", entityCode);
+
+        Call call = RetrofitUtils.getBaseAPiService().intRequest("801037", StringUtils.getJsonToString(map));
+
+        call.enqueue(new BaseResponseModelCallBack<Integer>(this) {
+            @Override
+            protected void onSuccess(Integer data, String SucMessage) {
+                mBinding.tvShowSum.setText("浏览" + data);
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+            }
+
+            @Override
+            protected void onNoNet(String msg) {
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
     }
 
     /**
@@ -342,6 +440,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         mBinding.tvOtherInfo.setText("原价格￥" + MoneyUtils.showPrice(showData.getOriginalPrice()) + " 运费" + MoneyUtils.showPrice(showData.getYunfei()));
 
     }
+
 
     /**
      * 评论刷新

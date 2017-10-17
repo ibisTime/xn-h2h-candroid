@@ -92,8 +92,8 @@
 
                                 <TextView
                                     android:id="@+id/tv_follow_sum"
-                                    android:layout_width="wrap_content"
                                     style="@style/text_white"
+                                    android:layout_width="wrap_content"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:textSize="16sp"
@@ -220,9 +220,9 @@
                         android:ellipsize="end"
                         android:gravity="left"
                         android:maxLength="1"
+                        android:text="0"
                         android:textColor="@color/text_select_app"
-                        android:textSize="16sp"
-                        android:text="0" />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -504,7 +504,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/want_me" />
+                        android:src="@drawable/want_red" />
 
                     <TextView
                         android:layout_width="wrap_content"
