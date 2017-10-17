@@ -42,6 +42,7 @@
                         android:layout_marginTop="22dp"
                         android:hint="商品名称"
                         android:maxLength="30"
+                        android:maxLines="1"
                         android:textSize="18sp" />
 
                     <EditText
@@ -53,6 +54,7 @@
                         android:layout_marginTop="16dp"
                         android:gravity="top"
                         android:hint="在这里写下商品的广告语吧"
+                        android:inputType="textMultiLine"
                         android:textSize="15sp" />
 
                 </LinearLayout>
@@ -80,8 +82,8 @@
                         <CheckBox
                             android:id="@+id/checkbox_isnew"
                             style="@style/check_box"
-                            android:layout_height="20dp"
-                            android:layout_width="20dp" />
+                            android:layout_width="20dp"
+                            android:layout_height="20dp" />
 
                         <TextView
                             style="@style/text_black"

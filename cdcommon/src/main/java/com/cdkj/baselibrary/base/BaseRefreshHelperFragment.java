@@ -39,7 +39,7 @@ public abstract class BaseRefreshHelperFragment<T> extends BaseLazyFragment impl
         if (mRefreshHelper == null) {
             mRefreshHelper = new RefreshHelper(mActivity, this);
             mRefreshHelper.setErrorInfo(getErrorInfo());
-            mRefreshHelper.init(0, 10);
+            mRefreshHelper.init(1, 10);
         }
     }
 

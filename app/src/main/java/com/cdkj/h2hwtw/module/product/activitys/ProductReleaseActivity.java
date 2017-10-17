@@ -107,6 +107,12 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             }
         });
 
+
+        //改变默认的单行模式
+        mBinding.editDescription.setSingleLine(false);
+        //水平滚动设置为False
+        mBinding.editDescription.setHorizontallyScrolling(false);
+
         startLocation();//开始定位
 
     }
@@ -354,7 +360,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         map.put("name", mBinding.editName.getText().toString());
         map.put("updater", SPUtilHelpr.getUserId());
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
-        map.put("storeCode", MyCdConfig.SYSTEMCODE);
+        map.put("storeCode", SPUtilHelpr.getUserId());
 
         Call call = RetrofitUtils.getBaseAPiService().stringRequest("808007", StringUtils.getJsonToString(map));
 

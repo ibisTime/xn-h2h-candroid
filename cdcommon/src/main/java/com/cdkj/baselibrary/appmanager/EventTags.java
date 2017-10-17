@@ -26,4 +26,7 @@ public class EventTags {
     //发布成功
     public final static String RELEASESUSS = "9";
 
+    //评论刷新
+    public final static String RELEASESCOMMENTS= "10";
+
 }

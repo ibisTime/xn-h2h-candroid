@@ -63,6 +63,7 @@ public class ExpandableTextLayout extends LinearLayout implements View.OnClickLi
     protected ImageView mButton; // Button to expand/collapse
 
     private View mExpandCollapseLayout;
+    private TextView mExpandCollapseTV;
 
     private boolean mRelayout;
 
@@ -109,8 +110,8 @@ public class ExpandableTextLayout extends LinearLayout implements View.OnClickLi
     }
 
     @Override
-    public void setOrientation(int orientation){
-        if(LinearLayout.HORIZONTAL == orientation){
+    public void setOrientation(int orientation) {
+        if (LinearLayout.HORIZONTAL == orientation) {
             throw new IllegalArgumentException("ExpandableTextLayout only supports Vertical Orientation.");
         }
         super.setOrientation(orientation);
@@ -124,6 +125,7 @@ public class ExpandableTextLayout extends LinearLayout implements View.OnClickLi
 
         mCollapsed = !mCollapsed;
         mButton.setImageDrawable(mCollapsed ? mExpandDrawable : mCollapseDrawable);
+        mExpandCollapseTV.setText(mCollapsed ? "展开" : "收起");
 
         if (mCollapsedStatus != null) {
             mCollapsedStatus.put(mPosition, mCollapsed);
@@ -146,6 +148,7 @@ public class ExpandableTextLayout extends LinearLayout implements View.OnClickLi
             public void onAnimationStart(Animation animation) {
                 applyAlphaAnimation(mTv, mAnimAlphaStart);
             }
+
             @Override
             public void onAnimationEnd(Animation animation) {
                 // clear animation here to avoid repeated applyTransformation() calls
@@ -154,12 +157,16 @@ public class ExpandableTextLayout extends LinearLayout implements View.OnClickLi
                 mAnimating = false;
 
                 // notify the listener
+
+
                 if (mListener != null) {
                     mListener.onExpandStateChanged(mTv, !mCollapsed);
                 }
             }
+
             @Override
-            public void onAnimationRepeat(Animation animation) { }
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
 
         clearAnimation();
@@ -245,6 +252,7 @@ public class ExpandableTextLayout extends LinearLayout implements View.OnClickLi
         clearAnimation();
         mCollapsed = isCollapsed;
         mButton.setImageDrawable(mCollapsed ? mExpandDrawable : mCollapseDrawable);
+        mExpandCollapseTV.setText(mCollapsed ? "展开" : "收起");
         setText(text);
         getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         requestLayout();
@@ -287,6 +295,8 @@ public class ExpandableTextLayout extends LinearLayout implements View.OnClickLi
         mTv.setOnClickListener(this);
         mButton = (ImageView) findViewById(R.id.expand_collapse);
         mButton.setImageDrawable(mCollapsed ? mExpandDrawable : mCollapseDrawable);
+        mExpandCollapseTV = (TextView) findViewById(R.id.expand_collapse_tv);
+        mExpandCollapseTV.setText(mCollapsed ? "展开" : "收起");
         mExpandCollapseLayout = findViewById(R.id.expand_collapse_layout);
         mExpandCollapseLayout.setOnClickListener(this);
     }
@@ -342,7 +352,7 @@ public class ExpandableTextLayout extends LinearLayout implements View.OnClickLi
 
         @Override
         protected void applyTransformation(float interpolatedTime, Transformation t) {
-            final int newHeight = (int)((mEndHeight - mStartHeight) * interpolatedTime + mStartHeight);
+            final int newHeight = (int) ((mEndHeight - mStartHeight) * interpolatedTime + mStartHeight);
             mTv.setMaxHeight(newHeight - mMarginBetweenTxtAndBottom);
             if (Float.compare(mAnimAlphaStart, 1.0f) != 0) {
                 applyAlphaAnimation(mTv, mAnimAlphaStart + interpolatedTime * (1.0f - mAnimAlphaStart));
@@ -352,21 +362,23 @@ public class ExpandableTextLayout extends LinearLayout implements View.OnClickLi
         }
 
         @Override
-        public void initialize( int width, int height, int parentWidth, int parentHeight ) {
+        public void initialize(int width, int height, int parentWidth, int parentHeight) {
             super.initialize(width, height, parentWidth, parentHeight);
         }
 
         @Override
-        public boolean willChangeBounds( ) {
+        public boolean willChangeBounds() {
             return true;
         }
-    };
+    }
+
+    ;
 
     public interface OnExpandStateChangeListener {
         /**
          * Called when the expand/collapse animation has been finished
          *
-         * @param textView - TextView being expanded/collapsed
+         * @param textView   - TextView being expanded/collapsed
          * @param isExpanded - true if the TextView has been expanded
          */
         void onExpandStateChanged(TextView textView, boolean isExpanded);

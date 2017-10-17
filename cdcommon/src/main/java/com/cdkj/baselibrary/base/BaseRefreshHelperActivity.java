@@ -72,7 +72,7 @@ public abstract class BaseRefreshHelperActivity<T> extends AbsBaseLoadActivity i
     public void afterCreate(Bundle savedInstanceState) {
         mRefreshHelper = new RefreshHelper(this, this);
         mRefreshHelper.setErrorInfo(getErrorInfo());
-        mRefreshHelper.init(0, 10);
+        mRefreshHelper.init(1, 10);
         onInit(savedInstanceState);
     }
 

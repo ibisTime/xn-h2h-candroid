@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
+import com.cdkj.baselibrary.appmanager.MyCdConfig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,17 +54,18 @@ public class StringUtils {
             strings = Arrays.asList(s.split(sp));
         }
 
+
         return strings;
     }
 
 
     /**
-     * 切割获取广告图片
+     * 切割获取图片
      *
      * @param s
      * @return
      */
-    public static List<String> splitBannerList(String s) {
+    public static List<String> splitAsPicList(String s) {
         return splitAsList(s, "\\|\\|");
     }
 

@@ -1,5 +1,6 @@
 package com.cdkj.h2hwtw.adapters;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,13 +26,16 @@ import java.util.List;
 
 public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBean, BaseViewHolder> {
 
+
+
     public ProductListAdapter(@Nullable List<ProductListModel.ListBean> data) {
         super(R.layout.item_goods, data);
+
     }
 
 
     @Override
-    protected void convert(BaseViewHolder viewHolder, ProductListModel.ListBean item) {
+    protected void convert(BaseViewHolder viewHolder, final ProductListModel.ListBean item) {
         if (item == null) return;
 
         ImgUtils.loadImg(mContext, MyCdConfig.QINIUURL + item.getPic(), (ImageView) viewHolder.getView(R.id.img_goods));
@@ -43,12 +47,13 @@ public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBe
         viewHolder.setText(R.id.tv_goods_price, MoneyUtils.showPrice(item.getPrice()));
 
         viewHolder.setText(R.id.tv_goods_price_old, MoneyUtils.showPrice(item.getOriginalPrice()));
+        viewHolder.setText(R.id.tv_type_name, item.getTypeName());
         viewHolder.setText(R.id.tv_address, item.getProvince() + " " + item.getCity() + " " + item.getArea());
 
         viewHolder.setOnClickListener(R.id.lin_goods, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProductDetailActivity.open(mContext);
+                ProductDetailActivity.open(mContext, item.getCode());
             }
         });
 

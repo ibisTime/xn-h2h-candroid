@@ -186,6 +186,11 @@
             android:name=".module.product.activitys.ProductDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+      <!--发布评论-->
+        <activity
+            android:name=".module.product.activitys.ProductCommentsEditActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
 
     </application>

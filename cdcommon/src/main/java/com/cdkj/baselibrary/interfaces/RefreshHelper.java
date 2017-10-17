@@ -92,6 +92,8 @@ public class RefreshHelper<T> {
      * @param limit     分页个数
      */
     public void init(int pageIndex, int limit) {
+
+
         mRefreshLayout = mRefreshInterface.getRefreshLayout();
         mRecyclerView = mRefreshInterface.getRecyclerView();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
@@ -122,7 +124,9 @@ public class RefreshHelper<T> {
      */
     private void initRefreshLayout() {
 
-        mRefreshLayout.setEnableLoadmoreWhenContentNotFull(true);
+        mRefreshLayout.setEnableLoadmoreWhenContentNotFull(true);//不满一行启动上啦加载
+
+        mRefreshLayout.setEnableAutoLoadmore(false);//禁用惯性
 
         mRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override

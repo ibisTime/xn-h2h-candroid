@@ -83,7 +83,7 @@ public class ProductListModel {
         private String isNew;
         private BigDecimal originalPrice;
         private BigDecimal price;
-        private int yunfei;
+        private BigDecimal yunfei;
         private String isPublish;
         private String publishDatetime;
         private String location;
@@ -97,8 +97,26 @@ public class ProductListModel {
         private String systemCode;
         private String category;
         private String type;
+        private String categoryName;
+        private String typeName;
         private int discount;
         private List<ProductSpecsListBean> productSpecsList;
+
+        public String getCategoryName() {
+            return categoryName;
+        }
+
+        public void setCategoryName(String categoryName) {
+            this.categoryName = categoryName;
+        }
+
+        public String getTypeName() {
+            return typeName;
+        }
+
+        public void setTypeName(String typeName) {
+            this.typeName = typeName;
+        }
 
         public String getCode() {
             return code;
@@ -222,11 +240,11 @@ public class ProductListModel {
         }
 
 
-        public int getYunfei() {
+        public BigDecimal getYunfei() {
             return yunfei;
         }
 
-        public void setYunfei(int yunfei) {
+        public void setYunfei(BigDecimal yunfei) {
             this.yunfei = yunfei;
         }
 
@@ -376,7 +394,7 @@ public class ProductListModel {
             dest.writeString(this.isNew);
             dest.writeSerializable(this.originalPrice);
             dest.writeSerializable(this.price);
-            dest.writeInt(this.yunfei);
+            dest.writeSerializable(this.yunfei);
             dest.writeString(this.isPublish);
             dest.writeString(this.publishDatetime);
             dest.writeString(this.location);
@@ -390,6 +408,8 @@ public class ProductListModel {
             dest.writeString(this.systemCode);
             dest.writeString(this.category);
             dest.writeString(this.type);
+            dest.writeString(this.categoryName);
+            dest.writeString(this.typeName);
             dest.writeInt(this.discount);
             dest.writeTypedList(this.productSpecsList);
         }
@@ -410,7 +430,7 @@ public class ProductListModel {
             this.isNew = in.readString();
             this.originalPrice = (BigDecimal) in.readSerializable();
             this.price = (BigDecimal) in.readSerializable();
-            this.yunfei = in.readInt();
+            this.yunfei = (BigDecimal) in.readSerializable();
             this.isPublish = in.readString();
             this.publishDatetime = in.readString();
             this.location = in.readString();
@@ -424,6 +444,8 @@ public class ProductListModel {
             this.systemCode = in.readString();
             this.category = in.readString();
             this.type = in.readString();
+            this.categoryName = in.readString();
+            this.typeName = in.readString();
             this.discount = in.readInt();
             this.productSpecsList = in.createTypedArrayList(ProductSpecsListBean.CREATOR);
         }

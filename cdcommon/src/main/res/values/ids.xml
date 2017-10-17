@@ -4,4 +4,5 @@
     <item type="id" name="expandable_text"/>
     <item type="id" name="expand_collapse"/>
     <item type="id" name="expand_collapse_layout"/>
+    <item type="id" name="expand_collapse_tv"/>
 </resources>

@@ -120,12 +120,10 @@ public class ReleaseTypeSelectActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseListCallBack<ProductTypeModel>(ReleaseTypeSelectActivity.this) {
             @Override
             protected void onSuccess(List<ProductTypeModel> data, String SucMessage) {
-                List<ProductTypeModel> dadas = new ArrayList<ProductTypeModel>();
-                dadas.addAll(data);
                 if (isLeft) {
-                    mTypeMenuLeftAdapter.replaceData(dadas);
+                    mTypeMenuLeftAdapter.replaceData(data);
                 } else {
-                    mTypeMenuRightAdapter.replaceData(dadas);
+                    mTypeMenuRightAdapter.replaceData(data);
                 }
             }
 

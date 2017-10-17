@@ -2,11 +2,13 @@ package com.cdkj.h2hwtw.api;
 
 import com.cdkj.baselibrary.api.BaseResponseListModel;
 import com.cdkj.baselibrary.api.BaseResponseModel;
+import com.cdkj.baselibrary.api.ResponseInListModel;
 import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.model.IntroductionInfoModel;
 import com.cdkj.h2hwtw.model.AddressModel;
 import com.cdkj.h2hwtw.model.AmountModel;
 import com.cdkj.h2hwtw.model.BillListMode;
+import com.cdkj.h2hwtw.model.CommentsModel;
 import com.cdkj.h2hwtw.model.IntroductionInfoList;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
@@ -122,6 +124,7 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseListModel<ProductTypeModel>> getProductType(@Field("code") String code, @Field("json") String json);
+
     /**
      * 获取产品列表
      *
@@ -132,5 +135,27 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<ProductListModel>> getProductList(@Field("code") String code, @Field("json") String json);
+
+    /**
+     * 获取产品列表
+     *
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<ProductListModel.ListBean>> getProductDetails(@Field("code") String code, @Field("json") String json);
+
+    /**
+     * 获取评论列表
+     *
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<ResponseInListModel<CommentsModel>>> getCommentList(@Field("code") String code, @Field("json") String json);
 
 }

@@ -86,7 +86,7 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
 
     @Override
     public void onRefresh(int pageindex, int limit) {
-
+        getMenuTypeRequest();
     }
 
     @Override
@@ -183,9 +183,7 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
         call.enqueue(new BaseResponseListCallBack<ProductTypeModel>(mActivity) {
             @Override
             protected void onSuccess(List<ProductTypeModel> data, String SucMessage) {
-                List<ProductTypeModel> dadas = new ArrayList<ProductTypeModel>();
-                dadas.addAll(data);
-                mTypeMenuAdapter.replaceData(dadas);
+                mTypeMenuAdapter.replaceData(data);
             }
 
             @Override

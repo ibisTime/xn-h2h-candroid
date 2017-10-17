@@ -7,6 +7,9 @@
     <color name="text_select_app">#48b0fb</color>
     <color name="btn_click_app">#358ecf</color>
     <color name="btn_click_un_app">#48b0fb</color>
+
+    <color name="btn_click_app_red">#d84502</color>
+    <color name="btn_click_un_app_red">#ff5000</color>
     <color name="text_black_app">#484848</color>
     <color name="black_app">#000000</color>
     <color name="text_gray_app">#999999</color>

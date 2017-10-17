@@ -17,7 +17,9 @@ import android.support.annotation.NonNull;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.jakewharton.rxbinding2.view.RxView;
@@ -55,7 +57,7 @@ public class AppUtils {
             return false;
         }
 
-        if(activity.isFinishing()){
+        if (activity.isFinishing()) {
             return false;
         }
 
@@ -79,6 +81,7 @@ public class AppUtils {
             return false;
         }
     }
+
     /**
      * 根据包名跳转到系统自带的应用程序信息界面
      *
@@ -89,7 +92,7 @@ public class AppUtils {
             Uri packageURI = Uri.parse("package:" + getPackgeName(activity));
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
             activity.startActivity(intent);
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
@@ -170,7 +173,7 @@ public class AppUtils {
 
     public static void startWeb(Context context, String url) {
 
-        LogUtil.E("downloadUrl___"+url);
+        LogUtil.E("downloadUrl___" + url);
 
         if (context == null || TextUtils.isEmpty(url)) {
             return;
@@ -187,11 +190,11 @@ public class AppUtils {
 
             if (intent.resolveActivity(context.getPackageManager()) != null) {
                 context.startActivity(Intent.createChooser(intent, "请选择浏览器"));
-            }else{
-                ToastUtil.show(context,"没有可用浏览器");
+            } else {
+                ToastUtil.show(context, "没有可用浏览器");
             }
         } catch (Exception e) {
-            ToastUtil.show(context,"打开浏览器出现错误");
+            ToastUtil.show(context, "打开浏览器出现错误");
             LogUtil.E("startWeb error");
         }
     }
@@ -280,6 +283,36 @@ public class AppUtils {
         return list;
     }
 
+
+    /**
+     * 获取屏幕宽度
+     *
+     * @param context
+     * @return
+     */
+    public static int getScreenWidth(Context context) {
+        try {
+            DisplayMetrics dm = context.getResources().getDisplayMetrics();
+            return dm.widthPixels;
+        } catch (Exception e) {
+            return getScreenWidth2(context);
+        }
+
+    }
+
+    public static int getScreenWidth2(Context context) {
+
+        try {
+            DisplayMetrics dm = context.getResources().getDisplayMetrics();
+
+            return dm.widthPixels;
+        } catch (Exception e) {
+
+        }
+
+        return 0;
+
+    }
 
 
 }

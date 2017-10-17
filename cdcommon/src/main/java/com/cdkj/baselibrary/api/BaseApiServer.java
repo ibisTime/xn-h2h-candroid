@@ -83,6 +83,15 @@ public interface BaseApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<String>> stringRequest(@Field("code") String code, @Field("json") String  json);
+    /**
+     * Test
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<Integer>> intRequest(@Field("code") String code, @Field("json") String  json);
 
 
     /**

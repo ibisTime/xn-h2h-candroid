@@ -62,7 +62,7 @@ public class ViewLoadLayout extends FrameLayout {
         showEmptyFra(false);
         setShowText(null);
         setShowImage(0);
-        setShoowLoadingView(false);
+        setShowLoadingView(false);
     }
 
     private void showEmptyFra(boolean isShow) {
@@ -81,6 +81,7 @@ public class ViewLoadLayout extends FrameLayout {
     }
 
     public void setShowText(String text) {
+        showContent(text == null);
         showEmptyFra(text != null);
         mEmptyTextView.setText(text);
         mEmptyTextView.setVisibility(text != null ? VISIBLE : GONE);
@@ -94,7 +95,12 @@ public class ViewLoadLayout extends FrameLayout {
         }
     }
 
-    public void setShoowLoadingView(boolean isSHow) {
+    public void setShowLoadingView(boolean isSHow) {
+        showContent(!isSHow);
+        if (!isSHow) {
+            setShowText(null);
+            setShowImage(0);
+        }
         showEmptyFra(isSHow);
         mEmptyLoadingView.setVisibility(isSHow ? VISIBLE : GONE);
     }
