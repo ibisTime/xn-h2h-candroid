@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:expandableTextLayout="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/background_gray_app">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tv_product_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:padding="@dimen/layout_left_right_interval"
+                    android:textColor="@color/black_app"
+                    android:textSize="18sp"
+                    tools:text="3232323232" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_red"
+                        android:layout_marginLeft="@dimen/layout_left_right_interval"
+                        android:text="@string/money_sing"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        style="@style/text_red"
+                        android:textSize="18sp"
+                        tools:text="100000" />
+
+                    <TextView
+                        style="@style/text_gray"
+                        android:layout_marginLeft="@dimen/layout_left_right_interval"
+                        android:textSize="14sp"
+                        tools:text="原价格￥100000  运费100" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/layout_left_right_interval"
+                        android:background="@drawable/search_bg_gray"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="@dimen/layout_left_right_interval"
+                        android:paddingRight="@dimen/layout_left_right_interval"
+                        android:paddingTop="5dp">
+
+                        <ImageView
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:src="@drawable/location_gray" />
+
+                        <TextView
+                            android:id="@+id/tv_location"
+                            style="@style/text_gray"
+                            android:layout_marginLeft="5dp"
+                            android:textSize="12sp"
+                            tools:text="未知位置" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/expandabletext"
+                    layout="@layout/layout_expandabletext" />
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/white">
+
+                </android.support.v7.widget.RecyclerView>
+
+
+                <include
+                    android:id="@+id/user_layout"
+                    layout="@layout/layout_user_logo_info" />
+
+
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+</layout>

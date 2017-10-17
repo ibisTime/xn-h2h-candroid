@@ -138,7 +138,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
                     @Override
                     public void sureInputDone(PriceKeyBoardListenerModel model) {
                         mPriceModel = model;
-                        mBinding.tvType.setText(model.getPrice());
+                        mBinding.tvPrice.setText(model.getPrice());
                     }
                 }).showPopupWindow();
             }
@@ -166,7 +166,35 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         mBinding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                releaseRequest();
+
+                if (pathList == null || pathList.isEmpty()) {
+                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_add_photo));
+                    return;
+                }
+
+                if (TextUtils.isEmpty(mBinding.editName.getText().toString())) {
+                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_name));
+                    return;
+                }
+                if (TextUtils.isEmpty(mBinding.editDescription.getText().toString())) {
+                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_info));
+                    return;
+                }
+                if (TextUtils.isEmpty(mType)) {
+                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_select_type));
+                    return;
+                }
+
+                if (mPriceModel == null || TextUtils.isEmpty(mPriceModel.getPrice())) {
+                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_set_price));
+                    return;
+                }
+
+                if (!SPUtilHelpr.isLogin(ProductReleaseActivity.this, false)) {
+                    return;
+                }
+                upLoadImg();
+
             }
         });
 
@@ -198,7 +226,6 @@ public class ProductReleaseActivity extends BaseLocationActivity {
                 pathList = Album.parseResult(data);
                 if (pathList == null) return;
                 setPhotoAdapterAndChangeLayout();
-                upLoadImg();
 
             } else if (resultCode == RESULT_CANCELED) { // 用户取消选择。
 
@@ -246,21 +273,24 @@ public class ProductReleaseActivity extends BaseLocationActivity {
                     @Override
                     public void onSuccess(String key, ResponseInfo info, JSONObject res) {
                         LogUtil.E("url" + key);
-                        if (mPahtRquestList != null) {
-                            mPahtRquestList.add(key);
+                        mPahtRquestList.add(key);
+                        if (mPahtRquestList.size() == pathList.size() && pathList.size() > 0) {
+                            releaseRequest();
+                        } else {
+                            UITipDialog.showFall(ProductReleaseActivity.this, "发布失败，无法上传图片");
                         }
                     }
 
                     @Override
                     public void onFal(String info) {
-
+                        UITipDialog.showFall(ProductReleaseActivity.this, info);
                     }
                 });
             }
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
-
+                UITipDialog.showFall(ProductReleaseActivity.this, errorMessage);
             }
 
             @Override
@@ -291,33 +321,6 @@ public class ProductReleaseActivity extends BaseLocationActivity {
      */
     public void releaseRequest() {
 
-        if (mPahtRquestList == null || mPahtRquestList.isEmpty()) {
-            UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_add_photo));
-            return;
-        }
-
-        if (TextUtils.isEmpty(mBinding.editName.getText().toString())) {
-            UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_name));
-            return;
-        }
-        if (TextUtils.isEmpty(mBinding.editDescription.getText().toString())) {
-            UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_info));
-            return;
-        }
-        if (TextUtils.isEmpty(mType)) {
-            UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_select_type));
-            return;
-        }
-
-        if (mPriceModel == null || TextUtils.isEmpty(mPriceModel.getPrice())) {
-            UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_set_price));
-            return;
-        }
-
-
-        if (mPriceModel == null) {
-            return;
-        }
 
         Map<String, String> map = new HashMap<>();
 

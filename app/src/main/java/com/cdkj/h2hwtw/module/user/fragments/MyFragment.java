@@ -264,6 +264,7 @@ public class MyFragment extends BaseLazyFragment {
 
         mBinding.tvFansNum.setText(showData.getTotalFansNum() + "");
         mBinding.tvFollowSum.setText(showData.getTotalFollowNum() + "");
+        mBinding.tvUserName.setText(showData.getNickname() + "");
 
     }
 }

@@ -100,7 +100,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
                     model.setSendPrice("0");
                 }
 
-                if(mSureListener!=null){
+                if (mSureListener != null) {
                     mSureListener.sureInputDone(model);
                 }
 
@@ -160,11 +160,13 @@ public class PriceKeyboardPop extends BasePopupWindow {
                 if (TextUtils.equals(view.getTag().toString(), "0") && TextUtils.isEmpty(mPriceEditInputString.toString())) { //禁止第一个输入是0
                     return;
                 }
+                mPriceEditInputString.append(view.getTag().toString());
                 if (StringUtils.parseInt(mPriceEditInputString.toString()) > 999999) {
                     UITipDialog.showInfo(mContext, "价格不能超过999999哦");
+                    mPriceEditInputString.deleteCharAt(mPriceEditInputString.toString().length() - 1);
                     return;
                 }
-                mPriceEditInputString.append(view.getTag().toString());
+
                 popBinding.editPrice.setText(mPriceEditInputString.toString());
                 popBinding.editPrice.setSelection(mPriceEditInputString.toString().length());
                 break;
@@ -172,11 +174,13 @@ public class PriceKeyboardPop extends BasePopupWindow {
                 if (TextUtils.equals(view.getTag().toString(), "0") && TextUtils.isEmpty(mPriceOldEditInputString.toString())) { //禁止第一个输入是0
                     return;
                 }
+                mPriceOldEditInputString.append(view.getTag().toString());
+
                 if (StringUtils.parseInt(mPriceOldEditInputString.toString()) > 999999) {
                     UITipDialog.showInfo(mContext, "原价不能超过999999哦");
-                    return;
+                    mPriceOldEditInputString.deleteCharAt(mPriceOldEditInputString.toString().length() - 1);
                 }
-                mPriceOldEditInputString.append(view.getTag().toString());
+
                 popBinding.editPriceOld.setText(mPriceOldEditInputString.toString());
                 popBinding.editPriceOld.setSelection(mPriceOldEditInputString.toString().length());
                 break;
@@ -184,11 +188,11 @@ public class PriceKeyboardPop extends BasePopupWindow {
                 if (TextUtils.equals(view.getTag().toString(), "0") && TextUtils.isEmpty(mPriceSendEditInputString.toString())) { //禁止第一个输入是0
                     return;
                 }
+                mPriceSendEditInputString.append(view.getTag().toString());
                 if (StringUtils.parseInt(mPriceSendEditInputString.toString()) > 999) {
                     UITipDialog.showInfo(mContext, "运费价不能超过999哦");
-                    return;
+                    mPriceSendEditInputString.deleteCharAt(mPriceSendEditInputString.toString().length() - 1);
                 }
-                mPriceSendEditInputString.append(view.getTag().toString());
                 popBinding.editSendPrice.setText(mPriceSendEditInputString.toString());
                 popBinding.editSendPrice.setSelection(mPriceSendEditInputString.toString().length());
                 break;

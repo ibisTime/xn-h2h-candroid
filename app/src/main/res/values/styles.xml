@@ -86,4 +86,10 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="text_red">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_money_red</item>
+    </style>
+
 </resources>

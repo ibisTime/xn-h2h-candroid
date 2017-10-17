@@ -148,6 +148,11 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
             }
 
             @Override
+            protected void onNoNet(String msg) {
+                mRefreshHelper.loadError(msg);
+            }
+
+            @Override
             protected void onFinish() {
                 if (isShowDialog) disMissLoading();
 
@@ -178,7 +183,9 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
         call.enqueue(new BaseResponseListCallBack<ProductTypeModel>(mActivity) {
             @Override
             protected void onSuccess(List<ProductTypeModel> data, String SucMessage) {
-                mTypeMenuAdapter.replaceData(data);
+                List<ProductTypeModel> dadas = new ArrayList<ProductTypeModel>();
+                dadas.addAll(data);
+                mTypeMenuAdapter.replaceData(dadas);
             }
 
             @Override

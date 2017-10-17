@@ -18,6 +18,7 @@
     <color name="account_page_app">#48b0fb</color>
     <color name="type_page_app">#48b0fb</color>
     <color name="type_page_red_app">#ff5000</color>
+    <color name="text_money_red">#ff5000</color>
     <color name="get_money_txt_blue">#48b0fb</color>
     <color name="pop_black_bg">#88000000</color>
     <color name="balck_app">#000000</color>
