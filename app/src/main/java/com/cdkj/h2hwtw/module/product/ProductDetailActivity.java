@@ -1,10 +1,11 @@
-package com.cdkj.h2hwtw.module.product.activitys;
+package com.cdkj.h2hwtw.module.product;
 
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,13 +16,16 @@ import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
+import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.interfaces.BaseRefreshmethods;
 import com.cdkj.baselibrary.interfaces.RefreshHelper;
 import com.cdkj.baselibrary.model.CodeModel;
+import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
+import com.cdkj.baselibrary.views.MyDividerItemDecoration;
 import com.cdkj.baselibrary.views.ScrollGridLayoutManager;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.adapters.ProductCommentsListAdapter;
@@ -30,6 +34,7 @@ import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.ActivityProductDetailBinding;
 import com.cdkj.h2hwtw.model.CommentsModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
+import com.cdkj.h2hwtw.module.order.ProductBuyActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -47,7 +52,7 @@ import retrofit2.Call;
  * 产品详情
  * Created by cdkj on 2017/10/17.
  */
-
+//TODO 详情界面适配
 public class ProductDetailActivity extends AbsBaseLoadActivity {
 
     private ActivityProductDetailBinding mBinding;
@@ -80,7 +85,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
     public void afterCreate(Bundle savedInstanceState) {
         mBaseBinding.contentView.hindAll();
         mBaseBinding.titleView.setMidTitle("产品详情");
-        mBaseBinding.titleView.setRightImg(R.drawable.want_un);
+
         if (getIntent() != null) {
             mProductCode = getIntent().getStringExtra("productCode");
         }
@@ -88,10 +93,23 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         initComments();
 
         initImgAdapter();
-
-        getProductDetail(mProductCode);
-
+        
         initListener();
+
+        getAllData();
+    }
+
+    /**
+     * 获取所有数据
+     */
+    private void getAllData() {
+        getProductDetail(mProductCode);
+        getCommentSum(mProductCode);
+        isShowAndGetRequest("3", mProductCode);//请求浏览数据
+        getShowSumRequest(mProductCode);//请求浏览总数
+        if (mCommentsReshHelper != null) {
+            mCommentsReshHelper.onDefaluteMRefresh(false);//请求评论数据
+        }
     }
 
     @Override
@@ -99,7 +117,17 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         if (!SPUtilHelpr.isLogin(this, false)) {
             return;
         }
-        isShowAndGetRequest("1", mProductCode);
+
+        if (mProductData == null) return;
+
+
+        if (TextUtils.equals("1", mProductData.getIsCollect())) {
+            cancelGetRequest("1", mProductCode);
+        } else {
+            isShowAndGetRequest("1", mProductCode);//收藏
+        }
+
+
     }
 
     private void initListener() {
@@ -129,6 +157,15 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
             }
         });
 
+        mBinding.butLayout.btnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!SPUtilHelpr.isLogin(ProductDetailActivity.this, false)) {
+                    return;
+                }
+                ProductBuyActivity.open(ProductDetailActivity.this, mProductData);
+            }
+        });
     }
 
     /**
@@ -145,6 +182,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 
             @Override
             public RecyclerView getRecyclerView() {
+
                 return mBinding.commentsLayout.recyclerComments;
             }
 
@@ -161,6 +199,14 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         });
 
         mCommentsReshHelper.init(1, 10);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mBinding.commentsLayout.recyclerComments.setLayoutManager(linearLayoutManager);
+        mBinding.commentsLayout.recyclerComments.addItemDecoration(new MyDividerItemDecoration(this, MyDividerItemDecoration.VERTICAL_LIST));
 
     }
 
@@ -209,10 +255,6 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
             protected void onSuccess(ProductListModel.ListBean data, String SucMessage) {
                 mProductData = data;
                 setShowData(mProductData);
-                mCommentsReshHelper.onDefaluteMRefresh(false);//请求评论数据
-                getCommentSum(mProductCode);
-                isShowAndGetRequest("3", mProductCode);//请求浏览数据
-                getShowSumRequest(mProductCode);//请求浏览数据
             }
 
             @Override
@@ -297,7 +339,8 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<CodeModel>(this) {
             @Override
             protected void onSuccess(CodeModel data, String SucMessage) {
-                if (TextUtils.equals(type, "3")) {
+                if (TextUtils.equals(type, "1") && !TextUtils.isEmpty(data.getCode())) {
+                    mProductData.setIsCollect("1");
                     mBaseBinding.titleView.setRightImg(R.drawable.want_red);
                 }
             }
@@ -308,6 +351,48 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 
             @Override
             protected void onNoNet(String msg) {
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 取消收藏
+     *
+     * @param type 类型（1、收藏，2、点赞，3、浏览）
+     */
+    private void cancelGetRequest(final String type, String entityCode) {
+
+        if (!SPUtilHelpr.isLoginNoStart() || TextUtils.isEmpty(entityCode)) {
+            return;
+        }
+        Map<String, String> map = new HashMap<>();
+
+        map.put("type", type);
+        map.put("systemCode", MyCdConfig.SYSTEMCODE);
+        map.put("companyCode", MyCdConfig.COMPANYCODE);
+        map.put("category", "P");
+        map.put("entityCode", entityCode);
+        map.put("interacter", SPUtilHelpr.getUserId());
+
+        Call call = RetrofitUtils.getBaseAPiService().successRequest("801031", StringUtils.getJsonToString(map));
+
+        call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
+            @Override
+            protected void onSuccess(IsSuccessModes data, String SucMessage) {
+                if (data.isSuccess()) {
+                    mProductData.setIsCollect("0");
+                    mBaseBinding.titleView.setRightImg(R.drawable.want_un);
+                }
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(ProductDetailActivity.this, errorMessage);
             }
 
             @Override
@@ -378,9 +463,12 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         map.put("orderDir", "desc");
         map.put("orderColumn", "comment_datetime");
         map.put("entityCode", mProductCode);
-        map.put("token", SPUtilHelpr.getUserToken());
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
         map.put("companyCode", MyCdConfig.COMPANYCODE);
+
+        if (SPUtilHelpr.isLoginNoStart()) {
+            map.put("token", SPUtilHelpr.getUserToken());
+        }
 
         Call<BaseResponseModel<ResponseInListModel<CommentsModel>>> call = RetrofitUtils.createApi(MyApiServer.class).getCommentList("801025", StringUtils.getJsonToString(map));
 
@@ -393,10 +481,11 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
                 if (mpadCommentsListAdapter.getData().isEmpty()) {
                     mBinding.commentsLayout.linCommentsEmpty.setVisibility(View.VISIBLE);
                     mBinding.commentsLayout.recyclerComments.setVisibility(View.GONE);
+                    mBinding.commentsLayout.linWantComments.setVisibility(View.GONE);
                     mBinding.refreshLayout.setEnableLoadmore(false);
                 } else {
                     mBinding.commentsLayout.recyclerComments.setVisibility(View.VISIBLE);
-                    mBinding.commentsLayout.btnWantComments.setVisibility(View.VISIBLE);
+                    mBinding.commentsLayout.linWantComments.setVisibility(View.VISIBLE);
                     mBinding.commentsLayout.linCommentsEmpty.setVisibility(View.GONE);
                     mBinding.refreshLayout.setEnableLoadmore(true);
                 }
@@ -431,9 +520,16 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 //        dd.add("68b53042-304a-4166-af67-821aa2be04cc.JPG");
         mImgAdapter.replaceData(dd);
 
+
+        if (TextUtils.equals("1", showData.getIsCollect())) {
+            mBaseBinding.titleView.setRightImg(R.drawable.want_red);
+        } else {
+            mBaseBinding.titleView.setRightImg(R.drawable.want_un);
+        }
+
         mBinding.tvProductName.setText(showData.getName());
         mBinding.tvPriceTop.setText(MoneyUtils.showPrice(showData.getPrice()));
-        mBinding.butLayout.tvPriceButtom.setText(MoneyUtils.showPrice(showData.getPrice()));
+        mBinding.butLayout.tvPriceButtom.setText(MoneyUtils.getShowPriceSign(showData.getPrice()));
         mBinding.tvLocation.setText(showData.getCity() + "|" + showData.getArea());
         mBinding.expandabletext.expandTextView.setText(showData.getDescription());
 //        原价格￥100000  运费100
@@ -447,12 +543,17 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
      */
     @Subscribe
     public void EventRefresh(String tag) {
-        if (TextUtils.equals(EventTags.RELEASESCOMMENTS, tag)) {
+        if (TextUtils.equals(EventTags.RELEASESCOMMENTS, tag)) {//发表留言成功
             if (mCommentsReshHelper != null) {
                 mCommentsReshHelper.onDefaluteMRefresh(false);
                 getCommentSum(mProductCode);
             }
 
+            return;
+        }
+
+        if (TextUtils.equals(EventTags.LOGINREFRESH, tag)) {//登录成功刷新
+            getAllData();
         }
     }
 

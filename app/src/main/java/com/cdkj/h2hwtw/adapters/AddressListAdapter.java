@@ -1,18 +1,14 @@
 package com.cdkj.h2hwtw.adapters;
 
 import android.support.annotation.Nullable;
-import android.view.View;
+import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.model.AddressModel;
-import com.cdkj.h2hwtw.model.ReleasePagePhotoModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.util.MultiTypeDelegate;
 
 import java.util.List;
 
@@ -34,13 +30,16 @@ public class AddressListAdapter extends BaseQuickAdapter<AddressModel, BaseViewH
         TextView txtName = viewHolder.getView(R.id.txt_name);
         TextView txtPhone = viewHolder.getView(R.id.txt_phone);
         TextView txtAddress = viewHolder.getView(R.id.txt_address);
+        TextView tvChoose = viewHolder.getView(R.id.tv_is_choose);
         ImageView imgChoose = viewHolder.getView(R.id.img_choose);
 
 
         if (item.isDefaultAddress()) {
             imgChoose.setBackgroundResource(R.drawable.check_on);
+            tvChoose.setTextColor(ContextCompat.getColor(mContext,R.color.btn_click_un_app));
         } else {
-            imgChoose.setBackgroundResource(R.drawable.check_off);
+            imgChoose.setBackgroundResource(R.drawable.pay_no);
+            tvChoose.setTextColor(ContextCompat.getColor(mContext,R.color.text_black_app));
         }
 
         txtName.setText(item.getAddressee());

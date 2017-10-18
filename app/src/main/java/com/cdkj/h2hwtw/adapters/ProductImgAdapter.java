@@ -43,16 +43,16 @@ public class ProductImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
         if (isHalfWidth(viewHolder.getLayoutPosition())) {
             img2.setVisibility(View.VISIBLE);
             img.setVisibility(View.GONE);
-            ViewGroup.LayoutParams params = img2.getLayoutParams();
             int width = AppUtils.getScreenWidth(context);
             if (width > 0) {
+                ViewGroup.LayoutParams params = img2.getLayoutParams();
                 params.height = Math.abs(width / 2 - DisplayHelper.dp2px(context, 30));
                 img2.setLayoutParams(params);
             }
-            ImgUtils.loadImgNoPlaceholder(context, MyCdConfig.QINIUURL + item, img2);
+            ImgUtils.loadImg(context, MyCdConfig.QINIUURL + item, img2);
 
         } else {
-            ImgUtils.loadImgNoPlaceholder(context, MyCdConfig.QINIUURL + item, img);
+            ImgUtils.loadImg(context, MyCdConfig.QINIUURL + item, img);
             img.setVisibility(View.VISIBLE);
             img2.setVisibility(View.GONE);
         }

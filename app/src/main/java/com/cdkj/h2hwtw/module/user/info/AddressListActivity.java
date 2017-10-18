@@ -24,6 +24,7 @@ import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.model.AddressModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
@@ -39,21 +40,25 @@ import retrofit2.Call;
 
 public class AddressListActivity extends BaseRefreshHelperActivity<AddressModel> {
 
-    public static void open(Context context) {
+    private boolean isSelect;
+
+    public static void open(Context context, boolean isSelect) {
         if (context == null) {
             return;
         }
         Intent intent = new Intent(context, AddressListActivity.class);
+        intent.putExtra("isSelect", isSelect);
         context.startActivity(intent);
     }
 
     @Override
     public void topTitleViewRightClick() {
-        if (mRefreshHelper.getmAdapter() != null && mRefreshHelper.getmAdapter().getData().size() == 0) {     //还没有添加地址时设置为默认地址
-            AddAddressActivity.open(this, null);
-        } else {
-            AddAddressActivity.open(this, null);
-        }
+        AddAddressActivity.open(this, null);
+//        if (mRefreshHelper.getmAdapter() != null && mRefreshHelper.getmAdapter().getData().size() == 0) {     //还没有添加地址时设置为默认地址
+//            AddAddressActivity.open(this, null);
+//        } else {
+//
+//        }
     }
 
 
@@ -203,7 +208,6 @@ public class AddressListActivity extends BaseRefreshHelperActivity<AddressModel>
 
         call.enqueue(new BaseResponseListCallBack<AddressModel>(this) {
 
-
             @Override
             protected void onSuccess(List<AddressModel> data, String SucMessage) {
                 mRefreshHelper.setData(data);
@@ -223,8 +227,18 @@ public class AddressListActivity extends BaseRefreshHelperActivity<AddressModel>
 
     @Override
     protected void onInit(Bundle savedInstanceState) {
-        mBaseBinding.titleView.setMidTitle(getString(R.string.address_manager));
+
         mBaseBinding.titleView.setRightTitle("添加");
+
+        if (getIntent() != null) {
+            isSelect = getIntent().getBooleanExtra("isSelect", false);
+        }
+
+        if (isSelect) {
+            mBaseBinding.titleView.setMidTitle("地址选择");
+        } else {
+            mBaseBinding.titleView.setMidTitle(getString(R.string.address_manager));
+        }
 
         if (mRefreshHelper.getmAdapter() != null) {
             mRefreshHelper.getmAdapter().setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -253,8 +267,7 @@ public class AddressListActivity extends BaseRefreshHelperActivity<AddressModel>
         //禁用刷新加载
         mRefreshHelper.getmRefreshLayout().setEnableRefresh(false);
         mRefreshHelper.getmRefreshLayout().setEnableLoadmore(false);
-
-        mRefreshHelper.getmRecyclerView().addItemDecoration(new MyDividerItemDecoration(this, MyDividerItemDecoration.VERTICAL_LIST));
+//        mRefreshHelper.getmRecyclerView().addItemDecoration(new MyDividerItemDecoration(this, MyDividerItemDecoration.VERTICAL_LIST));
         mRefreshHelper.onDefaluteMRefresh(true);
     }
 

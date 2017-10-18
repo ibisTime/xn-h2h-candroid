@@ -1,4 +1,4 @@
-package com.cdkj.h2hwtw.module.product.activitys;
+package com.cdkj.h2hwtw.module.product;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,9 +16,7 @@ import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
-import com.cdkj.baselibrary.utils.ToastUtil;
 import com.cdkj.h2hwtw.R;
-import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.ActivityCommentsEditBinding;
 
 import org.greenrobot.eventbus.EventBus;

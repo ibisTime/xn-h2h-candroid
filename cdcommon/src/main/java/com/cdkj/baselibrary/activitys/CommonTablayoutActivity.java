@@ -19,15 +19,15 @@ import java.util.List;
 
 public abstract class CommonTablayoutActivity extends AbsBaseLoadActivity {
 
-    protected ActivityTabBinding mbinding;
+    protected ActivityTabBinding mTabLayoutBinding;
 
     /*Tablayout 适配器*/
     protected TablayoutAdapter tablayoutAdapter;
 
     @Override
     public View addMainView() {
-        mbinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_tab, null, false);
-        return mbinding.getRoot();
+        mTabLayoutBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_tab, null, false);
+        return mTabLayoutBinding.getRoot();
     }
 
     @Override
@@ -47,10 +47,10 @@ public abstract class CommonTablayoutActivity extends AbsBaseLoadActivity {
                 tablayoutAdapter.addFrag(mFragments.get(i), mTitles.get(i));
             }
         }
-        mbinding.viewpager.setAdapter(tablayoutAdapter);
-        mbinding.tablayout.setupWithViewPager(mbinding.viewpager);        //viewpager和tablayout关联
-        mbinding.viewpager.setOffscreenPageLimit(tablayoutAdapter.getCount());
-//        mbinding.tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置滑动模式 /TabLayout.MODE_SCROLLABLE 可滑动 ，TabLayout.MODE_FIXED表示不可滑动
+        mTabLayoutBinding.viewpager.setAdapter(tablayoutAdapter);
+        mTabLayoutBinding.tablayout.setupWithViewPager(mTabLayoutBinding.viewpager);        //viewpager和tablayout关联
+        mTabLayoutBinding.viewpager.setOffscreenPageLimit(tablayoutAdapter.getCount());
+//        mTabLayoutBinding.tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置滑动模式 /TabLayout.MODE_SCROLLABLE 可滑动 ，TabLayout.MODE_FIXED表示不可滑动
     }
 
     //获取要显示的fragment

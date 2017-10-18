@@ -2,11 +2,12 @@
 <resources>
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorAccent">#48b0fb</color>
 
     <color name="text_select_app">#48b0fb</color>
     <color name="btn_click_app">#358ecf</color>
     <color name="btn_click_un_app">#48b0fb</color>
+    <color name="dashgap_line_color_blue_app">#48b0fb</color>
 
     <color name="btn_click_app_red">#d84502</color>
     <color name="btn_click_un_app_red">#ff5000</color>

@@ -3,6 +3,7 @@ package com.cdkj.baselibrary.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +20,8 @@ public class ImgUtils {
 
 
     public static void loadImg(Object obj, Object imgid, ImageView img) {
+
+        LogUtil.E("图片"+imgid);
 
         if (imgid instanceof Integer || imgid instanceof String) {
 

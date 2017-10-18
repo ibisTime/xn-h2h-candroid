@@ -82,10 +82,10 @@
                         <TextView
                             android:id="@+id/tv_show_sum"
                             style="@style/text_gray"
-                            android:layout_marginLeft="@dimen/layout_left_right_interval"
-                            android:layout_marginRight="15dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="10dp"
                             android:textSize="12sp"
-                            tools:text="浏览30" />
+                            tools:text="浏览3030" />
 
                     </LinearLayout>
 

@@ -1,19 +1,17 @@
 package com.cdkj.h2hwtw.adapters;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.MoneyUtils;
+import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.model.ProductListModel;
-import com.cdkj.h2hwtw.model.ProductTypeModel;
-import com.cdkj.h2hwtw.module.product.activitys.ProductDetailActivity;
+import com.cdkj.h2hwtw.module.product.ProductDetailActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -27,7 +25,6 @@ import java.util.List;
 public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBean, BaseViewHolder> {
 
 
-
     public ProductListAdapter(@Nullable List<ProductListModel.ListBean> data) {
         super(R.layout.item_goods, data);
 
@@ -38,7 +35,8 @@ public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBe
     protected void convert(BaseViewHolder viewHolder, final ProductListModel.ListBean item) {
         if (item == null) return;
 
-        ImgUtils.loadImg(mContext, MyCdConfig.QINIUURL + item.getPic(), (ImageView) viewHolder.getView(R.id.img_goods));
+
+        ImgUtils.loadImg(mContext, MyCdConfig.QINIUURL + StringUtils.getAsPicListIndexOne(item.getPic()), (ImageView) viewHolder.getView(R.id.img_goods));
 
         viewHolder.setText(R.id.tv_goods_name, item.getName());
 

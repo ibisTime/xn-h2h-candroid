@@ -21,12 +21,17 @@ public class EventTags {
 
     //昵称编辑
     public final static String USERNAMEEDITREFRESH = "8";
-
+    //添加地址成功
     public final static String ADDRESSUPDATE = "7";
     //发布成功
     public final static String RELEASESUSS = "9";
 
     //评论刷新
-    public final static String RELEASESCOMMENTS= "10";
+    public final static String RELEASESCOMMENTS = "10";
+    //buy-line 用于购买成功时结束当前页面
+    public final static String BUYLINE = "11";
+
+
+
 
 }

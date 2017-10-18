@@ -99,7 +99,29 @@ public class ProductListModel {
         private String type;
         private String categoryName;
         private String typeName;
-        private int discount;
+        private String isCollect;
+        private BigDecimal discount;
+        public BigDecimal getDiscount() {
+            return discount;
+        }
+
+        public void setDiscount(BigDecimal discount) {
+            this.discount = discount;
+        }
+
+
+
+
+
+        public String getIsCollect() {
+            return isCollect;
+        }
+
+        public void setIsCollect(String isCollect) {
+            this.isCollect = isCollect;
+        }
+
+
         private List<ProductSpecsListBean> productSpecsList;
 
         public String getCategoryName() {
@@ -352,14 +374,6 @@ public class ProductListModel {
             this.type = type;
         }
 
-        public int getDiscount() {
-            return discount;
-        }
-
-        public void setDiscount(int discount) {
-            this.discount = discount;
-        }
-
         public List<ProductSpecsListBean> getProductSpecsList() {
             return productSpecsList;
         }
@@ -410,7 +424,8 @@ public class ProductListModel {
             dest.writeString(this.type);
             dest.writeString(this.categoryName);
             dest.writeString(this.typeName);
-            dest.writeInt(this.discount);
+            dest.writeString(this.isCollect);
+            dest.writeSerializable(this.discount);
             dest.writeTypedList(this.productSpecsList);
         }
 
@@ -446,7 +461,8 @@ public class ProductListModel {
             this.type = in.readString();
             this.categoryName = in.readString();
             this.typeName = in.readString();
-            this.discount = in.readInt();
+            this.isCollect = in.readString();
+            this.discount = (BigDecimal) in.readSerializable();
             this.productSpecsList = in.createTypedArrayList(ProductSpecsListBean.CREATOR);
         }
 

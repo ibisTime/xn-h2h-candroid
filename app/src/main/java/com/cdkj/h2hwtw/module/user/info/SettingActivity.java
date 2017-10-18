@@ -169,7 +169,7 @@ public class SettingActivity extends AbsBaseLoadActivity {
         mBinding.linPayAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddressListActivity.open(SettingActivity.this);
+                AddressListActivity.open(SettingActivity.this,false);
             }
         });
 

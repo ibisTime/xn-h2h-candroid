@@ -3,19 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="2.5dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="2.5dp">
 
 
     <ImageView
         android:id="@+id/img_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-   <ImageView
-         android:scaleType="fitXY"
+
+    <ImageView
         android:id="@+id/img_details2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop" />
 
 
 </LinearLayout>

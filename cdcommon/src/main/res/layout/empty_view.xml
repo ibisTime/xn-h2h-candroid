@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/img"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="105dp"
+            android:layout_height="90dp"
             android:scaleType="fitXY"
             tools:src="@mipmap/ic_launcher" />
 

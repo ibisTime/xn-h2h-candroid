@@ -69,6 +69,20 @@ public class StringUtils {
         return splitAsList(s, "\\|\\|");
     }
 
+    /**
+     * 切割获取图片
+     *
+     * @param s
+     * @return
+     */
+    public static String getAsPicListIndexOne(String s) {
+        List<String> strings = splitAsList(s, "\\|\\|");
+        if (strings == null || strings.isEmpty()) {
+            return s;
+        }
+        return strings.get(0);
+    }
+
     public static String subString(String s, int start, int end) {
 
         try {

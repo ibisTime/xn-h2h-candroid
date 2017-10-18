@@ -229,6 +229,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lin_all_order"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
 
@@ -270,6 +271,7 @@
                 android:weightSum="5">
 
                 <LinearLayout
+                    android:id="@+id/lin_order_waite_pay"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -296,6 +298,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lin_order_waite_send"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -322,6 +325,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lin_order_waite_get"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -340,12 +344,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="代收货"
+                        android:text="待收货"
                         android:textColor="@color/my_page_txt_black_app" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lin_order_waite_say"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -365,13 +370,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="已收货"
+                        android:text="待评价"
                         android:textColor="@color/my_page_txt_black_app" />
 
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lin_order_done"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -390,7 +396,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="已评价"
+                        android:text="已完成"
                         android:textColor="@color/my_page_txt_black_app" />
 
 

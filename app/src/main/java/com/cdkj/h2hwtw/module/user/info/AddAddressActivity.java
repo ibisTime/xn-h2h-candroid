@@ -216,11 +216,12 @@ public class AddAddressActivity extends AbsBaseLoadActivity {
 
         Map<String, String> object = new HashMap<>();
 
-        if (isDefault) {
-            object.put("isDefault", "1");
-        } else {
-            object.put("isDefault", "0");
-        }
+//        if (isDefault) {
+//            object.put("isDefault", "1");
+//        } else {
+//            object.put("isDefault", "0");
+//        }
+        object.put("isDefault", "1");
         object.put("userId", SPUtilHelpr.getUserId());
         object.put("addressee", mBinding.edtName.getText().toString().trim());
         object.put("mobile", mBinding.edtPhone.getText().toString().trim());

@@ -31,7 +31,7 @@
     <!--长的分割线styles设置-->
     <style name="line_gray">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_height">@dimen/line_height_app</item>
         <item name="android:background">@color/line_gray_2_app</item>
     </style>
 
@@ -57,6 +57,15 @@
         <item name="android:background">@drawable/check_box</item>
         <item name="android:button">@null</item>
         <item name="android:textColor">@color/text_black_app</item>
+    </style>
+
+    <style name="check_pay">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/check_pay</item>
+        <item name="android:button">@null</item>
+        <item name="android:textColor">@color/text_black_app</item>
+        <item name="android:clickable">false</item>
     </style>
 
     <style name="text_calculate_number">
@@ -90,6 +99,16 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_money_red</item>
+    </style>
+
+    <style name="blue_round_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_marginLeft">@dimen/layout_left_right_interval</item>
+        <item name="android:layout_marginRight">@dimen/layout_left_right_interval</item>
+        <item name="android:layout_marginTop">35dp</item>
+        <item name="android:background">@drawable/selector_btn_round</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>

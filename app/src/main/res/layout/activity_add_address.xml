@@ -38,6 +38,7 @@
                     android:layout_marginRight="15dp"
                     android:background="@null"
                     android:hint="请输入姓名"
+                    android:maxLength="20"
                     android:textColor="#333333"
                     android:textColorHint="@color/fontColor_hint"
                     android:textSize="15sp" />

@@ -1,4 +1,4 @@
-package com.cdkj.h2hwtw.module.user.fragments;
+package com.cdkj.h2hwtw.module.user;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -22,6 +22,8 @@ import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.FragmentMyBinding;
 import com.cdkj.h2hwtw.model.AmountModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
+import com.cdkj.h2hwtw.module.order.OrderListActivity;
+import com.cdkj.h2hwtw.module.order.OrderListFramgnet;
 import com.cdkj.h2hwtw.module.user.account.MyAccountActivity;
 import com.cdkj.h2hwtw.module.user.account.MyJfListActivity;
 import com.cdkj.h2hwtw.module.user.info.SettingActivity;
@@ -100,6 +102,54 @@ public class MyFragment extends BaseLazyFragment {
             @Override
             public void onClick(View view) {
                 MyJfListActivity.open(mActivity, mAmountaccountNumber);
+            }
+        });
+
+        initOrderStateListener();
+
+
+    }
+
+    /**
+     * 订单状态点击
+     */
+    private void initOrderStateListener() {
+        mBinding.linAllOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OrderListActivity.open(mActivity, OrderListFramgnet.ORDERALL);
+            }
+        });
+
+        mBinding.linOrderWaitePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OrderListActivity.open(mActivity, OrderListFramgnet.ORDERWAITEPAY);
+            }
+        });
+        mBinding.linOrderWaiteGet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OrderListActivity.open(mActivity, OrderListFramgnet.ORDERWAITEGET);
+            }
+        });
+        mBinding.linOrderWaiteSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OrderListActivity.open(mActivity, OrderListFramgnet.ORDERWAITESEND);
+            }
+        });
+        mBinding.linOrderWaiteSay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OrderListActivity.open(mActivity, OrderListFramgnet.ORDERSAY);
+            }
+        });
+
+        mBinding.linOrderDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OrderListActivity.open(mActivity, OrderListFramgnet.ORDERDONE);
             }
         });
     }

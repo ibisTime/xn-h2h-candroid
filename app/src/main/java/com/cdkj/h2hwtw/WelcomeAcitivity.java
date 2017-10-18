@@ -1,4 +1,4 @@
-package com.cdkj.h2hwtw.module.user;
+package com.cdkj.h2hwtw;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,8 +6,6 @@ import android.widget.ImageView;
 
 import com.cdkj.baselibrary.base.BaseActivity;
 import com.cdkj.baselibrary.utils.LogUtil;
-import com.cdkj.h2hwtw.MainActivity;
-import com.cdkj.h2hwtw.R;
 
 import java.util.concurrent.TimeUnit;
 

@@ -17,11 +17,11 @@ import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.utils.update.UpdateManager;
 import com.cdkj.h2hwtw.databinding.ActivityMainBinding;
-import com.cdkj.h2hwtw.module.firstpage.fragments.FirstPageFragment;
-import com.cdkj.h2hwtw.module.goodstype.fragments.GoodsTypeFragment;
+import com.cdkj.h2hwtw.module.firstpage.FirstPageFragment;
+import com.cdkj.h2hwtw.module.goodstype.GoodsTypeFragment;
 import com.cdkj.h2hwtw.module.im.fragments.ImFragment;
-import com.cdkj.h2hwtw.module.product.activitys.ProductReleaseActivity;
-import com.cdkj.h2hwtw.module.user.fragments.MyFragment;
+import com.cdkj.h2hwtw.module.product.ProductReleaseActivity;
+import com.cdkj.h2hwtw.module.user.MyFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

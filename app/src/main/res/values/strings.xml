@@ -14,4 +14,6 @@
     <string name="please_set_price">请设置价格</string>
     <string name="error_location">未知位置</string>
     <string name="no_product">暂无产品</string>
+    <string name="text_pay">支付</string>
+    <string name="cant_use_pay">不能同时使用微信支付和余额支付</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.cdkj.h2hwtw.module.product.activitys;
+package com.cdkj.h2hwtw.module.product;
 
 import android.content.Context;
 import android.content.Intent;

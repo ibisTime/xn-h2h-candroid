@@ -1,4 +1,4 @@
-package com.cdkj.h2hwtw.module.goodstype.fragments;
+package com.cdkj.h2hwtw.module.goodstype;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,7 +21,7 @@ import com.cdkj.h2hwtw.databinding.FragmentTypeBinding;
 import com.cdkj.h2hwtw.databinding.LayoutRecyclerviewBinding;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
-import com.cdkj.h2hwtw.module.product.activitys.ProductScreeningActivity;
+import com.cdkj.h2hwtw.module.product.ProductScreeningActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 

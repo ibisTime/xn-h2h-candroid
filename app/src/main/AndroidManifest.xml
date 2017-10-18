@@ -82,7 +82,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
 
-        <activity android:name=".module.user.WelcomeAcitivity">
+        <activity android:name=".WelcomeAcitivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -99,7 +99,7 @@
 
         <!--//产品发布-->
         <activity
-            android:name=".module.product.activitys.ProductReleaseActivity"
+            android:name=".module.product.ProductReleaseActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--//登录-->
@@ -171,24 +171,40 @@
 
         <!--产品筛选-->
         <activity
-            android:name=".module.product.activitys.ProductScreeningActivity"
+            android:name=".module.product.ProductScreeningActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
         <!--发布分类-->
         <activity
-            android:name=".module.product.activitys.ReleaseTypeSelectActivity"
+            android:name=".module.product.ReleaseTypeSelectActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
-      <!--产品详情-->
+        <!--产品详情-->
         <activity
-            android:name=".module.product.activitys.ProductDetailActivity"
+            android:name=".module.product.ProductDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-      <!--发布评论-->
+        <!--发布评论-->
         <activity
-            android:name=".module.product.activitys.ProductCommentsEditActivity"
+            android:name=".module.product.ProductCommentsEditActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--产品购买-->
+        <activity
+            android:name=".module.order.ProductBuyActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--支付-->
+        <activity
+            android:name=".module.pay.OrderPayActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!--支付-->
+        <activity
+            android:name=".module.order.OrderListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 

@@ -2,6 +2,7 @@ package com.cdkj.baselibrary.base;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,7 +23,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 public abstract class BaseRefreshHelperFragment<T> extends BaseLazyFragment implements RefreshInterface<T> {
 
-    private FragmentRecyclerRefreshBinding mRefreshBinding;
+    protected FragmentRecyclerRefreshBinding mRefreshBinding;
     protected RefreshHelper mRefreshHelper;
     private LayoutInflater inflater;
 
@@ -39,6 +40,7 @@ public abstract class BaseRefreshHelperFragment<T> extends BaseLazyFragment impl
         if (mRefreshHelper == null) {
             mRefreshHelper = new RefreshHelper(mActivity, this);
             mRefreshHelper.setErrorInfo(getErrorInfo());
+            mRefreshHelper.setErrorImg(getErrorImg());
             mRefreshHelper.init(1, 10);
         }
     }
@@ -49,6 +51,12 @@ public abstract class BaseRefreshHelperFragment<T> extends BaseLazyFragment impl
     }
 
     protected abstract String getErrorInfo();
+
+    protected
+    @DrawableRes
+    int getErrorImg() {
+        return 0;
+    }
 
     @Override
     public SmartRefreshLayout getRefreshLayout() {

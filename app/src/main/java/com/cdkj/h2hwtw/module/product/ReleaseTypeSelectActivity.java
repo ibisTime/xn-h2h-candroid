@@ -1,4 +1,4 @@
-package com.cdkj.h2hwtw.module.product.activitys;
+package com.cdkj.h2hwtw.module.product;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,6 @@ import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;

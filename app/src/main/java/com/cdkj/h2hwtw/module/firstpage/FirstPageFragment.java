@@ -1,4 +1,4 @@
-package com.cdkj.h2hwtw.module.firstpage.fragments;
+package com.cdkj.h2hwtw.module.firstpage;
 
 import com.cdkj.baselibrary.base.BaseLazyFragment;
 
