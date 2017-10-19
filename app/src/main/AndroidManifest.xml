@@ -214,6 +214,19 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
+        <!--订单详情-->
+        <activity
+            android:name=".module.order.OrderDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!--订单详情-->
+        <activity
+            android:name=".module.user.coupons.CouponsSelectActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityDialogStyleBottomAPP"
+            android:windowSoftInputMode="adjustPan" />
+
 
     </application>
 

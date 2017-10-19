@@ -219,6 +219,11 @@ public class AddressListActivity extends BaseRefreshHelperActivity<AddressModel>
             }
 
             @Override
+            protected void onNoNet(String msg) {
+                mRefreshHelper.loadError(msg);
+            }
+
+            @Override
             protected void onFinish() {
                 if (canShowDialog) disMissLoading();
             }

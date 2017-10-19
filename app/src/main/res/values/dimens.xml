@@ -8,4 +8,6 @@
     <dimen name="button_height">45dp</dimen>
 
     <dimen name="line_height_app">0.8dp</dimen>
+
+    <dimen name="coupons_left_width">90dp</dimen>
 </resources>

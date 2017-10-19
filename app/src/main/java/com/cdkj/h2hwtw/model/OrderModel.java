@@ -9,76 +9,45 @@ import java.util.List;
 
 public class OrderModel {
 
-
     /**
-     * code : DD2017101815422981179406
+     * code : DD2017101714122392762296
      * type : 1
      * toUser : U1111111111111111
-     * receiver : 55888
-     * reMobile : 55366
-     * reAddress : 四川省 阿坝藏族羌族自治州 阿坝县5866
-     * applyUser : U201710131355098586852
-     * applyNote :
-     * applyDatetime : Oct 18, 2017 3:42:29 PM
-     * amount1 : 11000
-     * yunfei : 12000
-     * status : 91
+     * receiver : 吴联请
+     * reMobile : 17890987777
+     * reAddress : 浙江省杭州市余杭区仓前街道梦想小镇天使村8幢宜车叮叮2楼
+     * applyUser : U1111111111111111
+     * applyNote : sdfdsfsfsdfafd
+     * applyDatetime : Oct 17, 2017 2:12:23 PM
+     * amount1 : 20000
+     * yunfei : 10000
+     * status : 5
+     * payType : 68
+     * payDatetime : Oct 17, 2017 7:59:48 PM
      * payAmount1 : 0
-     * payAmount2 : 0
-     * payAmount3 : 0
+     * payAmount2 : 14950000
+     * payAmount3 : 100
+     * couponCode : CP2017102900253467399
      * promptTimes : 0
+     * deliverer : U1111111111111111
+     * deliveryDatetime : Oct 18, 2017 2:17:39 PM
+     * logisticsCode : 333333333333
+     * logisticsCompany : SF
+     * signer : U1111111111111111
+     * signDatetime : Oct 18, 2017 3:00:39 PM
      * updater : U1111111111111111
-     * updateDatetime : Oct 18, 2017 3:57:42 PM
-     * remark : 不想卖了
+     * updateDatetime : Oct 18, 2017 2:36:05 PM
+     * remark : 已评论
      * companyCode : CD-WTW000016
      * systemCode : CD-WTW000016
-     * productOrderList : [{"code":"CD2017101815422981276469","orderCode":"DD2017101815422981179406","productCode":"CP2017101616025424327224","productName":"包包包包包包包","productPic":"68b53042-304a-4166-af67-821aa2be04cc.JPG||8e8f336b-8daf-41ac-9129-48e025ad4f9c.jpg||b2739a51-e442-4046-a5d2-953e8f931321.png||80f6aef8-cb4f-4c16-90e1-5abbaefbf7d0.JPG","productDescription":"乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片","quantity":1,"companyCode":"CD-WTW000016","systemCode":"CD-WTW000016"}]
+     * productOrderList : [{"code":"CD2017101714122392720565","orderCode":"DD2017101714122392762296","productCode":"CP2017101617132151229224","productName":"名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称","productPic":"763f6098-1c7e-457e-8b6e-c4f1a5f8407d.png||d1b6d8af-5523-4a32-8ed9-7534a3e23a42.JPG||a2190ab7-3287-471b-aac0-9fcf569322ba.png||cb2b434a-368a-4cb8-af70-590467398cce.JPG||d786cde5-14fb-4915-ac37-6c418b1a9d8b.jpg","productDescription":"简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介","quantity":1,"companyCode":"CD-WTW000016","systemCode":"CD-WTW000016"}]
+     * user : {"userId":"U1111111111111111","kind":"C","level":"0","loginName":"18868824532","nickname":"昵称昵称2","photo":"69c0bbbe-66ec-4f3a-a350-9d1473f3711d.JPG","mobile":"18868824532","identityFlag":"0","loginLogDatetime":"Oct 18, 2017 3:31:05 PM"}
+     * companyUser : {"userId":"U1111111111111111","kind":"C","level":"0","loginName":"18868824532","nickname":"昵称昵称2","photo":"69c0bbbe-66ec-4f3a-a350-9d1473f3711d.JPG","mobile":"18868824532","identityFlag":"0","loginLogDatetime":"Oct 18, 2017 3:31:05 PM"}
      */
 
     private String code;
     private String type;
     private String toUser;
-
-    public BigDecimal getAmount1() {
-        return amount1;
-    }
-
-    public void setAmount1(BigDecimal amount1) {
-        this.amount1 = amount1;
-    }
-
-    public BigDecimal getYunfei() {
-        return yunfei;
-    }
-
-    public void setYunfei(BigDecimal yunfei) {
-        this.yunfei = yunfei;
-    }
-
-    public BigDecimal getPayAmount1() {
-        return payAmount1;
-    }
-
-    public void setPayAmount1(BigDecimal payAmount1) {
-        this.payAmount1 = payAmount1;
-    }
-
-    public BigDecimal getPayAmount2() {
-        return payAmount2;
-    }
-
-    public void setPayAmount2(BigDecimal payAmount2) {
-        this.payAmount2 = payAmount2;
-    }
-
-    public BigDecimal getPayAmount3() {
-        return payAmount3;
-    }
-
-    public void setPayAmount3(BigDecimal payAmount3) {
-        this.payAmount3 = payAmount3;
-    }
-
     private String receiver;
     private String reMobile;
     private String reAddress;
@@ -88,15 +57,43 @@ public class OrderModel {
     private BigDecimal amount1;
     private BigDecimal yunfei;
     private String status;
+    private String payType;
+    private String payDatetime;
     private BigDecimal payAmount1;
     private BigDecimal payAmount2;
     private BigDecimal payAmount3;
+    private String couponCode;
     private int promptTimes;
+    private String deliverer;
+    private String deliveryDatetime;
+    private String logisticsCode;
+    private String logisticsCompany;
+    private String signer;
+    private String signDatetime;
     private String updater;
     private String updateDatetime;
     private String remark;
     private String companyCode;
     private String systemCode;
+
+    public OrderUserModel getUser() {
+        return user;
+    }
+
+    public void setUser(OrderUserModel user) {
+        this.user = user;
+    }
+
+    public OrderCompanyUser getCompanyUser() {
+        return companyUser;
+    }
+
+    public void setCompanyUser(OrderCompanyUser companyUser) {
+        this.companyUser = companyUser;
+    }
+
+    private OrderUserModel user;
+    private OrderCompanyUser companyUser;
     private List<ProductOrderListBean> productOrderList;
 
     public String getCode() {
@@ -179,12 +176,124 @@ public class OrderModel {
         this.status = status;
     }
 
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
+    }
+
+    public String getPayDatetime() {
+        return payDatetime;
+    }
+
+    public void setPayDatetime(String payDatetime) {
+        this.payDatetime = payDatetime;
+    }
+
+    public BigDecimal getAmount1() {
+        return amount1;
+    }
+
+    public void setAmount1(BigDecimal amount1) {
+        this.amount1 = amount1;
+    }
+
+    public BigDecimal getYunfei() {
+        return yunfei;
+    }
+
+    public void setYunfei(BigDecimal yunfei) {
+        this.yunfei = yunfei;
+    }
+
+    public BigDecimal getPayAmount1() {
+        return payAmount1;
+    }
+
+    public void setPayAmount1(BigDecimal payAmount1) {
+        this.payAmount1 = payAmount1;
+    }
+
+    public BigDecimal getPayAmount2() {
+        return payAmount2;
+    }
+
+    public void setPayAmount2(BigDecimal payAmount2) {
+        this.payAmount2 = payAmount2;
+    }
+
+    public BigDecimal getPayAmount3() {
+        return payAmount3;
+    }
+
+    public void setPayAmount3(BigDecimal payAmount3) {
+        this.payAmount3 = payAmount3;
+    }
+
+    public String getCouponCode() {
+        return couponCode;
+    }
+
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
+    }
+
     public int getPromptTimes() {
         return promptTimes;
     }
 
     public void setPromptTimes(int promptTimes) {
         this.promptTimes = promptTimes;
+    }
+
+    public String getDeliverer() {
+        return deliverer;
+    }
+
+    public void setDeliverer(String deliverer) {
+        this.deliverer = deliverer;
+    }
+
+    public String getDeliveryDatetime() {
+        return deliveryDatetime;
+    }
+
+    public void setDeliveryDatetime(String deliveryDatetime) {
+        this.deliveryDatetime = deliveryDatetime;
+    }
+
+    public String getLogisticsCode() {
+        return logisticsCode;
+    }
+
+    public void setLogisticsCode(String logisticsCode) {
+        this.logisticsCode = logisticsCode;
+    }
+
+    public String getLogisticsCompany() {
+        return logisticsCompany;
+    }
+
+    public void setLogisticsCompany(String logisticsCompany) {
+        this.logisticsCompany = logisticsCompany;
+    }
+
+    public String getSigner() {
+        return signer;
+    }
+
+    public void setSigner(String signer) {
+        this.signer = signer;
+    }
+
+    public String getSignDatetime() {
+        return signDatetime;
+    }
+
+    public void setSignDatetime(String signDatetime) {
+        this.signDatetime = signDatetime;
     }
 
     public String getUpdater() {
@@ -227,6 +336,7 @@ public class OrderModel {
         this.systemCode = systemCode;
     }
 
+
     public List<ProductOrderListBean> getProductOrderList() {
         return productOrderList;
     }
@@ -235,14 +345,16 @@ public class OrderModel {
         this.productOrderList = productOrderList;
     }
 
+
+
     public static class ProductOrderListBean {
         /**
-         * code : CD2017101815422981276469
-         * orderCode : DD2017101815422981179406
-         * productCode : CP2017101616025424327224
-         * productName : 包包包包包包包
-         * productPic : 68b53042-304a-4166-af67-821aa2be04cc.JPG||8e8f336b-8daf-41ac-9129-48e025ad4f9c.jpg||b2739a51-e442-4046-a5d2-953e8f931321.png||80f6aef8-cb4f-4c16-90e1-5abbaefbf7d0.JPG
-         * productDescription : 乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片乒乒乓乓乒乒乓乓乒乒乓乓乒乒乓乓片
+         * code : CD2017101714122392720565
+         * orderCode : DD2017101714122392762296
+         * productCode : CP2017101617132151229224
+         * productName : 名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称
+         * productPic : 763f6098-1c7e-457e-8b6e-c4f1a5f8407d.png||d1b6d8af-5523-4a32-8ed9-7534a3e23a42.JPG||a2190ab7-3287-471b-aac0-9fcf569322ba.png||cb2b434a-368a-4cb8-af70-590467398cce.JPG||d786cde5-14fb-4915-ac37-6c418b1a9d8b.jpg
+         * productDescription : 简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介
          * quantity : 1
          * companyCode : CD-WTW000016
          * systemCode : CD-WTW000016

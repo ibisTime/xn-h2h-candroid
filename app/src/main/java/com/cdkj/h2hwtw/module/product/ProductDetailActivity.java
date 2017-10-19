@@ -17,7 +17,7 @@ import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.UITipDialog;
-import com.cdkj.baselibrary.interfaces.BaseRefreshmethods;
+import com.cdkj.baselibrary.interfaces.BaseRefreshCallBack;
 import com.cdkj.baselibrary.interfaces.RefreshHelper;
 import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
@@ -173,7 +173,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
      */
     private void initComments() {
 
-        mCommentsReshHelper = new RefreshHelper(this, new BaseRefreshmethods() {
+        mCommentsReshHelper = new RefreshHelper(this, new BaseRefreshCallBack() {
             @Override
             public SmartRefreshLayout getRefreshLayout() {
                 mBinding.refreshLayout.setEnableRefresh(false);//禁用刷新

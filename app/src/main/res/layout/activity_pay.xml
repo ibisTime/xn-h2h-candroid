@@ -193,7 +193,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="暂无优惠券"
+                android:text="选择优惠券"
                 android:textColor="@color/text_color"
                 android:textSize="12sp" />
 
@@ -209,6 +209,7 @@
         <Button
             android:id="@+id/btn_pay"
             style="@style/blue_round_btn"
+            android:layout_marginTop="35dp"
             android:text="立即支付" />
 
 

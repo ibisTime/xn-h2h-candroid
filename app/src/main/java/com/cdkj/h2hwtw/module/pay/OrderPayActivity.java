@@ -9,19 +9,28 @@ import android.view.View;
 
 import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.appmanager.EventTags;
+import com.cdkj.baselibrary.appmanager.MyCdConfig;
+import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.model.pay.PaySucceedInfo;
 import com.cdkj.baselibrary.model.pay.WxPayRequestModel;
+import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.LogUtil;
+import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.utils.payutils.PayUtil;
 import com.cdkj.h2hwtw.R;
+import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.ActivityPayBinding;
+import com.cdkj.h2hwtw.model.AmountModel;
+import com.cdkj.h2hwtw.model.CouponsModel;
+import com.cdkj.h2hwtw.module.user.coupons.CouponsSelectActivity;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -56,7 +65,7 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
     private String mPrice;
     private String mOrderCode;
 
-    private Object mCouponsData;//
+    private CouponsModel mCouponsData;//
 
     @Override
     public View addMainView() {
@@ -77,8 +86,8 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         mBinding.tvPayPrice.setText(mPrice);
 
         initListener();
+        getAmountRequest(true);
     }
-
 
     /**
      * 支付支请求
@@ -287,7 +296,7 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         mBinding.linPayCoupons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCouponsData = new EventTags();
+                CouponsSelectActivity.open(OrderPayActivity.this);
             }
         });
 
@@ -320,11 +329,56 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         }
     }
 
+
+    /**
+     * 获取余额请求
+     */
+    private void getAmountRequest(final boolean isShowdialog) {
+        if (!SPUtilHelpr.isLoginNoStart()) {  //没有登录不用请求
+            return;
+        }
+        Map<String, String> map = new HashMap<>();
+
+        map.put("userId", SPUtilHelpr.getUserId());
+        map.put("currency", MyCdConfig.MONEYTYPE);
+        map.put("token", SPUtilHelpr.getUserToken());
+
+        Call call = RetrofitUtils.createApi(MyApiServer.class).getAmount("802503", StringUtils.getJsonToString(map));
+
+        addCall(call);
+
+        if (isShowdialog) showLoadingDialog();
+
+        call.enqueue(new BaseResponseListCallBack<AmountModel>(OrderPayActivity.this) {
+            @Override
+            protected void onSuccess(List<AmountModel> data, String SucMessage) {
+
+                if (data != null && data.size() > 0 && data.get(0) != null) {
+                    mBinding.tvYueInfo.setText("余额(当前可用余额" + MoneyUtils.showPrice(data.get(0).getAmount()) + ")");
+
+                }
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+                if (isShowdialog) disMissLoading();
+            }
+        });
+
+    }
+
+
     /**
      * 支付成功
      */
     public void doPaySucceed() {
-
+        EventBus.getDefault().post(EventTags.BUYLINE);
+        finish();
     }
 
     /**
@@ -337,11 +391,36 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         if (mo == null || !TextUtils.equals(mo.getTag(), OrderPayTag)) {
             return;
         }
-
         if (mo.getCallType() == PayUtil.ALIPAY && mo.isPaySucceed()) { //支付宝支付成功
 
         } else if (mo.getCallType() == PayUtil.WEIXINPAY && mo.isPaySucceed()) {//微信支付成功
 
+        }
+    }
+
+    /**
+     * 优惠券选择
+     *
+     * @param mo
+     */
+    @Subscribe
+    public void CouponsSelect(CouponsModel mo) {
+        mCouponsData = mo;
+        if (mo == null) {
+            mBinding.tvPayCoupons.setText("选择优惠券");
+            return;
+        }
+        mBinding.tvPayCoupons.setText("减免" + MoneyUtils.showPrice(mo.getParValue()) + "元");
+    }
+
+    /**
+     * 优惠券没有选择
+     */
+    @Subscribe
+    public void CouponsSelectNo(String tag) {
+        if (TextUtils.equals(tag, EventTags.NOSELECTCOUPONS)) {
+            mCouponsData = null;
+            mBinding.tvPayCoupons.setText("选择优惠券");
         }
     }
 

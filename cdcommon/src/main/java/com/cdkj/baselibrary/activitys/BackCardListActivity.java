@@ -136,6 +136,11 @@ public class BackCardListActivity extends BaseRefreshHelperActivity<BankCardMode
             }
 
             @Override
+            protected void onNoNet(String msg) {
+                mRefreshHelper.loadError(msg);
+            }
+
+            @Override
             protected void onFinish() {
                 disMissLoading();
             }

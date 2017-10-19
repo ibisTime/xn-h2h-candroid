@@ -59,6 +59,7 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
     protected View getCreateView(LayoutInflater inflater) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_type, null, false);
         initHeadMenuView(inflater);
+        initRefreshHelper(1, 10);
         return mBinding.getRoot();
     }
 
@@ -108,7 +109,9 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
     @Override
     protected void lazyLoad() {
         getMenuTypeRequest();
-        mRefreshHelper.onDefaluteMRefresh(false);
+        if (mRefreshHelper != null) {
+            mRefreshHelper.onDefaluteMRefresh(false);
+        }
     }
 
     @Override

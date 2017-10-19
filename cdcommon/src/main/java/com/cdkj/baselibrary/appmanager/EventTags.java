@@ -33,7 +33,9 @@ public class EventTags {
     //buy-line 用于购买成功时结束当前页面
     public final static String BUYLINE = "11";
 
+    //订单信息改变刷新列表
+    public final static String ORDERCHANGEREFRESH = "13";
 
-
-
+    //没有选择优惠券
+    public final static String NOSELECTCOUPONS = "14";
 }

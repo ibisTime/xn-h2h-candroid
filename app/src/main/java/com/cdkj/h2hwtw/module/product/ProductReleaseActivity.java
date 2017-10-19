@@ -269,6 +269,8 @@ public class ProductReleaseActivity extends BaseLocationActivity {
     private void upLoadImg() {
         final QiNiuUtil qiNiuUtil = new QiNiuUtil(this);
 
+        showLoadingDialog();
+
         qiNiuUtil.getQiniuToeknRequest().enqueue(new BaseResponseModelCallBack<QiniuGetTokenModel>(this) {
             @Override
             protected void onSuccess(QiniuGetTokenModel data, String SucMessage) {
@@ -286,6 +288,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
 
                     @Override
                     public void onFal(String info) {
+                        disMissLoading();
                         UITipDialog.showFall(ProductReleaseActivity.this, info);
                     }
                 });
@@ -293,6 +296,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
+                disMissLoading();
                 UITipDialog.showFall(ProductReleaseActivity.this, errorMessage);
             }
 

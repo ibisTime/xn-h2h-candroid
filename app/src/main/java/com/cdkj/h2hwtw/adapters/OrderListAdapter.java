@@ -67,7 +67,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderModel, BaseViewHolde
         return BigDecimalUtils.add(item.getAmount1(), item.getYunfei());
     }
 
-    private String getStateCancelString(String status) {
+    public String getStateCancelString(String status) {
         if (TextUtils.equals("1", status)) {
             return "取消订单";
         }
@@ -86,7 +86,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderModel, BaseViewHolde
      * @param status
      * @return
      */
-    private boolean canShowCancel(String status) {
+    public boolean canShowCancel(String status) {
         if (TextUtils.equals("1", status)) {
             return true;
         }

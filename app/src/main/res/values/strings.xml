@@ -16,4 +16,13 @@
     <string name="no_product">暂无产品</string>
     <string name="text_pay">支付</string>
     <string name="cant_use_pay">不能同时使用微信支付和余额支付</string>
+    <string name="order_state_1">待支付</string>
+    <string name="order_state_2">已支付</string>
+    <string name="order_state_3">已发货</string>
+    <string name="order_state_4">已收货</string>
+    <string name="order_state_5">已评论</string>
+    <string name="order_state_6">退款申请</string>
+    <string name="order_state_7">退款失败</string>
+    <string name="order_state_8">退款成功</string>
+    <string name="order_state_91">订单取消</string>
 </resources>

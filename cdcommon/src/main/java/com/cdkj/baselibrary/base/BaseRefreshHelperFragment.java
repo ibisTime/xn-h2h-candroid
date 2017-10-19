@@ -34,20 +34,23 @@ public abstract class BaseRefreshHelperFragment<T> extends BaseLazyFragment impl
         return getCreateView(inflater);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    protected View getCreateView(LayoutInflater inflater) {
+        mRefreshBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recycler_refresh, null, false);
+        onInit();
+        return mRefreshBinding.getRoot();
+    }
+
+    protected void initRefreshHelper(int start,int limit) {
         if (mRefreshHelper == null) {
             mRefreshHelper = new RefreshHelper(mActivity, this);
             mRefreshHelper.setErrorInfo(getErrorInfo());
             mRefreshHelper.setErrorImg(getErrorImg());
-            mRefreshHelper.init(1, 10);
+            mRefreshHelper.init(start, limit);
         }
     }
 
-    protected View getCreateView(LayoutInflater inflater) {
-        mRefreshBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recycler_refresh, null, false);
-        return mRefreshBinding.getRoot();
+    protected void onInit() {
+
     }
 
     protected abstract String getErrorInfo();

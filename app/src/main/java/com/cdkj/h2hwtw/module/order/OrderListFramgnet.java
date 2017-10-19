@@ -3,6 +3,7 @@ package com.cdkj.h2hwtw.module.order;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.cdkj.baselibrary.api.BaseResponseModel;
@@ -13,9 +14,11 @@ import com.cdkj.baselibrary.base.BaseRefreshHelperFragment;
 import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.dialog.InputDialog;
 import com.cdkj.baselibrary.dialog.UITipDialog;
+import com.cdkj.baselibrary.model.EventBusModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
+import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
@@ -24,6 +27,8 @@ import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.model.OrderModel;
 import com.cdkj.h2hwtw.module.pay.OrderPayActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -34,13 +39,19 @@ import java.util.Map;
 
 import retrofit2.Call;
 
+import static com.cdkj.baselibrary.appmanager.EventTags.ORDERCHANGEREFRESH;
+import static com.cdkj.baselibrary.appmanager.EventTags.RELEASESCOMMENTSORDER;
+
 /**
  * Created by 李先俊 on 2017/10/18.
  */
 
 public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
 
-    private boolean isFirst = false;
+    private boolean isFirst = false;//用于faragment懒加载的时候只请求一次数据
+    private boolean isChangeRefresh = false;//用于在订单详情界面数据改动后刷新本页面
+
+    private int mState;
 
     /*  list.add("全部");
         list.add("待支付");
@@ -63,7 +74,6 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
     @Retention(RetentionPolicy.SOURCE)
     public @interface loadState {
     }
-
 
     private OrderListAdapter mOrderAdapter;
 
@@ -103,7 +113,9 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
         mOrderAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                OrderModel orderModel = mOrderAdapter.getItem(position);
+                if (orderModel == null) return;
+                OrderDetailsActivity.open(mActivity, orderModel.getCode());
             }
         });
 
@@ -143,6 +155,11 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
             }
 
             @Override
+            protected void onNoNet(String msg) {
+                mRefreshHelper.loadError(msg);
+            }
+
+            @Override
             protected void onFinish() {
                 if (isShowDialog) disMissLoading();
             }
@@ -179,7 +196,6 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
             }
             return;
         }
-
     }
 
     /**
@@ -333,24 +349,23 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
         List<String> stringList = new ArrayList<>();
 /*1 待支付"，2 已支付，3 已发货，4 已收货，5 已评论，  6 退款申请，7 退款失败，8 退款成功 ，91取消订单*/
 
-        if (getArguments() != null) {
-            switch (getArguments().getInt("state")) {
-                case ORDERWAITEPAY:
-                    stringList.add("1");
-                    break;
-                case ORDERWAITESEND:
-                    stringList.add("2");
-                    break;
-                case ORDERWAITEGET:
-                    stringList.add("3");
-                    break;
-                case ORDERSAY:
-                    stringList.add("4");
-                    break;
-                case ORDERDONE:
-                    stringList.add("5");
-                    break;
-            }
+
+        switch (mState) {
+            case ORDERWAITEPAY:
+                stringList.add("1");
+                break;
+            case ORDERWAITESEND:
+                stringList.add("2");
+                break;
+            case ORDERWAITEGET:
+                stringList.add("3");
+                break;
+            case ORDERSAY:
+                stringList.add("4");
+                break;
+            case ORDERDONE:
+                stringList.add("5");
+                break;
         }
         return stringList;
     }
@@ -491,12 +506,21 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    protected void onInit() {
+        initRefreshHelper(1, 10);
+        if (getArguments() != null) {
+            mState = getArguments().getInt("state");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         if (getUserVisibleHint()) {
-            if (mRefreshHelper != null && mRefreshBinding != null) {
-                mRefreshHelper.onDefaluteMRefresh(false);
+            if (mRefreshHelper != null && mRefreshBinding != null && !isChangeRefresh) {
                 isFirst = true;
+                isChangeRefresh = true;
+                mRefreshHelper.onDefaluteMRefresh(false);
             }
         }
     }
@@ -510,4 +534,21 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
     protected int getErrorImg() {
         return R.drawable.no_order;
     }
+
+    /**
+     * 评价成功
+     *
+     * @param tag
+     */
+    @Subscribe
+    public void Events(String tag) {
+        if (TextUtils.equals(RELEASESCOMMENTSORDER, tag)) {
+            if (mRefreshHelper != null) {
+                mRefreshHelper.onDefaluteMRefresh(false);
+            }
+        } else if (TextUtils.equals(ORDERCHANGEREFRESH, tag)) { //数据改变
+            isChangeRefresh = false;
+        }
+    }
+
 }
