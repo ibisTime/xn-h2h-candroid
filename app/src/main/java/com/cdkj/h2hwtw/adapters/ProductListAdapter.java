@@ -40,8 +40,7 @@ public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBe
 
         viewHolder.setText(R.id.tv_goods_name, item.getName());
 
-        viewHolder.setVisible(R.id.tv_is_new, TextUtils.equals(item.getIsNew(), "1"));
-        viewHolder.setVisible(R.id.tv_is_new, TextUtils.equals(item.getIsNew(), "1"));
+        viewHolder.setGone(R.id.tv_is_new, TextUtils.equals(item.getIsNew(), "1"));
         viewHolder.setText(R.id.tv_goods_price, MoneyUtils.showPrice(item.getPrice()));
 
         viewHolder.setText(R.id.tv_goods_price_old, MoneyUtils.showPrice(item.getOriginalPrice()));

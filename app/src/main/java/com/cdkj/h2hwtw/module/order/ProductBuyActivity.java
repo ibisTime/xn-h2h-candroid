@@ -102,7 +102,8 @@ public class ProductBuyActivity extends AbsBaseLoadActivity {
         mBinding.layoutAddress.linAddaddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddAddressActivity.open(ProductBuyActivity.this, null);
+//                AddAddressActivity.open(ProductBuyActivity.this, null);
+                AddressListActivity.open(ProductBuyActivity.this, true);
             }
         });
 
@@ -237,7 +238,7 @@ public class ProductBuyActivity extends AbsBaseLoadActivity {
         if (data == null) return;
 
         mBinding.tvProductName.setText(data.getName());
-        ImgUtils.loadImg(this, MyCdConfig.QINIUURL + data.getPic(), mBinding.imgGood);
+        ImgUtils.loadImg(this, MyCdConfig.QINIUURL + StringUtils.getAsPicListIndexOne(data.getPic()), mBinding.imgGood);
 
 
         mBinding.tvProductPriceSingle.setText(MoneyUtils.showPrice(data.getPrice()));

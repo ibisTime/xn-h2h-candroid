@@ -159,12 +159,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:orientation="horizontal"
             android:paddingBottom="10dp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
 
             <TextView
                 android:id="@+id/tv_cancel_order"
-                android:layout_width="wrap_content"
+                android:layout_width="95dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
@@ -174,11 +180,12 @@
                 android:paddingRight="10dp"
                 android:text="取消订单"
                 android:textColor="@color/text_gray_app"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_order_state"
-                android:layout_width="wrap_content"
+                android:layout_width="95dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
@@ -188,6 +195,7 @@
                 android:paddingRight="10dp"
                 android:textColor="@color/btn_click_un_app"
                 android:textSize="16sp"
+                android:visibility="gone"
                 tools:text="取消订单" />
 
 

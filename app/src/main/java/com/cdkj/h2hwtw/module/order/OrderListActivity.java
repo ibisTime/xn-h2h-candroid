@@ -59,7 +59,7 @@ public class OrderListActivity extends CommonTablayoutActivity {
         list.add("待发货");
         list.add("待收货");
         list.add("待评价");
-        list.add("已评价");
+        list.add("已完成");
         return list;
     }
 }

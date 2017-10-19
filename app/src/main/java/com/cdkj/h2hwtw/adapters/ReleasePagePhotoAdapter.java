@@ -53,9 +53,9 @@ public class ReleasePagePhotoAdapter extends BaseQuickAdapter<ReleasePagePhotoMo
                 ImgUtils.loadImg(mContext, item.getImgPath(), (ImageView) helper.getView(R.id.img_photo));
                 helper.addOnClickListener(R.id.img_delete);//添加点击事件
                 if (helper.getLayoutPosition() == 1) {
-                    helper.setVisible(R.id.tv_main_img, true);
+                    helper.setGone(R.id.tv_main_img, true);
                 } else {
-                    helper.setVisible(R.id.tv_main_img, false);
+                    helper.setGone(R.id.tv_main_img, false);
                 }
                 break;
         }

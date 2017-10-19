@@ -10,7 +10,7 @@
         android:layout_height="10dp" />
 
     <LinearLayout
-        android:id="@+id/real_address"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -43,7 +43,7 @@
 
     <TextView
         android:id="@+id/txt_address"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txt_name"
         android:background="@color/white"
@@ -58,6 +58,7 @@
     <View style="@style/line_gray" />
 
     <LinearLayout
+        android:id="@+id/real_address"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/white"

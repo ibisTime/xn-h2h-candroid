@@ -24,10 +24,10 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
+        android:background="@drawable/shape_edit_cash_coupon"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:background="@drawable/shape_edit_cash_coupon"
-        android:textColor="@color/dialog_tips_content_txt"
+        android:textColor="@color/text_hint_color"
         android:textSize="16sp" />
 
     <View
@@ -45,29 +45,30 @@
             android:id="@+id/dialog_input_negative_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="50dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/dialog_tips_negative_btn_sel"
             android:gravity="center"
+            android:minHeight="50dp"
             android:textColor="@color/dialog_tips_negative_btn_txt"
             android:textSize="18sp" />
+
         <View
             android:id="@+id/dialog_input_divider_line"
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:minHeight="50dp"
-            android:background="@color/dialog_tips_line" />
+            android:background="@color/dialog_tips_line"
+            android:minHeight="50dp" />
 
         <Button
             android:id="@+id/dialog_input_positive_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="50dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/dialog_tips_positive_btn_sel"
             android:gravity="center"
+            android:minHeight="50dp"
             android:textColor="@color/dialog_tips_negative_btn_txt"
             android:textSize="18sp" />
 
