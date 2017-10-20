@@ -176,7 +176,7 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
     private void doSomtingByState(OrderModel state) {
 
         if (TextUtils.equals("1", state.getStatus())) {      //待支付跳转到支付页面
-            OrderPayActivity.open(mActivity, MoneyUtils.getShowPriceSign(mOrderAdapter.getAllMoney(state)), state.getCode());
+            OrderPayActivity.open(mActivity, MoneyUtils.getShowPriceSign(mOrderAdapter.getAllMoney(state)), state.getCode(), false);
             return;
         }
 
@@ -266,6 +266,7 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(mActivity) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
+                UITipDialog.showSuccess(mActivity, "确认收货成功");
                 mRefreshHelper.onDefaluteMRefresh(false); //收货成功刷新列表
             }
 
@@ -399,6 +400,7 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 mRefreshHelper.onDefaluteMRefresh(false); //取消成功刷新列表
+                UITipDialog.showSuccess(mActivity, "订单取消成功");
             }
 
             @Override
@@ -442,6 +444,7 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(mActivity) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
+                UITipDialog.showSuccess(mActivity, "退款申请提交成功");
                 mRefreshHelper.onDefaluteMRefresh(false); //退款成功刷新列表
             }
 

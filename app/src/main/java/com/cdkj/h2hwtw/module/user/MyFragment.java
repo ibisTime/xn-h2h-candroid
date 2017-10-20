@@ -24,8 +24,11 @@ import com.cdkj.h2hwtw.model.AmountModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.module.order.OrderListActivity;
 import com.cdkj.h2hwtw.module.order.OrderListFramgnet;
+import com.cdkj.h2hwtw.module.product.releasesell.ReleaseProductListActivity;
+import com.cdkj.h2hwtw.module.product.releasesell.SellProductListActivity;
 import com.cdkj.h2hwtw.module.user.account.MyAccountActivity;
 import com.cdkj.h2hwtw.module.user.account.MyJfListActivity;
+import com.cdkj.h2hwtw.module.user.coupons.CouponsAllActivity;
 import com.cdkj.h2hwtw.module.user.info.SettingActivity;
 import com.cdkj.h2hwtw.module.user.info.UserInfoEditActivity;
 
@@ -107,6 +110,26 @@ public class MyFragment extends BaseLazyFragment {
 
         initOrderStateListener();
 
+        mBinding.linCooupons.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CouponsAllActivity.open(mActivity);
+            }
+        });
+
+        mBinding.linIRelease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReleaseProductListActivity.open(mActivity);
+            }
+        });
+
+        mBinding.linISell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SellProductListActivity.open(mActivity);
+            }
+        });
 
     }
 

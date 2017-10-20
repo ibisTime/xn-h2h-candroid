@@ -412,6 +412,7 @@
                 android:weightSum="3">
 
                 <LinearLayout
+                    android:id="@+id/lin_i_release"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -437,6 +438,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lin_i_sell"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="0.5dp"
@@ -551,6 +553,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lin_cooupons"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

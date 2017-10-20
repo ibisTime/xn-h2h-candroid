@@ -182,5 +182,11 @@ public class CouponsSelectActivity extends AbsBaseLoadActivity {
         });
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mRfreshHelper != null) {
+            mRfreshHelper.clear();
+        }
+    }
 }

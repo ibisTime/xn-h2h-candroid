@@ -193,7 +193,7 @@ public class ProductBuyActivity extends AbsBaseLoadActivity {
             @Override
             protected void onSuccess(CodeModel data, String SucMessage) {
                 if (!TextUtils.isEmpty(data.getCode())) {
-                    OrderPayActivity.open(ProductBuyActivity.this, mBinding.tvPrictAll.getText().toString(), data.getCode());
+                    OrderPayActivity.open(ProductBuyActivity.this, mBinding.tvPrictAll.getText().toString(), data.getCode(), true);
                     return;
                 }
             }

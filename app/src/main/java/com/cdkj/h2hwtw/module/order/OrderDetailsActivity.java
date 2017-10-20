@@ -305,7 +305,7 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
         }
 
         if (TextUtils.equals("1", state.getStatus())) {      //待支付跳转到支付页面
-            OrderPayActivity.open(this, MoneyUtils.getShowPriceSign(mOrderListAdapter.getAllMoney(state)), state.getCode());
+            OrderPayActivity.open(this, MoneyUtils.getShowPriceSign(mOrderListAdapter.getAllMoney(state)), state.getCode(), false);
             return;
         }
 
@@ -395,6 +395,7 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
+                UITipDialog.showSuccess(OrderDetailsActivity.this, "退款申请提交成功");
                 getOrderRequest(mOrderCode); //退款成功刷新列表
                 changeRefreshOrderList();
             }
@@ -460,6 +461,7 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
+                UITipDialog.showSuccess(OrderDetailsActivity.this, "订单取消成功");
                 getOrderRequest(mOrderCode);//取消成功刷新列表
                 changeRefreshOrderList();
             }
@@ -584,6 +586,7 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
+                UITipDialog.showSuccess(OrderDetailsActivity.this, "收货成功");
                 getOrderRequest(mOrderCode); //收货成功刷新列表
                 changeRefreshOrderList();
             }

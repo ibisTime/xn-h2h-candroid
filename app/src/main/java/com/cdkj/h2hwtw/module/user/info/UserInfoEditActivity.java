@@ -248,6 +248,7 @@ public class UserInfoEditActivity extends AbsBaseLoadActivity {
         if (requestCode == PHOTOFLAG) {
             String path = data.getStringExtra(ImageSelectActivity.staticPath);
             LogUtil.E("拍照获取路径" + path);
+            showLoadingDialog();
             new QiNiuUtil(UserInfoEditActivity.this).getQiniuURL(new QiNiuUtil.QiNiuCallBack() {
                 @Override
                 public void onSuccess(String key, ResponseInfo info, JSONObject res) {
@@ -256,6 +257,7 @@ public class UserInfoEditActivity extends AbsBaseLoadActivity {
 
                 @Override
                 public void onFal(String info) {
+                    disMissLoading();
                     UITipDialog.showFall(UserInfoEditActivity.this, info);
                 }
             }, path);

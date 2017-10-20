@@ -226,6 +226,26 @@
             android:screenOrientation="portrait"
             android:theme="@style/ActivityDialogStyleBottomAPP"
             android:windowSoftInputMode="adjustPan" />
+        <!--优惠券列表-->
+        <activity
+            android:name=".module.user.coupons.CouponsAllActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--我发布的-->
+        <activity
+            android:name=".module.product.releasesell.ReleaseProductListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--产品编辑-->
+        <activity
+            android:name=".module.product.releasesell.ReleaseProductEditActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--我卖出的-->
+        <activity
+            android:name=".module.product.releasesell.SellProductListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
 
     </application>

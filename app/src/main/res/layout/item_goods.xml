@@ -22,7 +22,8 @@
                 android:id="@+id/img_goods"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                tools:src="@mipmap/icon" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -38,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="商品商品商品商品商品商品商品商品商品商品"
+                    tools:text="商品商品商品商品商品商品商品商品商品商品"
                     android:textColor="@color/black_app"
                     android:textSize="14sp" />
 
@@ -62,6 +63,7 @@
                         tools:text="来自电脑" />
 
                     <TextView
+                        android:visibility="invisible"
                         android:id="@+id/tv_is_new"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -111,7 +113,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="999999"
+                        tools:text="999999"
                         android:textColor="@color/text_gray_app"
                         android:textSize="14sp" />
 

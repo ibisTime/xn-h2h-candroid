@@ -28,6 +28,8 @@ import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.ActivityPayBinding;
 import com.cdkj.h2hwtw.model.AmountModel;
 import com.cdkj.h2hwtw.model.CouponsModel;
+import com.cdkj.h2hwtw.module.order.OrderListActivity;
+import com.cdkj.h2hwtw.module.order.OrderListFramgnet;
 import com.cdkj.h2hwtw.module.user.coupons.CouponsSelectActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,13 +51,22 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
 
     private final String OrderPayTag = "OrderPay";
 
-    public static void open(Context context, String price, String orderCode) {
+    private boolean isOpenOrderList;
+
+    /**
+     * @param context
+     * @param price           价格
+     * @param orderCode       订单编号
+     * @param isOpenOrderList 是否打开订单记录列表
+     */
+    public static void open(Context context, String price, String orderCode, boolean isOpenOrderList) {
         if (context == null) {
             return;
         }
         Intent intent = new Intent(context, OrderPayActivity.class);
         intent.putExtra("price", price);
         intent.putExtra("orderCode", orderCode);
+        intent.putExtra("isOpenOrderList", isOpenOrderList);
         context.startActivity(intent);
     }
 
@@ -81,6 +92,7 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         if (getIntent() != null) {
             mPrice = getIntent().getStringExtra("price");
             mOrderCode = getIntent().getStringExtra("orderCode");
+            isOpenOrderList = getIntent().getBooleanExtra("isOpenOrderList", false);
         }
 
         mBinding.tvPayPrice.setText(mPrice);
@@ -118,7 +130,7 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 if (data.isSuccess()) {
-
+                    doPaySucceed();
                 }
             }
 
@@ -378,6 +390,10 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
      */
     public void doPaySucceed() {
         EventBus.getDefault().post(EventTags.BUYLINE);
+        if (isOpenOrderList) {
+            OrderListActivity.open(this, OrderListFramgnet.ORDERWAITESEND);
+        }
+        showToast(getString(R.string.pay_succeed));
         finish();
     }
 

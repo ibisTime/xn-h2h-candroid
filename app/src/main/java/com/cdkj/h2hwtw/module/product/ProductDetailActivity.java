@@ -93,7 +93,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         initComments();
 
         initImgAdapter();
-        
+
         initListener();
 
         getAllData();
@@ -514,6 +514,12 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 
     public void setShowData(ProductListModel.ListBean showData) {
         if (showData == null) return;
+
+        if (TextUtils.equals(showData.getUpdater(), SPUtilHelpr.getUserId())) {  //是自己查看就隐藏购买按钮
+            mBinding.butLayout.linBuy.setVisibility(View.GONE);
+        } else {
+            mBinding.butLayout.linBuy.setVisibility(View.VISIBLE);
+        }
 
         List<String> dd = new ArrayList<>();
         dd.addAll(StringUtils.splitAsPicList(showData.getPic()));

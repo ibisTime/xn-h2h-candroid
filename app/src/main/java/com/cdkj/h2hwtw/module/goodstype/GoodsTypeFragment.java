@@ -3,6 +3,7 @@ package com.cdkj.h2hwtw.module.goodstype;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -25,12 +26,17 @@ import com.cdkj.h2hwtw.module.product.ProductScreeningActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+
+import static com.cdkj.baselibrary.appmanager.EventTags.MAINFINISH;
+import static com.cdkj.baselibrary.appmanager.EventTags.RELEASESUSS;
 
 /**
  * 类别
@@ -124,13 +130,13 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
 
     @Override
     public void getListDataRequest(int pageindex, int limit, final boolean isShowDialog) {
-
         Map<String, String> map = new HashMap();
         map.put("limit", limit + "");
         map.put("pageindex", pageindex + "");
         map.put("start", pageindex + "");
-        map.put("location", "1");
+//        map.put("location", "1"); //1热门
         map.put("status", "3");
+        map.put("isJoin", "0");
         map.put("companyCode", MyCdConfig.COMPANYCODE);
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
         Call call = RetrofitUtils.createApi(MyApiServer.class).getProductList("808025", StringUtils.getJsonToString(map));
@@ -204,6 +210,14 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
             }
         });
 
+    }
+
+    @Subscribe
+    public void EventBus(String evbusTag) {
+        if (TextUtils.equals(evbusTag, RELEASESUSS)) {//发布成功
+            if (mRefreshHelper != null)
+                mRefreshHelper.onDefaluteMRefresh(false);
+        }
 
     }
 

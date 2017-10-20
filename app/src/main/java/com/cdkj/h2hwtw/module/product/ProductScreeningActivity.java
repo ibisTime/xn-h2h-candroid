@@ -72,7 +72,7 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
         mBinding.linScreeningMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new PriceKeyboardPop(ProductScreeningActivity.this, null).showPopupWindow(view);
+//                new PriceKeyboardPop(ProductScreeningActivity.this, null).showPopupWindow(view);
             }
         });
 

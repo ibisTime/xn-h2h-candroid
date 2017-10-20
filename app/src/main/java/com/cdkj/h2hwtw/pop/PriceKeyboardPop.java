@@ -12,10 +12,14 @@ import android.widget.EditText;
 
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.popup.BasePopupWindow;
+import com.cdkj.baselibrary.utils.LogUtil;
+import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.databinding.PopPriceCalculateBinding;
 import com.cdkj.h2hwtw.model.PriceKeyBoardListenerModel;
+
+import java.math.BigDecimal;
 
 /**
  * 发布价格计算pupup
@@ -34,9 +38,12 @@ public class PriceKeyboardPop extends BasePopupWindow {
 
     private PriceKeyBoardPopListener mSureListener;
 
-    public PriceKeyboardPop(Activity context, PriceKeyBoardPopListener listener) {
+    private PriceKeyBoardListenerModel mPriceModel;//包含价格
+
+    public PriceKeyboardPop(Activity context, PriceKeyBoardListenerModel priceModel, PriceKeyBoardPopListener listener) {
         super(context);
         mSureListener = listener;
+        this.mPriceModel = priceModel;
     }
 
     @Override
@@ -55,7 +62,31 @@ public class PriceKeyboardPop extends BasePopupWindow {
         mPriceEditInputString = new StringBuffer();
         mPriceOldEditInputString = new StringBuffer();
         mPriceSendEditInputString = new StringBuffer();
+    }
 
+
+    @Override
+    public void showPopupWindow() {
+
+        if (mPriceModel != null) {
+            mPriceEditInputString.append(mPriceModel.getPrice());
+            mPriceOldEditInputString.append(mPriceModel.getOldPrice());
+            mPriceSendEditInputString.append(mPriceModel.getSendPrice());
+
+            LogUtil.E("价格" + mPriceEditInputString.toString());
+
+            popBinding.editPrice.setText(mPriceEditInputString.toString());
+            popBinding.editPriceOld.setText(mPriceOldEditInputString.toString());
+            popBinding.editSendPrice.setText(mPriceSendEditInputString.toString());
+            popBinding.checkboxCanSend.setChecked(mPriceModel.isCanSend());
+
+            if (!TextUtils.isEmpty(popBinding.editPrice.getText().toString())) {
+                popBinding.editPrice.setSelection(popBinding.editPrice.getText().toString().length());
+            }
+
+        }
+
+        super.showPopupWindow();
     }
 
     private void initKeyListener() {
@@ -132,6 +163,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
         });
     }
 
+
     /**
      * 设置数字键盘监听
      */
@@ -161,7 +193,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
                     return;
                 }
                 mPriceEditInputString.append(view.getTag().toString());
-                if (StringUtils.parseInt(mPriceEditInputString.toString()) > 999999) {
+                if (new BigDecimal(mPriceEditInputString.toString()).intValue() > 999999) {
                     UITipDialog.showInfo(mContext, "价格不能超过999999哦");
                     mPriceEditInputString.deleteCharAt(mPriceEditInputString.toString().length() - 1);
                     return;
@@ -176,7 +208,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
                 }
                 mPriceOldEditInputString.append(view.getTag().toString());
 
-                if (StringUtils.parseInt(mPriceOldEditInputString.toString()) > 999999) {
+                if (new BigDecimal(mPriceOldEditInputString.toString()).intValue() > 999999) {
                     UITipDialog.showInfo(mContext, "原价不能超过999999哦");
                     mPriceOldEditInputString.deleteCharAt(mPriceOldEditInputString.toString().length() - 1);
                 }
@@ -189,7 +221,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
                     return;
                 }
                 mPriceSendEditInputString.append(view.getTag().toString());
-                if (StringUtils.parseInt(mPriceSendEditInputString.toString()) > 999) {
+                if (new BigDecimal(mPriceSendEditInputString.toString()).intValue() > 999) {
                     UITipDialog.showInfo(mContext, "运费价不能超过999哦");
                     mPriceSendEditInputString.deleteCharAt(mPriceSendEditInputString.toString().length() - 1);
                 }

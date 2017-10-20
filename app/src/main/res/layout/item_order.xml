@@ -171,7 +171,7 @@
             <TextView
                 android:id="@+id/tv_cancel_order"
                 android:layout_width="95dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/gray_line_bg"
@@ -181,12 +181,12 @@
                 android:text="取消订单"
                 android:textColor="@color/text_gray_app"
                 android:textSize="16sp"
-                android:visibility="gone" />
+                 />
 
             <TextView
                 android:id="@+id/tv_order_state"
                 android:layout_width="95dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/blue_line_txt_type"

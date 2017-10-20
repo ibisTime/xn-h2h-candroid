@@ -25,7 +25,7 @@ public abstract class BaseRefreshHelperFragment<T> extends BaseLazyFragment impl
 
     protected FragmentRecyclerRefreshBinding mRefreshBinding;
     protected RefreshHelper mRefreshHelper;
-    private LayoutInflater inflater;
+    protected LayoutInflater inflater;
 
     @Nullable
     @Override

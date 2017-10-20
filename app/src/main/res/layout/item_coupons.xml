@@ -9,7 +9,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/couponsb_bg">
+        tools:background="@drawable/couponsb_bg">
 
         <LinearLayout
             android:layout_width="wrap_content"

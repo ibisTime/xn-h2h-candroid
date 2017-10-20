@@ -107,7 +107,9 @@
 
                 <CheckBox
                     android:id="@+id/checkbox_can_send"
-                    style="@style/check_box" />
+                    style="@style/check_box"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp" />
 
 
             </LinearLayout>

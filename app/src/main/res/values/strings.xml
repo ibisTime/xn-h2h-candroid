@@ -25,4 +25,5 @@
     <string name="order_state_7">退款失败</string>
     <string name="order_state_8">退款成功</string>
     <string name="order_state_91">订单取消</string>
+    <string name="pay_succeed">支付成功</string>
 </resources>

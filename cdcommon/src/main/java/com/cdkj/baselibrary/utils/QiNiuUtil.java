@@ -135,6 +135,7 @@ public class QiNiuUtil {
                 token = mo.getUploadToken();
 
                 try {
+//                    uploadSingle(callBack, data, token);
                     compressorUpload(callBack, data, token);
                 } catch (Exception e) {
                     if (callBack != null) {
@@ -163,7 +164,7 @@ public class QiNiuUtil {
 
 
     //多张图片上传
-    public void updataeImage(List<String> dataList, String mToekn, QiNiuCallBack callBack) {
+    public void updataeImage(List<String> dataList, String token, QiNiuCallBack callBack) {
 
         for (int i = 0; i < dataList.size(); i++) {
             String imgPath = dataList.get(i);
@@ -172,7 +173,8 @@ public class QiNiuUtil {
             }
 
             try {
-                compressorUpload(callBack, imgPath, mToekn);
+//                uploadSingle(callBack,imgPath, token);
+                compressorUpload(callBack, imgPath, token);
             } catch (Exception e) {
                 if (callBack != null) {
                     callBack.onFal("图片上传失败");

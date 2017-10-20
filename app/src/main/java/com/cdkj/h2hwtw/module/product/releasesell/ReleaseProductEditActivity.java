@@ -1,4 +1,4 @@
-package com.cdkj.h2hwtw.module.product;
+package com.cdkj.h2hwtw.module.product.releasesell;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +13,14 @@ import com.amap.api.location.AMapLocation;
 import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
-import com.cdkj.baselibrary.base.BaseLocationActivity;
+import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.CodeModel;
+import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.model.QiniuGetTokenModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
+import com.cdkj.baselibrary.utils.BigDecimalUtils;
 import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.QiNiuUtil;
@@ -27,8 +29,10 @@ import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.adapters.ReleasePagePhotoAdapter;
 import com.cdkj.h2hwtw.databinding.ActivityReleaseBinding;
 import com.cdkj.h2hwtw.model.PriceKeyBoardListenerModel;
+import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.cdkj.h2hwtw.model.ReleasePagePhotoModel;
+import com.cdkj.h2hwtw.module.product.ReleaseTypeSelectActivity;
 import com.cdkj.h2hwtw.pop.PriceKeyboardPop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qiniu.android.http.ResponseInfo;
@@ -46,31 +50,34 @@ import java.util.Map;
 import retrofit2.Call;
 
 /**
- * 产品发布
+ * 产品编辑
  * Created by cdkj on 2017/10/10.
  */
 
 //TODO 发布接口参数
-public class ProductReleaseActivity extends BaseLocationActivity {
+public class ReleaseProductEditActivity extends AbsBaseLoadActivity {
 
     private ActivityReleaseBinding mBinding;
     private final int requestPhotoCode = 20;
     private ArrayList<String> pathList = new ArrayList<>();
-    private ArrayList<String> mPahtRquestList = new ArrayList<>();
-
-    private ReleasePagePhotoAdapter mAdapter;
-
+    private List<String> mPahtRquestList = new ArrayList<>();
+    private ReleasePagePhotoAdapter mPhotoAdapter;
     private PriceKeyBoardListenerModel mPriceModel;//包含价格 用于发起请求
+
     private AMapLocation mLocation;//定位信息
 
     private String mType;//类型
 
+    private ProductListModel.ListBean mProductData;
 
-    public static void open(Context context) {
+    private boolean isSelectPhoto;//用于判断用户是否选择过图片；
+
+    public static void open(Context context, ProductListModel.ListBean productData) {
         if (context == null) {
             return;
         }
-        Intent intent = new Intent(context, ProductReleaseActivity.class);
+        Intent intent = new Intent(context, ReleaseProductEditActivity.class);
+        intent.putExtra("productData", productData);
         context.startActivity(intent);
     }
 
@@ -84,15 +91,115 @@ public class ProductReleaseActivity extends BaseLocationActivity {
 
     @Override
     public void afterCreate(Bundle savedInstanceState) {
-        mBaseBinding.titleView.setMidTitle(getString(R.string.text_release));
-        mBaseBinding.titleView.setRightTitle(getString(R.string.text_cancel));
+
+        mBaseBinding.titleView.setMidTitle("编辑");
+
         initListener();
+
+        initCameraLayout();
+
+        //改变默认的单行模式
+        mBinding.editDescription.setSingleLine(false);
+        //水平滚动设置为False
+        mBinding.editDescription.setHorizontallyScrolling(false);
+
+        if (getIntent() != null) {
+            mProductData = getIntent().getParcelableExtra("productData");
+        }
+
+        setPhotoShowData(mProductData);
+
+        setShowData(mProductData);
+
+    }
+
+    /**
+     * 设置图片数据
+     *
+     * @param mProductData
+     */
+    private void setPhotoShowData(ProductListModel.ListBean mProductData) {
+        if (mProductData == null) return;
+
+        isSelectPhoto = false;
+
+        mPahtRquestList.addAll(StringUtils.splitAsPicList(mProductData.getPic()));
+
+        setPhotoAdapterAndChangeLayout(mPahtRquestList, true);
+
+    }
+
+    /**
+     * 改变适配器数据
+     *
+     * @param pahtList
+     * @param isRequeURL 是否来自网络地址
+     */
+    private void changePhotoAdapterData(List<String> pahtList, boolean isRequeURL) {
+        if (pahtList == null || pahtList.isEmpty()) return;
+        List<ReleasePagePhotoModel> mAdapterList = new ArrayList<>();
+        final ReleasePagePhotoModel re = new ReleasePagePhotoModel();
+        re.setHeart(true);
+        re.setIndex(-1);
+        mAdapterList.add(re);
+        for (int i = 0; i < pahtList.size(); i++) {
+            ReleasePagePhotoModel re2 = new ReleasePagePhotoModel();
+            if (isRequeURL) {
+                re2.setImgPath(MyCdConfig.QINIUURL + pahtList.get(i));
+            } else {
+                re2.setImgPath(pahtList.get(i));
+            }
+            re.setIndex(i);
+            mAdapterList.add(re2);
+        }
+        mPhotoAdapter.replaceData(mAdapterList);
+    }
+
+    /**
+     * 设置显示数据
+     *
+     * @param productData
+     */
+    private void setShowData(ProductListModel.ListBean productData) {
+        if (productData == null) return;
+
+
+        mBinding.editName.setText(productData.getName());          //产品名称
+        if (!TextUtils.isEmpty(mBinding.editName.getText().toString())) {
+            mBinding.editName.setSelection(mBinding.editName.getText().toString().length());
+        }
+        mBinding.editDescription.setText(productData.getDescription());
+
+        mBinding.checkboxIsnew.setChecked(TextUtils.equals(productData.getIsNew(), "1"));//是否全新 1全新
+
+        mBinding.checkboxIsPublish.setChecked(TextUtils.equals(productData.getIsPublish(), "1"));//是否发布到圈子 1发布
+
+        mBinding.location.tvLocation.setText(productData.getProvince() + " " + productData.getCity() + " " + productData.getArea());//设置的定位信息
+
+
+        mType = productData.getType();     //用户选择的类型
+        mBinding.tvType.setText(productData.getTypeName());
+
+        mPriceModel = new PriceKeyBoardListenerModel();         //用户设置的价格
+        mPriceModel.setPrice(MoneyUtils.getPriceIntValue(productData.getPrice()) + "");
+        mPriceModel.setOldPrice(MoneyUtils.getPriceIntValue(productData.getOriginalPrice()) + "");
+        mPriceModel.setSendPrice(MoneyUtils.getPriceIntValue(productData.getYunfei()) + "");
+        mPriceModel.setCanSend(BigDecimalUtils.intValue(productData.getYunfei()) == 0);
+        mBinding.tvPrice.setText(MoneyUtils.getPriceIntValue(productData.getPrice()) + "");
+
+
+    }
+
+    /**
+     * 设置相机布局
+     */
+    private void initCameraLayout() {
         mBinding.layoutCheckCamera.recyclerPhoto.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        mAdapter = new ReleasePagePhotoAdapter(null);
-        mAdapter.setHeaderAndEmpty(true);
-        mBinding.layoutCheckCamera.recyclerPhoto.setAdapter(mAdapter);
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        mPhotoAdapter = new ReleasePagePhotoAdapter(null);
+        mPhotoAdapter.setHeaderAndEmpty(true);
+        mBinding.layoutCheckCamera.recyclerPhoto.setAdapter(mPhotoAdapter);
+        mPhotoAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
@@ -100,24 +207,22 @@ public class ProductReleaseActivity extends BaseLocationActivity {
                         startSelsetPhoto();
                         break;
                     case R.id.img_delete:
-                        if (pathList != null && mAdapter.getItem(position) != null && pathList.size() > mAdapter.getItem(position).getIndex()) {
-                            pathList.remove(mAdapter.getItem(position).getIndex());
+                        if (isSelectPhoto) { //选择了相册
+                            if (pathList != null && mPhotoAdapter.getItem(position) != null && pathList.size() > mPhotoAdapter.getItem(position).getIndex()) {
+                                pathList.remove(mPhotoAdapter.getItem(position).getIndex());
+                            }
+
+                        } else {         //没有选择相册
+                            if (mPahtRquestList != null && mPhotoAdapter.getItem(position) != null && mPahtRquestList.size() > mPhotoAdapter.getItem(position).getIndex()) {
+                                mPahtRquestList.remove(mPhotoAdapter.getItem(position).getIndex());
+                            }
                         }
-                        mAdapter.remove(position);
+                        mPhotoAdapter.remove(position);
                         break;
                 }
 
             }
         });
-
-
-        //改变默认的单行模式
-        mBinding.editDescription.setSingleLine(false);
-        //水平滚动设置为False
-        mBinding.editDescription.setHorizontallyScrolling(false);
-
-        startLocation();//开始定位
-
     }
 
     @Override
@@ -142,8 +247,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         mBinding.layoutPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPriceModel = null;
-                new PriceKeyboardPop(ProductReleaseActivity.this, mPriceModel, new PriceKeyboardPop.PriceKeyBoardPopListener() {
+                new PriceKeyboardPop(ReleaseProductEditActivity.this, mPriceModel, new PriceKeyboardPop.PriceKeyBoardPopListener() {
                     @Override
                     public void sureInputDone(PriceKeyBoardListenerModel model) {
                         mPriceModel = model;
@@ -164,7 +268,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         mBinding.lineType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ReleaseTypeSelectActivity.open(ProductReleaseActivity.this);
+                ReleaseTypeSelectActivity.open(ReleaseProductEditActivity.this);
             }
         });
 
@@ -176,33 +280,41 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             @Override
             public void onClick(View view) {
 
-                if (pathList == null || pathList.isEmpty()) {
-                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_add_photo));
+                if (!isSelectPhoto && (mPahtRquestList == null || mPahtRquestList.isEmpty())) {//如果用户没有选择图片
+                    UITipDialog.showFall(ReleaseProductEditActivity.this, getString(R.string.please_add_photo));
+                    return;
+                }
+                if (isSelectPhoto && (pathList == null || pathList.isEmpty())) {          //如果用户选择了图片
+                    UITipDialog.showFall(ReleaseProductEditActivity.this, getString(R.string.please_add_photo));
                     return;
                 }
 
                 if (TextUtils.isEmpty(mBinding.editName.getText().toString())) {
-                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_name));
+                    UITipDialog.showFall(ReleaseProductEditActivity.this, getString(R.string.please_input_name));
                     return;
                 }
                 if (TextUtils.isEmpty(mBinding.editDescription.getText().toString())) {
-                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_info));
+                    UITipDialog.showFall(ReleaseProductEditActivity.this, getString(R.string.please_input_info));
                     return;
                 }
                 if (TextUtils.isEmpty(mType)) {
-                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_select_type));
+                    UITipDialog.showFall(ReleaseProductEditActivity.this, getString(R.string.please_select_type));
                     return;
                 }
 
                 if (mPriceModel == null || TextUtils.isEmpty(mPriceModel.getPrice())) {
-                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_set_price));
+                    UITipDialog.showFall(ReleaseProductEditActivity.this, getString(R.string.please_set_price));
                     return;
                 }
 
-                if (!SPUtilHelpr.isLogin(ProductReleaseActivity.this, false)) {
+                if (!SPUtilHelpr.isLogin(ReleaseProductEditActivity.this, false)) {
                     return;
                 }
-                upLoadImg();
+                if (isSelectPhoto) { //如果选择了相册
+                    upLoadImg();
+                } else {
+                    updateRequest();
+                }
 
             }
         });
@@ -214,10 +326,10 @@ public class ProductReleaseActivity extends BaseLocationActivity {
      */
     private void startSelsetPhoto() {
 
-        Album.album(ProductReleaseActivity.this)
+        Album.album(ReleaseProductEditActivity.this)
                 .requestCode(requestPhotoCode) // 请求码，返回时onActivityResult()的第一个参数。
-                .toolBarColor(ContextCompat.getColor(ProductReleaseActivity.this, R.color.title_bg_app)) // Toolbar 颜色，默认蓝色。
-                .statusBarColor(ContextCompat.getColor(ProductReleaseActivity.this, R.color.title_bg_app)) // StatusBar 颜色，默认蓝色。
+                .toolBarColor(ContextCompat.getColor(ReleaseProductEditActivity.this, R.color.title_bg_app)) // Toolbar 颜色，默认蓝色。
+                .statusBarColor(ContextCompat.getColor(ReleaseProductEditActivity.this, R.color.title_bg_app)) // StatusBar 颜色，默认蓝色。
 //                    .navigationBarColor(navigationBarColor) // NavigationBar 颜色，默认黑色，建议使用默认。
                 .title(getString(R.string.photo_selset)) // 配置title。
                 .selectCount(9) // 最多选择几张图片。
@@ -232,9 +344,11 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         if (requestPhotoCode == requestCode) {
             if (resultCode == RESULT_OK) { // 判断是否成功。
                 // 拿到用户选择的图片路径List：
+                isSelectPhoto = true;
+                mPahtRquestList.clear();
                 pathList = Album.parseResult(data);
                 if (pathList == null) return;
-                setPhotoAdapterAndChangeLayout();
+                setPhotoAdapterAndChangeLayout(pathList, false);
 
             } else if (resultCode == RESULT_CANCELED) { // 用户取消选择。
 
@@ -245,7 +359,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
     /**
      * 更新图片适配器并改变布局
      */
-    private void setPhotoAdapterAndChangeLayout() {
+    private void setPhotoAdapterAndChangeLayout(List<String> pathList, boolean isRequeURL) {
         if (pathList.isEmpty()) {
             mBinding.layoutCheckCamera.linCameraCheck.setVisibility(View.VISIBLE);
             mBinding.layoutCheckCamera.recyclerPhoto.setVisibility(View.GONE);
@@ -253,18 +367,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             mBinding.layoutCheckCamera.linCameraCheck.setVisibility(View.GONE);
             mBinding.layoutCheckCamera.recyclerPhoto.setVisibility(View.VISIBLE);
 
-            List<ReleasePagePhotoModel> mAdapterList = new ArrayList<>();
-            final ReleasePagePhotoModel re = new ReleasePagePhotoModel();
-            re.setHeart(true);
-            re.setIndex(-1);
-            mAdapterList.add(re);
-            for (int i = 0; i < pathList.size(); i++) {
-                ReleasePagePhotoModel re2 = new ReleasePagePhotoModel();
-                re2.setImgPath(pathList.get(i));
-                re.setIndex(i);
-                mAdapterList.add(re2);
-            }
-            mAdapter.replaceData(mAdapterList);
+            changePhotoAdapterData(pathList, isRequeURL);
 
         }
     }
@@ -276,7 +379,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         final QiNiuUtil qiNiuUtil = new QiNiuUtil(this);
 
         showLoadingDialog();
-
+        mPahtRquestList.clear();
         qiNiuUtil.getQiniuToeknRequest().enqueue(new BaseResponseModelCallBack<QiniuGetTokenModel>(this) {
             @Override
             protected void onSuccess(QiniuGetTokenModel data, String SucMessage) {
@@ -286,14 +389,14 @@ public class ProductReleaseActivity extends BaseLocationActivity {
                         LogUtil.E("url" + key);
                         mPahtRquestList.add(key);
                         if (mPahtRquestList.size() == pathList.size() && mPahtRquestList.size() > 0) {
-                            releaseRequest();
+                            updateRequest();
                         }
                     }
 
                     @Override
                     public void onFal(String info) {
                         disMissLoading();
-                        UITipDialog.showFall(ProductReleaseActivity.this, info);
+                        UITipDialog.showFall(ReleaseProductEditActivity.this, info);
                     }
                 });
             }
@@ -301,7 +404,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
                 disMissLoading();
-                UITipDialog.showFall(ProductReleaseActivity.this, errorMessage);
+                UITipDialog.showFall(ReleaseProductEditActivity.this, errorMessage);
             }
 
             @Override
@@ -311,27 +414,10 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         });
     }
 
-    @Override
-    protected void locationSuccessful(AMapLocation aMapLocation) {
-        mLocation = aMapLocation;
-    }
-
-    @Override
-    protected void locationFailure() {
-
-    }
-
-    @Override
-    protected void onNegativeButton() {
-        mBinding.location.tvLocation.setText(R.string.error_location);
-    }
-
-
     /**
-     * 发布请求
+     * 编辑更新请求
      */
-    public void releaseRequest() {
-
+    public void updateRequest() {
 
         Map<String, String> map = new HashMap<>();
 
@@ -339,8 +425,8 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             map.put("area", "地区");
             map.put("province", "省份");
             map.put("city", "城市");
-            map.put("latitude", "经度");
-            map.put("longitude", "维度");
+            map.put("latitude", "111111111");
+            map.put("longitude", "22222222");
 
         } else {
             map.put("area", mLocation.getDistrict());
@@ -351,12 +437,12 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         }
 
         map.put("pic", StringUtils.listToString(mPahtRquestList, "||"));
-
         map.put("price", MoneyUtils.getRequestPrice(mPriceModel.getPrice()));
         map.put("originalPrice", MoneyUtils.getRequestPrice(mPriceModel.getOldPrice()));
         map.put("yunfei", MoneyUtils.getRequestPrice(mPriceModel.getSendPrice()));
 
         map.put("type", mType);
+        map.put("code", mProductData.getCode());
 
         map.put("companyCode", MyCdConfig.COMPANYCODE);
         map.put("description", mBinding.editDescription.getText().toString());
@@ -368,27 +454,26 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
         map.put("storeCode", SPUtilHelpr.getUserId());
 
-        Call call = RetrofitUtils.getBaseAPiService().codeRequest("808015", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.getBaseAPiService().successRequest("808012", StringUtils.getJsonToString(map));
 
         addCall(call);
 
         showLoadingDialog();
 
-        call.enqueue(new BaseResponseModelCallBack<CodeModel>(this) {
+        call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
             @Override
-            protected void onSuccess(CodeModel data, String SucMessage) {
-                if (!TextUtils.isEmpty(data.getCode())) {
+            protected void onSuccess(IsSuccessModes data, String SucMessage) {
+                if (data.isSuccess()) {
                     EventBus.getDefault().post(EventTags.RELEASESUSS);//发布成功
                     finish();
                 } else {
-                    UITipDialog.showFall(ProductReleaseActivity.this, "产品发布失败");
                     disMissLoading();
                 }
             }
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
-                UITipDialog.showFall(ProductReleaseActivity.this, errorMessage);
+                UITipDialog.showFall(ReleaseProductEditActivity.this, errorMessage);
             }
 
             @Override
