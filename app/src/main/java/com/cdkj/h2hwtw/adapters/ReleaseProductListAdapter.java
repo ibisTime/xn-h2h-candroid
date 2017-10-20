@@ -56,6 +56,12 @@ public class ReleaseProductListAdapter extends BaseQuickAdapter<ProductListModel
         } else {
             viewHolder.setText(R.id.tv_down_product, "上架");
         }
+        /*3=已上架 4=已卖出，5=已下架 ,6=强制下架*/
+        if (TextUtils.equals("5", item.getStatus()) || TextUtils.equals("3", item.getStatus())) {
+            viewHolder.setGone(R.id.tv_down_product, true);
+        } else {
+            viewHolder.setGone(R.id.tv_down_product, false);
+        }
 
 
         viewHolder.setOnClickListener(R.id.lin_goods, new View.OnClickListener() {

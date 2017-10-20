@@ -127,7 +127,7 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
     private void showPutDialog(final String code, final int position) {
 
         CommonDialog commonDialog = new CommonDialog(mActivity).builder()
-                .setTitle("提示").setContentMsg("确认上架架该产品？")
+                .setTitle("提示").setContentMsg("确认上架该产品？")
                 .setPositiveBtn("确定", new CommonDialog.OnPositiveListener() {
                     @Override
                     public void onPositive(View view) {
@@ -164,7 +164,7 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
         map.put("orderColumn", "update_datetime");
         map.put("orderDir", "desc");
         map.put("userId", SPUtilHelpr.getUserId());
-
+       /*3=已上架 4=已卖出，5=已下架 ,6=强制下架*/
         List<String> statusList = new ArrayList<>();
         if (mType == RELEASETYPE) {
             statusList.add("3");

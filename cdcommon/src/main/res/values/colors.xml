@@ -15,7 +15,7 @@
 
     <!--dialog-->
     <color name="dialog_tips_content_txt">#444444</color>
-    <color name="dialog_tips_bg">#FAFAFA</color>
+    <color name="dialog_tips_bg">#ffffff</color>
     <color name="dialog_tips_title_txt">#030303</color>
     <color name="dialog_tips_btn">#d6d6d6</color>
     <color name="dialog_tips_line">#EAEAEA</color>
