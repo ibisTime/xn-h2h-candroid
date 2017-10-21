@@ -7,10 +7,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/pop_black_bg" />
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/pop_black_bg" />-->
 
         <LinearLayout
             android:id="@+id/lin_send_root"
@@ -19,7 +19,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="130dp"
             android:background="@drawable/dialog_tips_bg"
             android:orientation="vertical"
             android:paddingBottom="5dp"
@@ -27,12 +27,17 @@
             android:paddingRight="10dp">
 
             <LinearLayout
+                android:id="@+id/lin_company"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:orientation="horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
 
                 <TextView
+                    android:id="@+id/tv_company_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="物流公司" />
@@ -49,11 +54,10 @@
                     android:src="@drawable/more_right" />
             </LinearLayout>
 
-            <View
-                style="@style/line_gray"
-                android:layout_marginTop="10dp" />
+            <View style="@style/line_gray" />
 
             <EditText
+                android:id="@+id/edit_code"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginTop="10dp"
@@ -62,15 +66,15 @@
                 android:paddingLeft="5dp"
                 android:textSize="14sp" />
 
-            <View
-                style="@style/line_gray"
-                android:layout_marginTop="10dp" />
 
             <LinearLayout
+                android:id="@+id/lin_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -89,16 +93,13 @@
                     android:src="@drawable/more_right" />
             </LinearLayout>
 
-            <View
-                style="@style/line_gray"
-                android:layout_marginTop="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/dialog_tips_negative_btn"
+                    android:id="@+id/btn_cancel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -110,9 +111,8 @@
                     android:textColor="@color/dialog_tips_negative_btn_txt"
                     android:textSize="16sp" />
 
-                <View style="@style/vine_gray" />
-
                 <Button
+                    android:id="@+id/btn_sure"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -123,6 +123,9 @@
                     android:text="确认"
                     android:textColor="@color/dialog_tips_negative_btn_txt"
                     android:textSize="16sp" />
+
+                <View style="@style/vine_gray" />
+
             </LinearLayout>
 
 

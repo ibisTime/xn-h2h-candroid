@@ -28,6 +28,7 @@ import com.cdkj.h2hwtw.module.product.releasesell.ReleaseProductListActivity;
 import com.cdkj.h2hwtw.module.product.releasesell.SellProductListActivity;
 import com.cdkj.h2hwtw.module.user.account.MyAccountActivity;
 import com.cdkj.h2hwtw.module.user.account.MyJfListActivity;
+import com.cdkj.h2hwtw.module.user.activity.ActivityCenterActivity;
 import com.cdkj.h2hwtw.module.user.coupons.CouponsAllActivity;
 import com.cdkj.h2hwtw.module.user.info.SettingActivity;
 import com.cdkj.h2hwtw.module.user.info.UserInfoEditActivity;
@@ -130,7 +131,27 @@ public class MyFragment extends BaseLazyFragment {
                 SellProductListActivity.open(mActivity);
             }
         });
-
+        //活动报名
+        mBinding.linAddPreferential.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ActivityCenterActivity.open(mActivity);
+            }
+        });
+        //我想要的
+        mBinding.linIWant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WantProductListActivity.open(mActivity);
+            }
+        });
+        //我的足迹
+        mBinding.linBrowse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BrowseProductListActivity.open(mActivity);
+            }
+        });
     }
 
     /**

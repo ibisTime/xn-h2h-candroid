@@ -47,6 +47,8 @@ public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBe
         viewHolder.setText(R.id.tv_type_name, item.getTypeName());
         viewHolder.setText(R.id.tv_address, item.getProvince() + " " + item.getCity() + " " + item.getArea());
 
+        viewHolder.setGone(R.id.fra_isjoin, TextUtils.equals(item.getIsJoin(), "1"));//是否参加了活动 1参加 0否
+
         viewHolder.setOnClickListener(R.id.lin_goods, new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -57,13 +57,29 @@ public class UITipDialog extends Dialog {
         if (tipDialog != null) {
             tipDialog.dismiss();
         }
+        if (context == null) return;
         tipDialog = new UITipDialog.Builder(context)
                 .setIconType(UITipDialog.Builder.ICON_TYPE_SUCCESS)
                 .setTipWord(info)
                 .create();
         tipDialog.show();
         timerDismiss();
+    }
 
+    public static void showSuccess(Context context, String info,OnDismissListener listener) {
+        if (tipDialog != null) {
+            tipDialog.dismiss();
+        }
+        if (context == null) return;
+        tipDialog = new UITipDialog.Builder(context)
+                .setIconType(UITipDialog.Builder.ICON_TYPE_SUCCESS)
+                .setTipWord(info)
+                .create();
+        if(listener!=null){
+            tipDialog.setOnDismissListener(listener);
+        }
+        tipDialog.show();
+        timerDismiss();
     }
 
     private static void timerDismiss() {

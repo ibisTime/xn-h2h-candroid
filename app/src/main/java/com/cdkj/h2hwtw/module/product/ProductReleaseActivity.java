@@ -1,6 +1,7 @@
 package com.cdkj.h2hwtw.module.product;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.cdkj.h2hwtw.databinding.ActivityReleaseBinding;
 import com.cdkj.h2hwtw.model.PriceKeyBoardListenerModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.cdkj.h2hwtw.model.ReleasePagePhotoModel;
+import com.cdkj.h2hwtw.module.product.preferential.PreferentialProductListActivity;
 import com.cdkj.h2hwtw.pop.PriceKeyboardPop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qiniu.android.http.ResponseInfo;
@@ -65,12 +67,18 @@ public class ProductReleaseActivity extends BaseLocationActivity {
 
     private String mType;//类型
 
+    private String mActivityCode;//活动编号 如果参加活动需要
 
-    public static void open(Context context) {
+    /**
+     * @param context
+     * @param activityCode 如果参加了优惠活动 则需要传递活动编号
+     */
+    public static void open(Context context, String activityCode) {
         if (context == null) {
             return;
         }
         Intent intent = new Intent(context, ProductReleaseActivity.class);
+        intent.putExtra("activityCode", activityCode);
         context.startActivity(intent);
     }
 
@@ -86,7 +94,27 @@ public class ProductReleaseActivity extends BaseLocationActivity {
     public void afterCreate(Bundle savedInstanceState) {
         mBaseBinding.titleView.setMidTitle(getString(R.string.text_release));
         mBaseBinding.titleView.setRightTitle(getString(R.string.text_cancel));
+
+        if (getIntent() != null) {
+            mActivityCode = getIntent().getStringExtra("activityCode");
+        }
+
         initListener();
+        initPhotoLayout();
+
+        //改变默认的单行模式
+        mBinding.editDescription.setSingleLine(false);
+        //水平滚动设置为False
+        mBinding.editDescription.setHorizontallyScrolling(false);
+
+        startLocation();//开始定位
+
+    }
+
+    /**
+     * 设置图片相关
+     */
+    private void initPhotoLayout() {
         mBinding.layoutCheckCamera.recyclerPhoto.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         mAdapter = new ReleasePagePhotoAdapter(null);
@@ -109,15 +137,6 @@ public class ProductReleaseActivity extends BaseLocationActivity {
 
             }
         });
-
-
-        //改变默认的单行模式
-        mBinding.editDescription.setSingleLine(false);
-        //水平滚动设置为False
-        mBinding.editDescription.setHorizontallyScrolling(false);
-
-        startLocation();//开始定位
-
     }
 
     @Override
@@ -276,7 +295,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         final QiNiuUtil qiNiuUtil = new QiNiuUtil(this);
 
         showLoadingDialog();
-
+        mPahtRquestList.clear();
         qiNiuUtil.getQiniuToeknRequest().enqueue(new BaseResponseModelCallBack<QiniuGetTokenModel>(this) {
             @Override
             protected void onSuccess(QiniuGetTokenModel data, String SucMessage) {
@@ -357,6 +376,9 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         map.put("yunfei", MoneyUtils.getRequestPrice(mPriceModel.getSendPrice()));
 
         map.put("type", mType);
+        if (!TextUtils.isEmpty(mActivityCode)) {
+            map.put("activityCode", mActivityCode);
+        }
 
         map.put("companyCode", MyCdConfig.COMPANYCODE);
         map.put("description", mBinding.editDescription.getText().toString());
@@ -378,8 +400,23 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             @Override
             protected void onSuccess(CodeModel data, String SucMessage) {
                 if (!TextUtils.isEmpty(data.getCode())) {
-                    EventBus.getDefault().post(EventTags.RELEASESUSS);//发布成功
-                    finish();
+
+                    String tipString = "发布成功";
+                    if (!TextUtils.isEmpty(mActivityCode)) {
+                        tipString = "活动参加成功";
+                    } else {
+                        EventBus.getDefault().post(EventTags.RELEASESUSS);//发布成功
+                    }
+                    UITipDialog.showSuccess(ProductReleaseActivity.this, tipString, new DialogInterface.OnDismissListener() {
+
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            if (!TextUtils.isEmpty(mActivityCode)) {                              //如果参加了活动 则跳到活动产品列表
+                                PreferentialProductListActivity.open(ProductReleaseActivity.this);
+                            }
+                            finish();
+                        }
+                    });
                 } else {
                     UITipDialog.showFall(ProductReleaseActivity.this, "产品发布失败");
                     disMissLoading();

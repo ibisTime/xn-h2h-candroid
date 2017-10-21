@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseRefreshHelperFragment;
@@ -21,6 +22,8 @@ import com.cdkj.h2hwtw.databinding.LayoutReleaseProductEmptyBinding;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.module.product.ProductReleaseActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -297,7 +300,7 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
         emptyTipsBinding.btnGoRelease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProductReleaseActivity.open(mActivity);
+                ProductReleaseActivity.open(mActivity,"");
             }
         });
 
@@ -307,6 +310,19 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
     @Override
     protected String getErrorInfo() {
         return "";
+    }
+
+    @Subscribe
+    public void EventFinish(String evbusTag) {
+        if (TextUtils.equals(evbusTag, EventTags.RELEASEEDITSUSS)) {//产品编辑成功
+            if (mType == RELEASETYPE) {           //已上架产品不能编辑
+                return;
+            }
+            UITipDialog.showSuccess(mActivity, "产品编辑成功");
+            if (mRefreshHelper != null) {
+                mRefreshHelper.onDefaluteMRefresh(false);
+            }
+        }
     }
 
 

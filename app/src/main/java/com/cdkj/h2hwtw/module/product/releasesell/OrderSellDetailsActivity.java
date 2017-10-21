@@ -1,4 +1,4 @@
-package com.cdkj.h2hwtw.module.order;
+package com.cdkj.h2hwtw.module.product.releasesell;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.dialog.InputDialog;
 import com.cdkj.baselibrary.dialog.UITipDialog;
-import com.cdkj.baselibrary.model.EventBusModel;
 import com.cdkj.baselibrary.model.IntroductionDkeyModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
@@ -25,15 +24,12 @@ import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
-import com.cdkj.h2hwtw.adapters.OrderListAdapter;
+import com.cdkj.h2hwtw.adapters.SellProductListAdapter;
 import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.ActivityOrderDetailsBinding;
 import com.cdkj.h2hwtw.model.OrderModel;
-import com.cdkj.h2hwtw.module.pay.OrderPayActivity;
-import com.cdkj.h2hwtw.module.product.releasesell.OrderSellDetailsActivity;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -43,16 +39,14 @@ import java.util.Map;
 
 import retrofit2.Call;
 
-import static com.cdkj.baselibrary.appmanager.EventTags.BUYLINE;
 import static com.cdkj.baselibrary.appmanager.EventTags.ORDERCHANGEREFRESH;
-import static com.cdkj.baselibrary.appmanager.EventTags.RELEASESCOMMENTSORDER;
 
 /**
- * 订单详情
+ * 已卖出订单详情
  * Created by cdkj on 2017/10/19.
  */
 
-public class OrderDetailsActivity extends AbsBaseLoadActivity {
+public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
 
     private ActivityOrderDetailsBinding mBinding;
 
@@ -60,7 +54,7 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
 
     private OrderModel mOrderData;//订单数据
 
-    private OrderListAdapter mOrderListAdapter = new OrderListAdapter(new ArrayList<OrderModel>());//用户获取状态
+    private SellProductListAdapter mOrderListAdapter = new SellProductListAdapter(new ArrayList<OrderModel>());//用户获取状态
     private InputDialog CancelInputDialog;
     private InputDialog CancePaylInputDialog;
 
@@ -72,7 +66,7 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
         if (context == null) {
             return;
         }
-        Intent intent = new Intent(context, OrderDetailsActivity.class);
+        Intent intent = new Intent(context, OrderSellDetailsActivity.class);
         intent.putExtra("code", orderCode);
         context.startActivity(intent);
     }
@@ -100,7 +94,7 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
         mBinding.tvState.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doSomtingByState(mOrderData);
+
             }
         });
 
@@ -123,7 +117,6 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
      * 获取订单数据请求
      */
     private void getOrderRequest(String code) {
-
         if (TextUtils.isEmpty(code)) {
             return;
         }
@@ -196,7 +189,6 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
             mBinding.tvLogisticsCode.setText("物流单号:" + data.getLogisticsCode());
         }
 
-
         if (TextUtils.isEmpty(data.getRemark())) {
             mBinding.tvRemark.setText("买家叮嘱:");
         } else {
@@ -250,50 +242,7 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
         return "暂无";
     }
 
-    /**
-     * 获取物流公司
-     */
-    private void getCompnayRequest(final String key) {
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("systemCode", MyCdConfig.SYSTEMCODE);
-        map.put("companyCode", MyCdConfig.COMPANYCODE);
-        map.put("token", SPUtilHelpr.getUserToken());
-        map.put("parentKey", "back_kd_company");
-
-        Call call = RetrofitUtils.createApi(MyApiServer.class).getdKeyListInfo("801907", StringUtils.getJsonToString(map));
-
-        addCall(call);
-
-
-        call.enqueue(new BaseResponseListCallBack<IntroductionDkeyModel>(this) {
-            @Override
-            protected void onSuccess(List<IntroductionDkeyModel> data, String SucMessage) {
-
-                boolean isUse = false;
-                for (IntroductionDkeyModel model : data) {
-                    if (TextUtils.equals(model.getDkey(), key)) {
-                        mBinding.tvLogisticsCompany.setText("物流公司:" + model.getDvalue());
-                        isUse = true;
-                        break;
-                    }
-                }
-                if(!isUse){
-                    mBinding.tvLogisticsCompany.setText("物流公司:暂无" );
-                }
-            }
-
-            @Override
-            protected void onReqFailure(String errorCode, String errorMessage) {
-                UITipDialog.showFall(OrderDetailsActivity.this, errorMessage);
-            }
-
-            @Override
-            protected void onFinish() {
-            }
-        });
-    }
     /**
      * 根据状态设置底部按钮
      *
@@ -301,10 +250,10 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
      */
     public void setShowButtomBtnState(String showState) {
 
-        mBinding.tvCancel.setText(mOrderListAdapter.getStateCancelString(showState));
+        mBinding.tvCancel.setText(mOrderListAdapter.getDoStateString(showState));
         mBinding.tvState.setText(mOrderListAdapter.getStateString(showState));
 
-        if (mOrderListAdapter.canShowCancel(showState)) {
+        if (mOrderListAdapter.canShowDoBtn(showState)) {
             mBinding.tvCancel.setVisibility(View.VISIBLE);
         } else {
             mBinding.tvCancel.setVisibility(View.GONE);
@@ -315,113 +264,110 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
     /**
      * 根据订单状态执行相应操作
      *
-     * @param state 订单状态
+     * @param orderModel 订单状态
      */
-    private void doSomtingByState(OrderModel state) {
+    private void doCancelByState(OrderModel orderModel) {
 
-        if (state == null) {
-            return;
+        if (orderModel == null) return;
+
+        if (TextUtils.equals(orderModel.getStatus(), "1")) {//取消订单 待发货
+            showCancelInputDialog(orderModel.getCode());
+        }
+        if (TextUtils.equals(orderModel.getStatus(), "6")) {//退款申请
+            showBackPayDialog(orderModel.getCode());
+        }
+        if (TextUtils.equals(orderModel.getStatus(), "2")) {//发货
+            showSendOrderDialog(orderModel.getCode());
+        }
+        if (TextUtils.equals(orderModel.getStatus(), "5")) {//查看评价
+            showCommentDialog(orderModel.getRemark());
         }
 
-        if (TextUtils.equals("1", state.getStatus())) {      //待支付跳转到支付页面
-            OrderPayActivity.open(this, MoneyUtils.getShowPriceSign(mOrderListAdapter.getAllMoney(state)), state.getCode(), false);
-            return;
-        }
-
-        if (TextUtils.equals("2", state.getStatus())) {  //待发货 申请催货
-            showCuiHuoDialog(state.getCode());
-            return;
-        }
-
-        if (TextUtils.equals("3", state.getStatus())) {//确认收货
-            showSureGetOrderDialog(state.getCode());
-            return;
-        }
-
-        if (TextUtils.equals("4", state.getStatus())) {//已收货 待评价
-            if (state.getProductOrderList() != null && state.getProductOrderList().size() > 0 && state.getProductOrderList().get(0) != null) {
-                OrderCommentsEditActivity.open(this, state.getProductOrderList().get(0).getCode(), state.getCode());
-            }
-            return;
-        }
     }
 
+
     /**
-     * 根据订单状态执行相应操作
+     * 显示查看评论弹框
      *
-     * @param state 订单状态
+     * @param remark
      */
-    private void doCancelByState(OrderModel state) {
-
-        if (state == null) return;
-
-        if (TextUtils.equals("1", state.getStatus())) {      //待支付取消订单
-            showCancelInputDialog(state.getCode());
-            return;
-        }
-
-        if (TextUtils.equals("2", state.getStatus())) {//待发货 申请退款
-            showCancePaylInputDialog(state.getCode());
-            return;
-        }
-
+    private void showCommentDialog(String remark) {
+        showSendOrderDialog(remark);
     }
 
     /**
-     * 显示退款弹框
+     * 显示发货弹框
+     *
+     * @param code
      */
-    public void showCancePaylInputDialog(final String code) {
+    private void showSendOrderDialog(String code) {
+        SureSendOrderActivity.open(this, code);
+    }
 
-        CancePaylInputDialog = new InputDialog(this).builder().setTitle("退款申请")
-                .setPositiveBtn("确定", new InputDialog.OnPositiveListener() {
+    /**
+     * 显示是否退款弹框
+     */
+    public void showBackPayDialog(final String code) {
+
+        CommonDialog commonDialog = new CommonDialog(this).builder()
+                .setTitle("提示").setContentMsg("确认退款?")
+                .setPositiveBtn("是", new CommonDialog.OnPositiveListener() {
                     @Override
-                    public void onPositive(View view, String inputMsg) {
-                        cancelPayOrder(code, CancePaylInputDialog.getContentView().getText().toString());
+                    public void onPositive(View view) {
+                        backPayRequest(code, true);
                     }
                 })
-                .setNegativeBtn("取消", null)
-                .setContentMsg("");
-        CancePaylInputDialog.getContentView().setHint("请输入退款备注");
+                .setNegativeBtn("否", new CommonDialog.OnNegativeListener() {
+                    @Override
+                    public void onNegative(View view) {
+                        backPayRequest(code, false);
+                    }
+                });
 
-        CancePaylInputDialog.show();
+        commonDialog.setCancelable(true);
+        commonDialog.setCanceledOnTouchOutside(true);
+
+        commonDialog.show();
+
     }
 
     /**
-     * 申请退款
+     * 退款请求
+     *
+     * @param code
+     * @param isSure 是否同意退款
      */
-    private void cancelPayOrder(String code, String remark) {
+    private void backPayRequest(String code, boolean isSure) {
 
-        if (!SPUtilHelpr.isLogin(this, false)) {
-            return;
-        }
-
-        if (TextUtils.isEmpty(code)) {
-            return;
-        }
-
-        final Map map = new HashMap();
+        /*code（必填） 编号 string
+ remark（选填） 备注 string
+ result（必填） 审核结果 string 0 不同意，1同意
+ updater（必填） 更新人 string
+*/
+        Map map = new HashMap();
 
         map.put("code", code);
-        map.put("remark", remark);
+        map.put("remark", "");
         map.put("updater", SPUtilHelpr.getUserId());
+        map.put("result", isSure ? "1" : "0");
 
-        Call call = RetrofitUtils.getBaseAPiService().successRequest("808061", StringUtils.getJsonToString(map));
-
-        addCall(call);
+        Call call = RetrofitUtils.getBaseAPiService().successRequest("808062", StringUtils.getJsonToString(map));
 
         showLoadingDialog();
 
-        call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
+        addCall(call);
+
+        call.enqueue(new BaseResponseModelCallBack(this) {
             @Override
-            protected void onSuccess(IsSuccessModes data, String SucMessage) {
-                UITipDialog.showSuccess(OrderDetailsActivity.this, "退款申请提交成功");
-                getOrderRequest(mOrderCode); //退款成功刷新列表
+            protected void onSuccess(Object data, String SucMessage) {
+                UITipDialog.showSuccess(OrderSellDetailsActivity.this, "处理退款信息成功");
                 changeRefreshOrderList();
+                getOrderRequest(mOrderCode);
             }
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
-                UITipDialog.showFall(OrderDetailsActivity.this, errorMessage);
+                UITipDialog.showFall(OrderSellDetailsActivity.this, errorMessage);
             }
 
             @Override
@@ -431,6 +377,7 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
         });
 
     }
+
 
     /**
      * 显示取消弹框
@@ -480,14 +427,14 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
-                UITipDialog.showSuccess(OrderDetailsActivity.this, "订单取消成功");
+                UITipDialog.showSuccess(OrderSellDetailsActivity.this, "订单取消成功");
                 getOrderRequest(mOrderCode);//取消成功刷新列表
                 changeRefreshOrderList();
             }
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
-                UITipDialog.showFall(OrderDetailsActivity.this, errorMessage);
+                UITipDialog.showFall(OrderSellDetailsActivity.this, errorMessage);
             }
 
             @Override
@@ -498,142 +445,48 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
     }
 
     /**
-     * 显示催货弹框
-     *
-     * @param code
+     * 获取物流公司
      */
-    private void showCuiHuoDialog(final String code) {
-        CommonDialog commonDialog = new CommonDialog(this).builder()
-                .setTitle("催货").setContentMsg("每个订单只能催货一次。")
-                .setPositiveBtn("确定", new CommonDialog.OnPositiveListener() {
-                    @Override
-                    public void onPositive(View view) {
-                        cuiHuoRequest(code);
-                    }
-                })
-                .setNegativeBtn("取消", null, false);
+    private void getCompnayRequest(final String key) {
 
-        commonDialog.show();
-    }
+        Map<String, String> map = new HashMap<>();
 
+        map.put("systemCode", MyCdConfig.SYSTEMCODE);
+        map.put("companyCode", MyCdConfig.COMPANYCODE);
+        map.put("token", SPUtilHelpr.getUserToken());
+        map.put("parentKey", "back_kd_company");
 
-    /**
-     * 催货请求
-     *
-     * @param code
-     */
-    private void cuiHuoRequest(String code) {
-        if (TextUtils.isEmpty(code)) {
-            return;
-        }
-
-        final Map map = new HashMap();
-
-        map.put("code", code);
-
-        Call call = RetrofitUtils.getBaseAPiService().successRequest("808058", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApiServer.class).getdKeyListInfo("801907", StringUtils.getJsonToString(map));
 
         addCall(call);
 
-        showLoadingDialog();
 
-        call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
+        call.enqueue(new BaseResponseListCallBack<IntroductionDkeyModel>(this) {
             @Override
-            protected void onSuccess(IsSuccessModes data, String SucMessage) {
-                UITipDialog.showSuccess(OrderDetailsActivity.this, "催货成功");
+            protected void onSuccess(List<IntroductionDkeyModel> data, String SucMessage) {
+
+                boolean isUse = false;
+                for (IntroductionDkeyModel model : data) {
+                    if (TextUtils.equals(model.getDkey(), key)) {
+                        mBinding.tvLogisticsCompany.setText("物流公司:" + model.getDvalue());
+                        isUse = true;
+                        break;
+                    }
+                }
+                if(!isUse){
+                    mBinding.tvLogisticsCompany.setText("物流公司:暂无" );
+                }
             }
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
-                UITipDialog.showFall(OrderDetailsActivity.this, errorMessage);
+                UITipDialog.showFall(OrderSellDetailsActivity.this, errorMessage);
             }
 
             @Override
             protected void onFinish() {
-                disMissLoading();
             }
         });
-    }
-
-    /**
-     * 确认收货弹框
-     *
-     * @param code
-     */
-    private void showSureGetOrderDialog(final String code) {
-        CommonDialog commonDialog = new CommonDialog(this).builder()
-                .setTitle("提示").setContentMsg("确认已经收到货物？")
-                .setPositiveBtn("确定", new CommonDialog.OnPositiveListener() {
-                    @Override
-                    public void onPositive(View view) {
-                        sureGetOrderRequest(code);
-                    }
-                })
-                .setNegativeBtn("取消", null, false);
-
-        commonDialog.show();
-    }
-
-    /**
-     * 确认收货请求
-     *
-     * @param code
-     */
-    private void sureGetOrderRequest(String code) {
-
-        if (!SPUtilHelpr.isLogin(this, false)) {
-            return;
-        }
-
-        if (TextUtils.isEmpty(code)) {
-            return;
-        }
-
-        final Map map = new HashMap();
-
-        map.put("code", code);
-        map.put("remark", "");
-        map.put("userId", SPUtilHelpr.getUserId());
-
-        Call call = RetrofitUtils.getBaseAPiService().successRequest("808057", StringUtils.getJsonToString(map));
-
-        addCall(call);
-
-        showLoadingDialog();
-
-        call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
-            @Override
-            protected void onSuccess(IsSuccessModes data, String SucMessage) {
-                UITipDialog.showSuccess(OrderDetailsActivity.this, "收货成功");
-                getOrderRequest(mOrderCode); //收货成功刷新列表
-                changeRefreshOrderList();
-            }
-
-            @Override
-            protected void onReqFailure(String errorCode, String errorMessage) {
-                UITipDialog.showFall(OrderDetailsActivity.this, errorMessage);
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
-    }
-
-    /**
-     * 评价成功
-     *
-     * @param tag
-     */
-    @Subscribe
-    public void Events(String tag) {
-        if (TextUtils.equals(RELEASESCOMMENTSORDER, tag)) {
-            getOrderRequest(mOrderCode);
-        }
-        if (TextUtils.equals(BUYLINE, tag)) {//支付成功
-            changeRefreshOrderList();
-        }
     }
 
     /**

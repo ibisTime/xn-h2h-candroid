@@ -503,7 +503,7 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
     @Override
     protected void lazyLoad() {
         if (mRefreshHelper != null && mRefreshBinding != null && !isFirst) {
-            mRefreshHelper.onDefaluteMRefresh(false);
+            mRefreshHelper.onDefaluteMRefresh(true);
             isFirst = true;
         }
     }

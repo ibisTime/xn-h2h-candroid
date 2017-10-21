@@ -32,7 +32,6 @@ public class SellProductListAdapter extends BaseQuickAdapter<OrderModel, BaseVie
 
     public SellProductListAdapter(@Nullable List<OrderModel> data) {
         super(R.layout.item_i_sell_product, data);
-
     }
 
 
@@ -153,7 +152,7 @@ public class SellProductListAdapter extends BaseQuickAdapter<OrderModel, BaseVie
             return "退款成功";
         }
         if (TextUtils.equals("91", status)) {
-            return "取消订单";
+            return "订单取消";
         }
         return "";
     }

@@ -25,7 +25,8 @@ public class EventTags {
     public final static String ADDRESSUPDATE = "7";
     //发布成功
     public final static String RELEASESUSS = "9";
-
+    //编辑成功
+    public final static String RELEASEEDITSUSS = "15";
     //产品评论刷新
     public final static String RELEASESCOMMENTS = "10";
     //订单评价
@@ -38,4 +39,10 @@ public class EventTags {
 
     //没有选择优惠券
     public final static String NOSELECTCOUPONS = "14";
+
+    //发货成功
+    public final static String SENDORDERSUSS = "16";
+
+    //收藏取消
+    public final static String WANTCANCEL = "17";
 }

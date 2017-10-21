@@ -38,6 +38,7 @@ import com.cdkj.h2hwtw.module.order.ProductBuyActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -387,6 +388,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
                 if (data.isSuccess()) {
                     mProductData.setIsCollect("0");
                     mBaseBinding.titleView.setRightImg(R.drawable.want_un);
+                    EventBus.getDefault().post(EventTags.WANTCANCEL);//取消收藏
                 }
             }
 

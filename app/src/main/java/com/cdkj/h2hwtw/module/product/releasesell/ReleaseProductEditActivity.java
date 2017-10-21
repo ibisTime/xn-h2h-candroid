@@ -15,7 +15,6 @@ import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.UITipDialog;
-import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.model.QiniuGetTokenModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
@@ -464,7 +463,7 @@ public class ReleaseProductEditActivity extends AbsBaseLoadActivity {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 if (data.isSuccess()) {
-                    EventBus.getDefault().post(EventTags.RELEASESUSS);//发布成功
+                    EventBus.getDefault().post(EventTags.RELEASEEDITSUSS);//编辑成功
                     finish();
                 } else {
                     disMissLoading();

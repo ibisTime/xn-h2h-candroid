@@ -4,7 +4,9 @@ import com.cdkj.baselibrary.api.BaseResponseListModel;
 import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.api.ResponseInListModel;
 import com.cdkj.baselibrary.model.CodeModel;
+import com.cdkj.baselibrary.model.IntroductionDkeyModel;
 import com.cdkj.baselibrary.model.IntroductionInfoModel;
+import com.cdkj.h2hwtw.model.ActivityCenterModel;
 import com.cdkj.h2hwtw.model.AddressModel;
 import com.cdkj.h2hwtw.model.AmountModel;
 import com.cdkj.h2hwtw.model.BillListMode;
@@ -16,8 +18,8 @@ import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.cdkj.h2hwtw.model.TotalAmountModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
+import com.cdkj.h2hwtw.model.WantProductModel;
 
-import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -117,6 +119,15 @@ public interface MyApiServer {
     Call<BaseResponseModel<IntroductionInfoList>> getKeySystemListInfo(@Field("code") String code, @Field("json") String json);
 
     /**
+     * 根据ckey查询系统参数
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseListModel<IntroductionDkeyModel>> getdKeyListInfo(@Field("code") String code, @Field("json") String json);
+
+    /**
      * 获取产品分类
      *
      * @param code
@@ -137,6 +148,16 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<ProductListModel>> getProductList(@Field("code") String code, @Field("json") String json);
+    /**
+     * 获取产品列表
+     *
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<ResponseInListModel<WantProductModel>>> getWantList(@Field("code") String code, @Field("json") String json);
 
     /**
      * 获取产品列表
@@ -190,6 +211,17 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<ResponseInListModel<CouponsModel>>> getCouponsList(@Field("code") String code, @Field("json") String json);
+
+    /**
+     * 获取活动中心列表
+     *
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<ResponseInListModel<ActivityCenterModel>>> getActivityCenterList(@Field("code") String code, @Field("json") String json);
 
 
 

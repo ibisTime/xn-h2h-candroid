@@ -14,21 +14,21 @@ public class MyCdConfig {
 
     public final static String QINIUURL = "http://ounm8iw2d.bkt.clouddn.com/";
 
-    public final static String PROJECTNAME="h2hwtw";
+    public final static String PROJECTNAME = "h2hwtw";
 
 
-    public final static String GENDERMAN="1";
-    public final static String GENDERWOMAN="0";
+    public final static String GENDERMAN = "1";
+    public final static String GENDERWOMAN = "0";
 
     /**
      * 保存的SharedPreferences工具类文件名
      */
-    public static final String FILE_NAME = "share_"+PROJECTNAME;
+    public static final String FILE_NAME = "share_" + PROJECTNAME;
 
     /**
      * 相片保存文件名
      */
-    public static final String CACHDIR = "piccach"+PROJECTNAME;
+    public static final String CACHDIR = "piccach" + PROJECTNAME;
 
 
 }

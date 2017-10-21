@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.api.ResponseInListModel;
+import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseRefreshHelperActivity;
@@ -26,6 +27,8 @@ import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.module.order.OrderDetailsActivity;
 import com.cdkj.h2hwtw.pop.SureSendOrderPop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +60,8 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
         seAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                showSendOrderDialog(null);
+                OrderModel orderModel = seAdapter.getItem(position);
+                OrderSellDetailsActivity.open(SellProductListActivity.this, orderModel.getCode());
             }
         });
 
@@ -79,7 +83,7 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
                             showSendOrderDialog(orderModel.getCode());
                         }
                         if (TextUtils.equals(orderModel.getStatus(), "5")) {//查看评价
-
+                            showCommentDialog(orderModel.getRemark());
                         }
 
                         break;
@@ -88,6 +92,15 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
         });
 
         return seAdapter;
+    }
+
+    /**
+     * 显示查看评论弹框
+     *
+     * @param remark
+     */
+    private void showCommentDialog(String remark) {
+        showSendOrderDialog(remark);
     }
 
     @Override
@@ -124,6 +137,11 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
             }
 
             @Override
+            protected void onNoNet(String msg) {
+                mRefreshHelper.loadError(msg);
+            }
+
+            @Override
             protected void onFinish() {
                 if (isShowDialog) disMissLoading();
             }
@@ -150,7 +168,7 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
      * @param code
      */
     private void showSendOrderDialog(String code) {
-        new SureSendOrderPop(this).showPopupWindow();
+        SureSendOrderActivity.open(this, code);
     }
 
 
@@ -286,7 +304,22 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
             }
         });
 
+    }
 
+    @Subscribe
+    public void EventListener(String tag) {
+        if (TextUtils.equals(EventTags.SENDORDERSUSS, tag)) { //发货成功
+            if (mRefreshHelper != null) {
+                mRefreshHelper.onDefaluteMRefresh(false);
+            }
+
+            return;
+        }
+        if (TextUtils.equals(EventTags.ORDERCHANGEREFRESH, tag)) {//订单详情修改成功
+            if (mRefreshHelper != null) {
+                mRefreshHelper.onDefaluteMRefresh(false);
+            }
+        }
     }
 
 }

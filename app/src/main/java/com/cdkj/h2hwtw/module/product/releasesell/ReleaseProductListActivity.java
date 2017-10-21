@@ -3,16 +3,11 @@ package com.cdkj.h2hwtw.module.product.releasesell;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 
 import com.cdkj.baselibrary.activitys.CommonTablayoutActivity;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.cdkj.baselibrary.appmanager.EventTags.RELEASESUSS;
 
 /**
  * 发布产品列表
@@ -53,11 +48,5 @@ public class ReleaseProductListActivity extends CommonTablayoutActivity {
         return strings;
     }
 
-    @Subscribe
-    public void EventFinish(String evbusTag) {
-        if (TextUtils.equals(evbusTag, RELEASESUSS)) {//产品发布成功
-            this.finish();
-        }
-    }
 
 }

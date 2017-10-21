@@ -73,5 +73,5 @@ dependencies {
     compile 'com.amap.api:location:latest.integration'
     //支付宝
     compile files('libs/alipaySingle-20170510.jar')
-
+    compile 'com.contrarywind:Android-PickerView:3.2.6'
 }

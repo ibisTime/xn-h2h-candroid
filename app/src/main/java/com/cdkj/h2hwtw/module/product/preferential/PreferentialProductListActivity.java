@@ -1,4 +1,4 @@
-package com.cdkj.h2hwtw.module.product;
+package com.cdkj.h2hwtw.module.product.preferential;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,6 @@ import com.cdkj.h2hwtw.adapters.ProductListAdapter;
 import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.ActivityScreeningBinding;
 import com.cdkj.h2hwtw.model.ProductListModel;
-import com.cdkj.h2hwtw.pop.PriceKeyboardPop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -28,37 +27,28 @@ import java.util.Map;
 import retrofit2.Call;
 
 /**
- * 产品筛选
+ * 活动产品列表
  * Created by cdkj on 2017/10/16.
  */
 
-public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductListModel.ListBean> {
-
-    //类型
-    private String mTypeCode;
+public class PreferentialProductListActivity extends BaseRefreshHelperActivity<ProductListModel.ListBean> {
 
     private ActivityScreeningBinding mBinding;
 
     /**
      * @param context
-     * @param typeCode 类型编号
      */
-    public static void open(Context context, String typeCode) {
+    public static void open(Context context) {
         if (context == null) {
             return;
         }
-        Intent intent = new Intent(context, ProductScreeningActivity.class);
-        intent.putExtra("typeCode", typeCode);
+        Intent intent = new Intent(context, PreferentialProductListActivity.class);
         context.startActivity(intent);
     }
 
 
     @Override
     protected void onInit(Bundle savedInstanceState) {
-
-        if (getIntent() != null) {
-            mTypeCode = getIntent().getStringExtra("typeCode");
-        }
 
         mRefreshHelper.onDefaluteMRefresh(true);
 
@@ -114,7 +104,7 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
         map.put("pageindex", pageindex + "");
         map.put("start", pageindex + "");
         map.put("status", "3");
-        map.put("category", mTypeCode);
+        map.put("isJoin", "1");
         map.put("companyCode", MyCdConfig.COMPANYCODE);
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
         Call call = RetrofitUtils.createApi(MyApiServer.class).getProductList("808025", StringUtils.getJsonToString(map));

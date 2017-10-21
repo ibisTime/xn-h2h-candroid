@@ -220,7 +220,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
-        <!--订单详情-->
+        <!--优惠券选择-->
         <activity
             android:name=".module.user.coupons.CouponsSelectActivity"
             android:screenOrientation="portrait"
@@ -244,6 +244,45 @@
         <!--我卖出的-->
         <activity
             android:name=".module.product.releasesell.SellProductListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--确认送货-->
+        <activity
+            android:name=".module.product.releasesell.SureSendOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityDialogStyleBottomAPP"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!--卖出订单详情-->
+        <activity
+            android:name=".module.product.releasesell.OrderSellDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!--活动列表-->
+        <activity
+            android:name=".module.product.preferential.PreferentialProductListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!--活动中心-->
+        <activity
+            android:name=".module.user.activity.ActivityCenterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--活动中心-->
+        <activity
+            android:name=".module.user.activity.ActivityCenterDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--我想要的-->
+        <activity
+            android:name=".module.user.WantProductListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--我的足迹-->
+        <activity
+            android:name=".module.user.BrowseProductListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 

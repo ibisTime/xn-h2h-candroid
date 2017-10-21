@@ -66,7 +66,7 @@ public class CouponsFragment extends BaseRefreshHelperFragment {
         super.lazyLoad();
         if (!isFirstLoad && mRefreshHelper != null && mRefreshBinding != null) {
             isFirstLoad = true;
-            mRefreshHelper.onDefaluteMRefresh(false);
+            mRefreshHelper.onDefaluteMRefresh(true);
         }
 
     }

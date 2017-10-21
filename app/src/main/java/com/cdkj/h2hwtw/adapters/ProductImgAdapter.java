@@ -49,10 +49,10 @@ public class ProductImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
                 params.height = Math.abs(width / 2 - DisplayHelper.dp2px(context, 30));
                 img2.setLayoutParams(params);
             }
-            ImgUtils.loadImg(context, MyCdConfig.QINIUURL + item, img2);
+            ImgUtils.loadImgNoPlaceholder(context, MyCdConfig.QINIUURL + item, img2);
 
         } else {
-            ImgUtils.loadImg(context, MyCdConfig.QINIUURL + item, img);
+            ImgUtils.loadImgNoPlaceholder(context, MyCdConfig.QINIUURL + item, img);
             img.setVisibility(View.VISIBLE);
             img2.setVisibility(View.GONE);
         }

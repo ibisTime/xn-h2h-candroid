@@ -139,7 +139,7 @@ public class MainActivity extends AbsBaseLoadActivity {
         mBinding.layoutRelease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProductReleaseActivity.open(MainActivity.this);
+                ProductReleaseActivity.open(MainActivity.this,"");
             }
         });
 
@@ -211,7 +211,6 @@ public class MainActivity extends AbsBaseLoadActivity {
         }
         if (TextUtils.equals(evbusTag, RELEASESUSS)) {//发布成功
             setShowIndex(SHOWTYPE);
-            UITipDialog.showSuccess(this, "发布成功");
         }
 
     }
