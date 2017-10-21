@@ -19,13 +19,14 @@
 
         <TextView
             android:id="@+id/tv_price_buttom"
-            tools:text="123123123123"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:ellipsize="end"
             android:gravity="center"
-            android:maxLength="9"
+            android:maxLines="1"
             android:textColor="@color/text_money_red"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="123123123123" />
 
         <View
             android:layout_width="0dp"

@@ -23,6 +23,7 @@ import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
+import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.views.MyDividerItemDecoration;
@@ -34,6 +35,7 @@ import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.ActivityProductDetailBinding;
 import com.cdkj.h2hwtw.model.CommentsModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
+import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.module.order.ProductBuyActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -111,6 +113,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         if (mCommentsReshHelper != null) {
             mCommentsReshHelper.onDefaluteMRefresh(false);//请求评论数据
         }
+
     }
 
     @Override
@@ -256,6 +259,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
             protected void onSuccess(ProductListModel.ListBean data, String SucMessage) {
                 mProductData = data;
                 setShowData(mProductData);
+                getUserInfoRequest(false, mProductData.getUpdater());
             }
 
             @Override
@@ -543,6 +547,52 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 //        原价格￥100000  运费100
         mBinding.tvOtherInfo.setText("原价格￥" + MoneyUtils.showPrice(showData.getOriginalPrice()) + " 运费" + MoneyUtils.showPrice(showData.getYunfei()));
 
+    }
+
+
+    /**
+     * 获取用户信息
+     */
+    public void getUserInfoRequest(final boolean isShowdialog, String userId) {
+
+
+        Map<String, String> map = new HashMap<>();
+
+        map.put("userId", userId);
+
+        Call call = RetrofitUtils.createApi(MyApiServer.class).getUserInfoDetails("805121", StringUtils.getJsonToString(map));
+
+        addCall(call);
+
+        if (isShowdialog) showLoadingDialog();
+
+        call.enqueue(new BaseResponseModelCallBack<UserInfoModel>(this) {
+            @Override
+            protected void onSuccess(UserInfoModel data, String SucMessage) {
+                ImgUtils.loadLogo(ProductDetailActivity.this, MyCdConfig.QINIUURL + data.getPhoto(), mBinding.userLayout.imgUserLogo);
+                mBinding.userLayout.tvUserName.setText(data.getNickname());
+                /*        mBinding.tvFansNum.setText(showData.getTotalFansNum() + "");
+        mBinding.tvFollowSum.setText(showData.getTotalFollowNum() + "");*/
+
+                StringBuffer sb = new StringBuffer();
+                sb.append(TextUtils.equals(data.getGender(), MyCdConfig.GENDERMAN) ? "男" : "女");
+                sb.append(" ");
+                sb.append("关注" + data.getTotalFollowNum());
+                sb.append(" ");
+                sb.append("粉丝" + data.getTotalFansNum());
+                mBinding.userLayout.tvInfo.setText(sb.toString());
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+                if (isShowdialog) disMissLoading();
+            }
+        });
     }
 
 

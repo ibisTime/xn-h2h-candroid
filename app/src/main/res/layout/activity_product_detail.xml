@@ -47,7 +47,7 @@
                         android:padding="@dimen/layout_left_right_interval"
                         android:textColor="@color/black_app"
                         android:textSize="18sp"
-                        tools:text="3232323232" />
+                        tools:text="323232323232323232323232323232" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -64,20 +64,20 @@
                         <TextView
                             android:id="@+id/tv_price_top"
                             style="@style/text_red"
+                            android:layout_weight="1"
+                            android:width="0dp"
                             android:textSize="18sp"
-                            tools:text="100000" />
+                            tools:text="100000100000100000100000" />
 
                         <TextView
                             android:id="@+id/tv_other_info"
                             style="@style/text_gray"
-                            android:layout_marginLeft="@dimen/layout_left_right_interval"
+                            android:layout_weight="1"
+                            android:width="0dp"
+                            android:padding="10dp"
                             android:textSize="12sp"
-                            tools:text="原价格￥100000  运费100" />
+                            tools:text="原价格￥100000  运费10" />
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
 
                         <TextView
                             android:id="@+id/tv_show_sum"
