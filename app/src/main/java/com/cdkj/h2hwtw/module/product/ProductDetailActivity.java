@@ -545,7 +545,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         mBinding.tvLocation.setText(showData.getCity() + "|" + showData.getArea());
         mBinding.expandabletext.expandTextView.setText(showData.getDescription());
 //        原价格￥100000  运费100
-        mBinding.tvOtherInfo.setText("原价格￥" + MoneyUtils.showPrice(showData.getOriginalPrice()) + " 运费" + MoneyUtils.showPrice(showData.getYunfei()));
+        mBinding.tvOtherInfo.setText("原价格￥" + MoneyUtils.showPrice(showData.getOriginalPrice()) + "   运费" + MoneyUtils.showPrice(showData.getYunfei()));
 
     }
 

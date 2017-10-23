@@ -64,17 +64,18 @@
                         <TextView
                             android:id="@+id/tv_price_top"
                             style="@style/text_red"
-                            android:layout_weight="1"
+                            android:layout_weight="0.5"
                             android:width="0dp"
                             android:textSize="18sp"
-                            tools:text="100000100000100000100000" />
+                            tools:text="999999.00" />
 
                         <TextView
                             android:id="@+id/tv_other_info"
                             style="@style/text_gray"
                             android:layout_weight="1"
                             android:width="0dp"
-                            android:padding="10dp"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
                             android:textSize="12sp"
                             tools:text="原价格￥100000  运费10" />
 

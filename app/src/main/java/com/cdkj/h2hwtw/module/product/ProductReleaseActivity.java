@@ -31,6 +31,7 @@ import com.cdkj.h2hwtw.model.PriceKeyBoardListenerModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.cdkj.h2hwtw.model.ReleasePagePhotoModel;
 import com.cdkj.h2hwtw.module.product.preferential.PreferentialProductListActivity;
+import com.cdkj.h2hwtw.module.product.releasesell.ReleaseProductEditActivity;
 import com.cdkj.h2hwtw.pop.PriceKeyboardPop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qiniu.android.http.ResponseInfo;
@@ -195,32 +196,32 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             @Override
             public void onClick(View view) {
 
-                if (pathList == null || pathList.isEmpty()) {
-                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_add_photo));
-                    return;
-                }
-
-                if (TextUtils.isEmpty(mBinding.editName.getText().toString())) {
-                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_name));
-                    return;
-                }
-                if (TextUtils.isEmpty(mBinding.editDescription.getText().toString())) {
-                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_info));
-                    return;
-                }
-                if (TextUtils.isEmpty(mType)) {
-                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_select_type));
-                    return;
-                }
-
-                if (mPriceModel == null || TextUtils.isEmpty(mPriceModel.getPrice())) {
-                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_set_price));
-                    return;
-                }
-
-                if (!SPUtilHelpr.isLogin(ProductReleaseActivity.this, false)) {
-                    return;
-                }
+//                if (pathList == null || pathList.isEmpty()) {
+//                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_add_photo));
+//                    return;
+//                }
+//
+//                if (TextUtils.isEmpty(mBinding.editName.getText().toString())) {
+//                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_name));
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(mBinding.editDescription.getText().toString())) {
+//                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_info));
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(mType)) {
+//                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_select_type));
+//                    return;
+//                }
+//
+//                if (mPriceModel == null || TextUtils.isEmpty(mPriceModel.getPrice())) {
+//                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_set_price));
+//                    return;
+//                }
+//
+//                if (!SPUtilHelpr.isLogin(ProductReleaseActivity.this, false)) {
+//                    return;
+//                }
                 upLoadImg();
 
             }
@@ -299,22 +300,41 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         qiNiuUtil.getQiniuToeknRequest().enqueue(new BaseResponseModelCallBack<QiniuGetTokenModel>(this) {
             @Override
             protected void onSuccess(QiniuGetTokenModel data, String SucMessage) {
-                qiNiuUtil.updataeImage(pathList, data.getUploadToken(), new QiNiuUtil.QiNiuCallBack() {
+
+                qiNiuUtil.setUpLoadListIndex(0);
+
+                qiNiuUtil.upLoadListPic(pathList, data.getUploadToken(), new QiNiuUtil.upLoadListListener() {
                     @Override
-                    public void onSuccess(String key, ResponseInfo info, JSONObject res) {
-                        LogUtil.E("url" + key);
-                        mPahtRquestList.add(key);
-                        if (mPahtRquestList.size() == pathList.size() && mPahtRquestList.size() > 0) {
+                    public void onChange(int index, String url) {
+                        mPahtRquestList.add(url);
+                        LogUtil.E("图片上传" + index);
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        LogUtil.E("图片上传成功");
+                        if (!mPahtRquestList.isEmpty()) {
                             releaseRequest();
                         }
                     }
 
                     @Override
                     public void onFal(String info) {
+                        if (mPahtRquestList.isEmpty() && pathList.size() == 1) { //如果只上传一张图片 且失败时
+                            disMissLoading();
+                            UITipDialog.showFall(ProductReleaseActivity.this, "图片上传失败");
+                        }
+                        LogUtil.E(info);
+                    }
+
+                    @Override
+                    public void onError(String info) {
                         disMissLoading();
-                        UITipDialog.showFall(ProductReleaseActivity.this, info);
+                        UITipDialog.showFall(ProductReleaseActivity.this, "图片上传失败");
                     }
                 });
+
+
             }
 
             @Override

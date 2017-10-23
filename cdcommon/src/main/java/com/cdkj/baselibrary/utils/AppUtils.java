@@ -319,41 +319,34 @@ public class AppUtils {
 
     }
 
-
-
-    // 质量压缩方法
-    public static Bitmap compressImage(Bitmap image) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-        int options = 100;
-        while (baos.toByteArray().length / 1024 > 100) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
-            baos.reset();// 重置baos即清空baos
-            image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
-            options -= 10;// 每次都减少10
-        }
-        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
-        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
-
-
-        return bitmap;
-    }
-
     /**
-     * 质量压缩法
+     * 图片质量压缩法
      *
-     * @param image
+     * @param
      * @return
      */
-    public static byte[] compressImage2(Bitmap image) {
+    public static byte[] compressImage(String filePath) {
+        final BitmapFactory.Options boptions = new BitmapFactory.Options();
+        boptions.inJustDecodeBounds = true;//只解析图片边沿，获取宽高
+        BitmapFactory.decodeFile(filePath, boptions);
+        // 计算缩放比
+        boptions.inSampleSize = calculateInSampleSize(boptions, 480, 800);
+        // 完整解析图片返回bitmap
+        boptions.inJustDecodeBounds = false;
+        Bitmap image = BitmapFactory.decodeFile(filePath, boptions);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-        int options = 100;
-        while (baos.toByteArray().length / 1024 > 250) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
-            baos.reset();//重置baos即清空baos
-            image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
-            options -= 10;//每次都减少10
-            if (options <= 10) {
-                break;
+        if (image != null) {
+            int quality = 100;
+            image.compress(Bitmap.CompressFormat.JPEG, quality, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+            int options = 90;
+            while ((baos.toByteArray().length / 1024) > 150) {  //循环判断如果压缩后图片是否大于150kb,大于继续压缩
+                baos.reset();//重置baos即清空baos
+                image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+
+                options -= 10;//每次都减少10
+                if (options <= 10) {
+                    break;
+                }
             }
         }
         byte[] byteArray = baos.toByteArray();
@@ -364,7 +357,24 @@ public class AppUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        LogUtil.E("图片压缩");
+
         return byteArray;
+    }
+
+
+    public static int calculateInSampleSize(BitmapFactory.Options options,
+                                            int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth) {
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        return inSampleSize;
     }
 
 

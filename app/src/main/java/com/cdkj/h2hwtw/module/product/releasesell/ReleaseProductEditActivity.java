@@ -31,6 +31,7 @@ import com.cdkj.h2hwtw.model.PriceKeyBoardListenerModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.cdkj.h2hwtw.model.ReleasePagePhotoModel;
+import com.cdkj.h2hwtw.module.product.ProductReleaseActivity;
 import com.cdkj.h2hwtw.module.product.ReleaseTypeSelectActivity;
 import com.cdkj.h2hwtw.pop.PriceKeyboardPop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -382,22 +383,38 @@ public class ReleaseProductEditActivity extends AbsBaseLoadActivity {
         qiNiuUtil.getQiniuToeknRequest().enqueue(new BaseResponseModelCallBack<QiniuGetTokenModel>(this) {
             @Override
             protected void onSuccess(QiniuGetTokenModel data, String SucMessage) {
-                qiNiuUtil.updataeImage(pathList, data.getUploadToken(), new QiNiuUtil.QiNiuCallBack() {
+
+                qiNiuUtil.setUpLoadListIndex(0);
+                qiNiuUtil.upLoadListPic(pathList, data.getUploadToken(), new QiNiuUtil.upLoadListListener() {
                     @Override
-                    public void onSuccess(String key, ResponseInfo info, JSONObject res) {
-                        LogUtil.E("url" + key);
-                        mPahtRquestList.add(key);
-                        if (mPahtRquestList.size() == pathList.size() && mPahtRquestList.size() > 0) {
+                    public void onChange(int index, String url) {
+                        mPahtRquestList.add(url);
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        if (!mPahtRquestList.isEmpty()) {
                             updateRequest();
                         }
+
                     }
 
                     @Override
                     public void onFal(String info) {
+                        if (mPahtRquestList.isEmpty() && pathList.size() == 1) { //如果只上传一张图片 且失败时
+                            disMissLoading();
+                            UITipDialog.showFall(ReleaseProductEditActivity.this, "图片上传失败");
+                        }
+                        LogUtil.E(info);
+                    }
+
+                    @Override
+                    public void onError(String info) {
                         disMissLoading();
-                        UITipDialog.showFall(ReleaseProductEditActivity.this, info);
+                        UITipDialog.showFall(ReleaseProductEditActivity.this, "图片上传失败");
                     }
                 });
+
             }
 
             @Override
