@@ -190,12 +190,6 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
             return;
         }
 
-        if (TextUtils.equals("4", state.getStatus())) {//已收货 待评价
-            if (state.getProductOrderList() != null && state.getProductOrderList().size() > 0 && state.getProductOrderList().get(0) != null) {
-                OrderCommentsEditActivity.open(mActivity, state.getProductOrderList().get(0).getCode(), state.getCode());
-            }
-            return;
-        }
     }
 
     /**
@@ -255,7 +249,9 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
 
         map.put("code", code);
         map.put("remark", "");
-        map.put("userId", SPUtilHelpr.getUserId());
+        map.put("updater", SPUtilHelpr.getUserId());
+        map.put("systemCode", MyCdConfig.SYSTEMCODE);
+        map.put("companyCode", MyCdConfig.COMPANYCODE);
 
         Call call = RetrofitUtils.getBaseAPiService().successRequest("808057", StringUtils.getJsonToString(map));
 
@@ -295,6 +291,8 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
         final Map map = new HashMap();
 
         map.put("code", code);
+        map.put("systemCode", MyCdConfig.SYSTEMCODE);
+        map.put("companyCode", MyCdConfig.COMPANYCODE);
 
         Call call = RetrofitUtils.getBaseAPiService().successRequest("808058", StringUtils.getJsonToString(map));
 
@@ -336,6 +334,13 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
 
         if (TextUtils.equals("2", state.getStatus())) {//待发货 申请退款
             showCancePaylInputDialog(state.getCode());
+            return;
+        }
+
+        if (TextUtils.equals("4", state.getStatus())) {//已收货 待评价
+            if (state.getProductOrderList() != null && state.getProductOrderList().size() > 0 && state.getProductOrderList().get(0) != null) {
+                OrderCommentsEditActivity.open(mActivity, state.getProductOrderList().get(0).getCode(), state.getCode());
+            }
             return;
         }
 

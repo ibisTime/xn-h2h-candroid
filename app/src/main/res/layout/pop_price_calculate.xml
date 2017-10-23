@@ -69,7 +69,7 @@
                     android:id="@+id/edit_price_old"
                     style="@style/edit_style"
                     android:layout_marginLeft="20dp"
-                    android:hint="￥0"
+                    android:hint="¥0"
                     android:inputType="number"
                     android:textSize="18sp" />
 
@@ -94,7 +94,7 @@
                     style="@style/edit_style"
                     android:layout_width="120dp"
                     android:layout_marginLeft="20dp"
-                    android:hint="￥0"
+                    android:hint="¥0"
                     android:inputType="number"
                     android:maxLines="1"
                     android:textSize="18sp" />

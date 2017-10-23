@@ -51,6 +51,8 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
     private LayoutRecyclerviewBinding mHeadBinding;//头部分类菜单
     private ProductTypeAdapter mTypeMenuAdapter;
 
+    private boolean isFirstRequest;
+
     /**
      * 获得fragment实例
      *
@@ -114,8 +116,9 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
 
     @Override
     protected void lazyLoad() {
-        getMenuTypeRequest();
-        if (mRefreshHelper != null) {
+        if (mRefreshHelper != null && !isFirstRequest) {
+            isFirstRequest = true;
+            getMenuTypeRequest();
             mRefreshHelper.onDefaluteMRefresh(false);
         }
     }

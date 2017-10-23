@@ -79,7 +79,7 @@ public class MyAccountActivity extends AbsBaseLoadActivity {
         mBinding.tvPutMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PutMoneyActivity.open(MyAccountActivity.this);
+                PutMoneyActivity.open(MyAccountActivity.this,"");
             }
         });
     }

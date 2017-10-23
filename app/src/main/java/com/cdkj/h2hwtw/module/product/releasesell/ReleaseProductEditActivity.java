@@ -64,8 +64,6 @@ public class ReleaseProductEditActivity extends AbsBaseLoadActivity {
     private ReleasePagePhotoAdapter mPhotoAdapter;
     private PriceKeyBoardListenerModel mPriceModel;//包含价格 用于发起请求
 
-    private AMapLocation mLocation;//定位信息
-
     private String mType;//类型
 
     private ProductListModel.ListBean mProductData;
@@ -437,20 +435,11 @@ public class ReleaseProductEditActivity extends AbsBaseLoadActivity {
 
         Map<String, String> map = new HashMap<>();
 
-        if (mLocation == null) {
-            map.put("area", "地区");
-            map.put("province", "省份");
-            map.put("city", "城市");
-            map.put("latitude", "111111111");
-            map.put("longitude", "22222222");
-
-        } else {
-            map.put("area", mLocation.getDistrict());
-            map.put("province", mLocation.getProvince());
-            map.put("city", mLocation.getCity());
-            map.put("latitude", mLocation.getLatitude() + "");
-            map.put("longitude", mLocation.getLongitude() + "");
-        }
+        map.put("area", mProductData.getArea());
+        map.put("province", mProductData.getProvince());
+        map.put("city", mProductData.getCity());
+        map.put("latitude", mProductData.getLatitude());
+        map.put("longitude", mProductData.getLongitude());
 
         map.put("pic", StringUtils.listToString(mPahtRquestList, "||"));
         map.put("price", MoneyUtils.getRequestPrice(mPriceModel.getPrice()));

@@ -18,6 +18,7 @@ import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.utils.update.UpdateManager;
 import com.cdkj.h2hwtw.databinding.ActivityMainBinding;
 import com.cdkj.h2hwtw.module.firstpage.FirstPageFragment;
+import com.cdkj.h2hwtw.module.firstpage.FirstPageFragment2;
 import com.cdkj.h2hwtw.module.goodstype.GoodsTypeFragment;
 import com.cdkj.h2hwtw.module.im.fragments.ImFragment;
 import com.cdkj.h2hwtw.module.product.ProductReleaseActivity;
@@ -155,6 +156,7 @@ public class MainActivity extends AbsBaseLoadActivity {
         fragments = new ArrayList<>();
 
         fragments.add(FirstPageFragment.getInstanse());//首页
+//        fragments.add(FirstPageFragment2.getInstanse());//首页
         fragments.add(GoodsTypeFragment.getInstanse());//商品类别
         fragments.add(ImFragment.getInstanse());//消息
         fragments.add(MyFragment.getInstanse());//我的

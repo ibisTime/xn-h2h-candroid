@@ -121,7 +121,7 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
             return;
         }
         Map<String, String> map = new HashMap<>();
-        map.put("code", mOrderCode);//DD2017101714122392762296
+        map.put("code", code);//DD2017101714122392762296
 
         Call call = RetrofitUtils.createApi(MyApiServer.class).getOrderDetails("808066", StringUtils.getJsonToString(map));
 
@@ -361,8 +361,8 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
             @Override
             protected void onSuccess(Object data, String SucMessage) {
                 UITipDialog.showSuccess(OrderSellDetailsActivity.this, "处理退款信息成功");
-                changeRefreshOrderList();
                 getOrderRequest(mOrderCode);
+                changeRefreshOrderList();
             }
 
             @Override
@@ -473,8 +473,8 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
                         break;
                     }
                 }
-                if(!isUse){
-                    mBinding.tvLogisticsCompany.setText("物流公司:暂无" );
+                if (!isUse) {
+                    mBinding.tvLogisticsCompany.setText("物流公司:暂无");
                 }
             }
 

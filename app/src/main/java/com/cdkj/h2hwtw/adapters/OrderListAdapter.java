@@ -93,7 +93,9 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderModel, BaseViewHolde
         if (TextUtils.equals("2", status)) {
             return true;
         }
-
+        if (TextUtils.equals("4", status)) {
+            return true;
+        }
         return false;
     }
 

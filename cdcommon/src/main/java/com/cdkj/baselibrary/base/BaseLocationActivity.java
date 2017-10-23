@@ -16,7 +16,9 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.cdkj.baselibrary.CdApplication;
 import com.cdkj.baselibrary.dialog.CommonDialog;
+import com.cdkj.baselibrary.nets.NetUtils;
 import com.cdkj.baselibrary.utils.AppUtils;
 import com.cdkj.baselibrary.utils.LogUtil;
 
@@ -51,7 +53,6 @@ public abstract class BaseLocationActivity extends AbsBaseLoadActivity {
 
     /**
      * 定位失败
-     *
      */
     protected abstract void locationFailure();
 
@@ -77,7 +78,10 @@ public abstract class BaseLocationActivity extends AbsBaseLoadActivity {
                 if (null != aMapLocation && aMapLocation.getErrorCode() == 0) {  //定位成功
                     LogUtil.E("定位成功");
                     locationSuccessful(aMapLocation);
-                } else {                                        //定位失败
+                } else {
+                    if (aMapLocation != null) {
+                        LogUtil.E("定位失败" + aMapLocation.getErrorInfo());//定位失败
+                    }
                     locationFailure();
                 }
                 //停止定位
@@ -93,6 +97,11 @@ public abstract class BaseLocationActivity extends AbsBaseLoadActivity {
      * 启动定位
      */
     protected void startLocation() {
+
+        if (!NetUtils.isNetworkConnected(CdApplication.getContext())) {
+            mBaseBinding.contentView.setShowText("暂无网络");
+            return;
+        }
         // 启动定位
         //如果Android6.0进行安卓权限检测
         if (AppUtils.getAndroidVersion(Build.VERSION_CODES.M)) {
@@ -256,7 +265,7 @@ public abstract class BaseLocationActivity extends AbsBaseLoadActivity {
             startActivityForResult(intent, APPLICATION_DETAIL_REQUESTCODE);
             finish();
         } catch (Exception e) {
-          LogUtil.E("startSettingError");
+            LogUtil.E("startSettingError");
         }
 
     }

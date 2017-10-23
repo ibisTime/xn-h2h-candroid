@@ -22,6 +22,17 @@
     <uses-permission android:name="android.permission.READ_LOGS" /><!--允许程序读取底层系统日志文件-->
     <uses-permission android:name="android.permission.GET_TASKS" /><!--允许一个程序获取信息有关当前或最近运行的任务，一个缩略的任务状态，是否活动-->
 
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+    <!--用于申请获取蓝牙信息进行室内定位-->
+    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
 
     <application
         android:name=".MyApplication"
@@ -72,6 +83,14 @@
                 <action android:name="com.tencent.qalsdk.service.TASK_REMOVED" />
             </intent-filter>
         </receiver>
+
+        //高德定位
+        <service android:name="com.amap.api.location.APSService"></service>
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="1caf7b8ef10020537d4d7d0b4943ec95">//开发者申请的key
+
+        </meta-data>
 
         <!--相册-->
 
@@ -283,6 +302,26 @@
         <!--我的足迹-->
         <activity
             android:name=".module.user.BrowseProductListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--我的足迹-->
+        <activity
+            android:name=".module.firstpage.MsgListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--充值活动列表-->
+        <activity
+            android:name=".module.user.activity.PutMoneySendListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--充值活动详情-->
+        <activity
+            android:name=".module.user.activity.ActivityPutMoneyDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--邀请好友-->
+        <activity
+            android:name=".module.user.info.ActivityInvitationFriend"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 

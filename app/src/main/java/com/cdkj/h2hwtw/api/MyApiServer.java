@@ -9,13 +9,16 @@ import com.cdkj.baselibrary.model.IntroductionInfoModel;
 import com.cdkj.h2hwtw.model.ActivityCenterModel;
 import com.cdkj.h2hwtw.model.AddressModel;
 import com.cdkj.h2hwtw.model.AmountModel;
+import com.cdkj.h2hwtw.model.BannerModel;
 import com.cdkj.h2hwtw.model.BillListMode;
 import com.cdkj.h2hwtw.model.CommentsModel;
 import com.cdkj.h2hwtw.model.CouponsModel;
 import com.cdkj.h2hwtw.model.IntroductionInfoList;
+import com.cdkj.h2hwtw.model.MsgListModel;
 import com.cdkj.h2hwtw.model.OrderModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
+import com.cdkj.h2hwtw.model.PutMoneySendModel;
 import com.cdkj.h2hwtw.model.TotalAmountModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.model.WantProductModel;
@@ -148,6 +151,7 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<ProductListModel>> getProductList(@Field("code") String code, @Field("json") String json);
+
     /**
      * 获取产品列表
      *
@@ -191,6 +195,7 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<ResponseInListModel<OrderModel>>> getOrderList(@Field("code") String code, @Field("json") String json);
+
     /**
      * 获取订单详情
      *
@@ -201,6 +206,7 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<OrderModel>> getOrderDetails(@Field("code") String code, @Field("json") String json);
+
     /**
      * 获取优惠券
      *
@@ -222,7 +228,35 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<ResponseInListModel<ActivityCenterModel>>> getActivityCenterList(@Field("code") String code, @Field("json") String json);
+    /**
+     * 获取充值送
+     *
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<ResponseInListModel<PutMoneySendModel>>> getActivitySendList(@Field("code") String code, @Field("json") String json);
+
+    /**
+     * 获取广告图片
+     *
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseListModel<BannerModel>> getBannerList(@Field("code") String code, @Field("json") String json);
 
 
+    /**
+     * 获取消息列表
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<MsgListModel>> getMsgList(@Field("code") String code, @Field("json") String  json);
 
 }

@@ -11,14 +11,17 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.amap.api.location.AMapLocation;
+import com.cdkj.baselibrary.CdApplication;
 import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseLocationActivity;
+import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.model.QiniuGetTokenModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
+import com.cdkj.baselibrary.nets.NetUtils;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.MoneyUtils;
@@ -108,7 +111,11 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         //水平滚动设置为False
         mBinding.editDescription.setHorizontallyScrolling(false);
 
-        startLocation();//开始定位
+        if (!NetUtils.isNetworkConnected(CdApplication.getContext())) {
+            mBaseBinding.contentView.setShowText("暂无网络，无法发布产品哦");
+        } else {
+            startLocation();//开始定位
+        }
 
     }
 
@@ -196,32 +203,32 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             @Override
             public void onClick(View view) {
 
-//                if (pathList == null || pathList.isEmpty()) {
-//                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_add_photo));
-//                    return;
-//                }
-//
-//                if (TextUtils.isEmpty(mBinding.editName.getText().toString())) {
-//                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_name));
-//                    return;
-//                }
-//                if (TextUtils.isEmpty(mBinding.editDescription.getText().toString())) {
-//                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_info));
-//                    return;
-//                }
-//                if (TextUtils.isEmpty(mType)) {
-//                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_select_type));
-//                    return;
-//                }
-//
-//                if (mPriceModel == null || TextUtils.isEmpty(mPriceModel.getPrice())) {
-//                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_set_price));
-//                    return;
-//                }
-//
-//                if (!SPUtilHelpr.isLogin(ProductReleaseActivity.this, false)) {
-//                    return;
-//                }
+                if (pathList == null || pathList.isEmpty()) {
+                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_add_photo));
+                    return;
+                }
+
+                if (TextUtils.isEmpty(mBinding.editName.getText().toString())) {
+                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_name));
+                    return;
+                }
+                if (TextUtils.isEmpty(mBinding.editDescription.getText().toString())) {
+                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_input_info));
+                    return;
+                }
+                if (TextUtils.isEmpty(mType)) {
+                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_select_type));
+                    return;
+                }
+
+                if (mPriceModel == null || TextUtils.isEmpty(mPriceModel.getPrice())) {
+                    UITipDialog.showFall(ProductReleaseActivity.this, getString(R.string.please_set_price));
+                    return;
+                }
+
+                if (!SPUtilHelpr.isLogin(ProductReleaseActivity.this, false)) {
+                    return;
+                }
                 upLoadImg();
 
             }
@@ -357,7 +364,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
 
     @Override
     protected void locationFailure() {
-
+        mBinding.location.tvLocation.setText(R.string.error_location);
     }
 
     @Override
@@ -375,11 +382,11 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         Map<String, String> map = new HashMap<>();
 
         if (mLocation == null) {
-            map.put("area", "地区");
-            map.put("province", "省份");
-            map.put("city", "城市");
-            map.put("latitude", "经度");
-            map.put("longitude", "维度");
+            map.put("area", "未知");
+            map.put("province", "未知");
+            map.put("city", "未知");
+            map.put("latitude", "0.00");
+            map.put("longitude", "0.00");
 
         } else {
             map.put("area", mLocation.getDistrict());

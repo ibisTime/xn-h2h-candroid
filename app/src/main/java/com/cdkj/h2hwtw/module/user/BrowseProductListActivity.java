@@ -87,7 +87,7 @@ public class BrowseProductListActivity extends BaseRefreshHelperActivity<WantPro
 
     @Override
     protected void onInit(Bundle savedInstanceState) {
-        mBaseBinding.titleView.setMidTitle("我想要的");
+        mBaseBinding.titleView.setMidTitle("我的足迹");
         mRefreshHelper.onDefaluteMRefresh(true);
     }
 

@@ -201,7 +201,7 @@ public class MyFragment extends BaseLazyFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (getUserVisibleHint()) {
+        if (getUserVisibleHint() && mBinding != null) {
             getUserInfoRequest(false);
             getAmountRequest(false);
             getJFAmountRequest(false);
@@ -210,6 +210,7 @@ public class MyFragment extends BaseLazyFragment {
 
     @Override
     protected void lazyLoad() {
+        if (mBinding == null) return;
         getAmountRequest(false);
         getJFAmountRequest(false);
         getUserInfoRequest(true);

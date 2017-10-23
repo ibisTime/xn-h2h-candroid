@@ -43,7 +43,7 @@ public class ProductImgAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
         if (isHalfWidth(viewHolder.getLayoutPosition())) {
             img2.setVisibility(View.VISIBLE);
             img.setVisibility(View.GONE);
-            int width = AppUtils.getScreenWidth(context);
+            int width = DisplayHelper.getScreenWidth(context);
             if (width > 0) {
                 ViewGroup.LayoutParams params = img2.getLayoutParams();
                 params.height = Math.abs(width / 2 - DisplayHelper.dp2px(context, 30));

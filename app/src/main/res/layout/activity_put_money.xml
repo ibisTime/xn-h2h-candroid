@@ -39,7 +39,7 @@
                     android:maxLines="1"
                     android:paddingLeft="@dimen/layout_left_right_interval"
                     android:paddingTop="25dp"
-                    android:text="￥"
+                    android:text="@string/money_sing"
                     android:textColor="@color/balck_app"
                     android:textSize="25sp" />
 

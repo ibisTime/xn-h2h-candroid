@@ -10,4 +10,5 @@
     <dimen name="line_height_app">0.8dp</dimen>
 
     <dimen name="coupons_left_width">90dp</dimen>
+    <dimen name="banner_height">180dp</dimen>
 </resources>

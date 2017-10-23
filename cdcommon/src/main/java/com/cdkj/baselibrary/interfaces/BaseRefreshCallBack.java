@@ -9,7 +9,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
 
-/**刷新方法回调
+/**
+ * 刷新方法回调
  * Created by 李先俊 on 2017/10/17.
  */
 
@@ -18,7 +19,7 @@ public abstract class BaseRefreshCallBack<T> implements RefreshInterface {
 
     @Override
     public boolean loadDeflutEmptyView() {
-        return false;
+        return true;
     }
 
     @Override

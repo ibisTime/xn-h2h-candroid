@@ -37,11 +37,18 @@ public class PutMoneyActivity extends AbsBaseLoadActivity {
 
     private ActivityPutMoneyBinding mBinding;
 
-    public static void open(Context context) {
+    private String mActivityCode;
+
+    /**
+     * @param context
+     * @param activityCode 参加充值活动编号
+     */
+    public static void open(Context context, String activityCode) {
         if (context == null) {
             return;
         }
         Intent intent = new Intent(context, PutMoneyActivity.class);
+        intent.putExtra("activityCode", activityCode);
         context.startActivity(intent);
     }
 
@@ -56,6 +63,10 @@ public class PutMoneyActivity extends AbsBaseLoadActivity {
         mBaseBinding.titleView.setMidTitle("充值");
 
         StringUtils.setEditMoneyInput(mBinding.editPrice);
+
+        if (getIntent() != null) {
+            mActivityCode = getIntent().getStringExtra("activityCode");
+        }
 
         mBinding.btnPutMoney.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +96,7 @@ public class PutMoneyActivity extends AbsBaseLoadActivity {
         map.put("token", SPUtilHelpr.getUserToken());
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
         map.put("companycode", MyCdConfig.COMPANYCODE);
+        map.put("activityCode", mActivityCode);//参加活动编号
 
         showLoadingDialog();
 

@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by 李先俊 on 2017/10/15.
  */
-
+//TODO 刷新辅助类优化 刷新动作监听分离 去除SmartRefreshLayout
 public class RefreshHelper<T> {
 
     private RefreshInterface mRefreshInterface;//刷新接口
@@ -124,6 +124,8 @@ public class RefreshHelper<T> {
      */
     private void initRefreshLayout() {
 
+        if (mRefreshLayout == null) return;
+
         mRefreshLayout.setEnableLoadmoreWhenContentNotFull(true);//不满一行启动上啦加载
 
         mRefreshLayout.setEnableAutoLoadmore(false);//禁用惯性
@@ -149,6 +151,13 @@ public class RefreshHelper<T> {
         mPageIndex = 1;
         mRefreshInterface.getListDataRequest(mPageIndex, mLimit, isShowDialog);
     }
+    //执行默认刷新 mPageIndex++
+    public void onDefaluteMLoadMore(boolean isShowDialog) {
+        if (mDataList.size() > 0) {
+            mPageIndex++;
+        }
+        mRefreshInterface.getListDataRequest(mPageIndex, mLimit, isShowDialog);
+    }
 
     //刷新
     public void onMRefresh(int pageindex, int limit, boolean isShowDialog) {
@@ -166,13 +175,16 @@ public class RefreshHelper<T> {
         mRefreshInterface.onLoadMore(pageIndex, limit);
     }
 
+
     //加载错误布局
     public void loadError(String str) {
 
-        if (mPageIndex == 1 && mRefreshLayout.isRefreshing()) { //停止刷新
-            mRefreshLayout.finishRefresh();
-        } else if (mPageIndex > 1 && mRefreshLayout.isLoading()) {//停止加载
-            mRefreshLayout.finishLoadmore();
+        if (mRefreshLayout != null) {
+            if (mPageIndex == 1 && mRefreshLayout.isRefreshing()) { //停止刷新
+                mRefreshLayout.finishRefresh();
+            } else if (mPageIndex > 1 && mRefreshLayout.isLoading()) {//停止加载
+                mRefreshLayout.finishLoadmore();
+            }
         }
 
         if (mDataList.size() == 0 && mRefreshInterface.loadDeflutEmptyView() && mEmptyBinding != null) {
@@ -183,13 +195,15 @@ public class RefreshHelper<T> {
             }
             mEmptyBinding.img.setVisibility(View.GONE);
             if (mAdapter != null) mAdapter.setEmptyView(mEmptyBinding.getRoot());
-            if (mRefreshLayout.isLoading()) mRefreshLayout.finishLoadmore();
+            if (mRefreshLayout != null && mRefreshLayout.isLoading())
+                mRefreshLayout.finishLoadmore();
 
         } else if (mDataList.size() == 0) {
             if (mRefreshInterface.getEmptyView() != null) {
                 if (mAdapter != null) mAdapter.setEmptyView(mRefreshInterface.getEmptyView());
             }
-            if (mRefreshLayout.isLoading()) mRefreshLayout.finishLoadmore();
+            if (mRefreshLayout != null && mRefreshLayout.isLoading())
+                mRefreshLayout.finishLoadmore();
         }
     }
 
@@ -202,7 +216,8 @@ public class RefreshHelper<T> {
     public void setData(List<T> datas) {
 
         if (mPageIndex == 1) {         //如果当前加载的是第一页数据
-            if (mRefreshLayout.isRefreshing()) mRefreshLayout.finishRefresh();
+            if (mRefreshLayout != null && mRefreshLayout.isRefreshing())
+                mRefreshLayout.finishRefresh();
             if (datas != null) {
                 mDataList.clear();
                 mDataList.addAll(datas);
@@ -212,7 +227,8 @@ public class RefreshHelper<T> {
             }
 
         } else if (mPageIndex > 1) {
-            if (mRefreshLayout.isLoading()) mRefreshLayout.finishLoadmore();
+            if (mRefreshLayout != null && mRefreshLayout.isLoading())
+                mRefreshLayout.finishLoadmore();
             if (datas == null || datas.size() <= 0) {
                 mPageIndex--;
             } else {
@@ -234,13 +250,15 @@ public class RefreshHelper<T> {
             }
             mEmptyBinding.img.setVisibility(View.VISIBLE);
             if (mAdapter != null) mAdapter.setEmptyView(mEmptyBinding.getRoot());
-            if (mRefreshLayout.isLoading()) mRefreshLayout.finishLoadmore();
+            if (mRefreshLayout != null && mRefreshLayout.isLoading())
+                mRefreshLayout.finishLoadmore();
 
         } else {
             if (mRefreshInterface.getEmptyView() != null) {
                 if (mAdapter != null) mAdapter.setEmptyView(mRefreshInterface.getEmptyView());
             }
-            if (mRefreshLayout.isLoading()) mRefreshLayout.finishLoadmore();
+            if (mRefreshLayout != null && mRefreshLayout.isLoading())
+                mRefreshLayout.finishLoadmore();
         }
     }
 

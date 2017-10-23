@@ -544,8 +544,8 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         mBinding.butLayout.tvPriceButtom.setText(MoneyUtils.getShowPriceSign(showData.getPrice()));
         mBinding.tvLocation.setText(showData.getCity() + "|" + showData.getArea());
         mBinding.expandabletext.expandTextView.setText(showData.getDescription());
-//        原价格￥100000  运费100
-        mBinding.tvOtherInfo.setText("原价格￥" + MoneyUtils.showPrice(showData.getOriginalPrice()) + "   运费" + MoneyUtils.showPrice(showData.getYunfei()));
+//        原价格100000  运费100
+        mBinding.tvOtherInfo.setText("原价格"+getString(R.string.money_sing) + MoneyUtils.showPrice(showData.getOriginalPrice()) + "   运费" + MoneyUtils.showPrice(showData.getYunfei()));
 
     }
 

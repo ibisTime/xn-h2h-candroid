@@ -290,42 +290,17 @@ public class AppUtils {
 
 
     /**
-     * 获取屏幕宽度
-     *
-     * @param context
-     * @return
-     */
-    public static int getScreenWidth(Context context) {
-        try {
-            DisplayMetrics dm = context.getResources().getDisplayMetrics();
-            return dm.widthPixels;
-        } catch (Exception e) {
-            return getScreenWidth2(context);
-        }
-
-    }
-
-    public static int getScreenWidth2(Context context) {
-
-        try {
-            DisplayMetrics dm = context.getResources().getDisplayMetrics();
-
-            return dm.widthPixels;
-        } catch (Exception e) {
-
-        }
-
-        return 0;
-
-    }
-
-    /**
      * 图片质量压缩法
      *
      * @param
      * @return
      */
     public static byte[] compressImage(String filePath) {
+
+        if (TextUtils.isEmpty(filePath)) {
+            return null;
+        }
+
         final BitmapFactory.Options boptions = new BitmapFactory.Options();
         boptions.inJustDecodeBounds = true;//只解析图片边沿，获取宽高
         BitmapFactory.decodeFile(filePath, boptions);
