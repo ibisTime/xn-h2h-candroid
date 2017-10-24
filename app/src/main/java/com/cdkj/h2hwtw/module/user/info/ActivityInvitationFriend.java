@@ -6,8 +6,10 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 
+import com.cdkj.baselibrary.activitys.ShareActivity;
 import com.cdkj.baselibrary.api.ResponseInListModel;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
+import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
@@ -47,10 +49,29 @@ public class ActivityInvitationFriend extends AbsBaseLoadActivity {
     }
 
     @Override
+    public void topTitleViewRightClick() {
+        if (!SPUtilHelpr.isLogin(ActivityInvitationFriend.this, false)) {
+            return;
+        }
+        InvitationFriendListActivity.open(this);
+    }
+
+    @Override
     public void afterCreate(Bundle savedInstanceState) {
         mBaseBinding.titleView.setMidTitle("邀请好友");
         mBaseBinding.titleView.setRightTitle("好友列表");
         getInfo(1, 1, true);
+
+        mBinding.btnInvitation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!SPUtilHelpr.isLogin(ActivityInvitationFriend.this, false)) {
+                    return;
+                }
+                String shareUrl = "http://cm.tour.hichengdai.com/?#/home/recommend?userReferee=" + SPUtilHelpr.getUserId();
+                ShareActivity.open(ActivityInvitationFriend.this, "邀请好友送积分", "邀请好友送积分", shareUrl);
+            }
+        });
     }
 
 

@@ -100,7 +100,46 @@ public class ProductListModel {
         private String categoryName;
         private String typeName;
         private String isCollect;
+        private String loginLog;
+        private int totalComment;
+
+        public String getLoginLog() {
+            return loginLog;
+        }
+
+        public void setLoginLog(String loginLog) {
+            this.loginLog = loginLog;
+        }
+
+        public int getTotalComment() {
+            return totalComment;
+        }
+
+        public void setTotalComment(int totalComment) {
+            this.totalComment = totalComment;
+        }
+
+        public int getTotalInteract() {
+            return totalInteract;
+        }
+
+        public void setTotalInteract(int totalInteract) {
+            this.totalInteract = totalInteract;
+        }
+
+        private int totalInteract;
+
+        public String getNickName() {
+            return nickName;
+        }
+
+        public void setNickName(String nickName) {
+            this.nickName = nickName;
+        }
+
+        private String nickName;
         private BigDecimal discount;
+
         public BigDecimal getDiscount() {
             return discount;
         }
@@ -108,9 +147,6 @@ public class ProductListModel {
         public void setDiscount(BigDecimal discount) {
             this.discount = discount;
         }
-
-
-
 
 
         public String getIsCollect() {
@@ -425,6 +461,10 @@ public class ProductListModel {
             dest.writeString(this.categoryName);
             dest.writeString(this.typeName);
             dest.writeString(this.isCollect);
+            dest.writeString(this.loginLog);
+            dest.writeInt(this.totalComment);
+            dest.writeInt(this.totalInteract);
+            dest.writeString(this.nickName);
             dest.writeSerializable(this.discount);
             dest.writeTypedList(this.productSpecsList);
         }
@@ -462,6 +502,10 @@ public class ProductListModel {
             this.categoryName = in.readString();
             this.typeName = in.readString();
             this.isCollect = in.readString();
+            this.loginLog = in.readString();
+            this.totalComment = in.readInt();
+            this.totalInteract = in.readInt();
+            this.nickName = in.readString();
             this.discount = (BigDecimal) in.readSerializable();
             this.productSpecsList = in.createTypedArrayList(ProductSpecsListBean.CREATOR);
         }

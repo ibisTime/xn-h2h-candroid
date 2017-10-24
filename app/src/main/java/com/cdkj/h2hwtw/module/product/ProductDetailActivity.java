@@ -220,7 +220,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
     private void initImgAdapter() {
         mImgAdapter = new ProductImgAdapter(new ArrayList<String>(), this);
         mBinding.recyclerImg.setAdapter(mImgAdapter);
-
+        //TODO FlexboxLayoutManager也可以实现
         ScrollGridLayoutManager layoutManager = new ScrollGridLayoutManager(this, 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -545,7 +545,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         mBinding.tvLocation.setText(showData.getCity() + "|" + showData.getArea());
         mBinding.expandabletext.expandTextView.setText(showData.getDescription());
 //        原价格100000  运费100
-        mBinding.tvOtherInfo.setText("原价格"+getString(R.string.money_sing) + MoneyUtils.showPrice(showData.getOriginalPrice()) + "   运费" + MoneyUtils.showPrice(showData.getYunfei()));
+        mBinding.tvOtherInfo.setText("原价格" + getString(R.string.money_sing) + MoneyUtils.showPrice(showData.getOriginalPrice()) + "   运费" + MoneyUtils.showPrice(showData.getYunfei()));
 
     }
 

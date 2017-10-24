@@ -325,6 +325,17 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
+        <!--交易圈子-->
+        <activity
+            android:name=".module.BuyCircleActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--好友列表-->
+        <activity
+            android:name=".module.user.info.InvitationFriendListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
 
     </application>
 

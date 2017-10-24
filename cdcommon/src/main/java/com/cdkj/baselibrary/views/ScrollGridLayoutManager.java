@@ -7,11 +7,12 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * Created by 李先俊 on 2017/10/17.
+ * Created by cdkj on 2017/10/17.
  */
 
 public class ScrollGridLayoutManager extends GridLayoutManager {
     private boolean isScrollEnabled = false;
+
     public ScrollGridLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }

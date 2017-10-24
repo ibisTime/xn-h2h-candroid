@@ -28,6 +28,7 @@ import com.cdkj.h2hwtw.databinding.FragmentFirstPageScollorBinding;
 import com.cdkj.h2hwtw.model.BannerModel;
 import com.cdkj.h2hwtw.model.MsgListModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
+import com.cdkj.h2hwtw.module.BuyCircleActivity;
 import com.cdkj.h2hwtw.module.product.preferential.PreferentialProductListActivity;
 import com.cdkj.h2hwtw.module.user.activity.ActivityPutMoneyDetailsActivity;
 import com.cdkj.h2hwtw.module.user.activity.PutMoneySendListActivity;
@@ -141,6 +142,13 @@ public class FirstPageFragment extends BaseLazyFragment {
             @Override
             public void onClick(View view) {
                 MsgListActivity.open(mActivity);
+            }
+        });
+        //交易圈子
+        mBinding.topLayout.imgBuyCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BuyCircleActivity.open(mActivity);
             }
         });
 

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.widget.Toast;
 
 import com.cdkj.baselibrary.R;
+import com.cdkj.baselibrary.activitys.ShareActivity;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -29,16 +30,17 @@ public class WxUtil {
 
     private static IWXAPI api;
     //TODO 微信分享APPID
-    public static final String APPID="wx763220fe7a9672c0";
+    public static final String APPID = "wx763220fe7a9672c0";
 
-    public static IWXAPI registToWx(Context context){
-        api = WXAPIFactory.createWXAPI(context,APPID, false);
+    public static IWXAPI registToWx(Context context) {
+        api = WXAPIFactory.createWXAPI(context, APPID, false);
         api.registerApp(APPID);
         return api;
     }
 
     /**
-     *  检测是否有微信与是否支持微信支付
+     * 检测是否有微信与是否支持微信支付
+     *
      * @return
      */
     public static boolean check(Context context) {
@@ -47,21 +49,21 @@ public class WxUtil {
 
         boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
 //        boolean isPaySupported = api.isWXAppInstalled() && api.isWXAppSupportAPI();
-        if(!api.isWXAppInstalled())
-        {
-            Toast.makeText(context,"亲，您要先安装微信才能使用微信分享哦！", Toast.LENGTH_SHORT).show();
+        if (!api.isWXAppInstalled()) {
+            Toast.makeText(context, "亲，您要先安装微信才能使用微信分享哦！", Toast.LENGTH_SHORT).show();
             return false;
         }
         return isPaySupported;
     }
 
     /**
-     *  分享到朋友圈
+     * 分享到朋友圈
+     *
      * @param
      */
-    public static void shareToPYQ(Context context, String url, String title, String description,int img) {
-        System.out.println("shareURL="+url);
-        if(!check(context)) return;
+    public static void shareToPYQ(Context context, String url, String title, String description) {
+        System.out.println("shareURL=" + url);
+        if (!check(context)) return;
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = url;
 
@@ -70,7 +72,7 @@ public class WxUtil {
         msg.description = description;
 
         try {
-            Bitmap bmp1 = BitmapFactory.decodeResource(context.getResources(), img);
+            Bitmap bmp1 = BitmapFactory.decodeResource(context.getResources(), R.mipmap.share_icon);
             Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp1, 100, 100, true);
             msg.thumbData = Bitmap2Bytes(thumbBmp);
         } catch (Exception e) {
@@ -83,11 +85,12 @@ public class WxUtil {
     }
 
     /**
-     *  分享微信聊天界面
+     * 分享微信聊天界面
+     *
      * @param
      */
-    public static void shareToWX(Context context, String url, String title, String description,int img) {
-        if(!check(context)) return;
+    public static void shareToWX(Context context, String url, String title, String description) {
+        if (!check(context)) return;
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = url;
 
@@ -96,7 +99,7 @@ public class WxUtil {
         msg.description = description;
 
         try {
-            Bitmap bmp1 = BitmapFactory.decodeResource(context.getResources(),img);
+            Bitmap bmp1 = BitmapFactory.decodeResource(context.getResources(), R.mipmap.share_icon);
             Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp1, 100, 100, true);
             msg.thumbData = Bitmap2Bytes(thumbBmp);
         } catch (Exception e) {
@@ -124,5 +127,6 @@ public class WxUtil {
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();
     }
+
 
 }

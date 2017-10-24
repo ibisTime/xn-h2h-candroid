@@ -15,6 +15,7 @@ import com.cdkj.h2hwtw.model.CommentsModel;
 import com.cdkj.h2hwtw.model.CouponsModel;
 import com.cdkj.h2hwtw.model.IntroductionInfoList;
 import com.cdkj.h2hwtw.model.MsgListModel;
+import com.cdkj.h2hwtw.model.MyFriendListModel;
 import com.cdkj.h2hwtw.model.OrderModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
@@ -23,6 +24,7 @@ import com.cdkj.h2hwtw.model.TotalAmountModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.model.WantProductModel;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -258,5 +260,15 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<MsgListModel>> getMsgList(@Field("code") String code, @Field("json") String  json);
+
+
+    /**
+     * 获取推荐列表
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<MyFriendListModel>> getFriendList(@Field("code") String code, @Field("json") String  json);
+
 
 }

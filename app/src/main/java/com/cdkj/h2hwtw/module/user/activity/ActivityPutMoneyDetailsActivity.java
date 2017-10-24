@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.cdkj.baselibrary.api.ResponseInListModel;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
+import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
@@ -20,6 +21,7 @@ import com.cdkj.h2hwtw.model.ActivityCenterModel;
 import com.cdkj.h2hwtw.model.PutMoneySendModel;
 import com.cdkj.h2hwtw.module.pay.PutMoneyActivity;
 import com.cdkj.h2hwtw.module.product.ProductReleaseActivity;
+import com.cdkj.h2hwtw.module.user.info.ActivityInvitationFriend;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,6 +63,11 @@ public class ActivityPutMoneyDetailsActivity extends AbsBaseLoadActivity {
         mBinding.btnIWantAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (!SPUtilHelpr.isLogin(ActivityPutMoneyDetailsActivity.this, false)) {
+                    return;
+                }
+
                 if (mPutMoneySendModel == null) return;
                 PutMoneyActivity.open(ActivityPutMoneyDetailsActivity.this, mPutMoneySendModel.getCode());
             }

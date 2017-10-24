@@ -134,6 +134,7 @@ public class RefreshHelper<T> {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) { //刷新
                 onMRefresh(1, mLimit, false);
+                mRefreshInterface.onRefresh(1, mLimit);
             }
 
             @Override
@@ -142,6 +143,7 @@ public class RefreshHelper<T> {
                     mPageIndex++;
                 }
                 onMLoadMore(mPageIndex, mLimit);
+                mRefreshInterface.onLoadMore(mPageIndex, mLimit);
             }
         });
     }
@@ -151,6 +153,7 @@ public class RefreshHelper<T> {
         mPageIndex = 1;
         mRefreshInterface.getListDataRequest(mPageIndex, mLimit, isShowDialog);
     }
+
     //执行默认刷新 mPageIndex++
     public void onDefaluteMLoadMore(boolean isShowDialog) {
         if (mDataList.size() > 0) {
@@ -164,7 +167,7 @@ public class RefreshHelper<T> {
         mPageIndex = pageindex;
         mLimit = limit;
         mRefreshInterface.getListDataRequest(pageindex, limit, isShowDialog);
-        mRefreshInterface.onRefresh(pageindex, limit);
+
     }
 
     //加载
@@ -172,7 +175,6 @@ public class RefreshHelper<T> {
         mPageIndex = pageIndex;
         mLimit = limit;
         mRefreshInterface.getListDataRequest(pageIndex, limit, false);
-        mRefreshInterface.onLoadMore(pageIndex, limit);
     }
 
 

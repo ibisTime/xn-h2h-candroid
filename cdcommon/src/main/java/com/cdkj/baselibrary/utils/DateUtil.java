@@ -263,4 +263,49 @@ public class DateUtil {
         return DateUtil.parse(s, format);
     }
 
+    /**
+     * 获取用户登录时间描述
+     *
+     * @param time
+     * @return
+     */
+    public static String getLoginDataInfo(String time) {
+        Calendar before = Calendar.getInstance();
+        before.setTime(new Date(time));
+        Calendar now = Calendar.getInstance();
+
+        int nowYear = now.get(Calendar.YEAR);//获取年份
+        int beforeYear = now.get(Calendar.YEAR);//获取年份
+
+        int nowMonth = now.get(Calendar.MONTH);//获取月份
+        int beforeMonth = now.get(Calendar.MONTH);//获取月份
+
+        if (nowYear > beforeYear) {
+            int diffy = nowYear - beforeYear;
+            int diffm = diffy * 12 + nowMonth - beforeMonth;
+            return diffm < 12 ? diffm + "月前来过" : diffy + "年前来过";
+        }
+        if (nowMonth > beforeMonth) {
+            return nowMonth - beforeMonth + "月前来过";
+        }
+
+        int beforeDay = now.get(Calendar.DATE);//获取日
+        int nowDay = now.get(Calendar.DATE);//获取日
+        if (nowDay > beforeDay) {
+            return nowDay - beforeDay + "天前来过";
+        }
+
+        int beforeHour = now.get(Calendar.HOUR);//小时
+        int nowHour = now.get(Calendar.HOUR);//小时
+        if (nowHour > beforeHour) {
+            return nowHour - beforeHour + "天前来过";
+        }
+        int beforeMinute = now.get(Calendar.MINUTE);//小时
+        int nowMinute = now.get(Calendar.MINUTE);//小时
+
+        int diffMinute = nowMinute - beforeMinute;
+
+        return diffMinute <= 5 ? "刚刚来过" : diffMinute + "分钟前来过";
+    }
+
 }
