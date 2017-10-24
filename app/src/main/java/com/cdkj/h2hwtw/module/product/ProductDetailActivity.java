@@ -28,6 +28,7 @@ import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.views.MyDividerItemDecoration;
 import com.cdkj.baselibrary.views.ScrollGridLayoutManager;
+import com.cdkj.h2hwtw.PhotoViewPagerActivity;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.adapters.ProductCommentsListAdapter;
 import com.cdkj.h2hwtw.adapters.ProductImgAdapter;
@@ -67,6 +68,8 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
     private RefreshHelper mCommentsReshHelper;
     private ProductCommentsListAdapter mpadCommentsListAdapter;
 
+    ArrayList<String> mImgUrlList;
+
 
     public static void open(Context context, String productCode) {
         if (context == null) {
@@ -88,7 +91,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
     public void afterCreate(Bundle savedInstanceState) {
         mBaseBinding.contentView.hindAll();
         mBaseBinding.titleView.setMidTitle("产品详情");
-
+        mImgUrlList = new ArrayList<>();
         if (getIntent() != null) {
             mProductCode = getIntent().getStringExtra("productCode");
         }
@@ -219,6 +222,17 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
      */
     private void initImgAdapter() {
         mImgAdapter = new ProductImgAdapter(new ArrayList<String>(), this);
+
+        mImgAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (mImgUrlList == null || mImgUrlList.size() == 0) {
+                    return;
+                }
+                PhotoViewPagerActivity.open(ProductDetailActivity.this, mImgUrlList, position);
+            }
+        });
+
         mBinding.recyclerImg.setAdapter(mImgAdapter);
         //TODO FlexboxLayoutManager也可以实现
         ScrollGridLayoutManager layoutManager = new ScrollGridLayoutManager(this, 2);
@@ -527,10 +541,9 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
             mBinding.butLayout.linBuy.setVisibility(View.VISIBLE);
         }
 
-        List<String> dd = new ArrayList<>();
-        dd.addAll(StringUtils.splitAsPicList(showData.getPic()));
-//        dd.add("68b53042-304a-4166-af67-821aa2be04cc.JPG");
-        mImgAdapter.replaceData(dd);
+        mImgUrlList.clear();
+        mImgUrlList.addAll(StringUtils.splitAsPicList(showData.getPic()));
+        mImgAdapter.replaceData(mImgUrlList);
 
 
         if (TextUtils.equals("1", showData.getIsCollect())) {

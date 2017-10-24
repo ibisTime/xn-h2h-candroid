@@ -73,4 +73,5 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.youth.banner:banner:1.4.10'
     compile 'com.google.android:flexbox:0.3.0'
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
 }

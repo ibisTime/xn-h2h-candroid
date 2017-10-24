@@ -54,6 +54,9 @@ public class StringUtils {
             strings = Arrays.asList(s.split(sp));
         }
 
+        if (strings == null) {
+            return new ArrayList<>();
+        }
 
         return strings;
     }

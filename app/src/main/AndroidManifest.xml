@@ -340,6 +340,11 @@
             android:name=".module.search.SearchActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!--查看大图-->
+        <activity
+            android:name=".PhotoViewPagerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
 
     </application>

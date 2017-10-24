@@ -104,7 +104,7 @@ public class InvitationFriendListActivity extends BaseRefreshHelperActivity {
 
     @Override
     protected void onInit(Bundle savedInstanceState) {
-        mBaseBinding.titleView.setMidTitle("好友列表");
+        mBaseBinding.titleView.setMidTitle("推荐历史");
 
         mRefreshHelper.onDefaluteMRefresh(true);
     }

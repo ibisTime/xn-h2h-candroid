@@ -59,7 +59,7 @@ public class ActivityInvitationFriend extends AbsBaseLoadActivity {
     @Override
     public void afterCreate(Bundle savedInstanceState) {
         mBaseBinding.titleView.setMidTitle("邀请好友");
-        mBaseBinding.titleView.setRightTitle("好友列表");
+        mBaseBinding.titleView.setRightTitle("推荐历史");
         getInfo(1, 1, true);
 
         mBinding.btnInvitation.setOnClickListener(new View.OnClickListener() {
