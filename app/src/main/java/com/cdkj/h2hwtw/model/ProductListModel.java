@@ -101,7 +101,16 @@ public class ProductListModel {
         private String typeName;
         private String isCollect;
         private String loginLog;
+        private String photo;
         private int totalComment;
+
+        public String getPhoto() {
+            return photo;
+        }
+
+        public void setPhoto(String photo) {
+            this.photo = photo;
+        }
 
         public String getLoginLog() {
             return loginLog;
@@ -462,6 +471,7 @@ public class ProductListModel {
             dest.writeString(this.typeName);
             dest.writeString(this.isCollect);
             dest.writeString(this.loginLog);
+            dest.writeString(this.photo);
             dest.writeInt(this.totalComment);
             dest.writeInt(this.totalInteract);
             dest.writeString(this.nickName);
@@ -503,6 +513,7 @@ public class ProductListModel {
             this.typeName = in.readString();
             this.isCollect = in.readString();
             this.loginLog = in.readString();
+            this.photo = in.readString();
             this.totalComment = in.readInt();
             this.totalInteract = in.readInt();
             this.nickName = in.readString();

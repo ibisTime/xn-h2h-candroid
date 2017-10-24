@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.base.BaseRefreshHelperActivity;
@@ -21,6 +22,8 @@ import com.cdkj.h2hwtw.pop.PriceKeyboardPop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +55,6 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
         context.startActivity(intent);
     }
 
-
     @Override
     protected void onInit(Bundle savedInstanceState) {
 
@@ -68,14 +70,6 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
                 finish();
             }
         });
-
-        mBinding.linScreeningMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                new PriceKeyboardPop(ProductScreeningActivity.this, null).showPopupWindow(view);
-            }
-        });
-
     }
 
     @Override

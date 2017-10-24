@@ -44,7 +44,7 @@ public class BuyCircleProductListAdapter extends BaseQuickAdapter<ProductListMod
         if (item == null) return;
 
 
-//        ImgUtils.loadImg(mContext, MyCdConfig.QINIUURL + StringUtils.getAsPicListIndexOne(item.getPic()), (ImageView) viewHolder.getView(R.id.img_user_logo));
+        ImgUtils.loadImg(mContext, MyCdConfig.QINIUURL + item.getPhoto(), (ImageView) viewHolder.getView(R.id.img_user_logo));
 
         viewHolder.setText(R.id.tv_product_name, item.getName());
         viewHolder.setText(R.id.tv_user_name, item.getNickName());
@@ -53,7 +53,7 @@ public class BuyCircleProductListAdapter extends BaseQuickAdapter<ProductListMod
         viewHolder.setText(R.id.tv_price, MoneyUtils.showPrice(item.getPrice()));
         viewHolder.setText(R.id.tv_fans_num, item.getTotalInteract() + "");
         viewHolder.setText(R.id.tv_comments_num, item.getTotalComment() + "");
-        viewHolder.setText(R.id.tv_info, item.getCity() + " | "+DateUtil.getLoginDataInfo(item.getLoginLog()));
+        viewHolder.setText(R.id.tv_info, item.getCity() + " | " + DateUtil.getLoginDataInfo(item.getLoginLog()));
 
 
         RecyclerView recyclerView = viewHolder.getView(R.id.recycler_img);

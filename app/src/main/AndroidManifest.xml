@@ -335,6 +335,11 @@
             android:name=".module.user.info.InvitationFriendListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!--搜索-->
+        <activity
+            android:name=".module.search.SearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
 
     </application>

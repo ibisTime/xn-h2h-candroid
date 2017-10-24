@@ -9,7 +9,9 @@
         android:descendantFocusability="blocksDescendants"
         android:orientation="vertical">
 
-        <include layout="@layout/layout_search"/>
+        <include
+            android:id="@+id/search"
+            layout="@layout/layout_search"/>
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/refreshLayout"

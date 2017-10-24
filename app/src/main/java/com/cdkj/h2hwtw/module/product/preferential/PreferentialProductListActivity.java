@@ -59,12 +59,12 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
             }
         });
 
-        mBinding.linScreeningMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                new PriceKeyboardPop(ProductScreeningActivity.this, null).showPopupWindow(view);
-            }
-        });
+//        mBinding.linScreeningMenu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                new PriceKeyboardPop(ProductScreeningActivity.this, null).showPopupWindow(view);
+//            }
+//        });
 
     }
 

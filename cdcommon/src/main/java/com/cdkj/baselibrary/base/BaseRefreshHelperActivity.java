@@ -29,11 +29,13 @@ public abstract class BaseRefreshHelperActivity<T> extends AbsBaseLoadActivity i
 
     @Override
     public SmartRefreshLayout getRefreshLayout() {
+        if (mBinding == null) return null;
         return mBinding.refreshLayout;
     }
 
     @Override
     public RecyclerView getRecyclerView() {
+        if (mBinding == null) return null;
         return mBinding.rv;
     }
 
@@ -65,15 +67,20 @@ public abstract class BaseRefreshHelperActivity<T> extends AbsBaseLoadActivity i
     @Override
     public View addMainView() {
         mBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.layout_common_recycler_refresh, null, false);
+
         return mBinding.getRoot();
     }
 
     @Override
     public void afterCreate(Bundle savedInstanceState) {
+        initRefreshHelper(1, 10);
+        onInit(savedInstanceState);
+    }
+
+    private void initRefreshHelper(int start, int limit) {
         mRefreshHelper = new RefreshHelper(this, this);
         mRefreshHelper.setErrorInfo(getErrorInfo());
-        mRefreshHelper.init(1, 10);
-        onInit(savedInstanceState);
+        mRefreshHelper.init(start, limit);
     }
 
     @Override

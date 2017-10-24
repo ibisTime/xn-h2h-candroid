@@ -23,6 +23,7 @@ import com.cdkj.h2hwtw.databinding.LayoutRecyclerviewBinding;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.cdkj.h2hwtw.module.product.ProductScreeningActivity;
+import com.cdkj.h2hwtw.module.search.SearchActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -68,6 +69,12 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_type, null, false);
         initHeadMenuView(inflater);
         initRefreshHelper(1, 10);
+        mBinding.search.layoutSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SearchActivity.open(mActivity);
+            }
+        });
         return mBinding.getRoot();
     }
 
@@ -89,6 +96,7 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
                 ProductScreeningActivity.open(mActivity, mTypeMenuAdapter.getItem(position).getCode());
             }
         });
+
 
     }
 
@@ -170,7 +178,6 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
 
             }
         });
-
 
     }
 
