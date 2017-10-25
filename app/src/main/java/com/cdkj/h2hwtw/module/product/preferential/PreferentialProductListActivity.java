@@ -35,7 +35,6 @@ import com.cdkj.h2hwtw.model.ScreeningPrictModel;
 import com.cdkj.h2hwtw.model.ScreeningRightMenuState;
 import com.cdkj.h2hwtw.model.ScreeningTypeModel;
 import com.cdkj.h2hwtw.model.cityInfo.AddressInfo;
-import com.cdkj.h2hwtw.module.product.ProductScreeningActivity;
 import com.cdkj.h2hwtw.module.search.SearchActivity;
 import com.cdkj.h2hwtw.other.view.ProductScreeningView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -366,7 +365,7 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
         map.put("pageindex", pageindex + "");
         map.put("start", pageindex + "");
         map.put("status", "3");
-        map.put("isJoin", "0");
+        map.put("isJoin", "1");//参加优惠活动
 
         map.put("companyCode", MyCdConfig.COMPANYCODE);
         map.put("systemCode", MyCdConfig.SYSTEMCODE);

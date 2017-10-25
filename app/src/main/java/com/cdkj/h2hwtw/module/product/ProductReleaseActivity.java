@@ -439,7 +439,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
                         @Override
                         public void onDismiss(DialogInterface dialogInterface) {
                             if (!TextUtils.isEmpty(mActivityCode)) {                              //如果参加了活动 则跳到活动产品列表
-                                PreferentialProductListActivity.open(ProductReleaseActivity.this);
+                                PreferentialProductListActivity.open(ProductReleaseActivity.this,"","");
                             }
                             finish();
                         }

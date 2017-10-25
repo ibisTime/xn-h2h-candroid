@@ -31,7 +31,6 @@ import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.module.BuyCircleActivity;
 import com.cdkj.h2hwtw.module.product.preferential.PreferentialProductListActivity;
 import com.cdkj.h2hwtw.module.user.activity.ActivityPutMoneyDetailsActivity;
-import com.cdkj.h2hwtw.module.user.activity.PutMoneySendListActivity;
 import com.cdkj.h2hwtw.module.user.info.ActivityInvitationFriend;
 import com.cdkj.h2hwtw.other.GlideImageLoader;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -120,7 +119,7 @@ public class FirstPageFragment extends BaseLazyFragment {
         mBinding.topLayout.linPreferential.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PreferentialProductListActivity.open(mActivity);
+                PreferentialProductListActivity.open(mActivity, "", "");
             }
         });
         //充值
@@ -207,7 +206,6 @@ public class FirstPageFragment extends BaseLazyFragment {
                 map.put("limit", limit + "");
                 map.put("pageindex", pageindex + "");
                 map.put("start", pageindex + "");
-//                map.put("location", "1"); //1热门
                 map.put("status", "3");
                 map.put("isJoin", "0");
                 map.put("companyCode", MyCdConfig.COMPANYCODE);
@@ -221,10 +219,6 @@ public class FirstPageFragment extends BaseLazyFragment {
                 call.enqueue(new BaseResponseModelCallBack<ProductListModel>(mActivity) {
                     @Override
                     protected void onSuccess(ProductListModel data, String SucMessage) {
-                        if (mBinding.refreshLayout.isRefreshing())
-                            mBinding.refreshLayout.finishRefresh();
-                        if (mBinding.refreshLayout.isLoading())
-                            mBinding.refreshLayout.finishLoadmore();
                         mAddressProductRefreshHelper.setData(data.getList());
                     }
 
@@ -240,6 +234,10 @@ public class FirstPageFragment extends BaseLazyFragment {
 
                     @Override
                     protected void onFinish() {
+                        if (mBinding.refreshLayout.isRefreshing())
+                            mBinding.refreshLayout.finishRefresh();
+                        if (mBinding.refreshLayout.isLoading())
+                            mBinding.refreshLayout.finishLoadmore();
                         if (isShowDialog) disMissLoading();
 
                     }
@@ -287,7 +285,7 @@ public class FirstPageFragment extends BaseLazyFragment {
                 map.put("limit", limit + "");
                 map.put("pageindex", pageindex + "");
                 map.put("start", pageindex + "");
-//                map.put("location", "1"); //1热门
+                map.put("location", "1"); //1热门
                 map.put("status", "3");
                 map.put("isJoin", "0");
                 map.put("companyCode", MyCdConfig.COMPANYCODE);
@@ -301,10 +299,6 @@ public class FirstPageFragment extends BaseLazyFragment {
                 call.enqueue(new BaseResponseModelCallBack<ProductListModel>(mActivity) {
                     @Override
                     protected void onSuccess(ProductListModel data, String SucMessage) {
-                        if (mBinding.refreshLayout.isRefreshing())
-                            mBinding.refreshLayout.finishRefresh();
-                        if (mBinding.refreshLayout.isLoading())
-                            mBinding.refreshLayout.finishLoadmore();
                         mHotRefreshHelper.setData(data.getList());
                     }
 
@@ -320,6 +314,10 @@ public class FirstPageFragment extends BaseLazyFragment {
 
                     @Override
                     protected void onFinish() {
+                        if (mBinding.refreshLayout.isRefreshing())
+                            mBinding.refreshLayout.finishRefresh();
+                        if (mBinding.refreshLayout.isLoading())
+                            mBinding.refreshLayout.finishLoadmore();
                         if (isShowDialog) disMissLoading();
 
                     }

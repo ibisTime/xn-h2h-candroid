@@ -40,7 +40,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="fitXY"
-                        tools:src="@drawable/red_isjoin" />
+                        android:src="@drawable/red_isjoin" />
 
                     <TextView
                         android:textSize="12sp"

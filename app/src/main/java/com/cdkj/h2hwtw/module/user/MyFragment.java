@@ -79,6 +79,8 @@ public class MyFragment extends BaseLazyFragment {
      */
     private void initListener() {
 
+        initOrderStateListener();
+        //用户信息
         mBinding.linUserInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,14 +88,14 @@ public class MyFragment extends BaseLazyFragment {
                 UserInfoEditActivity.open(mActivity, mUserInfoMode);
             }
         });
-
+        //余额
         mBinding.linMyAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MyAccountActivity.open(mActivity);
             }
         });
-
+        //设置
         mBinding.imgSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,7 +103,7 @@ public class MyFragment extends BaseLazyFragment {
             }
         });
 
-
+        //积分流水
         mBinding.linJfList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,22 +111,21 @@ public class MyFragment extends BaseLazyFragment {
             }
         });
 
-        initOrderStateListener();
-
+        //优惠券
         mBinding.linCooupons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CouponsAllActivity.open(mActivity);
             }
         });
-
+        //我发布的
         mBinding.linIRelease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ReleaseProductListActivity.open(mActivity);
             }
         });
-
+        //我卖出的
         mBinding.linISell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

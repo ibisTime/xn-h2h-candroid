@@ -85,7 +85,6 @@ public class ProductScreeningView extends FrameLayout {
     private ScreeningDIstrictSelectAdapter mScreeningDIstrictSelectAdapter;//地区选择
 
     //价格
-
     private ImageView mImgUpPrice;
     private ImageView mImgDownPrice;
 
@@ -96,8 +95,8 @@ public class ProductScreeningView extends FrameLayout {
 
     private String mSelectBigType;//记录用户选择的大类
 
-    private ScreeningAddressModel mAddressMode;
-    private ScreeningTypeModel mTypeModel;
+    private ScreeningAddressModel mSelectAddressMode;
+    private ScreeningTypeModel mSelectTypeModel;
 
     public ProductScreeningView(@NonNull Context context) {
         this(context, null);
@@ -110,8 +109,8 @@ public class ProductScreeningView extends FrameLayout {
     public ProductScreeningView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mContext = context;
-        mAddressMode = new ScreeningAddressModel();
-        mTypeModel = new ScreeningTypeModel();
+        mSelectAddressMode = new ScreeningAddressModel();
+        mSelectTypeModel = new ScreeningTypeModel();
         initLayout();
         initTabListener();
         initAreaListener();
@@ -196,12 +195,12 @@ public class ProductScreeningView extends FrameLayout {
                 if (dst == null) return;
                 mTvArea.setText(dst.getName());
 
-                mAddressMode.setProvince(mSelectProvince);
-                mAddressMode.setCity(mSelectCity);
-                mAddressMode.setArea(dst.getName());
+                mSelectAddressMode.setProvince(mSelectProvince);
+                mSelectAddressMode.setCity(mSelectCity);
+                mSelectAddressMode.setArea(dst.getName());
 
                 if (listener != null) {
-                    listener.onAddressSelect(mAddressMode);
+                    listener.onAddressSelect(mSelectAddressMode);
                 }
             }
         });
@@ -255,17 +254,17 @@ public class ProductScreeningView extends FrameLayout {
                     if (mTypeMenuLeftAdapter.getItem(mTypeListSelectPostion) != null) {
                         mTabTypeView.setText(mTypeMenuLeftAdapter.getItem(mTypeListSelectPostion).getName());
 
-                        mTypeModel.setCategory(mTypeMenuLeftAdapter.getItem(mTypeListSelectPostion).getCode());
+                        mSelectTypeModel.setCategory(mTypeMenuLeftAdapter.getItem(mTypeListSelectPostion).getCode());
 
-                        listener.onTypeSelect(mTypeModel);
+                        listener.onTypeSelect(mSelectTypeModel);
                     }
 
                 } else {
                     mTabTypeView.setText(mTypeMenuRightAdapter.getItem(position).getName());
-                    mTypeModel.setCategory(mSelectBigType);
-                    mTypeModel.setType(mTypeMenuRightAdapter.getItem(position).getCode());
+                    mSelectTypeModel.setCategory(mSelectBigType);
+                    mSelectTypeModel.setType(mTypeMenuRightAdapter.getItem(position).getCode());
                     if (listener != null) {
-                        listener.onTypeSelect(mTypeModel);
+                        listener.onTypeSelect(mSelectTypeModel);
                     }
                 }
             }
@@ -291,7 +290,7 @@ public class ProductScreeningView extends FrameLayout {
                 if (mAreaView.getVisibility() == GONE) {
                     mSelectProvince = "";
                     mSelectCity = "";
-                    mAddressMode = new ScreeningAddressModel();//每次点击重置数据
+                    mSelectAddressMode = new ScreeningAddressModel();//每次点击重置数据
                     mAreaView.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_menu_in));
                     mDissMisVIew.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_mask_in));
                     mAreaView.setVisibility(VISIBLE);
@@ -321,7 +320,7 @@ public class ProductScreeningView extends FrameLayout {
                 }
                 if (mTypeSelectView.getVisibility() == GONE) {
                     mSelectBigType = "";
-                    mTypeModel = new ScreeningTypeModel();
+                    mSelectTypeModel = new ScreeningTypeModel();
                     mTypeSelectView.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_menu_in));
                     mDissMisVIew.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_mask_in));
                     mTypeSelectView.setVisibility(VISIBLE);
