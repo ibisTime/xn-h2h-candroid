@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cdkj.baselibrary.activitys.FindPwdActivity;
+import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.RouteHelper;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
@@ -96,6 +97,8 @@ public class LoginActivity extends AbsBaseLoadActivity implements LoginInterface
         SPUtilHelpr.saveUserToken(user.getToken());
         SPUtilHelpr.saveUserPhoneNum(mBinding.editUsername.getText().toString());
         if (canOpenMain) {
+            EventBus.getDefault().post(EventTags.MAINFINISH);
+            EventBus.getDefault().post(EventTags.AllFINISH);
             MainActivity.open(this);
         } else {
             EventBus.getDefault().post(LOGINREFRESH);

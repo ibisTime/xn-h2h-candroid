@@ -11,4 +11,5 @@
 
     <dimen name="coupons_left_width">90dp</dimen>
     <dimen name="banner_height">180dp</dimen>
+    <dimen name="screening_view_bottom">130dp</dimen>
 </resources>

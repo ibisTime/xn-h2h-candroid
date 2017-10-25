@@ -9,20 +9,25 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.alibaba.fastjson.JSON;
 import com.cdkj.baselibrary.adapters.ViewPagerAdapter;
 import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.dialog.UITipDialog;
+import com.cdkj.baselibrary.utils.AppUtils;
+import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.update.UpdateManager;
 import com.cdkj.h2hwtw.databinding.ActivityMainBinding;
+import com.cdkj.h2hwtw.model.cityInfo.AddressInfo;
 import com.cdkj.h2hwtw.module.firstpage.FirstPageFragment;
 import com.cdkj.h2hwtw.module.firstpage.FirstPageFragment2;
 import com.cdkj.h2hwtw.module.goodstype.GoodsTypeFragment;
 import com.cdkj.h2hwtw.module.im.fragments.ImFragment;
 import com.cdkj.h2hwtw.module.product.ProductReleaseActivity;
 import com.cdkj.h2hwtw.module.user.MyFragment;
+import com.qiniu.android.utils.Json;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -31,6 +36,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.cdkj.baselibrary.appmanager.EventTags.MAINFINISH;
 import static com.cdkj.baselibrary.appmanager.EventTags.RELEASESUSS;
@@ -140,7 +153,7 @@ public class MainActivity extends AbsBaseLoadActivity {
         mBinding.layoutRelease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProductReleaseActivity.open(MainActivity.this,"");
+                ProductReleaseActivity.open(MainActivity.this, "");
             }
         });
 

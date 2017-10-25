@@ -92,8 +92,9 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
         mTypeMenuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (mTypeMenuAdapter.getItem(position) == null) return;
-                ProductScreeningActivity.open(mActivity, mTypeMenuAdapter.getItem(position).getCode());
+                ProductTypeModel productTypeModel = mTypeMenuAdapter.getItem(position);
+                if (productTypeModel == null) return;
+                ProductScreeningActivity.open(mActivity, productTypeModel.getCode(), productTypeModel.getName());
             }
         });
 

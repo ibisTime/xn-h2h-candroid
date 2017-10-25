@@ -27,9 +27,12 @@ import android.widget.Button;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -352,5 +355,33 @@ public class AppUtils {
         return inSampleSize;
     }
 
+    /**
+     * 读取assets下的txt文件，返回utf-8 String
+     *
+     * @param context
+     * @param fileName 不包括后缀
+     * @return
+     */
+    public static String readAssetsTxt(Context context, String fileName) {
+        try {
+            InputStream is = context.getResources().getAssets().open(fileName);
+            InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+            BufferedReader bfr = new BufferedReader(isr);
+            String in = "";
+            StringBuffer stringBuffer = new StringBuffer();
+            while ((in = bfr.readLine()) != null) {
+                stringBuffer.append(in);
+//                LogUtil.E("地址——————" + in);
+            }
+            bfr.close();
+            isr.close();
+            return stringBuffer.toString();
+        } catch (IOException e) {
+            LogUtil.E("地址" + e);
+            e.printStackTrace();
+        }
+
+        return "";
+    }
 
 }

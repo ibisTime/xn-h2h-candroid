@@ -141,8 +141,6 @@ public class ReleaseTypeSelectActivity extends AbsBaseLoadActivity {
                 disMissLoading();
             }
         });
-
-
     }
 
 }

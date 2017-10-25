@@ -20,12 +20,22 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tv_tab_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
-                android:drawableRight="@drawable/down_blue"
-                android:text="区域"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="全国"
+                android:textColor="@color/text_black_app"
                 android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/img_tab_1"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/down_gray" />
 
         </LinearLayout>
 
@@ -35,8 +45,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawablePadding="5dp"
+            android:ellipsize="end"
             android:gravity="center"
-            android:text="类别"
+            android:maxLines="1"
+            android:text="全部"
+            android:textColor="@color/text_black_app"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -51,9 +64,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
-                android:drawableRight="@drawable/more_down"
                 android:text="价格"
+                android:textColor="@color/text_black_app"
                 android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/img_up_price"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/up_gray" />
+
+                <ImageView
+                    android:id="@+id/img_down_proce"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/down_gray" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -69,8 +105,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
-                android:drawableRight="@drawable/more_down"
-                android:text="赛选"
+                android:drawableRight="@drawable/screening"
+                android:text="筛选"
+                android:textColor="@color/text_black_app"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -79,17 +116,20 @@
     </LinearLayout>
 
     <FrameLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <View
-            android:id="@+id/dissmis_view"
+            android:id="@+id/screning_bg_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/pop_black_bg"
             android:visibility="gone" />
 
         <include layout="@layout/layout_screening_area" />
+
+        <include layout="@layout/activity_screning_type_select" />
 
     </FrameLayout>
 

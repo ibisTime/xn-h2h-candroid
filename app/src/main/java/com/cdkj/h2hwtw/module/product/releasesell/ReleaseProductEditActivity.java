@@ -330,7 +330,7 @@ public class ReleaseProductEditActivity extends AbsBaseLoadActivity {
                 .statusBarColor(ContextCompat.getColor(ReleaseProductEditActivity.this, R.color.title_bg_app)) // StatusBar 颜色，默认蓝色。
 //                    .navigationBarColor(navigationBarColor) // NavigationBar 颜色，默认黑色，建议使用默认。
                 .title(getString(R.string.photo_selset)) // 配置title。
-                .selectCount(9) // 最多选择几张图片。
+                .selectCount(12) // 最多选择几张图片。
                 .columnCount(2) // 相册展示列数，默认是2列。
                 .camera(true) // 是否有拍照功能。
                 .checkedList(pathList) // 已经选择过得图片，相册会自动选中选过的图片，并计数。

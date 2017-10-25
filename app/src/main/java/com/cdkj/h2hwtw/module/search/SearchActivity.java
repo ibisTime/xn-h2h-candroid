@@ -172,7 +172,7 @@ public class SearchActivity extends BaseRefreshHelperActivity {
 
     private void initSearchInfo() {
         //解析搜索信息
-        Observable.just("")
+        mSubscription.add(Observable.just("")
                 .observeOn(Schedulers.io())
                 .map(new Function<String, List<String>>() {
                     @Override
@@ -204,7 +204,7 @@ public class SearchActivity extends BaseRefreshHelperActivity {
                     public void accept(Throwable throwable) throws Exception {
 
                     }
-                });
+                }));
     }
 
     /**

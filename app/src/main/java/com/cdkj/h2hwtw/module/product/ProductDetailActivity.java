@@ -542,6 +542,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         }
 
         mImgUrlList.clear();
+        mImgUrlList = new ArrayList<>();
         mImgUrlList.addAll(StringUtils.splitAsPicList(showData.getPic()));
         mImgAdapter.replaceData(mImgUrlList);
 

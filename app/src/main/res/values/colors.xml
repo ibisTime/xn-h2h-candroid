@@ -5,6 +5,7 @@
     <color name="colorAccent">#48b0fb</color>
 
     <color name="text_select_app">#48b0fb</color>
+    <color name="screening_text_selet">#48b0fb</color>
     <color name="btn_click_app">#358ecf</color>
     <color name="btn_click_un_app">#48b0fb</color>
     <color name="dashgap_line_color_blue_app">#48b0fb</color>
@@ -29,6 +30,6 @@
     <color name="my_page_txt_black_app">#666666</color>
     <color name="bill_color_orange">#ff6702</color>
 
-
+    <color name="screening_bg">#eaf6fe</color>
 
 </resources>
