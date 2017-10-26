@@ -44,7 +44,7 @@ public class BuyCircleProductListAdapter extends BaseQuickAdapter<ProductListMod
         if (item == null) return;
 
 
-        ImgUtils.loadImg(mContext, MyCdConfig.QINIUURL + item.getPhoto(), (ImageView) viewHolder.getView(R.id.img_user_logo));
+        ImgUtils.loadLogo(mContext, MyCdConfig.QINIUURL + item.getPhoto(), (ImageView) viewHolder.getView(R.id.img_user_logo));
 
         viewHolder.setText(R.id.tv_product_name, item.getName());
         viewHolder.setText(R.id.tv_user_name, item.getNickName());

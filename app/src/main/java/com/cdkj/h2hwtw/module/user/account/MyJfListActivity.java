@@ -7,7 +7,6 @@ import android.text.TextUtils;
 
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
-import com.cdkj.baselibrary.base.BaseRefreshActivity;
 import com.cdkj.baselibrary.base.BaseRefreshHelperActivity;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;

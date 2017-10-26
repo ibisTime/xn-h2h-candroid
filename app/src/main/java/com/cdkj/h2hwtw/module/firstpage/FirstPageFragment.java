@@ -151,6 +151,13 @@ public class FirstPageFragment extends BaseLazyFragment {
             }
         });
 
+        //签到
+        mBinding.tvSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SignInActivity.open(mActivity);
+            }
+        });
     }
 
     /**
@@ -208,6 +215,7 @@ public class FirstPageFragment extends BaseLazyFragment {
                 map.put("start", pageindex + "");
                 map.put("status", "3");
                 map.put("isJoin", "0");
+                map.put("location", "1"); //1热门
                 map.put("companyCode", MyCdConfig.COMPANYCODE);
                 map.put("systemCode", MyCdConfig.SYSTEMCODE);
                 Call call = RetrofitUtils.createApi(MyApiServer.class).getProductList("808025", StringUtils.getJsonToString(map));

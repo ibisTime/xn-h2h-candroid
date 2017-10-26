@@ -222,6 +222,28 @@ public class DateUtil {
         return lDate;
     }
 
+    //获取指定日期到今天的天数
+    public static List getDatesBetweenData(Date beginDate) {
+        List lDate = new ArrayList();
+        Date endDate = new Date();
+        lDate.add(beginDate);//把开始时间加入集合
+        Calendar cal = Calendar.getInstance();
+        //使用给定的 Date 设置此 Calendar 的时间
+        cal.setTime(beginDate);
+        boolean bContinue = true;
+        while (bContinue) {
+            //根据日历的规则，为给定的日历字段添加或减去指定的时间量
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            // 测试此日期是否在指定日期之后士大夫
+            if (endDate.after(cal.getTime())) {
+                lDate.add(cal.getTime());
+            } else {
+                break;
+            }
+        }
+        return lDate;
+    }
+
     //得到后两个月的日期
     public static Date getMonthToDate(int month) {
         Calendar calendar = Calendar.getInstance();
@@ -275,10 +297,10 @@ public class DateUtil {
         Calendar now = Calendar.getInstance();
 
         int nowYear = now.get(Calendar.YEAR);//获取年份
-        int beforeYear = now.get(Calendar.YEAR);//获取年份
+        int beforeYear = before.get(Calendar.YEAR);//获取年份
 
         int nowMonth = now.get(Calendar.MONTH);//获取月份
-        int beforeMonth = now.get(Calendar.MONTH);//获取月份
+        int beforeMonth = before.get(Calendar.MONTH);//获取月份
 
         if (nowYear > beforeYear) {
             int diffy = nowYear - beforeYear;
@@ -289,23 +311,68 @@ public class DateUtil {
             return nowMonth - beforeMonth + "月前来过";
         }
 
-        int beforeDay = now.get(Calendar.DATE);//获取日
+        int beforeDay = before.get(Calendar.DATE);//获取日
         int nowDay = now.get(Calendar.DATE);//获取日
         if (nowDay > beforeDay) {
             return nowDay - beforeDay + "天前来过";
         }
 
-        int beforeHour = now.get(Calendar.HOUR);//小时
+        int beforeHour = before.get(Calendar.HOUR);//小时
         int nowHour = now.get(Calendar.HOUR);//小时
         if (nowHour > beforeHour) {
-            return nowHour - beforeHour + "天前来过";
+            return nowHour - beforeHour + "小时前来过";
         }
-        int beforeMinute = now.get(Calendar.MINUTE);//小时
+        int beforeMinute = before.get(Calendar.MINUTE);//小时
         int nowMinute = now.get(Calendar.MINUTE);//小时
 
         int diffMinute = nowMinute - beforeMinute;
 
         return diffMinute <= 5 ? "刚刚来过" : diffMinute + "分钟前来过";
+    }
+
+    /**
+     * 获取用户登录在线时长描述
+     *
+     * @param time
+     * @return
+     */
+    public static String getLoginDataInfo2(String time) {
+        Calendar before = Calendar.getInstance();
+        before.setTime(new Date(time));
+        Calendar now = Calendar.getInstance();
+
+        int nowYear = now.get(Calendar.YEAR);//获取年份
+        int beforeYear = before.get(Calendar.YEAR);//获取年份
+
+        int nowMonth = now.get(Calendar.MONTH);//获取月份
+        int beforeMonth = before.get(Calendar.MONTH);//获取月份
+
+        if (nowYear > beforeYear) {
+            int diffy = nowYear - beforeYear;
+            int diffm = diffy * 12 + nowMonth - beforeMonth;
+            return diffm < 12 ? diffm + "月" : diffy + "年";
+        }
+        if (nowMonth > beforeMonth) {
+            return nowMonth - beforeMonth + "月";
+        }
+
+        int beforeDay = before.get(Calendar.DATE);//获取日
+        int nowDay = now.get(Calendar.DATE);//获取日
+        if (nowDay > beforeDay) {
+            return nowDay - beforeDay + "天";
+        }
+
+        int beforeHour = before.get(Calendar.HOUR);//小时
+        int nowHour = now.get(Calendar.HOUR);//小时
+        if (nowHour > beforeHour) {
+            return nowHour - beforeHour + "小时";
+        }
+        int beforeMinute = before.get(Calendar.MINUTE);//小时
+        int nowMinute = now.get(Calendar.MINUTE);//小时
+
+        int diffMinute = nowMinute - beforeMinute;
+
+        return diffMinute <= 5 ? "刚刚" : diffMinute + "分钟";
     }
 
 }

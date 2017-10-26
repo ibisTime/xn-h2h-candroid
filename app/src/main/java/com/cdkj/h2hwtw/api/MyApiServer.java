@@ -20,6 +20,7 @@ import com.cdkj.h2hwtw.model.OrderModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.cdkj.h2hwtw.model.PutMoneySendModel;
+import com.cdkj.h2hwtw.model.ReleaseNumModel;
 import com.cdkj.h2hwtw.model.TotalAmountModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.model.WantProductModel;
@@ -230,6 +231,7 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<ResponseInListModel<ActivityCenterModel>>> getActivityCenterList(@Field("code") String code, @Field("json") String json);
+
     /**
      * 获取充值送
      *
@@ -255,20 +257,32 @@ public interface MyApiServer {
 
     /**
      * 获取消息列表
+     *
      * @return
      */
     @FormUrlEncoded
     @POST("api")
-    Call<BaseResponseModel<MsgListModel>> getMsgList(@Field("code") String code, @Field("json") String  json);
+    Call<BaseResponseModel<MsgListModel>> getMsgList(@Field("code") String code, @Field("json") String json);
 
 
     /**
      * 获取推荐列表
+     *
      * @return
      */
     @FormUrlEncoded
     @POST("api")
-    Call<BaseResponseModel<MyFriendListModel>> getFriendList(@Field("code") String code, @Field("json") String  json);
+    Call<BaseResponseModel<MyFriendListModel>> getFriendList(@Field("code") String code, @Field("json") String json);
+
+
+    /**
+     * 获取发布数量
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<ReleaseNumModel>> getReleaseSum(@Field("code") String code, @Field("json") String json);
 
 
 }

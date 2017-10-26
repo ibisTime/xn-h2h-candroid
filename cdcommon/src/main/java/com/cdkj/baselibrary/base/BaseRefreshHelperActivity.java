@@ -18,7 +18,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
  */
 public abstract class BaseRefreshHelperActivity<T> extends AbsBaseLoadActivity implements RefreshInterface<T> {
 
-    private LayoutCommonRecyclerRefreshBinding mBinding;
+    protected LayoutCommonRecyclerRefreshBinding mRefreshBinding;
     protected RefreshHelper mRefreshHelper;
 
 
@@ -29,14 +29,14 @@ public abstract class BaseRefreshHelperActivity<T> extends AbsBaseLoadActivity i
 
     @Override
     public SmartRefreshLayout getRefreshLayout() {
-        if (mBinding == null) return null;
-        return mBinding.refreshLayout;
+        if (mRefreshBinding == null) return null;
+        return mRefreshBinding.refreshLayout;
     }
 
     @Override
     public RecyclerView getRecyclerView() {
-        if (mBinding == null) return null;
-        return mBinding.rv;
+        if (mRefreshBinding == null) return null;
+        return mRefreshBinding.rv;
     }
 
     @Override
@@ -66,9 +66,9 @@ public abstract class BaseRefreshHelperActivity<T> extends AbsBaseLoadActivity i
 
     @Override
     public View addMainView() {
-        mBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.layout_common_recycler_refresh, null, false);
+        mRefreshBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.layout_common_recycler_refresh, null, false);
 
-        return mBinding.getRoot();
+        return mRefreshBinding.getRoot();
     }
 
     @Override

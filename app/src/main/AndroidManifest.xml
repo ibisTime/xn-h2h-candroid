@@ -345,6 +345,16 @@
             android:name=".PhotoViewPagerActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!--个人主页-->
+        <activity
+            android:name=".module.user.PersonalPageActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--签到-->
+        <activity
+            android:name=".module.firstpage.SignInActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
 
     </application>

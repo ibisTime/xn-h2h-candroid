@@ -30,10 +30,10 @@
                     tools:src="@mipmap/icon" />
 
                 <FrameLayout
-                    android:visibility="gone"
                     android:id="@+id/fra_isjoin"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/img_isjoin"
@@ -43,10 +43,10 @@
                         android:src="@drawable/red_isjoin" />
 
                     <TextView
-                        android:textSize="12sp"
                         style="@style/text_white"
                         android:layout_gravity="center"
-                        android:text="9折" />
+                        android:text="9折"
+                        android:textSize="12sp" />
 
 
                 </FrameLayout>
@@ -64,7 +64,7 @@
 
                 <TextView
                     android:id="@+id/tv_goods_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="2"

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/personal_page_bg" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_left_right_interval"
+                android:layout_marginRight="@dimen/layout_left_right_interval"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/lin_user_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:paddingBottom="@dimen/layout_left_right_interval"
+                    android:paddingLeft="@dimen/layout_left_right_interval"
+                    android:paddingTop="@dimen/layout_left_right_interval">
+
+                    <ImageView
+                        android:id="@+id/img_user_logo"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/photo_default" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="@dimen/layout_left_right_interval"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_user_name"
+                            style="@style/text_black"
+                            android:layout_marginTop="5dp"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textSize="16sp"
+                            tools:text="13000202020" />
+
+                        <TextView
+                            android:id="@+id/tv_info_go"
+                            style="@style/text_gray"
+                            android:layout_width="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="8dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textSize="12sp"
+                            tools:text="关注" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    style="@style/line_gray"
+                    android:layout_marginLeft="@dimen/layout_left_right_interval"
+                    android:layout_marginRight="@dimen/layout_left_right_interval" />
+
+                <TextView
+                    android:id="@+id/tv_crate_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_left_right_interval"
+                    android:layout_marginRight="@dimen/layout_left_right_interval"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/text_black_app"
+                    tools:text="时代峻峰赛诺菲塑料袋" />
+
+                <TextView
+                    android:id="@+id/tv_edit_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/blue_line_txt_type"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="5dp"
+                    android:text="+ 关注"
+                    android:textColor="@color/text_select_app" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@color/white">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp">
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/say_left" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="right|bottom"
+                    android:src="@drawable/say_right" />
+
+                <TextView
+                    android:id="@+id/tv_release_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:gravity="left"
+                    android:textColor="@color/text_black_app"
+                    tools:text="时代峻峰赛诺菲塑料袋时代峻峰赛诺菲塑料袋" />
+
+            </FrameLayout>
+
+        </FrameLayout>
+    </LinearLayout>
+</layout>
+

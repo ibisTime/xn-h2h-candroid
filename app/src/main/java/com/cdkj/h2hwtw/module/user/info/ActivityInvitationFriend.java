@@ -69,7 +69,7 @@ public class ActivityInvitationFriend extends AbsBaseLoadActivity {
                     return;
                 }
                 String shareUrl = "http://cm.tour.hichengdai.com/?#/home/recommend?userReferee=" + SPUtilHelpr.getUserId();
-                ShareActivity.open(ActivityInvitationFriend.this, "邀请好友送积分", "邀请好友送积分", shareUrl);
+                ShareActivity.open(ActivityInvitationFriend.this, shareUrl, "我淘网", "二手买卖");
             }
         });
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +27,6 @@ import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
-import com.cdkj.baselibrary.views.MyDividerItemDecoration;
 import com.cdkj.baselibrary.views.ScrollGridLayoutManager;
 import com.cdkj.h2hwtw.PhotoViewPagerActivity;
 import com.cdkj.h2hwtw.R;
@@ -38,6 +38,7 @@ import com.cdkj.h2hwtw.model.CommentsModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.module.order.ProductBuyActivity;
+import com.cdkj.h2hwtw.module.user.PersonalPageActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -56,7 +57,7 @@ import retrofit2.Call;
  * 产品详情
  * Created by cdkj on 2017/10/17.
  */
-//TODO 详情界面适配
+//TODO 详情界面适配 产品列表 适配
 public class ProductDetailActivity extends AbsBaseLoadActivity {
 
     private ActivityProductDetailBinding mBinding;
@@ -173,6 +174,16 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
                 ProductBuyActivity.open(ProductDetailActivity.this, mProductData);
             }
         });
+
+        mBinding.userLayout.linUserInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mProductData == null) return;
+
+                PersonalPageActivity.open(ProductDetailActivity.this, mProductData.getUpdater());
+
+            }
+        });
     }
 
     /**
@@ -213,7 +224,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
             }
         };
         mBinding.commentsLayout.recyclerComments.setLayoutManager(linearLayoutManager);
-        mBinding.commentsLayout.recyclerComments.addItemDecoration(new MyDividerItemDecoration(this, MyDividerItemDecoration.VERTICAL_LIST));
+        mBinding.commentsLayout.recyclerComments.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
     }
 

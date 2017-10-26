@@ -17,14 +17,12 @@ import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
-import com.cdkj.baselibrary.views.MyDividerItemDecoration;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.adapters.AddressListAdapter;
 import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.model.AddressModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;

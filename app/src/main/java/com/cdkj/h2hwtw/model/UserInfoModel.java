@@ -92,8 +92,17 @@ public class UserInfoModel implements Parcelable {
     private String userId;
     private String userReferee;
     private String workTime;
+    private String loginDatetime;
     private boolean tradepwdFlag;
     private long totalFollowNum;
+
+    public String getLoginDatetime() {
+        return loginDatetime;
+    }
+
+    public void setLoginDatetime(String loginDatetime) {
+        this.loginDatetime = loginDatetime;
+    }
 
     public long getTotalFollowNum() {
         return totalFollowNum;
