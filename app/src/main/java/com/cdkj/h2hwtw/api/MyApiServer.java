@@ -14,6 +14,7 @@ import com.cdkj.h2hwtw.model.BillListMode;
 import com.cdkj.h2hwtw.model.CommentsModel;
 import com.cdkj.h2hwtw.model.CouponsModel;
 import com.cdkj.h2hwtw.model.IntroductionInfoList;
+import com.cdkj.h2hwtw.model.IsSignModel;
 import com.cdkj.h2hwtw.model.MsgListModel;
 import com.cdkj.h2hwtw.model.MyFriendListModel;
 import com.cdkj.h2hwtw.model.OrderModel;
@@ -21,11 +22,13 @@ import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.cdkj.h2hwtw.model.PutMoneySendModel;
 import com.cdkj.h2hwtw.model.ReleaseNumModel;
+import com.cdkj.h2hwtw.model.SignInTotalAmountModel;
 import com.cdkj.h2hwtw.model.TotalAmountModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.model.WantProductModel;
 
 import io.reactivex.Observable;
+import io.reactivex.internal.operators.single.SingleInternalHelper;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -102,6 +105,17 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseListModel<AmountModel>> getAmount(@Field("code") String code, @Field("json") String json);
+
+    /**
+     * 获取签到积分
+     *
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<SignInTotalAmountModel>> getSigninAmount(@Field("code") String code, @Field("json") String json);
 
     /**
      * 获取账户余额
@@ -283,6 +297,15 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<ReleaseNumModel>> getReleaseSum(@Field("code") String code, @Field("json") String json);
+
+    /**
+     * 是否签到
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<IsSignModel>> isSign(@Field("code") String code, @Field("json") String json);
 
 
 }

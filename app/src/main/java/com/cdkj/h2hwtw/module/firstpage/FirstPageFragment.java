@@ -155,6 +155,9 @@ public class FirstPageFragment extends BaseLazyFragment {
         mBinding.tvSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!SPUtilHelpr.isLogin(mActivity, false)) {
+                    return;
+                }
                 SignInActivity.open(mActivity);
             }
         });

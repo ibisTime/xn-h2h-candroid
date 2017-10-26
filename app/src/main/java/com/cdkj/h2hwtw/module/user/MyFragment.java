@@ -1,5 +1,6 @@
 package com.cdkj.h2hwtw.module.user;
 
+import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -67,7 +68,7 @@ public class MyFragment extends BaseLazyFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(getLayoutInflater(savedInstanceState), R.layout.fragment_my, null, false);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_my, null, false);
 
         initListener();
 
@@ -345,7 +346,6 @@ public class MyFragment extends BaseLazyFragment {
                 if (isShowdialog) disMissLoading();
             }
         });
-
     }
 
     /**

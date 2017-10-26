@@ -403,7 +403,8 @@ json:{"systemCode":"CD-WTW000016","companyCode":"CD-WTW000016","token":"TSYS_USE
                 mBinding.layoutUser.tvUserName.setText(data.getNickname());
 
                 StringBuffer sb = new StringBuffer();
-                sb.append(DateUtil.getDatesBetweenData(new Date(data.getCreateDatetime())).size() + "");
+                //TODO 时间差计算优化
+                sb.append(DateUtil.getDatesBetweenDays(new Date(data.getCreateDatetime())) + "");
                 sb.append("天前加入");
                 sb.append(getString(R.string.app_name));
                 mBinding.layoutUser.tvCrateTime.setText(sb.toString());

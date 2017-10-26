@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
+import com.cdkj.baselibrary.utils.BigDecimalUtils;
 import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
@@ -48,6 +49,9 @@ public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBe
         viewHolder.setText(R.id.tv_address, item.getProvince() + " " + item.getCity() + " " + item.getArea());
 
         viewHolder.setGone(R.id.fra_isjoin, TextUtils.equals(item.getIsJoin(), "1"));//是否参加了活动 1参加 0否
+
+        String zhek = (item.getDiscount().floatValue() * 10) + "";
+        viewHolder.setText(R.id.tv_zhekou, zhek);
 
         viewHolder.setOnClickListener(R.id.lin_goods, new View.OnClickListener() {
             @Override

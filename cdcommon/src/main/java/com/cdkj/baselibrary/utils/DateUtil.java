@@ -161,6 +161,20 @@ public class DateUtil {
         return weekDays[w];
     }
 
+    /**
+     * 获取日期对于星期
+     * @param dt
+     * @return
+     */
+    public static int getWeekOfDateIndex(Date dt) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dt);
+        int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if (w < 0)
+            w = 0;
+        return w;
+    }
+
     public static String getWeekOfDate(String date) {
         DateFormat fmt = new SimpleDateFormat("yyyy年MM月dd日");
         String[] weekDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
@@ -188,21 +202,50 @@ public class DateUtil {
     }
 
 
-    //根据日期取得星期几
-    public static String getWeekString(Date date) {
-        String[] weeks = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
+    /**
+     * 根据提供的年月日获取该月份的第一天
+     *
+     * @param year
+     * @param monthOfYear
+     * @return
+     * @Description: (这里用一句话描述这个方法的作用)
+     * @Author: gyz
+     * @Since: 2017-1-9下午2:26:57
+     */
+    public static Date getSupportBeginDayofMonth(int year, int monthOfYear) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int week_index = cal.get(Calendar.DAY_OF_WEEK) - 1;
-        if (week_index < 0) {
-            week_index = 0;
-        }
-        return weeks[week_index];
+        // 不加下面2行，就是取当前时间前一个月的第一天及最后一天
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, monthOfYear);
+
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        Date firstDate = cal.getTime();
+        return firstDate;
+    }
+
+    /**
+     * 根据提供的年月获取该月份的最后一天
+     *
+     * @param year
+     * @param monthOfYear
+     * @return
+     */
+    public static Date getSupportEndDayofMonth(int year, int monthOfYear) {
+        Calendar cal = Calendar.getInstance();
+        // 不加下面2行，就是取当前时间前一个月的第一天及最后一天
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, monthOfYear);
+
+        cal.set(Calendar.DAY_OF_MONTH,
+                cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        Date lastDate = cal.getTime();
+
+        return lastDate;
     }
 
     //获取两个data 之间的 data集合
-    public static List getDatesBetweenTwoDate(Date beginDate, Date endDate) {
-        List lDate = new ArrayList();
+    public static List<Date> getDatesBetweenTwoDate(Date beginDate, Date endDate) {
+        List<Date> lDate = new ArrayList();
         lDate.add(beginDate);//把开始时间加入集合
         Calendar cal = Calendar.getInstance();
         //使用给定的 Date 设置此 Calendar 的时间
@@ -222,11 +265,30 @@ public class DateUtil {
         return lDate;
     }
 
-    //获取指定日期到今天的天数
-    public static List getDatesBetweenData(Date beginDate) {
-        List lDate = new ArrayList();
+    /**
+     * 获取本月的所有日期集合
+     *
+     * @return
+     */
+    public static List<Date> getNowMonthDataList() {
+
+        Calendar now = Calendar.getInstance();
+        int nowYear = now.get(Calendar.YEAR);//获取年份
+        int nowMonth = now.get(Calendar.MONTH);//获取月份
+
+        Date beginDate = DateUtil.getSupportBeginDayofMonth(nowYear, nowMonth);//获取本月第一天
+        Date endDate = DateUtil.getSupportEndDayofMonth(nowYear, nowMonth); //获取本月最后一天
+
+        return DateUtil.getDatesBetweenTwoDate(beginDate, endDate);
+
+    }
+
+
+    //获取指定日期到今天的天大小
+    public static int getDatesBetweenDays(Date beginDate) {
+
         Date endDate = new Date();
-        lDate.add(beginDate);//把开始时间加入集合
+        int days = 1;
         Calendar cal = Calendar.getInstance();
         //使用给定的 Date 设置此 Calendar 的时间
         cal.setTime(beginDate);
@@ -236,12 +298,12 @@ public class DateUtil {
             cal.add(Calendar.DAY_OF_MONTH, 1);
             // 测试此日期是否在指定日期之后士大夫
             if (endDate.after(cal.getTime())) {
-                lDate.add(cal.getTime());
+                days++;
             } else {
                 break;
             }
         }
-        return lDate;
+        return days;
     }
 
     //得到后两个月的日期
@@ -284,6 +346,21 @@ public class DateUtil {
 
         return DateUtil.parse(s, format);
     }
+
+
+    /**
+     * 根据年 月 获取对应的月份 天数
+     */
+    public static int getDaysByYearMonth(int year, int month) {
+        Calendar a = Calendar.getInstance();
+        a.set(Calendar.YEAR, year);
+        a.set(Calendar.MONTH, month - 1);
+        a.set(Calendar.DATE, 1);
+        a.roll(Calendar.DATE, -1);
+        int maxDate = a.get(Calendar.DATE);
+        return maxDate;
+    }
+
 
     /**
      * 获取用户登录时间描述

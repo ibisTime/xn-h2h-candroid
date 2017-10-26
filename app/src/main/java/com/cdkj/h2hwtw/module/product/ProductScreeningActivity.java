@@ -125,7 +125,10 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
         }
         mTypeInfo = new ScreeningTypeModel();
 
-        mTypeInfo.setCategory(mTypeCode);
+        if(TextUtils.isEmpty(mTypeCode)){
+            mTypeInfo.setCategory(mTypeCode);
+        }
+
     }
 
     private void initTopScreeningMenu() {
@@ -393,7 +396,9 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
 
         if (mRightMenuState != null) {
             map.put("isNew", mRightMenuState.isNew() ? "1" : "0");
-            map.put("yunfei", mRightMenuState.isSend() ? "0" : "");
+            if(mRightMenuState.isSend()){
+                map.put("yunfei", "0");
+            }
             map.put("minPrice", mRightMenuState.getRequestLowPrice());
             map.put("maxPrice", mRightMenuState.getRequestHeightPrice());
         }

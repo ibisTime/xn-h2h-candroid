@@ -24,6 +24,7 @@ import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
+import com.cdkj.baselibrary.utils.BigDecimalUtils;
 import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
@@ -45,6 +46,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -566,7 +568,10 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 
         mBinding.tvProductName.setText(showData.getName());
         mBinding.tvPriceTop.setText(MoneyUtils.showPrice(showData.getPrice()));
-        mBinding.butLayout.tvPriceButtom.setText(MoneyUtils.getShowPriceSign(showData.getPrice()));
+
+        BigDecimal allMoney = BigDecimalUtils.add(showData.getPrice(), showData.getYunfei());//价格加运费 * 折扣
+        mBinding.butLayout.tvPriceButtom.setText(MoneyUtils.getShowPriceSign(BigDecimalUtils.multiply(allMoney, showData.getDiscount())));
+
         mBinding.tvLocation.setText(showData.getCity() + "|" + showData.getArea());
         mBinding.expandabletext.expandTextView.setText(showData.getDescription());
 //        原价格100000  运费100

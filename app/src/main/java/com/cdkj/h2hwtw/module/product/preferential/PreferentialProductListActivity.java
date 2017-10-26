@@ -125,7 +125,9 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
         }
         mTypeInfo = new ScreeningTypeModel();
 
-        mTypeInfo.setCategory(mTypeCode);
+        if (!TextUtils.isEmpty(mTypeCode)) {
+            mTypeInfo.setCategory(mTypeCode);
+        }
     }
 
     private void initTopScreeningMenu() {
@@ -362,7 +364,6 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
 
         Map<String, String> map = new HashMap();
         map.put("limit", limit + "");
-        map.put("pageindex", pageindex + "");
         map.put("start", pageindex + "");
         map.put("status", "3");
         map.put("isJoin", "1");//参加优惠活动
@@ -392,8 +393,10 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
         }
 
         if (mRightMenuState != null) {
-            map.put("isNew", mRightMenuState.isNew() ? "1" : "0");
-            map.put("yunfei", mRightMenuState.isSend() ? "0" : "");
+//            map.put("isNew", mRightMenuState.isNew() ? "1" : "0");
+            if (mRightMenuState.isSend()) {
+                map.put("yunfei", "0");
+            }
             map.put("minPrice", mRightMenuState.getRequestLowPrice());
             map.put("maxPrice", mRightMenuState.getRequestHeightPrice());
         }
