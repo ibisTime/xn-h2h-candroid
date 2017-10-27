@@ -22,6 +22,7 @@ import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.cdkj.h2hwtw.model.PutMoneySendModel;
 import com.cdkj.h2hwtw.model.ReleaseNumModel;
+import com.cdkj.h2hwtw.model.SignDatetimeModel;
 import com.cdkj.h2hwtw.model.SignInTotalAmountModel;
 import com.cdkj.h2hwtw.model.TotalAmountModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
@@ -307,5 +308,13 @@ public interface MyApiServer {
     @POST("api")
     Call<BaseResponseModel<IsSignModel>> isSign(@Field("code") String code, @Field("json") String json);
 
+    /**
+     * 获取签到数据
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<ResponseInListModel<SignDatetimeModel>>> getSignListData(@Field("code") String code, @Field("json") String json);
 
 }

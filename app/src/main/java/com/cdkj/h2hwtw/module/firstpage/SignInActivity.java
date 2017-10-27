@@ -8,7 +8,9 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.cdkj.baselibrary.activitys.WebViewActivity;
+import com.cdkj.baselibrary.api.BaseResponseListModel;
 import com.cdkj.baselibrary.api.BaseResponseModel;
+import com.cdkj.baselibrary.api.ResponseInListModel;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.UITipDialog;
@@ -26,6 +28,7 @@ import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.ActivitySignInBinding;
 import com.cdkj.h2hwtw.model.AmountModel;
 import com.cdkj.h2hwtw.model.IsSignModel;
+import com.cdkj.h2hwtw.model.SignDatetimeModel;
 import com.cdkj.h2hwtw.model.SignInTotalAmountModel;
 
 import java.util.ArrayList;
@@ -36,10 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -53,6 +53,8 @@ import retrofit2.Call;
 public class SignInActivity extends AbsBaseLoadActivity {
 
     private ActivitySignInBinding mBinding;
+
+    private SigninDateAdapter signinDateAdapter;
 
     public static void open(Context context) {
         if (context == null) {
@@ -77,13 +79,12 @@ public class SignInActivity extends AbsBaseLoadActivity {
 
         mBinding.recyclerDate.setLayoutManager(new ScrollGridLayoutManager(this, 7));
 
+        signinDateAdapter = new SigninDateAdapter(new ArrayList<Date>());
+        mBinding.recyclerDate.setAdapter(signinDateAdapter);
 
         initDateLayout();
-
-
         getAmountaccountNumber();
         signInRequest();
-
 
     }
 
@@ -113,7 +114,8 @@ public class SignInActivity extends AbsBaseLoadActivity {
                 .subscribe(new Consumer<List<Date>>() {
                     @Override
                     public void accept(List<Date> dates) throws Exception {
-                        mBinding.recyclerDate.setAdapter(new SigninDateAdapter(dates));
+                        signinDateAdapter.replaceData(dates);
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -162,17 +164,18 @@ public class SignInActivity extends AbsBaseLoadActivity {
 
             @Override
             protected void onFinish() {
+                isSignInRequest();
+                getSignDataRequest();
                 disMissLoading();
-                signInRequest2();
             }
         });
 
     }
 
     /**
-     * 签到请求
+     * 判断今日是否已经签到
      */
-    public void signInRequest2() {
+    public void isSignInRequest() {
 
         Map map = RetrofitUtils.getRequestMap();
 
@@ -282,4 +285,38 @@ public class SignInActivity extends AbsBaseLoadActivity {
         });
     }
 
+    /**
+     * 获取签到数据列表 用于UI显示
+     */
+    public void getSignDataRequest() {
+        Map map = RetrofitUtils.getRequestMap();
+        map.put("start", "1");
+        map.put("limit", "31");
+        map.put("orderDir", "desc");
+        map.put("orderColumn", "signDatetime");
+        map.put("userId", SPUtilHelpr.getUserId());
+
+        Call<BaseResponseModel<ResponseInListModel<SignDatetimeModel>>> call = RetrofitUtils.createApi(MyApiServer.class).getSignListData("805145", StringUtils.getJsonToString(map));
+
+        addCall(call);
+
+        call.enqueue(new BaseResponseModelCallBack<ResponseInListModel<SignDatetimeModel>>(this) {
+            @Override
+            protected void onSuccess(ResponseInListModel<SignDatetimeModel> data, String SucMessage) {
+                signinDateAdapter.setSignData(data.getList());
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+
+
+    }
 }

@@ -163,6 +163,7 @@ public class DateUtil {
 
     /**
      * 获取日期对于星期
+     *
      * @param dt
      * @return
      */
@@ -201,6 +202,28 @@ public class DateUtil {
         return date;
     }
 
+    /**
+     * 判断两个date是否是同一天
+     *
+     * @param date1
+     * @param Date2
+     * @return
+     */
+    public static boolean inSameDay(Date date1, Date Date2) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date1);
+        int year1 = calendar.get(Calendar.YEAR);
+        int day1 = calendar.get(Calendar.DAY_OF_YEAR);
+
+        calendar.setTime(Date2);
+        int year2 = calendar.get(Calendar.YEAR);
+        int day2 = calendar.get(Calendar.DAY_OF_YEAR);
+
+        if ((year1 == year2) && (day1 == day2)) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * 根据提供的年月日获取该月份的第一天
