@@ -1,9 +1,9 @@
 package com.cdkj.h2hwtw.module.user;
 
-import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,14 +31,19 @@ import com.cdkj.h2hwtw.module.user.account.MyAccountActivity;
 import com.cdkj.h2hwtw.module.user.account.MyJfListActivity;
 import com.cdkj.h2hwtw.module.user.activity.ActivityCenterActivity;
 import com.cdkj.h2hwtw.module.user.coupons.CouponsAllActivity;
+import com.cdkj.h2hwtw.module.user.fans.FansListActivity;
 import com.cdkj.h2hwtw.module.user.info.SettingActivity;
 import com.cdkj.h2hwtw.module.user.info.UserInfoEditActivity;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+
+import static com.cdkj.baselibrary.appmanager.EventTags.LOGINREFRESH;
 
 /**
  * 我的
@@ -71,7 +76,7 @@ public class MyFragment extends BaseLazyFragment {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_my, null, false);
 
         initListener();
-
+        getUserInfoRequest(false);
         return mBinding.getRoot();
     }
 
@@ -85,10 +90,25 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.linUserInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mUserInfoMode == null) return;
-                UserInfoEditActivity.open(mActivity, mUserInfoMode);
+                PersonalPageActivity.open(mActivity, SPUtilHelpr.getUserId());
+//                UserInfoEditActivity.open(mActivity, mUserInfoMode);
             }
         });
+        //关注
+        mBinding.linGuanzhu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FansListActivity.open(mActivity, false);
+            }
+        });
+        //粉丝
+        mBinding.linFans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FansListActivity.open(mActivity, true);
+            }
+        });
+
         //余额
         mBinding.linMyAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,6 +270,7 @@ public class MyFragment extends BaseLazyFragment {
                 mUserInfoMode = data;
                 SPUtilHelpr.saveisTradepwdFlag(data.isTradepwdFlag());
                 SPUtilHelpr.saveUserPhoneNum(data.getMobile());
+                SPUtilHelpr.saveUserName(data.getNickname());
                 setShowData(mUserInfoMode);
             }
 
@@ -361,6 +382,19 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.tvFansNum.setText(showData.getTotalFansNum() + "");
         mBinding.tvFollowSum.setText(showData.getTotalFollowNum() + "");
         mBinding.tvUserName.setText(showData.getNickname() + "");
+
+    }
+
+    /**
+     * 登录成功刷新数据
+     *
+     * @param tag
+     */
+    @Subscribe
+    public void EventLoginListener(String tag) {
+        if (TextUtils.equals(tag, LOGINREFRESH)) {
+            getUserInfoRequest(false);
+        }
 
     }
 }

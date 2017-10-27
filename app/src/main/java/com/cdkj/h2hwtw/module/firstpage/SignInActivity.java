@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.cdkj.baselibrary.activitys.WebViewActivity;
-import com.cdkj.baselibrary.api.BaseResponseListModel;
 import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.api.ResponseInListModel;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
@@ -19,7 +18,6 @@ import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.DateUtil;
-import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.views.ScrollGridLayoutManager;
 import com.cdkj.h2hwtw.R;
@@ -83,7 +81,6 @@ public class SignInActivity extends AbsBaseLoadActivity {
         mBinding.recyclerDate.setAdapter(signinDateAdapter);
 
         initDateLayout();
-        getAmountaccountNumber();
         signInRequest();
 
     }
@@ -166,6 +163,7 @@ public class SignInActivity extends AbsBaseLoadActivity {
             protected void onFinish() {
                 isSignInRequest();
                 getSignDataRequest();
+                getAmountaccountNumber();
                 disMissLoading();
             }
         });
@@ -270,6 +268,10 @@ public class SignInActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<SignInTotalAmountModel>(this) {
             @Override
             protected void onSuccess(SignInTotalAmountModel data, String SucMessage) {
+                if (data.getTotalAmount() > 0) {
+                    mBinding.tvSignJf.setText(data.getTotalAmount() / 1000 + "");
+                    return;
+                }
                 mBinding.tvSignJf.setText(data.getTotalAmount() + "");
             }
 

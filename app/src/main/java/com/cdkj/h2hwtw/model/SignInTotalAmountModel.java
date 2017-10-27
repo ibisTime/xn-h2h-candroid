@@ -10,6 +10,7 @@ public class SignInTotalAmountModel {
     private int totalAmount;
 
     public int getTotalAmount() {
+
         return totalAmount;
     }
 

@@ -355,6 +355,11 @@
             android:name=".module.firstpage.SignInActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+     <!--粉丝-->
+        <activity
+            android:name=".module.user.fans.FansListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
 
     </application>

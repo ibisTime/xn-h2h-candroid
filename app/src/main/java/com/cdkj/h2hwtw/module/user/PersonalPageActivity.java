@@ -314,7 +314,12 @@ public class PersonalPageActivity extends BaseRefreshHelperActivity {
 
     @Override
     protected String getErrorInfo() {
-        return "还没有发布产品";
+        return "";
+    }
+
+    @Override
+    public boolean loadDeflutEmptyView() {
+        return false;
     }
 
 

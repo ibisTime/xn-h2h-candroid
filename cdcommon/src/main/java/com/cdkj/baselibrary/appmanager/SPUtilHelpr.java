@@ -41,6 +41,7 @@ public class SPUtilHelpr {
     }
 
 
+
     /**
      * 设置用户token
      *
@@ -67,7 +68,7 @@ public class SPUtilHelpr {
     }
 
     /**
-     * 设置用户手机号码
+     * 设置用户手机姓名
      *
      * @param s
      */

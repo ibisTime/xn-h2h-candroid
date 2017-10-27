@@ -13,6 +13,7 @@ import com.cdkj.h2hwtw.model.BannerModel;
 import com.cdkj.h2hwtw.model.BillListMode;
 import com.cdkj.h2hwtw.model.CommentsModel;
 import com.cdkj.h2hwtw.model.CouponsModel;
+import com.cdkj.h2hwtw.model.FansModel;
 import com.cdkj.h2hwtw.model.IntroductionInfoList;
 import com.cdkj.h2hwtw.model.IsSignModel;
 import com.cdkj.h2hwtw.model.MsgListModel;
@@ -27,6 +28,7 @@ import com.cdkj.h2hwtw.model.SignInTotalAmountModel;
 import com.cdkj.h2hwtw.model.TotalAmountModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.model.WantProductModel;
+import com.cdkj.h2hwtw.model.immodel.getTxKeyModel;
 
 import io.reactivex.Observable;
 import io.reactivex.internal.operators.single.SingleInternalHelper;
@@ -316,5 +318,23 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<ResponseInListModel<SignDatetimeModel>>> getSignListData(@Field("code") String code, @Field("json") String json);
+
+    /**
+     * 获取腾讯im签名
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<getTxKeyModel>> getTxSing(@Field("code") String code, @Field("json") String json);
+
+    /**
+     * 获取粉丝列表
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<ResponseInListModel<FansModel>>> getFansList(@Field("code") String code, @Field("json") String json);
 
 }

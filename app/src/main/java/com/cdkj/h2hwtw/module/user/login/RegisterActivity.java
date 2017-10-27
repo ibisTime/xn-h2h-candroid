@@ -137,6 +137,7 @@ public class RegisterActivity extends AbsBaseLoadActivity implements SendCodeInt
         hashMap.put("smsCaptcha", mBinding.edtCode.getText().toString());
         hashMap.put("systemCode", MyCdConfig.SYSTEMCODE);
         hashMap.put("companyCode", MyCdConfig.COMPANYCODE);
+        hashMap.put("isRegHx", "2");//是否注册聊天 2tengxIM
 
         Call call = RetrofitUtils.createApi(BaseApiServer.class).userRegister("805041", StringUtils.getJsonToString(hashMap));
 
@@ -153,8 +154,8 @@ public class RegisterActivity extends AbsBaseLoadActivity implements SendCodeInt
                     SPUtilHelpr.saveUserId(data.getUserId());
                     SPUtilHelpr.saveUserToken(data.getToken());
                     SPUtilHelpr.saveUserPhoneNum(mBinding.edtPhone.getText().toString());
-                    EventBus.getDefault().post(EventTags.AllFINISH);
                     EventBus.getDefault().post(EventTags.MAINFINISH);
+                    EventBus.getDefault().post(EventTags.AllFINISH);
 
                     MainActivity.open(RegisterActivity.this);
 
