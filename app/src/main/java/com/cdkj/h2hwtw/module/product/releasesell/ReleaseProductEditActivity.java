@@ -54,7 +54,7 @@ import retrofit2.Call;
  * Created by cdkj on 2017/10/10.
  */
 
-//TODO 发布接口参数
+//TODO 发布接口定位参数
 public class ReleaseProductEditActivity extends AbsBaseLoadActivity {
 
     private ActivityReleaseBinding mBinding;

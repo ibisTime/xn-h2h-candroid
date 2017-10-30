@@ -41,6 +41,25 @@ public class SPUtilHelpr {
     }
 
 
+    /**
+     * 设置用户token
+     *
+     * @param s
+     */
+    public static void saveUserPhoto(String s) {
+        SPUtils.put(CdApplication.getContext(), "USER_PHOTO", s);
+    }
+
+    /**
+     * 设置用户token
+     *
+     * @param
+     */
+    public static String getUserPhoto() {
+        return SPUtils.getString(CdApplication.getContext(), "USER_PHOTO", "");
+    }
+
+
 
     /**
      * 设置用户token
@@ -184,6 +203,7 @@ public class SPUtilHelpr {
         saveUserPhoneNum("");
         saveAmountaccountNumber("");
         saveUserName("");
+        saveUserPhoto("");
         saveisTradepwdFlag(false);
         saveUserIsBindCard(false);
     }

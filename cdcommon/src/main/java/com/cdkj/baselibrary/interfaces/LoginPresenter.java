@@ -68,6 +68,11 @@ public class LoginPresenter {
             }
 
             @Override
+            protected void onNoNet(String msg) {
+                mListener.LoginFailed("00", "暂无网络");
+            }
+
+            @Override
             protected void onFinish() {
                 mListener.EndLogin();
             }

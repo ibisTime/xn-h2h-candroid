@@ -32,4 +32,7 @@
 
     <color name="screening_bg">#eaf6fe</color>
 
+
+    <color name="white_app">#ffffff</color>
+
 </resources>

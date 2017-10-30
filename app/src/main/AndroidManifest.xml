@@ -355,11 +355,33 @@
             android:name=".module.firstpage.SignInActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-     <!--粉丝-->
+        <!--粉丝-->
         <activity
             android:name=".module.user.fans.FansListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!--粉丝-->
+        <activity
+            android:name=".module.im.ChatC2CActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!--聊天图片拍摄预览-->
+        <activity
+            android:name=".module.im.ImImagePreviewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <!--聊天图片拍摄预览-->
+        <activity
+            android:name=".module.im.ImImageViewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <!--聊天图片拍摄预览-->
+        <activity
+            android:name=".module.im.TxImLogingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTXLoginDialog"
+            android:windowSoftInputMode="adjustResize" />
 
 
     </application>

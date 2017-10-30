@@ -19,12 +19,11 @@ import com.cdkj.h2hwtw.databinding.ActivityMainBinding;
 import com.cdkj.h2hwtw.module.firstpage.FirstPageFragment;
 import com.cdkj.h2hwtw.module.goodstype.GoodsTypeFragment;
 import com.cdkj.h2hwtw.module.im.ImFragment;
+import com.cdkj.h2hwtw.module.im.TxImLogingActivity;
 import com.cdkj.h2hwtw.module.product.ProductReleaseActivity;
 import com.cdkj.h2hwtw.module.user.MyFragment;
-import com.tencent.imsdk.TIMLogLevel;
-import com.tencent.imsdk.TIMManager;
-import com.tencent.imsdk.TIMSdkConfig;
-import com.tencent.qalsdk.sdk.MsfSdkUtils;
+import com.cdkj.h2hwtw.module.user.login.LoginActivity;
+import com.cdkj.h2hwtw.other.TXImManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -126,6 +125,10 @@ public class MainActivity extends AbsBaseLoadActivity {
         mBinding.radioMainTab3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!SPUtilHelpr.isLogin(MainActivity.this, false)) {
+                    setShowButIndex();               //如果没登录 恢复以前按钮状态
+                    return;
+                }
                 setShowIndex(SHOWIM);
             }
         });

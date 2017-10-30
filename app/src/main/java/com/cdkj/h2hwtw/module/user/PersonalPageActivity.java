@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,7 +18,6 @@ import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.DateUtil;
 import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
-import com.cdkj.baselibrary.views.GridDivider;
 import com.cdkj.baselibrary.views.ScrollGridLayoutManager;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.adapters.ProductGridAdapter;
@@ -134,6 +130,11 @@ public class PersonalPageActivity extends BaseRefreshHelperActivity {
         mBinding.layoutUser.tvEditInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (!SPUtilHelpr.isLogin(PersonalPageActivity.this, false)) {
+                    return;
+                }
+
                 if (isEdit) {
                     if (mUserInfoModel == null) return;
                     UserInfoEditActivity.open(PersonalPageActivity.this, mUserInfoModel);
@@ -151,6 +152,10 @@ public class PersonalPageActivity extends BaseRefreshHelperActivity {
      * @param click 是否主动点击
      */
     private void getfocusRequest(final boolean click) {
+
+        if (SPUtilHelpr.isLogin(PersonalPageActivity.this, false)) {
+            return;
+        }
 
         if (TextUtils.isEmpty(mUserId)) {
             return;
@@ -197,6 +202,9 @@ public class PersonalPageActivity extends BaseRefreshHelperActivity {
      * 关注请求
      */
     private void focusRequest() {
+        if (SPUtilHelpr.isLogin(PersonalPageActivity.this, false)) {
+            return;
+        }
 
         if (TextUtils.isEmpty(mUserId)) {
             return;
@@ -236,6 +244,9 @@ public class PersonalPageActivity extends BaseRefreshHelperActivity {
      * 解除关注请求
      */
     private void cancelFocusRequest() {
+        if (SPUtilHelpr.isLogin(PersonalPageActivity.this, false)) {
+            return;
+        }
 
         if (TextUtils.isEmpty(mUserId)) {
             return;
@@ -339,13 +350,13 @@ json:{"systemCode":"CD-WTW000016","companyCode":"CD-WTW000016","token":"TSYS_USE
         map.put("orderDir", "asc");
         map.put("userId", mUserId);
 
-        List<String> list = new ArrayList<>();
+/*        List<String> list = new ArrayList<>();
 
         list.add("3");
         list.add("4");
+        list.add("5");
         list.add("6");
-        list.add("6");
-        map.put("statusList", list);
+        map.put("statusList", list);*/
 
         Call call = RetrofitUtils.createApi(MyApiServer.class).getProductList("808021", StringUtils.getJsonToString(map));
 

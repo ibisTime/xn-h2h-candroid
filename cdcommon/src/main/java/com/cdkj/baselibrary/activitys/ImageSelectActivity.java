@@ -57,6 +57,7 @@ import static com.cdkj.baselibrary.appmanager.MyCdConfig.CACHDIR;
  * 打开相机 相册 图片裁剪 功能
  */
 
+// TODO Activity和拍照方法分离优化 bitmapUtils抽取
 public class ImageSelectActivity extends Activity implements View.OnClickListener {
 
     private TextView tv_take_capture;// 拍照
@@ -72,14 +73,13 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
     private String photoPath;//拍照图片路径
 
 
-
     public final static int CAPTURE_PHOTO_CODE = 3;//相机
     public final static int CAPTURE_WALBUM_CODE = 4;//相册
     public final static int CAPTURE_ZOOM_CODE = 5;//裁剪
 
 
     public final static int CAPTURE_PERMISSION_CODE = 6;//相机权限申请
-    public final static int CAPTURE_PERMISSION_CODD_2 =7;//相册权限申请
+    public final static int CAPTURE_PERMISSION_CODD_2 = 7;//相册权限申请
 
     public static final int SHOWPIC = 1; //显示拍照按钮
     public static final int SHOWALBUM = 2;//显示相册
@@ -382,9 +382,9 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
                                     public Bitmap apply(@NonNull String s) throws Exception {
                                         Bitmap bitmap;
                                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                                            bitmap = decodeBitmapFromFile(imageUrl.getPath(), 400, 400);
+                                            bitmap = decodeBitmapFromFile(imageUrl.getPath(), 480, 800);
                                         } else {
-                                            bitmap = decodeBitmapFromFile(photoPath, 400, 400);
+                                            bitmap = decodeBitmapFromFile(photoPath, 480, 800);
                                         }
                                         LogUtil.E("poto1");
                                         return bitmap;
@@ -550,8 +550,8 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
                 }
             }
 
-//            options.inSampleSize = calculateInSampleSize(options, requestWidth, requestHeight); //计算获取新的采样率
-            options.inSampleSize = Math.min(options.outWidth / requestWidth, options.outHeight / requestHeight);
+            options.inSampleSize = calculateInSampleSize(options, requestWidth, requestHeight); //计算获取新的采样率
+//            options.inSampleSize = Math.min(options.outWidth / requestWidth, options.outHeight / requestHeight);
 
             options.inJustDecodeBounds = false;
 
@@ -571,27 +571,39 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
 
     }
 
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        int height = options.outHeight;
-        int width = options.outWidth;
+//    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+//        int height = options.outHeight;
+//        int width = options.outWidth;
+//        int inSampleSize = 1;
+//        if (height > reqHeight || width > reqWidth) {
+//            int halfHeight = height / 2;
+//
+//            for (int halfWidth = width / 2; halfHeight / inSampleSize > reqHeight && halfWidth / inSampleSize > reqWidth; inSampleSize *= 2) {
+//            }
+//
+//            long totalPixels = (long) (width * height / inSampleSize);
+//
+//            for (long totalReqPixelsCap = (long) (reqWidth * reqHeight * 2); totalPixels > totalReqPixelsCap; totalPixels /= 2L) {
+//                inSampleSize *= 2;
+//            }
+//        }
+//
+//        return inSampleSize;
+//    }
+
+
+    public static int calculateInSampleSize(BitmapFactory.Options options,
+                                            int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
         int inSampleSize = 1;
         if (height > reqHeight || width > reqWidth) {
-            int halfHeight = height / 2;
-
-            for (int halfWidth = width / 2; halfHeight / inSampleSize > reqHeight && halfWidth / inSampleSize > reqWidth; inSampleSize *= 2) {
-            }
-
-            long totalPixels = (long) (width * height / inSampleSize);
-
-            for (long totalReqPixelsCap = (long) (reqWidth * reqHeight * 2); totalPixels > totalReqPixelsCap; totalPixels /= 2L) {
-                inSampleSize *= 2;
-            }
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
-
         return inSampleSize;
     }
-
-
 
 	/*
 *
@@ -667,8 +679,6 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
-
 
 
     /**

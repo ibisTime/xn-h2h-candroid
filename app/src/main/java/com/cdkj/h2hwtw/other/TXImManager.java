@@ -56,7 +56,8 @@ public class TXImManager {
      * @return
      */
     public boolean isLogin() {
-        return TextUtils.isEmpty(TIMManager.getInstance().getLoginUser());
+        if (instance == null) return false;
+        return !TextUtils.isEmpty(TIMManager.getInstance().getLoginUser());
     }
 
     /**

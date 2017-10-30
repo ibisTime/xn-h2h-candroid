@@ -292,6 +292,8 @@ public class AppUtils {
     }
 
 
+    //TODO bitmapUtils抽取
+
     /**
      * 图片质量压缩法
      *

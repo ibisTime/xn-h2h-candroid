@@ -37,8 +37,6 @@ public class MyApplication extends MultiDexApplication {
         ARouter.init(application); // 尽可能早，推荐在Application中初始化
         CdApplication.initialize(this, true, "");
         EventBus.builder().throwSubscriberException(BuildConfig.IS_DEBUG).installDefaultEventBus();
-//        TODO 初始化APPId 是否写死
-        TXImManager.getInstance().init(1400045947);
     }
 
 

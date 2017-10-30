@@ -76,7 +76,7 @@ public class MyFragment extends BaseLazyFragment {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_my, null, false);
 
         initListener();
-        getUserInfoRequest(false);
+
         return mBinding.getRoot();
     }
 
@@ -271,6 +271,7 @@ public class MyFragment extends BaseLazyFragment {
                 SPUtilHelpr.saveisTradepwdFlag(data.isTradepwdFlag());
                 SPUtilHelpr.saveUserPhoneNum(data.getMobile());
                 SPUtilHelpr.saveUserName(data.getNickname());
+                SPUtilHelpr.saveUserPhoto(data.getPhoto());
                 setShowData(mUserInfoMode);
             }
 

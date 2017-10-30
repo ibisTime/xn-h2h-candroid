@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import com.cdkj.baselibrary.base.BaseActivity;
 import com.cdkj.baselibrary.utils.LogUtil;
-import com.cdkj.h2hwtw.module.pay.OrderPayActivity;
+import com.cdkj.h2hwtw.module.im.TxImLogingActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -45,8 +45,7 @@ public class WelcomeAcitivity extends BaseActivity {
                     @Override
                     public void accept(Long aLong) throws Exception {
                         MainActivity.open(WelcomeAcitivity.this);
-//                        OrderPayActivity.open(WelcomeAcitivity.this,"","");
-                        finish();
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override

@@ -26,6 +26,7 @@ import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.BigDecimalUtils;
 import com.cdkj.baselibrary.utils.ImgUtils;
+import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.views.ScrollGridLayoutManager;
@@ -38,6 +39,9 @@ import com.cdkj.h2hwtw.databinding.ActivityProductDetailBinding;
 import com.cdkj.h2hwtw.model.CommentsModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
+import com.cdkj.h2hwtw.module.im.ChatC2CActivity;
+import com.cdkj.h2hwtw.module.im.ImUserInfo;
+import com.cdkj.h2hwtw.module.im.TxImLogingActivity;
 import com.cdkj.h2hwtw.module.order.ProductBuyActivity;
 import com.cdkj.h2hwtw.module.user.PersonalPageActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -59,7 +63,7 @@ import retrofit2.Call;
  * 产品详情
  * Created by cdkj on 2017/10/17.
  */
-//TODO 详情界面适配 产品列表 适配
+//TODO 详情界面适配 产品列表 适配  已下架不显示购买按钮
 public class ProductDetailActivity extends AbsBaseLoadActivity {
 
     private ActivityProductDetailBinding mBinding;
@@ -72,6 +76,8 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
     private ProductCommentsListAdapter mpadCommentsListAdapter;
 
     ArrayList<String> mImgUrlList;
+
+    private UserInfoModel mStoreUserInfo;
 
 
     public static void open(Context context, String productCode) {
@@ -167,6 +173,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
             }
         });
 
+        //购买
         mBinding.butLayout.btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,12 +184,36 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
             }
         });
 
+        //联系卖家
+        mBinding.butLayout.btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!SPUtilHelpr.isLogin(ProductDetailActivity.this, false)) {
+                    return;
+                }
+
+                if (mProductData == null) return;
+
+                ImUserInfo imUserInfo = new ImUserInfo();
+
+                if (mStoreUserInfo != null) {
+                    imUserInfo.setLeftImg(MyCdConfig.QINIUURL + mStoreUserInfo.getPhoto());
+                }
+                imUserInfo.setRightImg(MyCdConfig.QINIUURL + SPUtilHelpr.getUserPhoto());
+                imUserInfo.setToUserId(mProductData.getStoreCode());
+                imUserInfo.setUserName(mProductData.getNickName());
+                TxImLogingActivity.open(ProductDetailActivity.this, imUserInfo, false, false);
+//                ChatC2CActivity.open(ProductDetailActivity.this, imUserInfo);
+            }
+        });
+
+        //卖家信息
         mBinding.userLayout.linUserInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mProductData == null) return;
 
-                PersonalPageActivity.open(ProductDetailActivity.this, mProductData.getUpdater());
+                PersonalPageActivity.open(ProductDetailActivity.this, mProductData.getStoreCode());
 
             }
         });
@@ -211,6 +242,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
                 mpadCommentsListAdapter = new ProductCommentsListAdapter(listData);
                 return mpadCommentsListAdapter;
             }
+
 
             @Override
             public void getListDataRequest(int pageindex, int limit, boolean isShowDialog) {
@@ -286,7 +318,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
             protected void onSuccess(ProductListModel.ListBean data, String SucMessage) {
                 mProductData = data;
                 setShowData(mProductData);
-                getUserInfoRequest(false, mProductData.getUpdater());
+                getUserInfoRequest(false, mProductData.getStoreCode());
             }
 
             @Override
@@ -464,6 +496,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
+
             }
 
             @Override
@@ -499,10 +532,6 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
         map.put("companyCode", MyCdConfig.COMPANYCODE);
 
-        if (SPUtilHelpr.isLoginNoStart()) {
-            map.put("token", SPUtilHelpr.getUserToken());
-        }
-
         Call<BaseResponseModel<ResponseInListModel<CommentsModel>>> call = RetrofitUtils.createApi(MyApiServer.class).getCommentList("801025", StringUtils.getJsonToString(map));
 
         call.enqueue(new BaseResponseModelCallBack<ResponseInListModel<CommentsModel>>(this) {
@@ -511,7 +540,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 
                 mCommentsReshHelper.setData(data.getList());
 
-                if (mpadCommentsListAdapter.getData().isEmpty()) {
+                if (mpadCommentsListAdapter.getData() == null || mpadCommentsListAdapter.getData().isEmpty()) {
                     mBinding.commentsLayout.linCommentsEmpty.setVisibility(View.VISIBLE);
                     mBinding.commentsLayout.recyclerComments.setVisibility(View.GONE);
                     mBinding.commentsLayout.linWantComments.setVisibility(View.GONE);
@@ -527,7 +556,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
-
+                UITipDialog.showFall(ProductDetailActivity.this, "评论列表" + errorMessage);
             }
 
             @Override
@@ -548,7 +577,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
     public void setShowData(ProductListModel.ListBean showData) {
         if (showData == null) return;
 
-        if (TextUtils.equals(showData.getUpdater(), SPUtilHelpr.getUserId())) {  //是自己查看就隐藏购买按钮
+        if (TextUtils.equals(showData.getStoreCode(), SPUtilHelpr.getUserId())) {  //是自己查看就隐藏购买按钮
             mBinding.butLayout.linBuy.setVisibility(View.GONE);
         } else {
             mBinding.butLayout.linBuy.setVisibility(View.VISIBLE);
@@ -599,6 +628,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<UserInfoModel>(this) {
             @Override
             protected void onSuccess(UserInfoModel data, String SucMessage) {
+                mStoreUserInfo = data;
                 ImgUtils.loadLogo(ProductDetailActivity.this, MyCdConfig.QINIUURL + data.getPhoto(), mBinding.userLayout.imgUserLogo);
                 mBinding.userLayout.tvUserName.setText(data.getNickname());
                 /*        mBinding.tvFansNum.setText(showData.getTotalFansNum() + "");
@@ -615,7 +645,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
-
+                LogUtil.E("获取用户信息" + errorMessage);
             }
 
             @Override

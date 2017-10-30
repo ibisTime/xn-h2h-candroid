@@ -12,7 +12,7 @@ public class getTxKeyModel {
     private String secretKey;//密钥
     private String sig;//签名
     private String txAppAdmin;//应用管理员;
-    private String txAppCode;//应用编号
+    private int txAppCode;//应用编号
 
     public String getAccessKey() {
         return accessKey;
@@ -54,11 +54,11 @@ public class getTxKeyModel {
         this.txAppAdmin = txAppAdmin;
     }
 
-    public String getTxAppCode() {
+    public int getTxAppCode() {
         return txAppCode;
     }
 
-    public void setTxAppCode(String txAppCode) {
+    public void setTxAppCode(int txAppCode) {
         this.txAppCode = txAppCode;
     }
 }

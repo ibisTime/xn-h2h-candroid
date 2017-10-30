@@ -29,4 +29,40 @@
     <string name="all">全部</string>
     <string name="all_country">全国</string>
     <string name="focus_on">+ 关注</string>
+
+
+    <!--im-->
+    <string name="chat_release_send">松开 结束</string>
+    <string name="chat_press_talk">按住 说话</string>
+
+    <string name="time_yesterday">昨天</string>
+    <string name="time_day">日</string>
+    <string name="time_month">月</string>
+    <string name="time_year">年</string>
+    <string name="time_more">99+</string>
+
+    <string name="chat_file_too_large">文件过大，发送失败</string>
+    <string name="chat_file_not_exist">文件不存在，发送失败</string>
+    <string name="download_fail">下载失败</string>
+    <string name="downloading">正在下载，请稍候</string>
+    <string name="summary_image">[图片]</string>
+    <string name="save_fail">保存失败</string>
+    <string name="save_exist">文件已存在</string>
+    <string name="save_succ">保存成功</string>
+    <string name="file_not_found">未找到文件，请稍后重试</string>
+    <string name="chat_content_bad">内容含有敏感词</string>
+    <string name="chat_typing">对方正在输入…</string>
+    <string name="chat_resend">重新发送</string>
+    <string name="chat_pullback">撤回</string>
+    <string name="chat_pullback_not_support">改会话不支持消息撤回</string>
+    <string name="chat_del">删除</string>
+    <string name="chat_save">保存</string>
+    <string name="summary_friend_add">请求添加好友</string>
+    <string name="summary_friend_added">我已添加</string>
+    <string name="summary_friend_add_me">请求添加</string>
+    <string name="summary_friend_recommend">推荐添加</string>
+    <string name="summary_me">我</string>
+    <string name="conversation_draft">[草稿]</string>
+    <string name="conversation_del">删除会话</string>
+
 </resources>
