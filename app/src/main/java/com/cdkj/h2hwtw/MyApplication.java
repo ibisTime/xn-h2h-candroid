@@ -13,6 +13,7 @@ import com.tencent.imsdk.TIMLogListener;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMSdkConfig;
 import com.tencent.qalsdk.sdk.MsfSdkUtils;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -37,6 +38,7 @@ public class MyApplication extends MultiDexApplication {
         ARouter.init(application); // 尽可能早，推荐在Application中初始化
         CdApplication.initialize(this, true, "");
         EventBus.builder().throwSubscriberException(BuildConfig.IS_DEBUG).installDefaultEventBus();
+
     }
 
 

@@ -549,13 +549,13 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
                 } catch (IOException e) {
                 }
             }
+            int degree = getBitmapDegree(imagePath);//获取旋转角度
 
             options.inSampleSize = calculateInSampleSize(options, requestWidth, requestHeight); //计算获取新的采样率
 //            options.inSampleSize = Math.min(options.outWidth / requestWidth, options.outHeight / requestHeight);
 
             options.inJustDecodeBounds = false;
 
-            int degree = getBitmapDegree(imagePath);//获取旋转角度
 
             if (degree == 0) {
                 return BitmapFactory.decodeFile(imagePath, options);

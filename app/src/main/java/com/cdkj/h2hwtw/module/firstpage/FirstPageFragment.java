@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amap.api.location.AMapLocation;
 import com.cdkj.baselibrary.activitys.WebViewActivity;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
@@ -40,6 +41,8 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +62,8 @@ public class FirstPageFragment extends BaseLazyFragment {
     private RefreshHelper mHotRefreshHelper;//热门推荐产品
     private RefreshHelper mAddressProductRefreshHelper;//定位地址产品
     private List<String> mbannerUrlList;
+
+    private AMapLocation aMapLocation;//定位信息
 
     /**
      * 获得fragment实例
@@ -218,9 +223,17 @@ public class FirstPageFragment extends BaseLazyFragment {
                 map.put("start", pageindex + "");
                 map.put("status", "3");
                 map.put("isJoin", "0");
-                map.put("location", "1"); //1热门
                 map.put("companyCode", MyCdConfig.COMPANYCODE);
                 map.put("systemCode", MyCdConfig.SYSTEMCODE);
+
+                if (aMapLocation != null) {
+                    map.put("area", aMapLocation.getDistrict());
+                    map.put("city", aMapLocation.getCity());
+                    map.put("province", aMapLocation.getProvince());
+                    map.put("longitude", aMapLocation.getLongitude() + "");
+                    map.put("latitude", aMapLocation.getLatitude() + "");
+                }
+
                 Call call = RetrofitUtils.createApi(MyApiServer.class).getProductList("808025", StringUtils.getJsonToString(map));
 
                 addCall(call);
@@ -292,6 +305,7 @@ public class FirstPageFragment extends BaseLazyFragment {
 
             @Override
             public void getListDataRequest(int pageindex, int limit, final boolean isShowDialog) {
+
                 Map<String, String> map = new HashMap();
                 map.put("limit", limit + "");
                 map.put("pageindex", pageindex + "");
@@ -503,5 +517,16 @@ public class FirstPageFragment extends BaseLazyFragment {
     public void onPause() {
         super.onPause();
         mBinding.topLayout.bannerFirstPage.stopAutoPlay();
+    }
+
+    /**
+     * 定位成功刷新数据
+     *
+     * @param location
+     */
+    @Subscribe
+    public void EventAddress(AMapLocation location) {
+        aMapLocation = location;
+        mAddressProductRefreshHelper.onDefaluteMRefresh(false);
     }
 }

@@ -1,8 +1,9 @@
 package com.cdkj.h2hwtw.module.im;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 
+import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.h2hwtw.MyApplication;
 import com.cdkj.h2hwtw.R;
@@ -61,11 +62,13 @@ public class FriendshipConversation extends Conversation {
      * @param context 跳转上下文
      */
     @Override
-    public void navToDetail(Context context) {
-
-        UITipDialog.showFall(context,"navToDetail123");
-//        Intent intent = new Intent(context, FriendshipManageMessageActivity.class);
-//        context.startActivity(intent);
+    public void navToDetail(Activity context) {
+        ImUserInfo imUserInfo = new ImUserInfo();
+        imUserInfo.setToUserId(getIdentify());
+        imUserInfo.setUserName(getName());
+        imUserInfo.setLeftImg(getLogoUrl());
+        imUserInfo.setRightImg(SPUtilHelpr.getUserQiniuPhoto());
+        TxImLogingActivity.open(context, imUserInfo, false, false);
     }
 
     /**

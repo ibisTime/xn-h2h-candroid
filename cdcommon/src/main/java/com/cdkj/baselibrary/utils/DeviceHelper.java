@@ -160,6 +160,12 @@ public class DeviceHelper {
     public static boolean isXiaomi() {
         return Build.BRAND.toLowerCase().contains("xiaomi");
     }
+    /**
+     * 判断是否为小米
+     */
+    public static boolean isHUAWEI() {
+        return Build.BRAND.toLowerCase().contains("xiaomi");
+    }
 
 
     /**

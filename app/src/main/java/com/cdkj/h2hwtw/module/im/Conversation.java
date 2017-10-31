@@ -1,6 +1,8 @@
 package com.cdkj.h2hwtw.module.im;
 
+import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.tencent.imsdk.TIMConversationType;
 
@@ -18,6 +20,9 @@ public abstract class Conversation implements Comparable {
     //会话对象名称
     protected String name;
 
+    //头像地址
+
+    private String logoUrl;
 
     /**
      * 获取最后一条消息的时间
@@ -29,6 +34,9 @@ public abstract class Conversation implements Comparable {
      */
     abstract public long getUnreadNum();
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * 将所有消息标记为已读
@@ -47,21 +55,28 @@ public abstract class Conversation implements Comparable {
      *
      * @param context 跳转上下文
      */
-    abstract public void navToDetail(Context context);
+    abstract public void navToDetail(Activity context);
 
     /**
      * 获取最后一条消息摘要
      */
     abstract public String getLastMessageSummary();
 
-    /**
-     * 获取名称
-     */
-    abstract public String getName();
+    public String getName() {
+        return TextUtils.isEmpty(name) ? identify : name;
+    }
 
-
-    public String getIdentify(){
+    public String getIdentify() {
         return identify;
+    }
+
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
     }
 
     @Override
@@ -96,17 +111,16 @@ public abstract class Conversation implements Comparable {
      */
     @Override
     public int compareTo(Object another) {
-        if (another instanceof Conversation){
+        if (another instanceof Conversation) {
             Conversation anotherConversation = (Conversation) another;
             long timeGap = anotherConversation.getLastMessageTime() - getLastMessageTime();
-            if (timeGap > 0) return  1;
+            if (timeGap > 0) return 1;
             else if (timeGap < 0) return -1;
             return 0;
-        }else{
+        } else {
             throw new ClassCastException();
         }
     }
-
 
 
 }

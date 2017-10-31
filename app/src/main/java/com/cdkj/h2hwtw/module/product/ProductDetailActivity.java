@@ -199,7 +199,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
                 if (mStoreUserInfo != null) {
                     imUserInfo.setLeftImg(MyCdConfig.QINIUURL + mStoreUserInfo.getPhoto());
                 }
-                imUserInfo.setRightImg(MyCdConfig.QINIUURL + SPUtilHelpr.getUserPhoto());
+                imUserInfo.setRightImg( SPUtilHelpr.getUserPhoto());
                 imUserInfo.setToUserId(mProductData.getStoreCode());
                 imUserInfo.setUserName(mProductData.getNickName());
                 TxImLogingActivity.open(ProductDetailActivity.this, imUserInfo, false, false);
@@ -491,7 +491,14 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<Integer>(this) {
             @Override
             protected void onSuccess(Integer data, String SucMessage) {
-                mBinding.tvShowSum.setText("浏览" + data);
+                if (data <= 999) {
+                    mBinding.tvShowSum.setText("浏览" + data);
+                } else {
+                    BigDecimal b = new BigDecimal(data / 1000);
+                    float f1 = b.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+                    mBinding.tvShowSum.setText("浏览" + f1 + "K");
+                }
+
             }
 
             @Override
@@ -576,8 +583,8 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 
     public void setShowData(ProductListModel.ListBean showData) {
         if (showData == null) return;
-
-        if (TextUtils.equals(showData.getStoreCode(), SPUtilHelpr.getUserId())) {  //是自己查看就隐藏购买按钮
+        //是自己查看就隐藏购买按钮 或是已经下架
+        if (TextUtils.equals(showData.getStoreCode(), SPUtilHelpr.getUserId()) || !TextUtils.equals(showData.getStatus(), "3")) {
             mBinding.butLayout.linBuy.setVisibility(View.GONE);
         } else {
             mBinding.butLayout.linBuy.setVisibility(View.VISIBLE);

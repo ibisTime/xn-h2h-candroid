@@ -153,7 +153,7 @@ public class PersonalPageActivity extends BaseRefreshHelperActivity {
      */
     private void getfocusRequest(final boolean click) {
 
-        if (SPUtilHelpr.isLogin(PersonalPageActivity.this, false)) {
+        if (!SPUtilHelpr.isLogin(PersonalPageActivity.this, false)) {
             return;
         }
 
@@ -202,7 +202,7 @@ public class PersonalPageActivity extends BaseRefreshHelperActivity {
      * 关注请求
      */
     private void focusRequest() {
-        if (SPUtilHelpr.isLogin(PersonalPageActivity.this, false)) {
+        if (!SPUtilHelpr.isLogin(PersonalPageActivity.this, false)) {
             return;
         }
 
@@ -244,7 +244,7 @@ public class PersonalPageActivity extends BaseRefreshHelperActivity {
      * 解除关注请求
      */
     private void cancelFocusRequest() {
-        if (SPUtilHelpr.isLogin(PersonalPageActivity.this, false)) {
+        if (!SPUtilHelpr.isLogin(PersonalPageActivity.this, false)) {
             return;
         }
 

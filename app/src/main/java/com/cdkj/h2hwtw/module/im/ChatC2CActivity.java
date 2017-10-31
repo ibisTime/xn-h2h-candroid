@@ -232,17 +232,17 @@ public class ChatC2CActivity extends AbsBaseLoadActivity implements ChatView {
                     CustomMessage.Type messageType = ((CustomMessage) mMessage).getType();
                     switch (messageType) {
                         case TYPING:
-                            mBaseBinding.titleView.setMidTitle(getString(R.string.chat_typing));
-                            mTitleSubscription.clear();
-                            mTitleSubscription.add(Observable.interval(3000, TimeUnit.MILLISECONDS)
-                                    .subscribeOn(AndroidSchedulers.mainThread())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Consumer<Long>() {
-                                        @Override
-                                        public void accept(Long aLong) throws Exception {
-                                            mBaseBinding.titleView.setMidTitle(mUserName);
-                                        }
-                                    }));
+//                            mBaseBinding.titleView.setMidTitle(getString(R.string.chat_typing));
+//                            mTitleSubscription.clear();
+//                            mTitleSubscription.add(Observable.interval(3000, TimeUnit.MILLISECONDS)
+//                                    .subscribeOn(AndroidSchedulers.mainThread())
+//                                    .observeOn(AndroidSchedulers.mainThread())
+//                                    .subscribe(new Consumer<Long>() {
+//                                        @Override
+//                                        public void accept(Long aLong) throws Exception {
+//                                            mBaseBinding.titleView.setMidTitle(mUserName);
+//                                        }
+//                                    }));
 
                             break;
                         default:

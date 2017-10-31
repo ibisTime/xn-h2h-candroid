@@ -20,6 +20,8 @@ android {
             // 需要将 x86 架构过滤掉
             abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
         }
+        //华为推送
+//        resConfigs "en", "zh-rCN"
 
     }
     buildTypes {
@@ -44,9 +46,32 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
     }
 
+    signingConfigs {
+        release {
+            storeFile file(RELEASE_STORE_FILE)//签名文件路径，
+            //keystore的路径通常使用项目根目录的相对路径，但也可以是使用绝对路径，尽管这不推荐
+            storePassword RELEASE_KEY_PASSWORD //密码
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_STORE_PASSWORD  //密码
+        }
+        debug {
+            storeFile file(RELEASE_STORE_FILE)//签名文件路径，
+            //keystore的路径通常使用项目根目录的相对路径，但也可以是使用绝对路径，尽管这不推荐
+            storePassword RELEASE_KEY_PASSWORD //密码
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_STORE_PASSWORD  //密码
+        }
+        buildTypes {
+            debug {
+                signingConfig signingConfigs.release
+            }
+            release {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
 
     dataBinding {
         enabled true;
@@ -70,7 +95,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':cdcommon')
-
     compile files('libs/imsdk_group_ext.jar')
     compile files('libs/imsdk_msg_ext.jar')
     compile files('libs/imsdk_sns_ext.jar')
@@ -92,6 +116,9 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.10'
     compile 'com.google.android:flexbox:0.3.0'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
+    compile 'com.jakewharton:disklrucache:2.0.2'
+    compile files('libs/MiPush_SDK_Client_3_5_1.jar')
+//    compile 'com.huawei.android.hms:push:2.5.2.300'
 }
 
 ///格式化打完完成后APK名称中的时间

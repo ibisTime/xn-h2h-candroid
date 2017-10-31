@@ -1,7 +1,9 @@
 package com.cdkj.h2hwtw.module.im;
 
+import android.app.Activity;
 import android.content.Context;
 
+import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.h2hwtw.MyApplication;
 import com.cdkj.h2hwtw.R;
@@ -17,15 +19,16 @@ public class NomalConversation extends Conversation {
 
     private TIMConversation conversation;
 
-
     //最后一条消息
     private Message lastMessage;
+
 
 
     public NomalConversation(TIMConversation conversation) {
         this.conversation = conversation;
         type = conversation.getType();
         identify = conversation.getPeer();
+
     }
 
 
@@ -51,9 +54,13 @@ public class NomalConversation extends Conversation {
      * @param context 跳转上下文
      */
     @Override
-    public void navToDetail(Context context) {
-        UITipDialog.showFall(context, "navToDetail_");
-//        ChatC2CActivity.open(context,identify);
+    public void navToDetail(Activity context) {
+        ImUserInfo imUserInfo = new ImUserInfo();
+        imUserInfo.setToUserId(getIdentify());
+        imUserInfo.setUserName(getName());
+        imUserInfo.setLeftImg(getLogoUrl());
+        imUserInfo.setRightImg(SPUtilHelpr.getUserQiniuPhoto());
+        TxImLogingActivity.open(context, imUserInfo, false, false);
     }
 
     /**
@@ -75,22 +82,22 @@ public class NomalConversation extends Conversation {
         }
     }
 
-    /**
-     * 获取名称
-     */
-    @Override
-    public String getName() {
-//        if (type == TIMConversationType.Group){
-//            name=GroupInfo.getInstance().getGroupName(identify);
-//            if (name.equals("")) name = identify;
-//        }else{
-//            FriendProfile profile = FriendshipInfo.getInstance().getProfile(identify);
-//            name=profile == null?identify:profile.getName();
-//        }
-        FriendProfile profile = FriendshipInfo.getInstance().getProfile(identify);
-        name = profile == null ? identify : profile.getName();
-        return name;
-    }
+//    /**
+//     * 获取名称
+//     */
+//    @Override
+//    public String getName() {
+////        if (type == TIMConversationType.Group){
+////            name=GroupInfo.getInstance().getGroupName(identify);
+////            if (name.equals("")) name = identify;
+////        }else{
+////            FriendProfile profile = FriendshipInfo.getInstance().getProfile(identify);
+////            name=profile == null?identify:profile.getName();
+////        }
+////        FriendProfile profile = FriendshipInfo.getInstance().getProfile(identify);
+////        name = profile == null ? identify : profile.getName();
+//        return "abc";
+//    }
 
 
     /**

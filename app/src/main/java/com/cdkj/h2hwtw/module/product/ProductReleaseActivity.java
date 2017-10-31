@@ -360,6 +360,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
     @Override
     protected void locationSuccessful(AMapLocation aMapLocation) {
         mLocation = aMapLocation;
+        mBinding.location.tvLocation.setText(mLocation.getProvince() + " " + mLocation.getCity() + " " + mLocation.getDistrict());
     }
 
     @Override
@@ -389,9 +390,9 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             map.put("longitude", "0.00");
 
         } else {
-            map.put("area", mLocation.getDistrict());
-            map.put("province", mLocation.getProvince());
-            map.put("city", mLocation.getCity());
+            map.put("area", TextUtils.isEmpty(mLocation.getDistrict()) ? "未知" : mLocation.getDistrict());
+            map.put("province", TextUtils.isEmpty(mLocation.getProvince()) ? "未知 " : mLocation.getProvince());
+            map.put("city", TextUtils.isEmpty(mLocation.getCity()) ? "未知 " : mLocation.getCity());
             map.put("latitude", mLocation.getLatitude() + "");
             map.put("longitude", mLocation.getLongitude() + "");
         }
@@ -439,7 +440,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
                         @Override
                         public void onDismiss(DialogInterface dialogInterface) {
                             if (!TextUtils.isEmpty(mActivityCode)) {                              //如果参加了活动 则跳到活动产品列表
-                                PreferentialProductListActivity.open(ProductReleaseActivity.this,"","");
+                                PreferentialProductListActivity.open(ProductReleaseActivity.this, "", "");
                             }
                             finish();
                         }

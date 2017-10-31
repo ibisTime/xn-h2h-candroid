@@ -30,7 +30,9 @@ import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.databinding.ActivitySettingBinding;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.module.user.login.LoginActivity;
+import com.cdkj.h2hwtw.other.TXImManager;
 import com.qiniu.android.http.ResponseInfo;
+import com.tencent.imsdk.TIMCallBack;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -169,7 +171,7 @@ public class SettingActivity extends AbsBaseLoadActivity {
         mBinding.linPayAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddressListActivity.open(SettingActivity.this,false);
+                AddressListActivity.open(SettingActivity.this, false);
             }
         });
 
@@ -177,11 +179,22 @@ public class SettingActivity extends AbsBaseLoadActivity {
     }
 
     private void logOut() {
-        SPUtilHelpr.logOutClear();
-        EventBus.getDefault().post(EventTags.MAINFINISH);
-        EventBus.getDefault().post(EventTags.AllFINISH);
-        LoginActivity.open(this, true);
-        finish();
+
+        TXImManager.getInstance().logout(new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+                UITipDialog.showFall(SettingActivity.this, "退出登录失败");
+            }
+
+            @Override
+            public void onSuccess() {
+                SPUtilHelpr.logOutClear();
+                EventBus.getDefault().post(EventTags.MAINFINISH);
+                EventBus.getDefault().post(EventTags.AllFINISH);
+                LoginActivity.open(SettingActivity.this, true);
+                finish();
+            }
+        });
     }
 
 

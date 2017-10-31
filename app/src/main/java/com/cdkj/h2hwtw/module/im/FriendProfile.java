@@ -65,15 +65,7 @@ public class FriendProfile implements ProfileSummary {
      */
     @Override
     public void onClick(Context context) {
-        UITipDialog.showFall(context,"isFriend_");
-//        if (FriendshipInfo.getInstance().isFriend(profile.getIdentifier())){
-//            ProfileActivity.navToProfile(context, profile.getIdentifier());
-//        }else{
-//            Intent person = new Intent(context,AddFriendActivity.class);
-//            person.putExtra("id",profile.getIdentifier());
-//            person.putExtra("name",getName());
-//            context.startActivity(person);
-//        }
+
     }
 
     public boolean isSelected() {

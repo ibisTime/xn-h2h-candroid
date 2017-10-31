@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.cdkj.baselibrary.appmanager.MyCdConfig;
+import com.cdkj.baselibrary.utils.ImgUtils;
+import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.h2hwtw.R;
 
 import java.util.List;
@@ -22,6 +25,8 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
     private View view;
     private ViewHolder viewHolder;
 
+    private Context context;
+
     /**
      * Constructor
      *
@@ -33,6 +38,7 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
     public ConversationAdapter(Context context, int resource, List<Conversation> objects) {
         super(context, resource, objects);
         resourceId = resource;
+        this.context = context;
     }
 
     @Override
@@ -52,7 +58,7 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
         }
         final Conversation data = getItem(position);
         viewHolder.tvName.setText(data.getName());
-        viewHolder.avatar.setImageResource(data.getAvatar());
+        ImgUtils.loadLogo(context,  data.getLogoUrl(), viewHolder.avatar);
         viewHolder.lastMessage.setText(data.getLastMessageSummary());
         viewHolder.time.setText(TimeUtil.getTimeStr(data.getLastMessageTime()));
         long unRead = data.getUnreadNum();

@@ -9,10 +9,12 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.amap.api.location.AMapLocation;
 import com.cdkj.baselibrary.adapters.ViewPagerAdapter;
 import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
+import com.cdkj.baselibrary.base.BaseLocationActivity;
 import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.utils.update.UpdateManager;
 import com.cdkj.h2hwtw.databinding.ActivityMainBinding;
@@ -39,7 +41,7 @@ import static com.cdkj.baselibrary.appmanager.EventTags.RELEASESUSS;
 /**
  * 主页
  */
-public class MainActivity extends AbsBaseLoadActivity {
+public class MainActivity extends BaseLocationActivity {
 
     private ActivityMainBinding mBinding;
 
@@ -96,6 +98,24 @@ public class MainActivity extends AbsBaseLoadActivity {
 //
 //        updateManager = new UpdateManager(getString(R.string.app_name));
 //        updateManager.checkNewApp(this);
+
+        startLocation();
+    }
+
+
+    @Override
+    protected void locationSuccessful(AMapLocation aMapLocation) {
+        EventBus.getDefault().post(aMapLocation);
+    }
+
+    @Override
+    protected void locationFailure() {
+
+    }
+
+    @Override
+    protected void onNegativeButton() {
+
     }
 
     /**
@@ -196,7 +216,10 @@ public class MainActivity extends AbsBaseLoadActivity {
      * @param
      */
     private void setShowButIndex() {
-
+        mBinding.radioMainTab1.setChecked(false);
+        mBinding.radioMainTab2.setChecked(false);
+        mBinding.radioMainTab3.setChecked(false);
+        mBinding.radioMainTab4.setChecked(false);
         switch (mShowIndex) {
             case SHOWFIRST:
                 mBinding.radioMainTab1.setChecked(true);
@@ -212,9 +235,28 @@ public class MainActivity extends AbsBaseLoadActivity {
                 break;
         }
 
-
     }
 
+
+    /**
+     * 设置未读消息显示
+     *
+     * @param num
+     */
+    public void setMsgUnread(long num) {
+        if (num <= 0) {
+            mBinding.fraMsgUnread.setVisibility(View.GONE);
+            return;
+        }
+
+        mBinding.fraMsgUnread.setVisibility(View.VISIBLE);
+        if (num > 99) {
+            num = 99;
+            mBinding.tvMsgUnreadNum.setText(num + "");
+            return;
+        }
+        mBinding.tvMsgUnreadNum.setText(num + "");
+    }
 
     @Subscribe
     public void MainEventBus(@showType int eventBusModel) {
@@ -238,6 +280,7 @@ public class MainActivity extends AbsBaseLoadActivity {
     protected boolean canEvenFinish() {
         return false;
     }
+
 
     @Override
     protected void onDestroy() {

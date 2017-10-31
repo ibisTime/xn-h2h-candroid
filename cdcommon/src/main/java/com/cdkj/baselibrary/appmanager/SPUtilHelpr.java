@@ -58,6 +58,14 @@ public class SPUtilHelpr {
     public static String getUserPhoto() {
         return SPUtils.getString(CdApplication.getContext(), "USER_PHOTO", "");
     }
+    /**
+     * 设置用户token
+     *
+     * @param
+     */
+    public static String getUserQiniuPhoto() {
+        return MyCdConfig.QINIUURL +getUserPhoto();
+    }
 
 
 

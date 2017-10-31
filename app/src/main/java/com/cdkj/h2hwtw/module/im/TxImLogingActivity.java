@@ -1,5 +1,6 @@
 package com.cdkj.h2hwtw.module.im;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
+import com.cdkj.baselibrary.utils.ToastUtil;
+import com.cdkj.h2hwtw.MyApplication;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.ActivityTxlogingBinding;
@@ -26,7 +29,7 @@ import retrofit2.Call;
 
 
 /**
- * 用于腾讯im聊天
+ * 腾讯im聊天登录
  * Created by cdkj on 2017/10/30.
  */
 
@@ -39,12 +42,13 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
     private ActivityTxlogingBinding binding;
     private ImUserInfo imUserInfo;
 
+
     /**
      * @param context
      * @param canOpenMain 如果未登录，登录后能否打开主页
      * @param isFromLogin 是否来自登录页面
      */
-    public static void open(android.content.Context context, ImUserInfo imUserInfo, boolean canOpenMain, boolean isFromLogin) {
+    public static void open(Activity context, ImUserInfo imUserInfo, boolean canOpenMain, boolean isFromLogin) {
         if (context == null) {
             return;
         }
@@ -53,6 +57,7 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
         intent.putExtra("isFromLogin", isFromLogin);
         intent.putExtra("imUserInfo", imUserInfo);
         context.startActivity(intent);
+//        context.overridePendingTransition(0, 0);
     }
 
 
@@ -84,10 +89,10 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
         super.onResume();
         if (!SPUtilHelpr.isLoginNoStart()) { //如果没有登录的话先登录
             LoginActivity.open(TxImLogingActivity.this, canOpenMain);
-            finish();
+            finishNoTransition();
         } else if (TXImManager.getInstance().isLogin()) {//如果腾讯云已经登录 直接打开聊天界面
             ChatC2CActivity.open(TxImLogingActivity.this, imUserInfo);
-            finish();
+            finishNoTransition();
         } else {
             getUserInfoRequest(false); //登录--> 获取用户信息 -->获取腾讯签名-->登录腾讯--->登录成功
         }
@@ -122,14 +127,19 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
                 disMissLoading();
-                finish();
+                finishNoTransition();
             }
 
             @Override
             protected void onNoNet(String msg) {
-                super.onNoNet(msg);
                 disMissLoading();
-                finish();
+                finishNoTransition();
+            }
+
+            @Override
+            protected void onNull() {
+                disMissLoading();
+                finishNoTransition();
             }
 
             @Override
@@ -164,25 +174,14 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
                 TXImManager.getInstance().login(SPUtilHelpr.getUserId(), data.getSig(), new TXImManager.LoginBallBack() {
                     @Override
                     public void onError(int i, String s) {
+                        ToastUtil.show(MyApplication.getInstance(), s);
                         disMissLoading();
-                        finish();
+                        finishNoTransition();
                     }
 
                     @Override
                     public void onSuccess() {
-                /*        if (canOpenMain) {
-                            EventBus.getDefault().post(EventTags.MAINFINISH);
-                            EventBus.getDefault().post(EventTags.AllFINISH);
-                            MainActivity.open(TxImLogingActivity.this);
-                        } else {
-                            EventBus.getDefault().post(LOGINREFRESH);
-                        }
-*/
-                        disMissLoading();
-                        if (!isFromLogin) {
-                            ChatC2CActivity.open(TxImLogingActivity.this, imUserInfo);
-                        }
-                        finish();
+                        txLoginSucc();
                     }
                 });
             }
@@ -190,15 +189,21 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
                 disMissLoading();
-                finish();
+                finishNoTransition();
             }
 
             @Override
             protected void onNoNet(String msg) {
-                super.onNoNet(msg);
                 disMissLoading();
-                finish();
+                finishNoTransition();
             }
+
+            @Override
+            protected void onNull() {
+                disMissLoading();
+                finishNoTransition();
+            }
+
 
             @Override
             protected void onFinish() {
@@ -207,5 +212,48 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
         });
     }
 
+    private void txLoginSucc() {
+        TXImManager.getInstance().setUserNickName(SPUtilHelpr.getUserName(), new TXImManager.changeInfoBallBack() {
+            @Override
+            public void onError(int i, String s) {
+                setLogo();
+            }
+
+            @Override
+            public void onSuccess() {
+                setLogo();
+            }
+        });
+    }
+
+    private void setLogo() {
+        TXImManager.getInstance().setUserLogo(SPUtilHelpr.getUserPhoto(), new TXImManager.changeInfoBallBack() {
+            @Override
+            public void onError(int i, String s) {
+                startChat();
+            }
+
+            @Override
+            public void onSuccess() {
+                startChat();
+            }
+        });
+    }
+
+    /**
+     * 启动聊天
+     */
+    private void startChat() {
+        disMissLoading();
+        if (!isFromLogin) {
+            ChatC2CActivity.open(TxImLogingActivity.this, imUserInfo);
+        }
+        finishNoTransition();
+    }
+
+    private void finishNoTransition() {
+        finish();
+        overridePendingTransition(0, 0);
+    }
 
 }

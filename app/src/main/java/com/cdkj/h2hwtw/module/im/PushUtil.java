@@ -49,19 +49,28 @@ public class PushUtil implements Observer {
                 MessageFactory.getMessage(msg) instanceof CustomMessage) return;
 
         String senderStr, contentStr;
+
         Message message = MessageFactory.getMessage(msg);
+
         if (message == null) return;
         senderStr = message.getSender();
         contentStr = message.getSummary();
+
         Log.d(TAG, "recv msg " + contentStr);
+
         NotificationManager mNotificationManager = (NotificationManager) MyApplication.getInstance().getSystemService(MyApplication.getInstance().NOTIFICATION_SERVICE);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MyApplication.getInstance());
-        Intent notificationIntent = new Intent(MyApplication.getInstance(), WelcomeAcitivity.class);
+
+
+        Intent notificationIntent = new Intent(MyApplication.getInstance(), TxImPushActivity.class);
+
+        notificationIntent.putExtra("toUserId", senderStr);
+
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent intent = PendingIntent.getActivity(MyApplication.getInstance(), 0,
                 notificationIntent, 0);
-        mBuilder.setContentTitle(senderStr)//设置通知栏标题
+        mBuilder.setContentTitle("新消息")//设置通知栏标题
                 .setContentText(contentStr)
                 .setContentIntent(intent) //设置通知栏点击意图
 //                .setNumber(++pushNum) //设置通知集合的数量

@@ -30,10 +30,10 @@
                     tools:src="@mipmap/icon" />
 
                 <FrameLayout
+                    android:visibility="gone"
                     android:id="@+id/fra_isjoin"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone">
+                    android:layout_height="wrap_content">
 
                     <ImageView
                         android:id="@+id/img_isjoin"
@@ -46,8 +46,9 @@
                         android:id="@+id/tv_zhekou"
                         style="@style/text_white"
                         android:layout_gravity="center"
-                        tools:text="9折"
-                        android:textSize="12sp" />
+                        android:layout_marginTop="-2dp"
+                        android:textSize="11sp"
+                        tools:text="9折" />
 
 
                 </FrameLayout>

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.utils.BigDecimalUtils;
 import com.cdkj.baselibrary.utils.ImgUtils;
+import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
@@ -50,8 +51,15 @@ public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBe
 
         viewHolder.setGone(R.id.fra_isjoin, TextUtils.equals(item.getIsJoin(), "1"));//是否参加了活动 1参加 0否
 
-        String zhek = (item.getDiscount().floatValue() * 10) + "";
-        viewHolder.setText(R.id.tv_zhekou, zhek);
+        float zhek = (item.getDiscount().floatValue() * 10);
+        viewHolder.setText(R.id.tv_zhekou, zhek + "");
+//        String zhekoo = String.valueOf(zhek);
+//        LogUtil.E(StringUtils.subString(zhekoo, zhekoo.indexOf(".") + 1, zhekoo.length()));
+//        if (Integer.valueOf(StringUtils.subString(zhekoo, zhekoo.indexOf(".") + 1, zhekoo.length())) > 0) {
+//            viewHolder.setText(R.id.tv_zhekou, zhek + "");
+//        } else {
+//            viewHolder.setText(R.id.tv_zhekou, StringUtils.subString(zhekoo, 0, zhekoo.indexOf(".")));
+//        }
 
         viewHolder.setOnClickListener(R.id.lin_goods, new View.OnClickListener() {
             @Override

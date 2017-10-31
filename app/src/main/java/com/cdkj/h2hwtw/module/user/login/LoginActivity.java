@@ -26,6 +26,7 @@ import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.ActivityLoginBinding;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.model.immodel.getTxKeyModel;
+import com.cdkj.h2hwtw.module.im.ChatC2CActivity;
 import com.cdkj.h2hwtw.module.im.TxImLogingActivity;
 import com.cdkj.h2hwtw.other.TXImManager;
 
@@ -77,6 +78,9 @@ public class LoginActivity extends AbsBaseLoadActivity implements LoginInterface
 
     @Override
     public void afterCreate(Bundle savedInstanceState) {
+
+        TXImManager.getInstance().logout();               //如果启动登录页那么就退出登录
+
         mPresenter = new LoginPresenter(this);
 
         if (getIntent() != null) {
@@ -235,21 +239,12 @@ public class LoginActivity extends AbsBaseLoadActivity implements LoginInterface
                     @Override
                     public void onError(int i, String s) {
                         disMissLoading();
-                        UITipDialog.showFall(LoginActivity.this, "登录失败");
+                        UITipDialog.showFall(LoginActivity.this, s);
                     }
 
                     @Override
                     public void onSuccess() {
-                        if (canOpenMain) {
-                            EventBus.getDefault().post(EventTags.MAINFINISH);
-                            EventBus.getDefault().post(EventTags.AllFINISH);
-                            MainActivity.open(LoginActivity.this);
-                        } else {
-                            EventBus.getDefault().post(LOGINREFRESH);
-                        }
-
-                        disMissLoading();
-                        finish();
+                        txLoginSucc();
                     }
                 });
             }
@@ -273,5 +268,48 @@ public class LoginActivity extends AbsBaseLoadActivity implements LoginInterface
         });
     }
 
+    private void txLoginSucc() {
+        TXImManager.getInstance().setUserNickName(SPUtilHelpr.getUserName(), new TXImManager.changeInfoBallBack() {
+            @Override
+            public void onError(int i, String s) {
+                setLogo();
+            }
+
+            @Override
+            public void onSuccess() {
+                setLogo();
+            }
+        });
+    }
+
+    private void setLogo() {
+        TXImManager.getInstance().setUserLogo(SPUtilHelpr.getUserPhoto(), new TXImManager.changeInfoBallBack() {
+            @Override
+            public void onError(int i, String s) {
+                startNext();
+            }
+
+            @Override
+            public void onSuccess() {
+                startNext();
+            }
+        });
+    }
+
+    /**
+     * 启动聊天
+     */
+    private void startNext() {
+        if (canOpenMain) {
+            EventBus.getDefault().post(EventTags.MAINFINISH);
+            EventBus.getDefault().post(EventTags.AllFINISH);
+            MainActivity.open(LoginActivity.this);
+        } else {
+            EventBus.getDefault().post(LOGINREFRESH);
+        }
+
+        disMissLoading();
+        finish();
+    }
 
 }

@@ -64,5 +64,6 @@
     <string name="summary_me">我</string>
     <string name="conversation_draft">[草稿]</string>
     <string name="conversation_del">删除会话</string>
+    <string name="kick_logout">你的账号已在其他终端登录,重新登录</string>
 
 </resources>

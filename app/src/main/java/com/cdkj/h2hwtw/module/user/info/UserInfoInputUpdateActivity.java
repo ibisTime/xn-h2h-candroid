@@ -18,6 +18,7 @@ import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.databinding.ActivityUserinfoUpdateInputBinding;
+import com.cdkj.h2hwtw.other.TXImManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -106,11 +107,24 @@ public class UserInfoInputUpdateActivity extends AbsBaseLoadActivity {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 if (data.isSuccess()) {
+                    TXImManager.getInstance().setUserNickName(mBinding.edit.getText().toString(), new TXImManager.changeInfoBallBack() {
+                        @Override
+                        public void onError(int i, String s) {
+                            disMissLoading();
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            disMissLoading();
+                            finish();
+                        }
+                    });
+
                     EventBusModel e = new EventBusModel();
                     e.setTag(EventTags.USERNAMEEDITREFRESH);
                     e.setEvInfo(mBinding.edit.getText().toString());
                     EventBus.getDefault().post(e);
-                    finish();
+
                 } else {
                     UITipDialog.showFall(UserInfoInputUpdateActivity.this, "操作失败");
                 }
@@ -119,6 +133,17 @@ public class UserInfoInputUpdateActivity extends AbsBaseLoadActivity {
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
                 UITipDialog.showFall(UserInfoInputUpdateActivity.this, errorCode);
+            }
+
+            @Override
+            protected void onNoNet(String msg) {
+                super.onNoNet(msg);
+                disMissLoading();
+            }
+
+            @Override
+            protected void onNull() {
+                disMissLoading();
             }
 
             @Override

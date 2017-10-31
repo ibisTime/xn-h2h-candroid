@@ -27,6 +27,7 @@ import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.databinding.ActivityUserInfoEditBinding;
 import com.cdkj.h2hwtw.model.UserInfoModel;
+import com.cdkj.h2hwtw.other.TXImManager;
 import com.qiniu.android.http.ResponseInfo;
 
 import org.greenrobot.eventbus.EventBus;
@@ -284,20 +285,52 @@ public class UserInfoEditActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(UserInfoEditActivity.this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
-                if (data.isSuccess()) {
-                    UITipDialog.showSuccess(UserInfoEditActivity.this, "头像上传成功");
-                    ImgUtils.loadLogo(UserInfoEditActivity.this, MyCdConfig.QINIUURL + key, mBinding.imgLogo);
+
+                if (!data.isSuccess()) {
+                    disMissLoading();
+                    UITipDialog.showSuccess(UserInfoEditActivity.this, "头像上传失败");
+                    return;
                 }
+
+                TXImManager.getInstance().setUserLogo(key, new TXImManager.changeInfoBallBack() {
+                    @Override
+                    public void onError(int i, String s) {
+                        disMissLoading();
+                        UITipDialog.showSuccess(UserInfoEditActivity.this, "头像上传成功");
+                        ImgUtils.loadLogo(UserInfoEditActivity.this, MyCdConfig.QINIUURL + key, mBinding.imgLogo);
+
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        disMissLoading();
+                        UITipDialog.showSuccess(UserInfoEditActivity.this, "头像上传成功");
+                        ImgUtils.loadLogo(UserInfoEditActivity.this, MyCdConfig.QINIUURL + key, mBinding.imgLogo);
+                    }
+                });
+
             }
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
+                disMissLoading();
                 UITipDialog.showFall(UserInfoEditActivity.this, errorMessage);
             }
 
             @Override
-            protected void onFinish() {
+            protected void onNoNet(String msg) {
+                super.onNoNet(msg);
                 disMissLoading();
+            }
+
+            @Override
+            protected void onNull() {
+                disMissLoading();
+            }
+
+            @Override
+            protected void onFinish() {
+
             }
         });
     }

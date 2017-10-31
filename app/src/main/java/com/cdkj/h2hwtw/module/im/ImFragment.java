@@ -1,7 +1,7 @@
 package com.cdkj.h2hwtw.module.im;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,15 +11,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseFragment;
+import com.cdkj.baselibrary.base.BaseLazyFragment;
+import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.h2hwtw.MainActivity;
 import com.cdkj.h2hwtw.R;
-import com.cdkj.h2hwtw.module.user.login.LoginActivity;
 import com.cdkj.h2hwtw.other.TXImManager;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMMessageOfflinePushSettings;
+import com.tencent.imsdk.TIMOfflinePushSettings;
+import com.tencent.imsdk.TIMUserProfile;
 import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
 import com.tencent.imsdk.ext.group.TIMGroupPendencyItem;
 import com.tencent.imsdk.ext.sns.TIMFriendFutureItem;
@@ -33,7 +39,7 @@ import java.util.List;
 /**
  * 会话列表界面
  */
-public class ImFragment extends BaseFragment implements ConversationView, FriendshipMessageView, GroupManageMessageView {
+public class ImFragment extends BaseLazyFragment implements ConversationView, FriendshipMessageView, GroupManageMessageView {
 
     private final String TAG = "ConversationFragment";
 
@@ -43,10 +49,7 @@ public class ImFragment extends BaseFragment implements ConversationView, Friend
     private ListView listView;
     private ConversationPresenter presenter;
     private FriendshipManagerPresenter friendshipManagerPresenter;
-    //    private GroupManagerPresenter groupManagerPresenter;
-    private List<String> groupList;
     private FriendshipConversation friendshipConversation;
-//    private GroupManageConversation groupManageConversation;
 
 
     public ImFragment() {
@@ -71,27 +74,39 @@ public class ImFragment extends BaseFragment implements ConversationView, Friend
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    conversationList.get(position).navToDetail(getActivity());
-//                    if (conversationList.get(position) instanceof GroupManageConversation) {
-//                        groupManagerPresenter.getGroupManageLastMessage();
-//                    }
-
+                    conversationList.get(position).navToDetail(mActivity);
                 }
             });
-            friendshipManagerPresenter = new FriendshipManagerPresenter(this);
-//            groupManagerPresenter = new GroupManagerPresenter(this);
+            friendshipManagerPresenter = new FriendshipManagerPresenter(this, null, new FriendInfoView() {
+                @Override
+                public void showUserInfo(List<TIMUserProfile> users) {
+
+                    for (TIMUserProfile user : users) {
+                        for (Conversation conversation : conversationList) {
+                            if (TextUtils.equals(user.getIdentifier(), conversation.getIdentify())) {
+                                conversation.setLogoUrl(MyCdConfig.QINIUURL + user.getFaceUrl());
+                                conversation.setName(user.getNickName());
+                            }
+                        }
+                    }
+
+                    Collections.sort(conversationList);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+
             presenter = new ConversationPresenter(this);
             presenter.getConversation();
             registerForContextMenu(listView);
         }
-        adapter.notifyDataSetChanged();
-        return view;
 
+        return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
         if (!SPUtilHelpr.isLoginNoStart()) {
             return;
         }
@@ -99,8 +114,14 @@ public class ImFragment extends BaseFragment implements ConversationView, Friend
             TxImLogingActivity.open(mActivity, null, false, true);
             return;
         }
+
         refresh();
+
         PushUtil.getInstance().reset();
+
+        if (presenter != null) {
+            presenter.getConversation(); //获取回话
+        }
     }
 
 
@@ -112,18 +133,16 @@ public class ImFragment extends BaseFragment implements ConversationView, Friend
     @Override
     public void initView(List<TIMConversation> conversationList) {
         this.conversationList.clear();
-        groupList = new ArrayList<>();
+//        groupList = new ArrayList<>();
         for (TIMConversation item : conversationList) {
             switch (item.getType()) {
                 case C2C:
                 case Group:
                     this.conversationList.add(new NomalConversation(item));
-                    groupList.add(item.getPeer());
                     break;
             }
         }
         friendshipManagerPresenter.getFriendshipLastMessage();
-//        groupManagerPresenter.getGroupManageLastMessage();
     }
 
     /**
@@ -138,7 +157,6 @@ public class ImFragment extends BaseFragment implements ConversationView, Friend
             return;
         }
         if (message.getConversation().getType() == TIMConversationType.System) {
-//            groupManagerPresenter.getGroupManageLastMessage();
             return;
         }
         if (MessageFactory.getMessage(message) instanceof CustomMessage) return;
@@ -206,8 +224,14 @@ public class ImFragment extends BaseFragment implements ConversationView, Friend
     public void refresh() {
         Collections.sort(conversationList);
         adapter.notifyDataSetChanged();
-//        if (getActivity() instanceof HomeActivity)
-//            ((HomeActivity) getActivity()).setMsgUnread(getTotalUnreadNum() == 0);
+        List<String> ids = new ArrayList<>();
+        for (Conversation conversation : conversationList) {
+            ids.add(conversation.getIdentify());
+        }
+        friendshipManagerPresenter.searchFriendById(ids);
+
+        if (mActivity instanceof MainActivity) //未读消息数量
+            ((MainActivity) mActivity).setMsgUnread(getTotalUnreadNum());
     }
 
 
@@ -248,13 +272,6 @@ public class ImFragment extends BaseFragment implements ConversationView, Friend
      */
     @Override
     public void onGetGroupManageLastMessage(TIMGroupPendencyItem message, long unreadCount) {
-//        if (groupManageConversation == null) {
-//            groupManageConversation = new GroupManageConversation(message);
-//            conversationList.add(groupManageConversation);
-//        } else {
-//            groupManageConversation.setLastMessage(message);
-//        }
-//        groupManageConversation.setUnreadCount(unreadCount);
         Collections.sort(conversationList);
         refresh();
     }
@@ -308,4 +325,13 @@ public class ImFragment extends BaseFragment implements ConversationView, Friend
     }
 
 
+    @Override
+    protected void lazyLoad() {
+
+    }
+
+    @Override
+    protected void onInvisible() {
+
+    }
 }
