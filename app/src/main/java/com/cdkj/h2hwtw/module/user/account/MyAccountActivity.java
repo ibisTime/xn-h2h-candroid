@@ -56,9 +56,14 @@ public class MyAccountActivity extends AbsBaseLoadActivity {
 
     @Override
     public void afterCreate(Bundle savedInstanceState) {
-        getAmountRequest(true);
         mBaseBinding.titleView.setMidTitle("我的账户");
         initListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAmountRequest(true);
     }
 
     private void initListener() {

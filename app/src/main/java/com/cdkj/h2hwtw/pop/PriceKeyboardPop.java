@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.cdkj.baselibrary.dialog.UITipDialog;
@@ -92,6 +93,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
     private void initKeyListener() {
         setNumKeyListener();
 
+        //删除
         popBinding.layouotKeyboard.fraDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +106,28 @@ public class PriceKeyboardPop extends BasePopupWindow {
         setEditToouch(popBinding.editPriceOld, 1);
         setEditToouch(popBinding.editSendPrice, 2);
 
+        //如果包邮则输入框禁用
+        popBinding.checkboxCanSend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    popBinding.editSendPrice.setText("");
+                }
+                popBinding.editSendPrice.setEnabled(!b);
+            }
+        });
 
+        //包邮点击
+        popBinding.linSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                popBinding.checkboxCanSend.setChecked(!popBinding.checkboxCanSend.isChecked());
+            }
+        });
+
+
+        //确认
         popBinding.layouotKeyboard.btnSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

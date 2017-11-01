@@ -403,6 +403,7 @@ json:{"systemCode":"CD-WTW000016","companyCode":"CD-WTW000016","token":"TSYS_USE
         Map<String, String> map = new HashMap<>();
 
         map.put("userId", userId);
+        map.put("token", SPUtilHelpr.getUserToken());
 
         Call call = RetrofitUtils.createApi(MyApiServer.class).getUserInfoDetails("805121", StringUtils.getJsonToString(map));
 

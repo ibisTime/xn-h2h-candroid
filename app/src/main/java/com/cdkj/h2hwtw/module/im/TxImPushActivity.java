@@ -15,6 +15,7 @@ import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.utils.ToastUtil;
+import com.cdkj.h2hwtw.MainActivity;
 import com.cdkj.h2hwtw.MyApplication;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.api.MyApiServer;
@@ -91,7 +92,7 @@ public class TxImPushActivity extends AbsBaseLoadActivity {
         Map<String, String> map = new HashMap<>();
 
         map.put("userId", toUserId);
-
+        map.put("token", SPUtilHelpr.getUserToken());
         Call call = RetrofitUtils.createApi(MyApiServer.class).getUserInfoDetails("805121", StringUtils.getJsonToString(map));
 
         addCall(call);
@@ -137,4 +138,8 @@ public class TxImPushActivity extends AbsBaseLoadActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+
+    }
 }

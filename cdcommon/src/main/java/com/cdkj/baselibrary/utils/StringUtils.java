@@ -172,6 +172,26 @@ public class StringUtils {
         return isMatch("^0\\d{2,3}[- ]?\\d{7,8}", input);
     }
 
+    /**
+     * 验证手机号（简单）
+     *
+     * @param input 待验证文本
+     * @return {@code true}: 匹配<br>{@code false}: 不匹配
+     */
+    public static boolean isMobileSimple(final CharSequence input) {
+        return isMatch("^[1]\\d{10}$", input);
+    }
+
+    /**
+     * 验证手机号（精确）
+     *
+     * @param input 待验证文本
+     * @return {@code true}: 匹配<br>{@code false}: 不匹配
+     */
+    public static boolean isMobileExact(final CharSequence input) {
+        return isMatch("^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,1,3,5-8])|(18[0-9])|(147))\\d{8}$", input);
+    }
+
 
     //设置价格输入
     public static void editSetPriceInputState(EditText editText) {

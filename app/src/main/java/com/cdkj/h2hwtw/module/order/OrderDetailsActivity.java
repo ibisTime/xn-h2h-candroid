@@ -97,7 +97,7 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
 
     private void initListener() {
 
-        mBinding.tvState.setOnClickListener(new View.OnClickListener() {
+        mBinding.tvStateBottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 doSomtingByState(mOrderData);
@@ -302,7 +302,7 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
     public void setShowButtomBtnState(String showState) {
 
         mBinding.tvCancel.setText(mOrderListAdapter.getStateCancelString(showState));
-        mBinding.tvState.setText(mOrderListAdapter.getStateString(showState));
+        mBinding.tvStateBottom.setText(mOrderListAdapter.getStateString(showState));
 
         if (mOrderListAdapter.canShowCancel(showState)) {
             mBinding.tvCancel.setVisibility(View.VISIBLE);

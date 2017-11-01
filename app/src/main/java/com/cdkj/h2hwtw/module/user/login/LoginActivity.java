@@ -112,13 +112,10 @@ public class LoginActivity extends AbsBaseLoadActivity implements LoginInterface
 
     @Override
     public void LoginSuccess(UserLoginModel user, String msg) {
-
         SPUtilHelpr.saveUserId(user.getUserId());
         SPUtilHelpr.saveUserToken(user.getToken());
         SPUtilHelpr.saveUserPhoneNum(mBinding.editUsername.getText().toString());
-//TODO 登录方法 TxImLogingActivity 合并
-//        TxImLogingActivity.open(this,null, canOpenMain, true);
-        getUserInfoRequest(false);//登录--> 获取用户信息 -->获取腾讯签名-->登录腾讯--->登录成功
+        startNext();
     }
 
     @Override
@@ -134,6 +131,7 @@ public class LoginActivity extends AbsBaseLoadActivity implements LoginInterface
 
     @Override
     public void EndLogin() {
+        disMissLoading();
     }
 
     @Override
@@ -164,137 +162,8 @@ public class LoginActivity extends AbsBaseLoadActivity implements LoginInterface
         } else {
             super.onBackPressed();
         }
-
     }
 
-
-    /**
-     * 获取用户信息
-     */
-    public void getUserInfoRequest(final boolean isShowdialog) {
-
-        Map<String, String> map = new HashMap<>();
-
-        map.put("userId", SPUtilHelpr.getUserId());
-        map.put("token", SPUtilHelpr.getUserToken());
-
-        Call call = RetrofitUtils.createApi(MyApiServer.class).getUserInfoDetails("805121", StringUtils.getJsonToString(map));
-
-        addCall(call);
-
-        if (isShowdialog) showLoadingDialog();
-
-        call.enqueue(new BaseResponseModelCallBack<UserInfoModel>(this) {
-            @Override
-            protected void onSuccess(UserInfoModel data, String SucMessage) {
-                SPUtilHelpr.saveisTradepwdFlag(data.isTradepwdFlag());
-                SPUtilHelpr.saveUserPhoneNum(data.getMobile());
-                SPUtilHelpr.saveUserName(data.getNickname());
-                SPUtilHelpr.saveUserPhoto(data.getPhoto());
-                getTxKeyRequest();
-            }
-
-            @Override
-            protected void onReqFailure(String errorCode, String errorMessage) {
-                disMissLoading();
-                UITipDialog.showFall(LoginActivity.this, errorMessage);
-            }
-
-            @Override
-            protected void onNoNet(String msg) {
-                super.onNoNet(msg);
-                disMissLoading();
-            }
-
-            @Override
-            protected void onFinish() {
-                if (isShowdialog) disMissLoading();
-            }
-        });
-    }
-
-
-    /**
-     * 获取腾讯签名
-     */
-    public void getTxKeyRequest() {
-
-
-        Map map = RetrofitUtils.getRequestMap();
-
-        map.put("userId", SPUtilHelpr.getUserId());
-
-        Call<BaseResponseModel<getTxKeyModel>> call = RetrofitUtils.createApi(MyApiServer.class).getTxSing("805953", StringUtils.getJsonToString(map));
-
-        addCall(call);
-
-
-        call.enqueue(new BaseResponseModelCallBack<getTxKeyModel>(this) {
-            @Override
-            protected void onSuccess(getTxKeyModel data, String SucMessage) {
-
-                TXImManager.getInstance().init(data.getTxAppCode());
-
-                TXImManager.getInstance().login(SPUtilHelpr.getUserId(), data.getSig(), new TXImManager.LoginBallBack() {
-                    @Override
-                    public void onError(int i, String s) {
-                        disMissLoading();
-                        UITipDialog.showFall(LoginActivity.this, s);
-                    }
-
-                    @Override
-                    public void onSuccess() {
-                        txLoginSucc();
-                    }
-                });
-            }
-
-            @Override
-            protected void onReqFailure(String errorCode, String errorMessage) {
-                disMissLoading();
-                UITipDialog.showFall(LoginActivity.this, "登录失败");
-            }
-
-            @Override
-            protected void onNoNet(String msg) {
-                super.onNoNet(msg);
-                disMissLoading();
-            }
-
-            @Override
-            protected void onFinish() {
-
-            }
-        });
-    }
-
-    private void txLoginSucc() {
-        TXImManager.getInstance().setUserNickName(SPUtilHelpr.getUserName(), new TXImManager.changeInfoBallBack() {
-            @Override
-            public void onError(int i, String s) {
-                setLogo();
-            }
-
-            @Override
-            public void onSuccess() {
-                setLogo();
-            }
-        });
-    }
-
-    private void setLogo() {
-        TXImManager.getInstance().setUserLogo(SPUtilHelpr.getUserPhoto(), new TXImManager.changeInfoBallBack() {
-            @Override
-            public void onError(int i, String s) {
-                startNext();
-            }
-
-            @Override
-            public void onSuccess() {
-                startNext();
-            }
-        });
-    }
 
     /**
      * 启动聊天
@@ -307,8 +176,6 @@ public class LoginActivity extends AbsBaseLoadActivity implements LoginInterface
         } else {
             EventBus.getDefault().post(LOGINREFRESH);
         }
-
-        disMissLoading();
         finish();
     }
 

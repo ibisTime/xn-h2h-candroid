@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
@@ -41,9 +42,9 @@ import java.util.List;
  */
 public class ImFragment extends BaseLazyFragment implements ConversationView, FriendshipMessageView, GroupManageMessageView {
 
-    private final String TAG = "ConversationFragment";
 
     private View view;
+    private LinearLayout mLinEmptyView;
     private List<Conversation> conversationList = new LinkedList<>();
     private ConversationAdapter adapter;
     private ListView listView;
@@ -51,6 +52,8 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
     private FriendshipManagerPresenter friendshipManagerPresenter;
     private FriendshipConversation friendshipConversation;
 
+
+    private int startTxLoginNum = 0;//用于记录腾讯未登录情况下请求登录次数，防止请求错误的情况下TxImLogingActivity重复调用
 
     public ImFragment() {
         // Required empty public constructor
@@ -69,8 +72,10 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_conversation, container, false);
             listView = (ListView) view.findViewById(R.id.list_conversation);
+            mLinEmptyView = (LinearLayout) view.findViewById(R.id.lin_empty);
             adapter = new ConversationAdapter(getActivity(), R.layout.item_conversation, conversationList);
             listView.setAdapter(adapter);
+            listView.setEmptyView(mLinEmptyView);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -82,8 +87,15 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
                 public void showUserInfo(List<TIMUserProfile> users) {
 
                     for (TIMUserProfile user : users) {
+
+                        if (user == null) continue;
+
                         for (Conversation conversation : conversationList) {
+
+                            if (conversation == null) continue;
+
                             if (TextUtils.equals(user.getIdentifier(), conversation.getIdentify())) {
+
                                 conversation.setLogoUrl(MyCdConfig.QINIUURL + user.getFaceUrl());
                                 conversation.setName(user.getNickName());
                             }
@@ -92,6 +104,8 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
 
                     Collections.sort(conversationList);
                     adapter.notifyDataSetChanged();
+
+                    showEmpty();
                 }
             });
 
@@ -103,6 +117,22 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
         return view;
     }
 
+    /**
+     * 显示空
+     */
+    private void showEmpty() {
+//        if (conversationList.size() == 0) {
+//            mLinEmptyView.setVisibility(View.VISIBLE);
+//            listView.setVisibility(View.GONE);
+//        } else {
+//            mLinEmptyView.setVisibility(View.GONE);
+//            listView.setVisibility(View.VISIBLE);
+//        }
+
+        LogUtil.E("回话布局" + conversationList.size());
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -111,7 +141,10 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
             return;
         }
         if (!TXImManager.getInstance().isLogin()) {   //如果聊天没有登录 则登录聊天
-            TxImLogingActivity.open(mActivity, null, false, true);
+            if (startTxLoginNum < 2) {       // 最多重复请求登录2次
+                startTxLoginNum++;
+                TxImLogingActivity.open(mActivity, null, false, true);
+            }
             return;
         }
 
@@ -229,7 +262,7 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
             ids.add(conversation.getIdentify());
         }
         friendshipManagerPresenter.searchFriendById(ids);
-
+        showEmpty();
         if (mActivity instanceof MainActivity) //未读消息数量
             ((MainActivity) mActivity).setMsgUnread(getTotalUnreadNum());
     }
@@ -307,6 +340,7 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
                     if (presenter.delConversation(conversation.getType(), conversation.getIdentify())) {
                         conversationList.remove(conversation);
                         adapter.notifyDataSetChanged();
+                        refresh();
                     }
                 }
                 break;
@@ -327,6 +361,8 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
 
     @Override
     protected void lazyLoad() {
+
+        mLinEmptyView.setVisibility(View.VISIBLE);
 
     }
 

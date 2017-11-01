@@ -99,18 +99,28 @@
                     android:maxLines="1"
                     android:textSize="18sp" />
 
-                <TextView
-                    style="@style/text_black"
-                    android:layout_marginRight="20dp"
-                    android:text="包邮"
-                    android:textSize="18sp" />
+                <LinearLayout
+                    android:id="@+id/lin_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingRight="10dp">
 
-                <CheckBox
-                    android:id="@+id/checkbox_can_send"
-                    style="@style/check_box"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp" />
+                    <TextView
+                        style="@style/text_black"
+                        android:layout_marginRight="20dp"
+                        android:text="包邮"
+                        android:textSize="18sp" />
 
+                    <CheckBox
+                        android:id="@+id/checkbox_can_send"
+                        style="@style/check_box"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:clickable="false"
+                        android:enabled="false" />
+                </LinearLayout>
 
             </LinearLayout>
 

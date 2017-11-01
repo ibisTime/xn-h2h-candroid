@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:descendantFocusability="blocksDescendants"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lin_buy_circle"
     android:layout_width="match_parent"
@@ -65,14 +66,21 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_img"
+    <FrameLayout
+        android:background="@color/activity_bg"
+        android:id="@+id/fra_recycler_click"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/layout_left_right_interval"
-        android:overScrollMode="never">
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_left_right_interval"
+            android:overScrollMode="never">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv_product_name"

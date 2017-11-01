@@ -41,6 +41,7 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
         this.context = context;
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView != null) {

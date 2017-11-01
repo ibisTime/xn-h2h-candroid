@@ -39,6 +39,7 @@ import retrofit2.Call;
 public class AddressListActivity extends BaseRefreshHelperActivity<AddressModel> {
 
     private boolean isSelect;
+    private AddressListAdapter addressListAdapter;
 
     public static void open(Context context, boolean isSelect) {
         if (context == null) {
@@ -51,12 +52,13 @@ public class AddressListActivity extends BaseRefreshHelperActivity<AddressModel>
 
     @Override
     public void topTitleViewRightClick() {
-        AddAddressActivity.open(this, null);
-//        if (mRefreshHelper.getmAdapter() != null && mRefreshHelper.getmAdapter().getData().size() == 0) {     //还没有添加地址时设置为默认地址
-//            AddAddressActivity.open(this, null);
-//        } else {
-//
-//        }
+        if (addressListAdapter == null ||
+                addressListAdapter.getData() == null ||
+                mRefreshHelper.getmAdapter().getData().size() == 0) {//还没有添加地址时设置为默认地址
+            AddAddressActivity.open(this, null, true);
+        } else {
+            AddAddressActivity.open(this, null, false);
+        }
     }
 
 
@@ -187,7 +189,8 @@ public class AddressListActivity extends BaseRefreshHelperActivity<AddressModel>
 
     @Override
     public BaseQuickAdapter getAdapter(List<AddressModel> listData) {
-        return new AddressListAdapter(listData);
+        addressListAdapter = new AddressListAdapter(listData);
+        return addressListAdapter;
     }
 
     @Override
@@ -254,7 +257,7 @@ public class AddressListActivity extends BaseRefreshHelperActivity<AddressModel>
                             break;
                         case R.id.layout_edit://编辑
                             AddressModel addressModel = (AddressModel) mRefreshHelper.getmAdapter().getItem(position);
-                            AddAddressActivity.open(AddressListActivity.this, addressModel);
+                            AddAddressActivity.open(AddressListActivity.this, addressModel, false);
                             break;
 
                         case R.id.real_address://选择

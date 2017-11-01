@@ -117,7 +117,9 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         codeList.add(mOrderCode);
 
         map.put("codeList", codeList);
-        map.put("couponCode", "");
+        if(mCouponsData!=null){
+            map.put("couponCode", mCouponsData.getCode());
+        }
         map.put("payType", type);
 
         showLoadingDialog();
@@ -162,9 +164,10 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         codeList.add(mOrderCode);
 
         map.put("codeList", codeList);
-        map.put("couponCode", "");
         map.put("payType", type);
-
+        if(mCouponsData!=null){
+            map.put("couponCode", mCouponsData.getCode());
+        }
         showLoadingDialog();
 
         Call<BaseResponseModel<WxPayRequestModel>> call = RetrofitUtils.getBaseAPiService().wxPayRequest("808052", StringUtils.getJsonToString(map));
@@ -410,7 +413,7 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         if (mo.getCallType() == PayUtil.ALIPAY && mo.isPaySucceed()) { //支付宝支付成功
 
         } else if (mo.getCallType() == PayUtil.WEIXINPAY && mo.isPaySucceed()) {//微信支付成功
-
+            doPaySucceed();
         }
     }
 

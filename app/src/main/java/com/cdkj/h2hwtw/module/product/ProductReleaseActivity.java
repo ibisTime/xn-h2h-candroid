@@ -169,7 +169,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         mBinding.layoutPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPriceModel = null;
+//                mPriceModel = null;
                 new PriceKeyboardPop(ProductReleaseActivity.this, mPriceModel, new PriceKeyboardPop.PriceKeyBoardPopListener() {
                     @Override
                     public void sureInputDone(PriceKeyBoardListenerModel model) {
@@ -404,7 +404,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
         map.put("yunfei", MoneyUtils.getRequestPrice(mPriceModel.getSendPrice()));
 
         map.put("type", mType);
-        if (!TextUtils.isEmpty(mActivityCode)) {
+        if (isJoinActivity()) {
             map.put("activityCode", mActivityCode);
         }
 
@@ -430,7 +430,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
                 if (!TextUtils.isEmpty(data.getCode())) {
 
                     String tipString = "发布成功";
-                    if (!TextUtils.isEmpty(mActivityCode)) {
+                    if (isJoinActivity()) {
                         tipString = "活动参加成功";
                     } else {
                         EventBus.getDefault().post(EventTags.RELEASESUSS);//发布成功
@@ -439,7 +439,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
 
                         @Override
                         public void onDismiss(DialogInterface dialogInterface) {
-                            if (!TextUtils.isEmpty(mActivityCode)) {                              //如果参加了活动 则跳到活动产品列表
+                            if (isJoinActivity()) {                              //如果参加了活动 则跳到活动产品列表
                                 PreferentialProductListActivity.open(ProductReleaseActivity.this, "", "");
                             }
                             finish();
@@ -462,7 +462,14 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             }
         });
 
+    }
 
+    /**
+     * 是否参加了活动
+     * @return
+     */
+    private boolean isJoinActivity() {
+        return !TextUtils.isEmpty(mActivityCode);
     }
 
     /**

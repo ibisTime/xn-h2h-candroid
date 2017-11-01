@@ -142,7 +142,7 @@ public class MainActivity extends BaseLocationActivity {
 
 
         //消息
-        mBinding.radioMainTab3.setOnClickListener(new View.OnClickListener() {
+        mBinding.relaMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!SPUtilHelpr.isLogin(MainActivity.this, false)) {

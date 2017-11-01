@@ -11,6 +11,7 @@ import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.UITipDialog;
+import com.cdkj.baselibrary.model.pay.PaySucceedInfo;
 import com.cdkj.baselibrary.model.pay.WxPayRequestModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
@@ -19,6 +20,9 @@ import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.utils.payutils.PayUtil;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.databinding.ActivityPutMoneyBinding;
+import com.cdkj.h2hwtw.module.user.account.MyAccountActivity;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -75,12 +79,12 @@ public class PutMoneyActivity extends AbsBaseLoadActivity {
                     UITipDialog.showFall(PutMoneyActivity.this, "请输入充值金额");
                     return;
                 }
-                if (new BigDecimal(mBinding.editPrice.getText().toString()).doubleValue() <= 1) {
-                    UITipDialog.showFall(PutMoneyActivity.this, "金额必须大于1");
+                if (new BigDecimal(mBinding.editPrice.getText().toString()).doubleValue() <= 0) {
+                    UITipDialog.showFall(PutMoneyActivity.this, "金额必须大于0");
                     return;
                 }
-                UITipDialog.showFall(PutMoneyActivity.this, "微信支付未开通");
-//                rechargeWXRequest();
+//                UITipDialog.showFall(PutMoneyActivity.this, "微信支付未开通");
+                rechargeWXRequest();
             }
         });
     }
@@ -91,12 +95,14 @@ public class PutMoneyActivity extends AbsBaseLoadActivity {
     private void rechargeWXRequest() {
         Map<String, String> map = new HashMap<>();
         map.put("applyUser", SPUtilHelpr.getUserId());
-        map.put("channelType", "36");//36微信app支付 30支付宝支付
+        map.put("channelType", "35");//35微信app支付 30支付宝支付
         map.put("amount", MoneyUtils.getRequestPrice(mBinding.editPrice.getText().toString()));
         map.put("token", SPUtilHelpr.getUserToken());
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
         map.put("companycode", MyCdConfig.COMPANYCODE);
-        map.put("activityCode", mActivityCode);//参加活动编号
+        if (!TextUtils.isEmpty(mActivityCode)) {
+            map.put("activityCode", mActivityCode);//参加活动编号
+        }
 
         showLoadingDialog();
 
@@ -118,7 +124,28 @@ public class PutMoneyActivity extends AbsBaseLoadActivity {
                 disMissLoading();
             }
         });
+    }
 
+
+    /**
+     * 支付回调
+     *
+     * @param mo
+     */
+    @Subscribe
+    public void PayState(PaySucceedInfo mo) {
+        if (mo == null || !TextUtils.equals(mo.getTag(), CALLPAYTAG)) {
+            return;
+        }
+        if (mo.getCallType() == PayUtil.ALIPAY && mo.isPaySucceed()) { //支付宝支付成功
+
+        } else if (mo.getCallType() == PayUtil.WEIXINPAY && mo.isPaySucceed()) {//微信支付成功
+            showToast(getString(R.string.pay_put_succeed));
+            if (!TextUtils.isEmpty(mActivityCode)) {  //活动编号不为空说明参加了充值活动
+                MyAccountActivity.open(PutMoneyActivity.this);
+            }
+            finish();
+        }
     }
 
 

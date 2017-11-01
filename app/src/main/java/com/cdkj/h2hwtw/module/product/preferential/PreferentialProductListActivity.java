@@ -393,7 +393,7 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
         }
 
         if (mRightMenuState != null) {
-//            map.put("isNew", mRightMenuState.isNew() ? "1" : "0");
+            map.put("isNew", mRightMenuState.isNew() ? "1" : "0");
             if (mRightMenuState.isSend()) {
                 map.put("yunfei", "0");
             }

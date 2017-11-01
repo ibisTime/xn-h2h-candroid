@@ -81,12 +81,6 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
             isFromLogin = getIntent().getBooleanExtra("isFromLogin", false);
             imUserInfo = getIntent().getParcelableExtra("imUserInfo");
         }
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         if (!SPUtilHelpr.isLoginNoStart()) { //如果没有登录的话先登录
             LoginActivity.open(TxImLogingActivity.this, canOpenMain);
             finishNoTransition();
@@ -254,6 +248,12 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
     private void finishNoTransition() {
         finish();
         overridePendingTransition(0, 0);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
     }
 
 }

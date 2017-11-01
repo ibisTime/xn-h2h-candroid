@@ -296,7 +296,7 @@
                 tools:text="取消订单" />
 
             <TextView
-                android:id="@+id/tv_state_"
+                android:id="@+id/tv_state_bottom"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

@@ -30,7 +30,7 @@ public class ProductGridAdapter extends BaseQuickAdapter<ProductListModel.ListBe
 
     }
 
-
+    /*3=已上架 4=已卖出，5=已下架 ,6=强制下架*/
     @Override
     protected void convert(BaseViewHolder viewHolder, final ProductListModel.ListBean item) {
         if (item == null) return;
@@ -54,6 +54,15 @@ public class ProductGridAdapter extends BaseQuickAdapter<ProductListModel.ListBe
                 ProductDetailActivity.open(mContext, item.getCode());
             }
         });
+
+        viewHolder.setGone(R.id.img_state, !TextUtils.equals(item.getStatus(), "3"));
+
+        if(TextUtils.equals(item.getStatus(), "4")){
+            viewHolder.setImageResource(R.id.img_state, R.drawable.on_sell);
+        }else{
+            viewHolder.setImageResource(R.id.img_state, R.drawable.down_sell);
+        }
+
 
     }
 

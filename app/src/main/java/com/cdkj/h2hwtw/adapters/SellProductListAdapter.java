@@ -75,7 +75,7 @@ public class SellProductListAdapter extends BaseQuickAdapter<OrderModel, BaseVie
      */
     public boolean canShowSellSing(String status) {
 
-        if (TextUtils.equals(status, "2") || TextUtils.equals(status, "3")
+        if (TextUtils.equals(status, "3")
                 || TextUtils.equals(status, "4") || TextUtils.equals(status, "5")) {
             return true;
         }
@@ -92,6 +92,20 @@ public class SellProductListAdapter extends BaseQuickAdapter<OrderModel, BaseVie
 
         if (TextUtils.equals(status, "1") || TextUtils.equals(status, "2") || TextUtils.equals(status, "6")
                 || TextUtils.equals(status, "5")) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 根据状态显示是否状态相应操作
+     *
+     * @return
+     */
+    public boolean canShowStateBtn(String status) {
+
+        if (TextUtils.equals(status, "2")) {
             return true;
         }
 

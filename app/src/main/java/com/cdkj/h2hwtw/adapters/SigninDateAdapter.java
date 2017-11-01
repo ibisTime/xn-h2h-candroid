@@ -36,6 +36,7 @@ public class SigninDateAdapter extends BaseQuickAdapter<Date, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder viewHolder, Date item) {
         if (item == null) {
+            viewHolder.setText(R.id.tv_data_sign,"");
             return;
         }
         viewHolder.setText(R.id.tv_data_sign, DateUtil.format(item, "dd"));

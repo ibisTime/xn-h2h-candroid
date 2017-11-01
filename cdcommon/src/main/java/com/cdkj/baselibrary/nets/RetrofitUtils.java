@@ -67,6 +67,7 @@ public class RetrofitUtils {
 
     /**
      * 添加公共请求参数
+     *
      * @return
      */
     public static Map getRequestMap() {

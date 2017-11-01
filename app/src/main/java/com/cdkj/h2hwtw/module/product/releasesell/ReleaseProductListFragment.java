@@ -37,6 +37,7 @@ import retrofit2.Call;
  * Created by cdkj on 2017/10/20.
  */
 
+// TODO 订单状态管理
 public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
 
 
@@ -297,10 +298,14 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
 
         emptyTipsBinding = DataBindingUtil.inflate(inflater, R.layout.layout_release_product_empty, null, false);
 
+        if (mType == DOWNTYPE) {
+            emptyTipsBinding.tvInfo.setText("还没有下架的宝贝");
+        }
+
         emptyTipsBinding.btnGoRelease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProductReleaseActivity.open(mActivity,"");
+                ProductReleaseActivity.open(mActivity, "");
             }
         });
 

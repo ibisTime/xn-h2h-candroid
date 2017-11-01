@@ -33,9 +33,9 @@ public class ActivityCenterAdapter extends BaseQuickAdapter<ActivityCenterModel,
     protected void convert(BaseViewHolder viewHolder, ActivityCenterModel item) {
         if (item == null) return;
 
-        ImgUtils.loadImg(mContext, MyCdConfig.QINIUURL+StringUtils.getAsPicListIndexOne(item.getAdvPic()), (ImageView) viewHolder.getView(R.id.img_activity));
+        ImgUtils.loadImg(mContext, MyCdConfig.QINIUURL + StringUtils.getAsPicListIndexOne(item.getAdvPic()), (ImageView) viewHolder.getView(R.id.img_activity));
 
-        viewHolder.setText(R.id.tv_time, DateUtil.formatStringData(item.getStartDatetime(),DateUtil.DATE_YMD));
+        viewHolder.setText(R.id.tv_time, DateUtil.formatStringData(item.getEndDatetime(), DateUtil.DATE_YMD));
 
     }
 

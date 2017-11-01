@@ -100,7 +100,7 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (TextUtils.isEmpty(charSequence.toString())) {
-                    mBinding.tvFei.setText("0元");
+                    mBinding.tvFei.setText("0.00元");
                     return;
                 }
                 mBinding.tvFei.setText(MoneyUtils.doubleFormatMoney2(mFeilv * Double.valueOf(charSequence.toString())) + "元");
@@ -115,6 +115,11 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
         mBinding.btnGetMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (mSelectBankCard == null) {
+                    UITipDialog.showFall(GetMoneyActivity.this, "请选择银行卡");
+                    return;
+                }
 
                 if (TextUtils.isEmpty(mBinding.editGetAmount.getText().toString())) {
                     UITipDialog.showFall(GetMoneyActivity.this, "请输入提现金额");
@@ -257,7 +262,7 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
                 }
 
             } else if (TextUtils.equals(d.getCkey(), "CUSERDZTS")) {//天数
-                mBinding.tvTip3.setText("3 " + d.getCvalue() + "天到账");
+                mBinding.tvTip3.setText("3 T+" + d.getCvalue() + "天到账");
             }
         }
 
@@ -272,7 +277,7 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
             return;
         }
         mSelectBankCard = data;
-        mBinding.tvBankSelect.setText(mSelectBankCard.getBankName());
+        mBinding.tvBankSelect.setText(mSelectBankCard.getBankcardNumber());
     }
 
 
@@ -299,9 +304,9 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<CodeModel>(this) {
             @Override
             protected void onSuccess(CodeModel data, String SucMessage) {
-                if (!TextUtils.isEmpty(data.getCode())){
+                if (!TextUtils.isEmpty(data.getCode())) {
                     GetMoneySuccessfulActivity.open(GetMoneyActivity.this);
-                } else{
+                } else {
                     UITipDialog.showFall(GetMoneyActivity.this, "提现失败");
                 }
 

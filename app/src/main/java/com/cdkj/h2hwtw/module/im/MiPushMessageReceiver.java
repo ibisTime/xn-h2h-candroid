@@ -169,7 +169,7 @@ public class MiPushMessageReceiver extends PushMessageReceiver {
             }
         }
         //登录成功后，上报证书ID及设备token
-        TIMOfflinePushToken param = new TIMOfflinePushToken(2837,mRegId);
+        TIMOfflinePushToken param = new TIMOfflinePushToken(2841,mRegId);
         TIMManager.getInstance().setOfflinePushToken(param, new TIMCallBack() {
             @Override
             public void onError(int i, String s) {

@@ -57,6 +57,7 @@
             <View style="@style/line_gray" />
 
             <EditText
+                android:inputType="number"
                 android:id="@+id/edit_code"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"

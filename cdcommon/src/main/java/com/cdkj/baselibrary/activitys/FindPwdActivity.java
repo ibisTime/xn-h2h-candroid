@@ -1,6 +1,7 @@
 package com.cdkj.baselibrary.activitys;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -94,31 +95,31 @@ public class FindPwdActivity extends AbsBaseLoadActivity implements SendCodeInte
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(mBinding.edtPhone.getText().toString())) {
-                    UITipDialog.showFall(FindPwdActivity.this,"请输入手机号");
+                    UITipDialog.showFall(FindPwdActivity.this, "请输入手机号");
                     return;
                 }
 
                 if (TextUtils.isEmpty(mBinding.edtCode.getText().toString())) {
-                    UITipDialog.showFall(FindPwdActivity.this,"请输入验证码");
+                    UITipDialog.showFall(FindPwdActivity.this, "请输入验证码");
                     return;
                 }
 
                 if (TextUtils.isEmpty(mBinding.edtPassword.getText().toString())) {
-                    UITipDialog.showFall(FindPwdActivity.this,"请输入密码");
+                    UITipDialog.showFall(FindPwdActivity.this, "请输入密码");
                     return;
                 }
                 if (TextUtils.isEmpty(mBinding.edtRepassword.getText().toString())) {
-                    UITipDialog.showFall(FindPwdActivity.this,"请重新输入密码");
+                    UITipDialog.showFall(FindPwdActivity.this, "请重新输入密码");
                     return;
                 }
 
                 if (mBinding.edtPassword.getText().length() < 6) {
-                    UITipDialog.showFall(FindPwdActivity.this,"密码不少于6位");
+                    UITipDialog.showFall(FindPwdActivity.this, "密码不少于6位");
                     return;
                 }
 
                 if (!mBinding.edtPassword.getText().toString().equals(mBinding.edtRepassword.getText().toString())) {
-                    UITipDialog.showFall(FindPwdActivity.this,"两次密码输入不一致");
+                    UITipDialog.showFall(FindPwdActivity.this, "两次密码输入不一致");
                     return;
                 }
 
@@ -150,10 +151,14 @@ public class FindPwdActivity extends AbsBaseLoadActivity implements SendCodeInte
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 if (data.isSuccess()) {
-                    UITipDialog.showFall(FindPwdActivity.this,"密码修改成功");
-                    finish();
+                    UITipDialog.showSuccess(FindPwdActivity.this, "密码修改成功", new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            finish();
+                        }
+                    });
                 } else {
-                    UITipDialog.showFall(FindPwdActivity.this,"密码修改失败");
+                    UITipDialog.showFall(FindPwdActivity.this, "密码修改失败");
                 }
             }
 
@@ -179,7 +184,7 @@ public class FindPwdActivity extends AbsBaseLoadActivity implements SendCodeInte
 
     @Override
     public void CodeFailed(String code, String msg) {
-        UITipDialog.showFall(FindPwdActivity.this,msg);
+        UITipDialog.showFall(FindPwdActivity.this, msg);
     }
 
     @Override

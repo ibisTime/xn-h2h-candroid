@@ -46,13 +46,16 @@ public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBe
         viewHolder.setText(R.id.tv_goods_price, MoneyUtils.showPrice(item.getPrice()));
 
         viewHolder.setText(R.id.tv_goods_price_old, MoneyUtils.showPrice(item.getOriginalPrice()));
-        viewHolder.setText(R.id.tv_type_name, item.getTypeName());
+        viewHolder.setText(R.id.tv_type_name, "来自" + item.getTypeName());
         viewHolder.setText(R.id.tv_address, item.getProvince() + " " + item.getCity() + " " + item.getArea());
 
         viewHolder.setGone(R.id.fra_isjoin, TextUtils.equals(item.getIsJoin(), "1"));//是否参加了活动 1参加 0否
 
-        float zhek = (item.getDiscount().floatValue() * 10);
-        viewHolder.setText(R.id.tv_zhekou, zhek + "");
+        if(item.getDiscount()!=null){
+            float zhek = (item.getDiscount().floatValue() * 10);
+            viewHolder.setText(R.id.tv_zhekou, zhek + "");
+        }
+
 //        String zhekoo = String.valueOf(zhek);
 //        LogUtil.E(StringUtils.subString(zhekoo, zhekoo.indexOf(".") + 1, zhekoo.length()));
 //        if (Integer.valueOf(StringUtils.subString(zhekoo, zhekoo.indexOf(".") + 1, zhekoo.length())) > 0) {

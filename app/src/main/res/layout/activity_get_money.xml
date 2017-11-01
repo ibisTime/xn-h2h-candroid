@@ -148,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:paddingLeft="@dimen/layout_left_right_interval"
-                    android:text="0元"
+                    android:text="0.00元"
                     android:textColor="@color/get_money_txt_blue" />
 
             </LinearLayout>

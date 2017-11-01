@@ -17,6 +17,7 @@ import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.model.MsgListModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
+import com.cdkj.h2hwtw.module.BuyCircleActivity;
 import com.cdkj.h2hwtw.module.product.ProductDetailActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -46,10 +47,9 @@ public class BuyCircleProductListAdapter extends BaseQuickAdapter<ProductListMod
 
         ImgUtils.loadLogo(mContext, MyCdConfig.QINIUURL + item.getPhoto(), (ImageView) viewHolder.getView(R.id.img_user_logo));
 
-        viewHolder.setText(R.id.tv_product_name, item.getName());
+        viewHolder.setText(R.id.tv_product_name, item.getDescription());
         viewHolder.setText(R.id.tv_user_name, item.getNickName());
         viewHolder.setText(R.id.tv_from_info, "来自" + item.getTypeName());
-        viewHolder.setText(R.id.tv_price, "来自" + item.getTypeName());
         viewHolder.setText(R.id.tv_price, MoneyUtils.showPrice(item.getPrice()));
         viewHolder.setText(R.id.tv_fans_num, item.getTotalInteract() + "");
         viewHolder.setText(R.id.tv_comments_num, item.getTotalComment() + "");
@@ -59,19 +59,32 @@ public class BuyCircleProductListAdapter extends BaseQuickAdapter<ProductListMod
         RecyclerView recyclerView = viewHolder.getView(R.id.recycler_img);
 
         viewHolder.addOnClickListener(R.id.recycler_img);
+        viewHolder.addOnClickListener(R.id.fra_recycler_click);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
-        recyclerView.setAdapter(getImgAdapter(StringUtils.splitAsPicList(item.getPic())));
+        recyclerView.setAdapter(getImgAdapter(StringUtils.splitAsPicList(item.getPic()), item.getCode()));
 
+   /*     viewHolder.setOnClickListener(R.id.fra_recycler_click, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ProductDetailActivity.open(mContext, item.getCode());
+            }
+        });*/
     }
 
-    public RecyclerView.Adapter getImgAdapter(List<String> picList) {
+    public RecyclerView.Adapter getImgAdapter(List<String> picList, final String code) {
         return new BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_buy_circle_img, picList) {
             @Override
             protected void convert(BaseViewHolder helper, String item) {
                 if (item == null) return;
                 ImgUtils.loadImg(mActivity, MyCdConfig.QINIUURL + item, (ImageView) helper.getView(R.id.img_buy_circle_));
+                helper.setOnClickListener(R.id.img_buy_circle_, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ProductDetailActivity.open(mContext, code);
+                    }
+                });
             }
         };
     }

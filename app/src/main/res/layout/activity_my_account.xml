@@ -96,7 +96,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_tx_amount"
+                    android:id="@+id/tv_out_amount"
                     style="@style/text_black"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
@@ -152,7 +152,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_out_amount"
+                    android:id="@+id/tv_tx_amount"
+
                     style="@style/text_black"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"

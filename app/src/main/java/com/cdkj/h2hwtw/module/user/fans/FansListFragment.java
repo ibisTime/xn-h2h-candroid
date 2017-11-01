@@ -1,6 +1,7 @@
 package com.cdkj.h2hwtw.module.user.fans;
 
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 
 import com.cdkj.baselibrary.api.BaseResponseModel;
@@ -60,6 +61,7 @@ public class FansListFragment extends BaseRefreshHelperFragment {
         if (getArguments() != null) {
             isFans = getArguments().getBoolean("isFans");
         }
+        mRefreshBinding.rv.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
         mRefreshHelper.onDefaluteMRefresh(false);
     }
 
@@ -75,7 +77,6 @@ public class FansListFragment extends BaseRefreshHelperFragment {
         } else {
             map.put("userId", SPUtilHelpr.getUserId());
         }
-
 
         Call<BaseResponseModel<ResponseInListModel<FansModel>>> call = RetrofitUtils.createApi(MyApiServer.class).getFansList("805115", StringUtils.getJsonToString(map));
 

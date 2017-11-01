@@ -291,6 +291,7 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
             @Override
             protected void onSuccess(Object data, String SucMessage) {
                 UITipDialog.showSuccess(SellProductListActivity.this, "处理退款信息成功");
+                mRefreshHelper.onDefaluteMRefresh(false);
             }
 
             @Override

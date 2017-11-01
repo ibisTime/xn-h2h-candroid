@@ -53,7 +53,7 @@ public class AddAddressActivity extends AbsBaseLoadActivity {
      * @param context
      * @param data    地址数据
      */
-    public static void open(Context context, AddressModel data) {
+    public static void open(Context context, AddressModel data, boolean isDefault) {
         if (context == null) {
             return;
         }
@@ -75,6 +75,7 @@ public class AddAddressActivity extends AbsBaseLoadActivity {
         mBaseBinding.titleView.setMidTitle("添加地址");
         if (getIntent() != null) {
             mAddressData = getIntent().getParcelableExtra("data");
+            isDefault = getIntent().getBooleanExtra("isDefault", false);
         }
 
         initListener();
@@ -128,6 +129,11 @@ public class AddAddressActivity extends AbsBaseLoadActivity {
 
                 if (TextUtils.isEmpty(mBinding.edtPhone.getText().toString())) {
                     UITipDialog.showFall(AddAddressActivity.this, "请输入手机号");
+                    return;
+                }
+
+                if (!StringUtils.isMobileExact(mBinding.edtPhone.getText().toString())) {
+                    UITipDialog.showFall(AddAddressActivity.this, "请输入正确的手机号");
                     return;
                 }
 
@@ -216,12 +222,11 @@ public class AddAddressActivity extends AbsBaseLoadActivity {
 
         Map<String, String> object = new HashMap<>();
 
-//        if (isDefault) {
-//            object.put("isDefault", "1");
-//        } else {
-//            object.put("isDefault", "0");
-//        }
-        object.put("isDefault", "1");
+        if (isDefault) {
+            object.put("isDefault", "1");
+        } else {
+            object.put("isDefault", "0");
+        }
         object.put("userId", SPUtilHelpr.getUserId());
         object.put("addressee", mBinding.edtName.getText().toString().trim());
         object.put("mobile", mBinding.edtPhone.getText().toString().trim());

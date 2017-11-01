@@ -1,26 +1,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white_app"
     android:orientation="vertical">
 
-
-    <FrameLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:background="@color/title_bg_app">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="消息"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-
-    </FrameLayout>
+        android:layout_gravity="center"
+        android:background="@color/title_bg_app"
+        android:gravity="center"
+        android:text="消息"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
     <ListView
         android:id="@+id/list_conversation"
@@ -28,6 +21,37 @@
         android:layout_height="match_parent">
 
     </ListView>
+
+
+    <LinearLayout
+        android:id="@+id/lin_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="90dp"
+        android:visibility="gone">
+
+
+        <ImageView
+            android:id="@+id/img_msg"
+            android:layout_width="105dp"
+            android:layout_height="90dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/no_msg" />
+
+        <TextView
+            android:id="@+id/tv_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:maxLength="100"
+            android:text="还没有消息"
+            android:textColor="@color/text_color"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

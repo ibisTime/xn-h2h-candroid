@@ -45,11 +45,14 @@ public class ReleaseProductListAdapter extends BaseQuickAdapter<ProductListModel
         viewHolder.setText(R.id.tv_goods_price, MoneyUtils.showPrice(item.getPrice()));
 
         viewHolder.setText(R.id.tv_goods_price_old, MoneyUtils.showPrice(item.getOriginalPrice()));
-        viewHolder.setText(R.id.tv_type_name, item.getTypeName());
+        viewHolder.setText(R.id.tv_type_name,"来自"+item.getTypeName());
         viewHolder.setText(R.id.tv_address, item.getProvince() + " " + item.getCity() + " " + item.getArea());
 
         viewHolder.addOnClickListener(R.id.tv_down_product);
         viewHolder.addOnClickListener(R.id.tv_edit_product);
+
+
+        viewHolder.setGone(R.id.img_sell_state, canShowSellSing(item.getStatus()));
 
         if (TextUtils.equals(item.getStatus(), ReleaseProductListFragment.RELEASETYPE)) {
             viewHolder.setText(R.id.tv_down_product, "下架");
@@ -75,4 +78,17 @@ public class ReleaseProductListAdapter extends BaseQuickAdapter<ProductListModel
 
     }
 
+    /**
+     * 根据状态显示是否已卖出图标
+     *
+     * @return
+     */
+    public boolean canShowSellSing(String status) {
+
+        if (TextUtils.equals(status, "4")) {
+            return true;
+        }
+
+        return false;
+    }
 }

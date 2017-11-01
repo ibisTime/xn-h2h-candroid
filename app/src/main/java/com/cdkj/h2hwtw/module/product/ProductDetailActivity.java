@@ -199,7 +199,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
                 if (mStoreUserInfo != null) {
                     imUserInfo.setLeftImg(MyCdConfig.QINIUURL + mStoreUserInfo.getPhoto());
                 }
-                imUserInfo.setRightImg( SPUtilHelpr.getUserPhoto());
+                imUserInfo.setRightImg( SPUtilHelpr.getUserQiniuPhoto());
                 imUserInfo.setToUserId(mProductData.getStoreCode());
                 imUserInfo.setUserName(mProductData.getNickName());
                 TxImLogingActivity.open(ProductDetailActivity.this, imUserInfo, false, false);
@@ -625,7 +625,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         Map<String, String> map = new HashMap<>();
 
         map.put("userId", userId);
-
+        map.put("token", SPUtilHelpr.getUserToken());
         Call call = RetrofitUtils.createApi(MyApiServer.class).getUserInfoDetails("805121", StringUtils.getJsonToString(map));
 
         addCall(call);

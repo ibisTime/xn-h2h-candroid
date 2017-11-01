@@ -91,13 +91,6 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
 
     private void initListener() {
 
-        mBinding.tvState.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
         mBinding.tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -251,12 +244,17 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
     public void setShowButtomBtnState(String showState) {
 
         mBinding.tvCancel.setText(mOrderListAdapter.getDoStateString(showState));
-        mBinding.tvState.setText(mOrderListAdapter.getStateString(showState));
+        mBinding.tvStateBottom.setText(mOrderListAdapter.getStateString(showState));
 
         if (mOrderListAdapter.canShowDoBtn(showState)) {
             mBinding.tvCancel.setVisibility(View.VISIBLE);
         } else {
             mBinding.tvCancel.setVisibility(View.GONE);
+        }
+        if (!mOrderListAdapter.canShowStateBtn(showState)) {
+            mBinding.tvStateBottom.setVisibility(View.VISIBLE);
+        } else {
+            mBinding.tvStateBottom.setVisibility(View.GONE);
         }
     }
 
@@ -292,7 +290,12 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
      * @param remark
      */
     private void showCommentDialog(String remark) {
-        showSendOrderDialog(remark);
+        showSureDialog(remark, new CommonDialog.OnPositiveListener() {
+            @Override
+            public void onPositive(View view) {
+
+            }
+        });
     }
 
     /**
@@ -480,6 +483,7 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
+                mBinding.tvLogisticsCompany.setText("物流公司:暂无");
                 UITipDialog.showFall(OrderSellDetailsActivity.this, errorMessage);
             }
 

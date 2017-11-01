@@ -34,7 +34,7 @@ android {
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         // 输出apk名称为e_v1.0_20150202.apk
-                        def fileName = "eat_${defaultConfig.versionName}_${releaseTime()}__release.apk"
+                        def fileName = "wtw_${defaultConfig.versionName}_${releaseTime()}__release.apk"
 //                        def fileName = "e_${variant.productFlavors[0].name}_${defaultConfig.versionName}_${releaseTime()}__release.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
@@ -116,7 +116,7 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.10'
     compile 'com.google.android:flexbox:0.3.0'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
-    compile 'com.jakewharton:disklrucache:2.0.2'
+//    compile 'com.jakewharton:disklrucache:2.0.2'
     compile files('libs/MiPush_SDK_Client_3_5_1.jar')
 //    compile 'com.huawei.android.hms:push:2.5.2.300'
 }
