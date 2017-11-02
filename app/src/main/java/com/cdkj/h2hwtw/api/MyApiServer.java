@@ -16,9 +16,11 @@ import com.cdkj.h2hwtw.model.CouponsModel;
 import com.cdkj.h2hwtw.model.FansModel;
 import com.cdkj.h2hwtw.model.IntroductionInfoList;
 import com.cdkj.h2hwtw.model.IsSignModel;
+import com.cdkj.h2hwtw.model.LookCommenModel;
 import com.cdkj.h2hwtw.model.MsgListModel;
 import com.cdkj.h2hwtw.model.MyFriendListModel;
 import com.cdkj.h2hwtw.model.OrderModel;
+import com.cdkj.h2hwtw.model.OrderNumberModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.cdkj.h2hwtw.model.PutMoneySendModel;
@@ -53,6 +55,17 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<UserInfoModel>> getUserInfoDetails(@Field("code") String code, @Field("json") String json);
+
+    /**
+     * 获取订单数字
+     *
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<OrderNumberModel>> getOrderNum(@Field("code") String code, @Field("json") String json);
 
     /**
      * 获取地址列表
@@ -336,5 +349,13 @@ public interface MyApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<ResponseInListModel<FansModel>>> getFansList(@Field("code") String code, @Field("json") String json);
+    /**
+     * 获取订单评价
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<LookCommenModel>> getCommenDetails(@Field("code") String code, @Field("json") String json);
 
 }

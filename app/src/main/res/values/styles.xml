@@ -153,4 +153,12 @@
     </style>
 
 
+    <!--我的管理页BadgeView-->
+    <declare-styleable name="BadgeView">
+        <attr name="badge_title" format="string"></attr>
+        //title
+        <attr name="badge_img" format="integer"></attr>//图标
+
+    </declare-styleable>
+
 </resources>

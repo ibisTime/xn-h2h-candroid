@@ -35,6 +35,7 @@ import com.cdkj.h2hwtw.model.IntroductionInfoList;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +58,7 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
     private double mFeilv = 0;
 
     private String mAmountaccountNumber;//账户
-    private InputDialog inputDialog;
+//    private InputDialog inputDialog;
 
     public static void open(Context context, String amount, String amountnumber) {
         if (context == null) {
@@ -126,11 +127,7 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
                     return;
                 }
 
-                if (SPUtilHelpr.isTradepwdFlag()) {
-
-                    inputPayDialog();
-
-                } else {
+                if (!SPUtilHelpr.isTradepwdFlag()) {
 
                     showDoubleWarnListen("您还没有设置支付密码，请先设置支付密码", new CommonDialog.OnPositiveListener() {
                         @Override
@@ -138,9 +135,13 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
                             PayPwdModifyActivity.open(GetMoneyActivity.this, false, SPUtilHelpr.getUserPhoneNum());
                         }
                     });
-
+                    return;
                 }
-
+                if (TextUtils.isEmpty(mBinding.editPayPass.getText().toString())) {
+                    UITipDialog.showFall(GetMoneyActivity.this, "请输入支付密码");
+                    return;
+                }
+                getMoneyRequest(mBinding.editPayPass.getText().toString());
 
             }
         });
@@ -149,29 +150,29 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
         getTipInfo();
     }
 
-    public void inputPayDialog() {
-        if (inputDialog == null) {
-            inputDialog = new InputDialog(this).builder().setTitle("支付密码")
-                    .setPositiveBtn("确定", new InputDialog.OnPositiveListener() {
-                        @Override
-                        public void onPositive(View view, String inputMsg) {
-                            if (TextUtils.isEmpty(inputMsg)) {
-                                UITipDialog.showFall(GetMoneyActivity.this, "请输入支付密码");
-                                return;
-                            }
-                            inputDialog.getContentView().setText("");
-                            inputDialog.dismiss();
-                            getMoneyRequest(inputMsg);
-                        }
-                    })
-                    .setNegativeBtn("取消", null)
-                    .setContentMsg("");
-            inputDialog.getContentView().setHint("请输入支付密码");
-//            inputDialog.getContentView().setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-//            inputDialog.getContentView().setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
-        }
-        inputDialog.show();
-    }
+//    public void inputPayDialog() {
+//        if (inputDialog == null) {
+//            inputDialog = new InputDialog(this).builder().setTitle("支付密码")
+//                    .setPositiveBtn("确定", new InputDialog.OnPositiveListener() {
+//                        @Override
+//                        public void onPositive(View view, String inputMsg) {
+//                            if (TextUtils.isEmpty(inputMsg)) {
+//                                UITipDialog.showFall(GetMoneyActivity.this, "请输入支付密码");
+//                                return;
+//                            }
+//                            inputDialog.getContentView().setText("");
+//                            inputDialog.dismiss();
+//                            getMoneyRequest(inputMsg);
+//                        }
+//                    })
+//                    .setNegativeBtn("取消", null)
+//                    .setContentMsg("");
+//            inputDialog.getContentView().setHint("请输入支付密码");
+////            inputDialog.getContentView().setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+////            inputDialog.getContentView().setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
+//        }
+//        inputDialog.show();
+//    }
 
     protected void getBankCardData(boolean canShowDialog) {
         Map<String, String> object = new HashMap<>();
@@ -256,8 +257,11 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
             } else if (TextUtils.equals(d.getCkey(), "QXDBZDJE")) {//单笔
                 QXDBZDJE = d.getCvalue();
             } else if (TextUtils.equals(d.getCkey(), "CUSERQXFL")) {//费率
+
                 try {
                     mFeilv = Double.valueOf(d.getCvalue());
+                    NumberFormat nf = NumberFormat.getPercentInstance();
+                    mBinding.tvTip4.setText("4 提现费率:" + nf.format(mFeilv));
                 } catch (Exception e) {
                 }
 
@@ -328,9 +332,9 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (inputDialog != null) {
+    /*    if (inputDialog != null) {
             inputDialog.dismiss();
             inputDialog = null;
-        }
+        }*/
     }
 }

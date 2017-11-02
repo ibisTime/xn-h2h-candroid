@@ -111,7 +111,9 @@ public class PriceKeyboardPop extends BasePopupWindow {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    mEditIndex = -1;
                     popBinding.editSendPrice.setText("");
+                    mPriceSendEditInputString.setLength(0);
                 }
                 popBinding.editSendPrice.setEnabled(!b);
             }

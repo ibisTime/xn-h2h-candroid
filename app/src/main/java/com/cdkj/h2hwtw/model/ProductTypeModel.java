@@ -30,6 +30,16 @@ public class ProductTypeModel {
     private String systemCode;
     private String parentName;
 
+    private boolean isAllMenu;//自用参数用于添加全部菜单
+
+    public boolean isAllMenu() {
+        return isAllMenu;
+    }
+
+    public void setAllMenu(boolean allMenu) {
+        isAllMenu = allMenu;
+    }
+
     public String getCode() {
         return code;
     }

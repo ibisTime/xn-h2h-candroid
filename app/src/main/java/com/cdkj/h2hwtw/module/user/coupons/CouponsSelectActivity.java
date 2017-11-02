@@ -189,4 +189,9 @@ public class CouponsSelectActivity extends AbsBaseLoadActivity {
             mRfreshHelper.clear();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

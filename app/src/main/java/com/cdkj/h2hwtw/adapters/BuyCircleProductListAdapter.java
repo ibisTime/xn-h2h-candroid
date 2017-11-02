@@ -59,18 +59,12 @@ public class BuyCircleProductListAdapter extends BaseQuickAdapter<ProductListMod
         RecyclerView recyclerView = viewHolder.getView(R.id.recycler_img);
 
         viewHolder.addOnClickListener(R.id.recycler_img);
-        viewHolder.addOnClickListener(R.id.fra_recycler_click);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         recyclerView.setAdapter(getImgAdapter(StringUtils.splitAsPicList(item.getPic()), item.getCode()));
 
-   /*     viewHolder.setOnClickListener(R.id.fra_recycler_click, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ProductDetailActivity.open(mContext, item.getCode());
-            }
-        });*/
+
     }
 
     public RecyclerView.Adapter getImgAdapter(List<String> picList, final String code) {

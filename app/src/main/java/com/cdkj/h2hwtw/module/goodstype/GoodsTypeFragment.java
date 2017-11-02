@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.base.BaseRefreshHelperFragment;
@@ -94,10 +95,14 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ProductTypeModel productTypeModel = mTypeMenuAdapter.getItem(position);
                 if (productTypeModel == null) return;
-                ProductScreeningActivity.open(mActivity, productTypeModel.getCode(), productTypeModel.getName());
+                if (productTypeModel.isAllMenu()) { //判断是否点击全部
+                    ProductMenuListActivity.open(mActivity);
+                } else {
+                    ProductScreeningActivity.open(mActivity, productTypeModel.getCode(), productTypeModel.getName());
+                }
+
             }
         });
-
 
     }
 
@@ -184,7 +189,7 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
 
 
     /**
-     * 获取分类请求
+     * 获取分类菜单请求
      */
     private void getMenuTypeRequest() {
 
@@ -203,7 +208,7 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
         call.enqueue(new BaseResponseListCallBack<ProductTypeModel>(mActivity) {
             @Override
             protected void onSuccess(List<ProductTypeModel> data, String SucMessage) {
-                mTypeMenuAdapter.replaceData(data);
+                setTypeMenuData(data);
             }
 
             @Override
@@ -221,6 +226,36 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
             }
         });
 
+    }
+
+    /**
+     * 设置菜单数据
+     *
+     * @param data
+     */
+    private void setTypeMenuData(List<ProductTypeModel> data) {
+        List<ProductTypeModel> newdadas = new ArrayList<>();
+
+        for (int i = 0; i < data.size(); i++) {
+
+            ProductTypeModel productTypeModel = data.get(i);
+
+            if (productTypeModel == null) continue;
+
+            if (i > 6) {                    //只添加前七位
+                break;
+            }
+            newdadas.add(productTypeModel);
+        }
+
+        ProductTypeModel productTypeModel = new ProductTypeModel();
+
+        productTypeModel.setAllMenu(true);
+        productTypeModel.setName("全部");
+        productTypeModel.setPic("");
+        newdadas.add(productTypeModel);
+
+        mTypeMenuAdapter.replaceData(newdadas);
     }
 
     @Subscribe

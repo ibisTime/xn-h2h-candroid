@@ -20,6 +20,7 @@ import com.cdkj.baselibrary.model.EventBusModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
+import com.cdkj.baselibrary.utils.DateUtil;
 import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.QiNiuUtil;
@@ -134,17 +135,27 @@ public class UserInfoEditActivity extends AbsBaseLoadActivity {
         mBinding.linBirthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int monthOfYear = calendar.get(Calendar.MONTH);
-                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                final Calendar calendarNow = Calendar.getInstance();
+                int year = calendarNow.get(Calendar.YEAR);
+                int monthOfYear = calendarNow.get(Calendar.MONTH);
+                int dayOfMonth = calendarNow.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(UserInfoEditActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
 
-                        updateBirthdy(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(Calendar.YEAR, year);
+                        cal.set(Calendar.MONTH, monthOfYear);
+                        cal.set(Calendar.DATE, dayOfMonth);
+
+                        if (DateUtil.isNewer(cal.getTime(), calendarNow.getTime())) {
+                            UITipDialog.showInfo(UserInfoEditActivity.this, "请选择正确的生日");
+                            return;
+                        }
+
+                        updateBirthdy(DateUtil.format(cal.getTime(), DateUtil.DATE_YMD));
 
                     }
 

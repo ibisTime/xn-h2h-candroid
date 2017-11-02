@@ -95,7 +95,7 @@ public class PutMoneyActivity extends AbsBaseLoadActivity {
     private void rechargeWXRequest() {
         Map<String, String> map = new HashMap<>();
         map.put("applyUser", SPUtilHelpr.getUserId());
-        map.put("channelType", "35");//35微信app支付 30支付宝支付
+        map.put("channelType", "36");//36微信app支付 30支付宝支付
         map.put("amount", MoneyUtils.getRequestPrice(mBinding.editPrice.getText().toString()));
         map.put("token", SPUtilHelpr.getUserToken());
         map.put("systemCode", MyCdConfig.SYSTEMCODE);

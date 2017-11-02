@@ -125,7 +125,7 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
         }
         mTypeInfo = new ScreeningTypeModel();
 
-        if(TextUtils.isEmpty(mTypeCode)){
+        if(!TextUtils.isEmpty(mTypeCode)){
             mTypeInfo.setCategory(mTypeCode);
         }
 
@@ -365,7 +365,6 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
 
         Map<String, String> map = new HashMap();
         map.put("limit", limit + "");
-        map.put("pageindex", pageindex + "");
         map.put("start", pageindex + "");
         map.put("status", "3");
         map.put("isJoin", "0");

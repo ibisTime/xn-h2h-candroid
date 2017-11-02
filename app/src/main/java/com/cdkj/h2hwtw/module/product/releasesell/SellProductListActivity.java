@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 
 import com.cdkj.baselibrary.api.BaseResponseModel;
@@ -22,6 +23,7 @@ import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.adapters.SellProductListAdapter;
 import com.cdkj.h2hwtw.api.MyApiServer;
+import com.cdkj.h2hwtw.model.LookCommenModel;
 import com.cdkj.h2hwtw.model.OrderModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.module.order.OrderDetailsActivity;
@@ -83,7 +85,7 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
                             showSendOrderDialog(orderModel.getCode());
                         }
                         if (TextUtils.equals(orderModel.getStatus(), "5")) {//查看评价
-                            showCommentDialog(orderModel.getRemark());
+                            showCommentDialog(orderModel.getCode());
                         }
 
                         break;
@@ -97,10 +99,44 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
     /**
      * 显示查看评论弹框
      *
-     * @param remark
+     * @param orderCode
      */
-    private void showCommentDialog(String remark) {
-        showSendOrderDialog(remark);
+    private void showCommentDialog(String orderCode) {
+
+        Map map = RetrofitUtils.getRequestMap();
+        map.put("orderCode", orderCode);
+
+        Call call = RetrofitUtils.createApi(MyApiServer.class).getCommenDetails("801029", StringUtils.getJsonToString(map));
+
+        showLoadingDialog();
+
+        call.enqueue(new BaseResponseModelCallBack<LookCommenModel>(this) {
+            @Override
+            protected void onSuccess(LookCommenModel data, String SucMessage) {
+                if(TextUtils.isEmpty(data.getContent())){
+                    UITipDialog.showInfo(SellProductListActivity.this,"该订单还没有评价");
+                    return;
+                }
+
+                CommonDialog commonDialog = new CommonDialog(SellProductListActivity.this).builder()
+                        .setTitle("评价").setContentMsg(data.getContent())
+                        .setPositiveBtn("确定", null);
+                commonDialog.getContentView().setGravity(Gravity.CENTER);
+
+                commonDialog.show();
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+                disMissLoading();
+            }
+        });
+
     }
 
     @Override

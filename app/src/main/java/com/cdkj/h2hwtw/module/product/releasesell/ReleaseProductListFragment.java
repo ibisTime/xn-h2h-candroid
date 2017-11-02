@@ -92,6 +92,8 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
                         } else {
                             ReleaseProductEditActivity.open(mActivity, listBean);
                         }
+                    case R.id.tv_edit_delet:
+                        showDeleteDialog(listBean.getCode(), position);
                         break;
                 }
             }
@@ -99,6 +101,7 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
 
         return mListadapter;
     }
+
 
     /**
      * 显示下架确认弹框
@@ -119,6 +122,62 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
                 .setNegativeBtn("取消", null, false);
 
         commonDialog.show();
+
+    }
+
+    /**
+     * 显示删除确认弹框
+     *
+     * @param code
+     * @param position
+     */
+    private void showDeleteDialog(final String code, final int position) {
+
+        CommonDialog commonDialog = new CommonDialog(mActivity).builder()
+                .setTitle("提示").setContentMsg("确认删除该产品？")
+                .setPositiveBtn("确定", new CommonDialog.OnPositiveListener() {
+                    @Override
+                    public void onPositive(View view) {
+                        deleteProductRequest(code, position);
+                    }
+                })
+                .setNegativeBtn("取消", null, false);
+
+        commonDialog.show();
+
+    }
+
+
+    public void deleteProductRequest(String code, final int position) {
+
+        Map map = RetrofitUtils.getRequestMap();
+
+        map.put("code", code);
+
+        Call call = RetrofitUtils.getBaseAPiService().successRequest("808011", StringUtils.getJsonToString(map));
+
+        call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(mActivity) {
+            @Override
+            protected void onSuccess(IsSuccessModes data, String SucMessage) {
+                if (data.isSuccess()) {
+                    UITipDialog.showSuccess(mActivity, "产品删除成功");
+                    mListadapter.remove(position);
+                    onRefreshTitle();
+                }
+
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+
 
     }
 
@@ -152,6 +211,7 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
         }
         initRefreshHelper(1, 10);
         mRefreshHelper.onDefaluteMRefresh(true);
+        onRefreshTitle();
     }
 
 
@@ -229,6 +289,7 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 if (data.isSuccess()) {
+                    onRefreshTitle();
                     UITipDialog.showSuccess(mActivity, "产品下架成功");
                     mListadapter.remove(position);
                 }
@@ -270,6 +331,7 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 if (data.isSuccess()) {
+                    onRefreshTitle();
                     UITipDialog.showSuccess(mActivity, "产品上架成功");
                     mListadapter.remove(position);
                 }
@@ -326,9 +388,15 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
             UITipDialog.showSuccess(mActivity, "产品编辑成功");
             if (mRefreshHelper != null) {
                 mRefreshHelper.onDefaluteMRefresh(false);
+                onRefreshTitle();
             }
         }
     }
 
+    public void onRefreshTitle() {
+        if (mActivity instanceof ReleaseProductListActivity && getUserVisibleHint()) {
+            ((ReleaseProductListActivity) mActivity).getReleaseSumRequest();
+        }
+    }
 
 }

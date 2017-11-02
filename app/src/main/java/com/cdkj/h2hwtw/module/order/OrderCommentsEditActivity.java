@@ -22,7 +22,9 @@ import com.cdkj.h2hwtw.databinding.ActivityCommentsEditBinding;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -80,26 +82,31 @@ public class OrderCommentsEditActivity extends AbsBaseLoadActivity {
             return;
         }
         Map map = new HashMap();
-        Map<String, String> commentList = new HashMap<String, String>();
-        commentList.put("content", mBinding.editInfo.getText().toString());
-        commentList.put("productCode", mProductCode);
-        commentList.put("score", "0");
+        Map<String, String> commentMap = new HashMap<String, String>();
+        commentMap.put("content", mBinding.editInfo.getText().toString());
+        commentMap.put("productCode", mProductCode);
+        commentMap.put("score", "0");
+
+        List<Map> commentList = new ArrayList<>();
+
+        commentList.add(commentMap);
+
         map.put("commentList", commentList);
         map.put("commenter", SPUtilHelpr.getUserId());
         map.put("orderCode", mOrderCode);
         map.put("companyCode", MyCdConfig.COMPANYCODE);
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
 
-        Call call = RetrofitUtils.getBaseAPiService().codeRequest("808059", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.getBaseAPiService().stringRequest("808059", StringUtils.getJsonToString(map));
 
         addCall(call);
 
         showLoadingDialog();
 
-        call.enqueue(new BaseResponseModelCallBack<CodeModel>(this) {
+        call.enqueue(new BaseResponseModelCallBack<String>(this) {
             @Override
-            protected void onSuccess(CodeModel data, String SucMessage) {
-                if (!TextUtils.isEmpty(data.getCode())) {
+            protected void onSuccess(String data, String SucMessage) {
+                if (!TextUtils.isEmpty(data)) {
                     EventBus.getDefault().post(EventTags.RELEASESCOMMENTSORDER);
                     ToastUtil.show(OrderCommentsEditActivity.this, "评价成功");
                     finish();

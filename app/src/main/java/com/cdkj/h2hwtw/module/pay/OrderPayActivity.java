@@ -117,7 +117,7 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         codeList.add(mOrderCode);
 
         map.put("codeList", codeList);
-        if(mCouponsData!=null){
+        if (mCouponsData != null) {
             map.put("couponCode", mCouponsData.getCode());
         }
         map.put("payType", type);
@@ -165,7 +165,7 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
 
         map.put("codeList", codeList);
         map.put("payType", type);
-        if(mCouponsData!=null){
+        if (mCouponsData != null) {
             map.put("couponCode", mCouponsData.getCode());
         }
         showLoadingDialog();
@@ -177,6 +177,10 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<WxPayRequestModel>(this) {
             @Override
             protected void onSuccess(WxPayRequestModel data, String SucMessage) {
+                if (data.isSuccess()) {
+                    doPaySucceed();
+                    return;
+                }
                 PayUtil.callWXPay(OrderPayActivity.this, data, OrderPayTag);
             }
 
@@ -201,7 +205,7 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
    /*0、积分支付，1、余额支付，2、微信APP支付，5、微信H5支付，60、优惠券支付，61、积分+H5支付
     ，62、积分+余额支付，63、积分+优惠券支付，64、微信H5+优惠券支付，65、余额+优惠券支付
     ，66、积分+微信APP支付，67、优惠券+微信APP支付，68、积分+微信H5支付+优惠券
-    ，69、积分+微信APP支付+优惠券，70、积分+余额支付+优惠券*/
+    ，70、积分+微信APP支付+优惠券，69、积分+余额支付+优惠券*/
 
         //积分支付
         if (!mBinding.checkboxPayYue.isChecked() && !mBinding.checkboxPayWx.isChecked()
@@ -257,18 +261,17 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
             LogUtil.E("payType 67 优惠券+微信APP支付");
             return 67;
         }
-        //积分+微信APP支付+优惠券
+        //积分+余额支付+优惠券
         if (mBinding.checkboxPayWx.isChecked() && !mBinding.checkboxPayYue.isChecked()
                 && mBinding.checkboxPayJf.isChecked() && mCouponsData != null) {
             LogUtil.E("payType 69 积分+微信APP支付+优惠券");
-            return 69;
+            return 70;
         }
 
-        //积分+余额支付+优惠券
         if (!mBinding.checkboxPayWx.isChecked() && mBinding.checkboxPayYue.isChecked()
                 && mBinding.checkboxPayJf.isChecked() && mCouponsData != null) {
             LogUtil.E("payType 70 积分+余额支付+优惠券");
-            return 70;
+            return 69;
         }
         LogUtil.E("payType 暂无这支付方式");
         return 999;
@@ -279,6 +282,11 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         mBinding.btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (!SPUtilHelpr.isLogin(OrderPayActivity.this, false)) {
+                    return;
+                }
+
                 paySwitch();
             }
         });
@@ -333,7 +341,7 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
             case 66:
             case 67:
             case 68:
-            case 69:
+            case 70:
                 wxPayRequest(payType + "");     //微信支付
                 break;
             case 999:
@@ -393,6 +401,7 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
      */
     public void doPaySucceed() {
         EventBus.getDefault().post(EventTags.BUYLINE);
+        EventBus.getDefault().post(EventTags.PAYSUCC);
         if (isOpenOrderList) {
             OrderListActivity.open(this, OrderListFramgnet.ORDERWAITESEND);
         }

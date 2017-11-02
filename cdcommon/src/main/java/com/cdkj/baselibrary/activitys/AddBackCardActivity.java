@@ -76,12 +76,13 @@ public class AddBackCardActivity extends AbsBaseLoadActivity {
         });
 
 
-        if (!TextUtils.isEmpty(SPUtilHelpr.getUserName())) {
-            mBinding.editName.setText(SPUtilHelpr.getUserName());
-            mBinding.editName.setEnabled(false);
-        } else {
-            mBinding.editName.setEnabled(true);
-        }
+        //TODO 根据需求决定是否使用
+//        if (!TextUtils.isEmpty(SPUtilHelpr.getUserName())) {
+//            mBinding.editName.setText(SPUtilHelpr.getUserName());
+//            mBinding.editName.setEnabled(false);
+//        } else {
+//            mBinding.editName.setEnabled(true);
+//        }
 
 
         //添加银行卡

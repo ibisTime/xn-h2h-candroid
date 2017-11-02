@@ -27,6 +27,7 @@ import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ReleaseNumModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.module.user.info.UserInfoEditActivity;
+import com.cdkj.h2hwtw.module.user.login.LoginActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -153,7 +154,10 @@ public class PersonalPageActivity extends BaseRefreshHelperActivity {
      */
     private void getfocusRequest(final boolean click) {
 
-        if (!SPUtilHelpr.isLogin(PersonalPageActivity.this, false)) {
+        if (!SPUtilHelpr.isLoginNoStart()) {
+            if (click) {
+                LoginActivity.open(PersonalPageActivity.this, false);
+            }
             return;
         }
 
@@ -405,7 +409,7 @@ json:{"systemCode":"CD-WTW000016","companyCode":"CD-WTW000016","token":"TSYS_USE
         map.put("userId", userId);
         map.put("token", SPUtilHelpr.getUserToken());
 
-        Call call = RetrofitUtils.createApi(MyApiServer.class).getUserInfoDetails("805121", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApiServer.class).getUserInfoDetails("805256", StringUtils.getJsonToString(map));
 
         addCall(call);
 

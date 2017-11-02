@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
@@ -22,6 +23,7 @@ import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.FragmentMyBinding;
 import com.cdkj.h2hwtw.model.AmountModel;
+import com.cdkj.h2hwtw.model.OrderNumberModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.module.order.OrderListActivity;
 import com.cdkj.h2hwtw.module.order.OrderListFramgnet;
@@ -227,6 +229,7 @@ public class MyFragment extends BaseLazyFragment {
             getUserInfoRequest(false);
             getAmountRequest(false);
             getJFAmountRequest(false);
+            getOrderNum();
         }
     }
 
@@ -236,6 +239,7 @@ public class MyFragment extends BaseLazyFragment {
         getAmountRequest(false);
         getJFAmountRequest(false);
         getUserInfoRequest(true);
+        getOrderNum();
     }
 
     @Override
@@ -270,7 +274,8 @@ public class MyFragment extends BaseLazyFragment {
                 mUserInfoMode = data;
                 SPUtilHelpr.saveisTradepwdFlag(data.isTradepwdFlag());
                 SPUtilHelpr.saveUserPhoneNum(data.getMobile());
-                SPUtilHelpr.saveUserName(data.getNickname());
+                SPUtilHelpr.saveUserName(data.getRealName());
+                SPUtilHelpr.saveUserNickName(data.getNickname());
                 SPUtilHelpr.saveUserPhoto(data.getPhoto());
                 setShowData(mUserInfoMode);
             }
@@ -369,6 +374,44 @@ public class MyFragment extends BaseLazyFragment {
             }
         });
     }
+
+
+    /**
+     * 获取订单角标
+     */
+    public void getOrderNum() {
+
+        if (!SPUtilHelpr.isLoginNoStart()) {
+            return;
+        }
+
+        Map map = RetrofitUtils.getRequestMap();
+        map.put("userId", SPUtilHelpr.getUserId());
+
+        Call<BaseResponseModel<OrderNumberModel>> call = RetrofitUtils.createApi(MyApiServer.class).getOrderNum("808063", StringUtils.getJsonToString(map));
+
+        call.enqueue(new BaseResponseModelCallBack<OrderNumberModel>(mActivity) {
+            @Override
+            protected void onSuccess(OrderNumberModel data, String SucMessage) {
+                mBinding.linOrderWaitePay.setNumInfo(data.getToPayCount());
+                mBinding.linOrderWaiteSend.setNumInfo(data.getPayCount());
+                mBinding.linOrderWaiteGet.setNumInfo(data.getSendCount());
+                mBinding.linOrderWaiteSay.setNumInfo(data.getReceiveCount());
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+
+    }
+
 
     /**
      * 设置数据显示

@@ -21,7 +21,6 @@ public class SPUtilHelpr {
     private static final String USERID = "user_id";
 
 
-
     /**
      * 设置用户token
      *
@@ -58,15 +57,15 @@ public class SPUtilHelpr {
     public static String getUserPhoto() {
         return SPUtils.getString(CdApplication.getContext(), "USER_PHOTO", "");
     }
+
     /**
      * 设置用户token
      *
      * @param
      */
     public static String getUserQiniuPhoto() {
-        return MyCdConfig.QINIUURL +getUserPhoto();
+        return MyCdConfig.QINIUURL + getUserPhoto();
     }
-
 
 
     /**
@@ -108,6 +107,22 @@ public class SPUtilHelpr {
      */
     public static String getUserName() {
         return SPUtils.getString(CdApplication.getContext(), "user_name", "");
+    }
+
+    /**
+     * 设置用户手机姓名
+     *
+     * @param s
+     */
+    public static void saveUserNickName(String s) {
+        SPUtils.put(CdApplication.getContext(), "user_nick_name", s);
+    }
+
+    /**
+     * 获取用户手机号
+     */
+    public static String getUserNickName() {
+        return SPUtils.getString(CdApplication.getContext(), "user_nick_name", "");
     }
 
     /**
@@ -212,6 +227,7 @@ public class SPUtilHelpr {
         saveAmountaccountNumber("");
         saveUserName("");
         saveUserPhoto("");
+        saveUserNickName("");
         saveisTradepwdFlag(false);
         saveUserIsBindCard(false);
     }

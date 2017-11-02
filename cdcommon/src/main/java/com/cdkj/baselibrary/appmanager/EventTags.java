@@ -19,6 +19,8 @@ public class EventTags {
     //登录成功
     public final static String LOGINREFRESH = "6";
 
+
+
     //昵称编辑
     public final static String USERNAMEEDITREFRESH = "8";
     //添加地址成功
@@ -45,4 +47,7 @@ public class EventTags {
 
     //收藏取消
     public final static String WANTCANCEL = "17";
+
+    //支付成功
+    public final static String PAYSUCC = "18";
 }

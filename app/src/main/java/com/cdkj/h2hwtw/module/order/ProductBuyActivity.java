@@ -16,7 +16,6 @@ import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
-import com.cdkj.baselibrary.utils.BigDecimalUtils;
 import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.MoneyUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
@@ -26,12 +25,11 @@ import com.cdkj.h2hwtw.databinding.ActivityProductBuyBinding;
 import com.cdkj.h2hwtw.model.AddressModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.module.pay.OrderPayActivity;
-import com.cdkj.h2hwtw.module.user.info.AddAddressActivity;
 import com.cdkj.h2hwtw.module.user.info.AddressListActivity;
+import com.cdkj.h2hwtw.other.ProductHelper;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -234,6 +232,11 @@ public class ProductBuyActivity extends AbsBaseLoadActivity {
 
     }
 
+    /**
+     * 设置数据显示
+     *
+     * @param data
+     */
     public void setShowdata(ProductListModel.ListBean data) {
         if (data == null) return;
 
@@ -244,8 +247,10 @@ public class ProductBuyActivity extends AbsBaseLoadActivity {
         mBinding.tvProductPriceSingle.setText(MoneyUtils.showPrice(data.getPrice()));
         mBinding.txtPriceOld.setText(MoneyUtils.getShowPriceSign(data.getOriginalPrice()));
         mBinding.tvProductPrice.setText(MoneyUtils.getShowPriceSign(data.getPrice()));
-        BigDecimal allMoney = BigDecimalUtils.add(data.getPrice(), data.getYunfei());//价格加运费 * 折扣
-        mBinding.tvPrictAll.setText(MoneyUtils.getShowPriceSign(BigDecimalUtils.multiply(allMoney, data.getDiscount())));
+
+
+        mBinding.tvPrictAll.setText(MoneyUtils.getShowPriceSign(ProductHelper.getAllMoney(data)));
+
         mBinding.tvYunfei.setText(MoneyUtils.getShowPriceSign(data.getYunfei()));
         mBinding.tvCourierYunfei.setText(MoneyUtils.getShowPriceSign(data.getYunfei()));
 

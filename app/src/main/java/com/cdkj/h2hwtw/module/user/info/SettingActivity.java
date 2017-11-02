@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.cdkj.baselibrary.activitys.AboutAsActivity;
 import com.cdkj.baselibrary.activitys.BackCardListActivity;
 import com.cdkj.baselibrary.activitys.FindPwdActivity;
 import com.cdkj.baselibrary.activitys.ImageSelectActivity;
@@ -175,6 +176,12 @@ public class SettingActivity extends AbsBaseLoadActivity {
             }
         });
 
+        mBinding.layoutAboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AboutAsActivity.open(SettingActivity.this);
+            }
+        });
 
     }
 

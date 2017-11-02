@@ -27,6 +27,17 @@ public class WxPayRequestModel {
     private String timeStamp;
     private String sign;
 
+    //TODO 新增参数备忘
+    private boolean isSuccess; //如果返回true 跳过微信支付
+
+    public boolean isSuccess() {
+        return isSuccess;
+    }
+
+    public void setSuccess(boolean success) {
+        isSuccess = success;
+    }
+
     public String getPayCode() {
         return payCode;
     }

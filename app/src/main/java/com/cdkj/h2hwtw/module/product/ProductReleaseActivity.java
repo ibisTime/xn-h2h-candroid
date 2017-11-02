@@ -103,8 +103,15 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             mActivityCode = getIntent().getStringExtra("activityCode");
         }
 
+        if (isJoinActivity()) {          //参加活动的不允许发布到圈子
+            mBinding.checkboxIsPublish.setChecked(false);
+            mBinding.checkboxIsPublish.setClickable(false);
+            mBinding.checkboxIsPublish.setEnabled(false);
+        }
+
         initListener();
         initPhotoLayout();
+
 
         //改变默认的单行模式
         mBinding.editDescription.setSingleLine(false);
@@ -466,6 +473,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
 
     /**
      * 是否参加了活动
+     *
      * @return
      */
     private boolean isJoinActivity() {

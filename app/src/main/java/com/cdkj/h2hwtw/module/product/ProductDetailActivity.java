@@ -44,6 +44,7 @@ import com.cdkj.h2hwtw.module.im.ImUserInfo;
 import com.cdkj.h2hwtw.module.im.TxImLogingActivity;
 import com.cdkj.h2hwtw.module.order.ProductBuyActivity;
 import com.cdkj.h2hwtw.module.user.PersonalPageActivity;
+import com.cdkj.h2hwtw.other.ProductHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -80,6 +81,10 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
     private UserInfoModel mStoreUserInfo;
 
 
+    /**
+     * @param context
+     * @param productCode 产品编号
+     */
     public static void open(Context context, String productCode) {
         if (context == null) {
             return;
@@ -199,7 +204,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
                 if (mStoreUserInfo != null) {
                     imUserInfo.setLeftImg(MyCdConfig.QINIUURL + mStoreUserInfo.getPhoto());
                 }
-                imUserInfo.setRightImg( SPUtilHelpr.getUserQiniuPhoto());
+                imUserInfo.setRightImg(SPUtilHelpr.getUserQiniuPhoto());
                 imUserInfo.setToUserId(mProductData.getStoreCode());
                 imUserInfo.setUserName(mProductData.getNickName());
                 TxImLogingActivity.open(ProductDetailActivity.this, imUserInfo, false, false);
@@ -590,6 +595,14 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
             mBinding.butLayout.linBuy.setVisibility(View.VISIBLE);
         }
 
+        //是否参加了活动 1是
+        if (TextUtils.equals(showData.getIsJoin(), "1")) {
+            mBinding.butLayout.tvZhekou.setVisibility(View.VISIBLE);
+            mBinding.butLayout.tvZhekou.setText("已享受"+ProductHelper.getShowDiscount(showData.getDiscount())+"折优惠");
+        }
+
+
+
         mImgUrlList.clear();
         mImgUrlList = new ArrayList<>();
         mImgUrlList.addAll(StringUtils.splitAsPicList(showData.getPic()));
@@ -605,8 +618,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         mBinding.tvProductName.setText(showData.getName());
         mBinding.tvPriceTop.setText(MoneyUtils.showPrice(showData.getPrice()));
 
-        BigDecimal allMoney = BigDecimalUtils.add(showData.getPrice(), showData.getYunfei());//价格加运费 * 折扣
-        mBinding.butLayout.tvPriceButtom.setText(MoneyUtils.getShowPriceSign(BigDecimalUtils.multiply(allMoney, showData.getDiscount())));
+        mBinding.butLayout.tvPriceButtom.setText(MoneyUtils.getShowPriceSign(ProductHelper.getAllMoney(showData)));
 
         mBinding.tvLocation.setText(showData.getCity() + "|" + showData.getArea());
         mBinding.expandabletext.expandTextView.setText(showData.getDescription());
@@ -625,8 +637,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         Map<String, String> map = new HashMap<>();
 
         map.put("userId", userId);
-        map.put("token", SPUtilHelpr.getUserToken());
-        Call call = RetrofitUtils.createApi(MyApiServer.class).getUserInfoDetails("805121", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApiServer.class).getUserInfoDetails("805256", StringUtils.getJsonToString(map));
 
         addCall(call);
 

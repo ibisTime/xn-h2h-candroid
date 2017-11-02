@@ -443,6 +443,12 @@
             android:name=".module.user.info.ActivityInvitationFriend"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!--分类菜单列表-->
+        <activity
+            android:name=".module.goodstype.ProductMenuListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            />
 
         <!--交易圈子-->
         <activity
@@ -515,6 +521,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTXLoginDialog"
             android:windowSoftInputMode="adjustResize" />
+
 
 
     </application>

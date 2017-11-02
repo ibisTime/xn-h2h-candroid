@@ -45,7 +45,7 @@ public class ReleaseProductListAdapter extends BaseQuickAdapter<ProductListModel
         viewHolder.setText(R.id.tv_goods_price, MoneyUtils.showPrice(item.getPrice()));
 
         viewHolder.setText(R.id.tv_goods_price_old, MoneyUtils.showPrice(item.getOriginalPrice()));
-        viewHolder.setText(R.id.tv_type_name,"来自"+item.getTypeName());
+        viewHolder.setText(R.id.tv_type_name, "来自" + item.getTypeName());
         viewHolder.setText(R.id.tv_address, item.getProvince() + " " + item.getCity() + " " + item.getArea());
 
         viewHolder.addOnClickListener(R.id.tv_down_product);
@@ -68,6 +68,9 @@ public class ReleaseProductListAdapter extends BaseQuickAdapter<ProductListModel
             viewHolder.setGone(R.id.tv_edit_product, false);
         }
 
+        viewHolder.setGone(R.id.tv_edit_delet, canShowDelete(item.getStatus()));
+
+        viewHolder.addOnClickListener(R.id.tv_edit_delet);
 
         viewHolder.setOnClickListener(R.id.lin_goods, new View.OnClickListener() {
             @Override
@@ -76,6 +79,16 @@ public class ReleaseProductListAdapter extends BaseQuickAdapter<ProductListModel
             }
         });
 
+    }
+
+    /**
+     * 是否显示删除按钮
+     *
+     * @param status
+     * @return
+     */
+    public boolean canShowDelete(String status) {
+        return !TextUtils.equals(status, "3");
     }
 
     /**

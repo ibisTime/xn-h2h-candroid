@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
@@ -272,137 +273,50 @@
                 android:layout_marginTop="0.5dp"
                 android:weightSum="5">
 
-                <LinearLayout
+                <com.cdkj.h2hwtw.other.view.OrderBadgeView
                     android:id="@+id/lin_order_waite_pay"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/selector_gray"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
+                    app:badge_img="@drawable/waite_pay"
+                    app:badge_title="待付款" />
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/waite_pay" />
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="待付款"
-                        android:textColor="@color/my_page_txt_black_app" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
+                <com.cdkj.h2hwtw.other.view.OrderBadgeView
                     android:id="@+id/lin_order_waite_send"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/selector_gray"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
+                    app:badge_img="@drawable/waite_push"
+                    app:badge_title="待发货" />
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/waite_push" />
-
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="待发货"
-                        android:textColor="@color/my_page_txt_black_app" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
+                <com.cdkj.h2hwtw.other.view.OrderBadgeView
                     android:id="@+id/lin_order_waite_get"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/selector_gray"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
+                    app:badge_img="@drawable/waite_get"
+                    app:badge_title="待收货" />
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/waite_get" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="待收货"
-                        android:textColor="@color/my_page_txt_black_app" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                <com.cdkj.h2hwtw.other.view.OrderBadgeView
                     android:id="@+id/lin_order_waite_say"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/selector_gray"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
+                    app:badge_img="@drawable/get_product"
+                    app:badge_title="待评价" />
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/get_product" />
-
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="待评价"
-                        android:textColor="@color/my_page_txt_black_app" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
+                <com.cdkj.h2hwtw.other.view.OrderBadgeView
                     android:id="@+id/lin_order_done"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/selector_gray"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/evaluation_ed" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="已完成"
-                        android:textColor="@color/my_page_txt_black_app" />
-
-
-                </LinearLayout>
+                    app:badge_img="@drawable/evaluation_ed"
+                    app:badge_title="已完成" />
 
 
             </LinearLayout>

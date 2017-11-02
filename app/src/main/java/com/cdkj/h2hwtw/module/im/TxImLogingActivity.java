@@ -88,6 +88,7 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
             ChatC2CActivity.open(TxImLogingActivity.this, imUserInfo);
             finishNoTransition();
         } else {
+            finishNoTransition();
             getUserInfoRequest(false); //登录--> 获取用户信息 -->获取腾讯签名-->登录腾讯--->登录成功
         }
     }
@@ -113,7 +114,8 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
             protected void onSuccess(UserInfoModel data, String SucMessage) {
                 SPUtilHelpr.saveisTradepwdFlag(data.isTradepwdFlag());
                 SPUtilHelpr.saveUserPhoneNum(data.getMobile());
-                SPUtilHelpr.saveUserName(data.getNickname());
+                SPUtilHelpr.saveUserName(data.getRealName());
+                SPUtilHelpr.saveUserNickName(data.getNickname());
                 SPUtilHelpr.saveUserPhoto(data.getPhoto());
                 getTxKeyRequest();
             }
@@ -207,7 +209,7 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
     }
 
     private void txLoginSucc() {
-        TXImManager.getInstance().setUserNickName(SPUtilHelpr.getUserName(), new TXImManager.changeInfoBallBack() {
+        TXImManager.getInstance().setUserNickName(SPUtilHelpr.getUserNickName(), new TXImManager.changeInfoBallBack() {
             @Override
             public void onError(int i, String s) {
                 setLogo();

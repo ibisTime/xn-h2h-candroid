@@ -14,6 +14,7 @@ import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.module.product.ProductDetailActivity;
+import com.cdkj.h2hwtw.other.ProductHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -51,18 +52,7 @@ public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBe
 
         viewHolder.setGone(R.id.fra_isjoin, TextUtils.equals(item.getIsJoin(), "1"));//是否参加了活动 1参加 0否
 
-        if(item.getDiscount()!=null){
-            float zhek = (item.getDiscount().floatValue() * 10);
-            viewHolder.setText(R.id.tv_zhekou, zhek + "");
-        }
-
-//        String zhekoo = String.valueOf(zhek);
-//        LogUtil.E(StringUtils.subString(zhekoo, zhekoo.indexOf(".") + 1, zhekoo.length()));
-//        if (Integer.valueOf(StringUtils.subString(zhekoo, zhekoo.indexOf(".") + 1, zhekoo.length())) > 0) {
-//            viewHolder.setText(R.id.tv_zhekou, zhek + "");
-//        } else {
-//            viewHolder.setText(R.id.tv_zhekou, StringUtils.subString(zhekoo, 0, zhekoo.indexOf(".")));
-//        }
+        viewHolder.setText(R.id.tv_zhekou, ProductHelper.getShowDiscount(item.getDiscount()) + "");
 
         viewHolder.setOnClickListener(R.id.lin_goods, new View.OnClickListener() {
             @Override

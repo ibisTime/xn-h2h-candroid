@@ -13,14 +13,18 @@ import android.view.ViewGroup;
 
 import com.amap.api.location.AMapLocation;
 import com.cdkj.baselibrary.activitys.WebViewActivity;
+import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
 import com.cdkj.baselibrary.interfaces.BaseRefreshCallBack;
 import com.cdkj.baselibrary.interfaces.RefreshHelper;
+import com.cdkj.baselibrary.model.IntroductionInfoModel;
 import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
+import com.cdkj.baselibrary.utils.ImgUtils;
+import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.adapters.ProductListAdapter;
@@ -43,18 +47,21 @@ import com.youth.banner.listener.OnBannerListener;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Retrofit;
 
 /**
  * 李先俊
  * Created by cdkj on 2017/10/9.
  */
-//TODO 附近商品定位参数获取
+
 public class FirstPageFragment extends BaseLazyFragment {
 
     private FragmentFirstPageScollorBinding mBinding;
@@ -91,6 +98,7 @@ public class FirstPageFragment extends BaseLazyFragment {
         initBanner();
         getBannerRequest();
         getMsgRequest();
+        getBuyCirclePic();
         return mBinding.getRoot();
     }
 
@@ -183,6 +191,7 @@ public class FirstPageFragment extends BaseLazyFragment {
                 mAddressProductRefreshHelper.onDefaluteMRefresh(false);
                 getBannerRequest();
                 getMsgRequest();
+                getBuyCirclePic();
             }
 
             @Override
@@ -300,6 +309,7 @@ public class FirstPageFragment extends BaseLazyFragment {
             @Override
             public BaseQuickAdapter getAdapter(List listData) {
                 ProductListAdapter mProductAdapter = new ProductListAdapter(listData);
+//                mProductAdapter.setEmptyView();
                 return mProductAdapter;
             }
 
@@ -518,6 +528,39 @@ public class FirstPageFragment extends BaseLazyFragment {
         super.onPause();
         mBinding.topLayout.bannerFirstPage.stopAutoPlay();
     }
+
+    /**
+     * 获取交易圈子广告图片
+     */
+    private void getBuyCirclePic() {
+
+        final Map map = RetrofitUtils.getRequestMap();
+
+        map.put("key", "tradeImg");
+
+        Call<BaseResponseModel<IntroductionInfoModel>> call = RetrofitUtils.getBaseAPiService().getKeySystemInfo("808917", StringUtils.getJsonToString(map));
+
+        addCall(call);
+
+        call.enqueue(new BaseResponseModelCallBack<IntroductionInfoModel>(mActivity) {
+            @Override
+            protected void onSuccess(IntroductionInfoModel data, String SucMessage) {
+                ImgUtils.loadImgNoPlaceholder(FirstPageFragment.this, MyCdConfig.QINIUURL + data.getCvalue(), mBinding.topLayout.imgBuyCircle);
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+
+    }
+
 
     /**
      * 定位成功刷新数据

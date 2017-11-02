@@ -77,6 +77,9 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderModel, BaseViewHolde
         if (TextUtils.equals("4", status)) {
             return "前往评价";
         }
+        if (TextUtils.equals("5", status)) {
+            return "查看评价";
+        }
         return "";
     }
 
@@ -94,6 +97,9 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderModel, BaseViewHolde
             return true;
         }
         if (TextUtils.equals("4", status)) {
+            return true;
+        }
+        if (TextUtils.equals("5", status)) {
             return true;
         }
         return false;

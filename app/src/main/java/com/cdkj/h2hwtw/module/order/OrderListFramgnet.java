@@ -3,6 +3,7 @@ package com.cdkj.h2hwtw.module.order;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -24,6 +25,7 @@ import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.adapters.OrderListAdapter;
 import com.cdkj.h2hwtw.api.MyApiServer;
+import com.cdkj.h2hwtw.model.LookCommenModel;
 import com.cdkj.h2hwtw.model.OrderModel;
 import com.cdkj.h2hwtw.module.pay.OrderPayActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -40,6 +42,7 @@ import java.util.Map;
 import retrofit2.Call;
 
 import static com.cdkj.baselibrary.appmanager.EventTags.ORDERCHANGEREFRESH;
+import static com.cdkj.baselibrary.appmanager.EventTags.PAYSUCC;
 import static com.cdkj.baselibrary.appmanager.EventTags.RELEASESCOMMENTSORDER;
 
 /**
@@ -343,6 +346,54 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
             }
             return;
         }
+        if (TextUtils.equals("5", state.getStatus())) {//查看评价
+            showCommentDialog(state.getCode());
+            return;
+        }
+
+    }
+
+    /**
+     * 显示查看评论弹框
+     *
+     * @param orderCode
+     */
+    private void showCommentDialog(String orderCode) {
+
+        final Map map = RetrofitUtils.getRequestMap();
+        map.put("orderCode", orderCode);
+
+        Call call = RetrofitUtils.createApi(MyApiServer.class).getCommenDetails("801029", StringUtils.getJsonToString(map));
+
+        showLoadingDialog();
+
+        call.enqueue(new BaseResponseModelCallBack<LookCommenModel>(mActivity) {
+            @Override
+            protected void onSuccess(LookCommenModel data, String SucMessage) {
+
+                if(TextUtils.isEmpty(data.getContent())){
+                    UITipDialog.showInfo(mActivity,"该订单还没有评价");
+                    return;
+                }
+
+                CommonDialog commonDialog = new CommonDialog(mActivity).builder()
+                        .setTitle("评价").setContentMsg(data.getContent())
+                        .setPositiveBtn("确定", null);
+                commonDialog.getContentView().setGravity(Gravity.CENTER);
+
+                commonDialog.show();
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+                disMissLoading();
+            }
+        });
 
     }
 
@@ -554,7 +605,7 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
             if (mRefreshHelper != null) {
                 mRefreshHelper.onDefaluteMRefresh(false);
             }
-        } else if (TextUtils.equals(ORDERCHANGEREFRESH, tag)) { //数据改变
+        } else if (TextUtils.equals(ORDERCHANGEREFRESH, tag) || TextUtils.equals(PAYSUCC,tag)) { //数据改变 支付成功
             isChangeRefresh = false;
         }
     }

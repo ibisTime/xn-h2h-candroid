@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
@@ -27,7 +28,9 @@ import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.adapters.SellProductListAdapter;
 import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.databinding.ActivityOrderDetailsBinding;
+import com.cdkj.h2hwtw.model.LookCommenModel;
 import com.cdkj.h2hwtw.model.OrderModel;
+import com.cdkj.h2hwtw.module.order.OrderDetailsActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -161,7 +164,7 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
 
         mBinding.tvOrderCode.setText("订单编号:" + data.getCode());
 
-        mBinding.tvOrderCreateData.setText("下单时间:" + DateUtil.formatStringData(data.getApplyDatetime(), DateUtil.DATE_YMD));
+        mBinding.tvOrderCreateData.setText("下单时间:" + DateUtil.formatStringData(data.getApplyDatetime(), DateUtil.DEFAULT_DATE_FMT));
 
         mBinding.tvOrderState.setText("订单状态:" + getStateString(data.getStatus()));
 
@@ -284,19 +287,6 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
     }
 
 
-    /**
-     * 显示查看评论弹框
-     *
-     * @param remark
-     */
-    private void showCommentDialog(String remark) {
-        showSureDialog(remark, new CommonDialog.OnPositiveListener() {
-            @Override
-            public void onPositive(View view) {
-
-            }
-        });
-    }
 
     /**
      * 显示发货弹框
@@ -492,6 +482,52 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
             }
         });
     }
+
+
+    /**
+     * 显示查看评论弹框
+     *
+     * @param orderCode
+     */
+    private void showCommentDialog(String orderCode) {
+
+        Map map = RetrofitUtils.getRequestMap();
+        map.put("orderCode", orderCode);
+
+        Call call = RetrofitUtils.createApi(MyApiServer.class).getCommenDetails("801029", StringUtils.getJsonToString(map));
+
+        showLoadingDialog();
+
+        call.enqueue(new BaseResponseModelCallBack<LookCommenModel>(this) {
+            @Override
+            protected void onSuccess(LookCommenModel data, String SucMessage) {
+                if(TextUtils.isEmpty(data.getContent())){
+                    UITipDialog.showInfo(OrderSellDetailsActivity.this,"该订单还没有评价");
+                    return;
+                }
+
+                CommonDialog commonDialog = new CommonDialog(OrderSellDetailsActivity.this).builder()
+                        .setTitle("评价").setContentMsg(data.getContent())
+                        .setPositiveBtn("确定", null);
+                commonDialog.getContentView().setGravity(Gravity.CENTER);
+
+                commonDialog.show();
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+                disMissLoading();
+            }
+        });
+
+
+    }
+
 
     /**
      * 当本页面的数据改变时刷新订单列表

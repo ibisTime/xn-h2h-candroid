@@ -5,28 +5,58 @@
     <LinearLayout
         android:id="@+id/lin_buy"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="5dp">
 
-        <TextView
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="金额："
-            android:textSize="14sp" />
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_price_buttom"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="1"
-            android:textColor="@color/text_money_red"
-            android:textSize="14sp"
-            tools:text="123123123123" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="金额："
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_price_buttom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textColor="@color/text_money_red"
+                    android:textSize="14sp"
+                    tools:text="123123123123" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_zhekou"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:text="已享受5折优惠" />
+
+        </LinearLayout>
+
 
         <View
             android:layout_width="0dp"
@@ -36,10 +66,9 @@
         <Button
             android:id="@+id/btn_call"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
             android:background="@drawable/selector_btn_round"
             android:gravity="center"
             android:text="联系卖家"
@@ -49,8 +78,8 @@
         <Button
             android:id="@+id/btn_buy"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right|center"
+            android:layout_height="40dp"
+            android:layout_gravity="right|"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"

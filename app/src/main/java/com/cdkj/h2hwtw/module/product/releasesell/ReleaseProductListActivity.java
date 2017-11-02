@@ -50,12 +50,6 @@ public class ReleaseProductListActivity extends CommonTablayoutActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        getReleaseSumRequest();
-    }
-
-    @Override
     public List<String> getFragmentTitles() {
         List<String> strings = new ArrayList<>();
         strings.add("我发布的(0)");
@@ -67,7 +61,7 @@ public class ReleaseProductListActivity extends CommonTablayoutActivity {
     /**
      * 获取发布数量
      */
-    private void getReleaseSumRequest() {
+    public void getReleaseSumRequest() {
 
         if (TextUtils.isEmpty(SPUtilHelpr.getUserId())) {
             return;
