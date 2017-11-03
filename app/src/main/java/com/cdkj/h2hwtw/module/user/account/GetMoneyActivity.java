@@ -77,6 +77,7 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
         return mBinding.getRoot();
     }
 
+
     @Override
     public void afterCreate(Bundle savedInstanceState) {
         mBaseBinding.titleView.setMidTitle("提现");
@@ -146,11 +147,16 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
             }
         });
 
-        getBankCardData(true);
         getTipInfo();
     }
 
-//    public void inputPayDialog() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getBankCardData(true);
+    }
+
+    //    public void inputPayDialog() {
 //        if (inputDialog == null) {
 //            inputDialog = new InputDialog(this).builder().setTitle("支付密码")
 //                    .setPositiveBtn("确定", new InputDialog.OnPositiveListener() {
@@ -174,6 +180,10 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
 //        inputDialog.show();
 //    }
 
+    /**
+     * 获取银行卡
+     * @param canShowDialog
+     */
     protected void getBankCardData(boolean canShowDialog) {
         Map<String, String> object = new HashMap<>();
 

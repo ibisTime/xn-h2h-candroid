@@ -13,6 +13,7 @@ import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.UITipDialog;
+import com.cdkj.baselibrary.model.IntroductionInfoModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.model.pay.PaySucceedInfo;
 import com.cdkj.baselibrary.model.pay.WxPayRequestModel;
@@ -98,6 +99,7 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         mBinding.tvPayPrice.setText(mPrice);
 
         initListener();
+        getJfDkInfo();
         getAmountRequest(true);
     }
 
@@ -392,6 +394,37 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
                 if (isShowdialog) disMissLoading();
             }
         });
+
+    }
+
+    /**
+     * 获取积分抵扣详情
+     */
+    public void getJfDkInfo() {
+
+        Map map = RetrofitUtils.getRequestMap();
+
+        map.put("key", "jf_dk_times");
+
+        Call call = RetrofitUtils.getBaseAPiService().getKeySystemInfo("808917", StringUtils.getJsonToString(map));
+
+        call.enqueue(new BaseResponseModelCallBack<IntroductionInfoModel>(this) {
+            @Override
+            protected void onSuccess(IntroductionInfoModel data, String SucMessage) {
+                mBinding.tvJfInfo.setText("(" + data.getCvalue() + "积分抵扣1元人民币)");
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+
 
     }
 

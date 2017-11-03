@@ -13,7 +13,6 @@
             android:layout_height="150dp"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp">
@@ -30,10 +29,10 @@
                     tools:src="@mipmap/icon" />
 
                 <FrameLayout
-                    android:visibility="gone"
                     android:id="@+id/fra_isjoin"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/img_isjoin"

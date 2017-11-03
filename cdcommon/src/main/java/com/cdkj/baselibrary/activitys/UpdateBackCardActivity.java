@@ -109,6 +109,12 @@ public class UpdateBackCardActivity extends AbsBaseLoadActivity {
                     UITipDialog.showFall(UpdateBackCardActivity.this, "请选择银行");
                     return;
                 }
+
+                if (TextUtils.isEmpty(mBinding.editBankNameChild.getText().toString())) {
+                    UITipDialog.showFall(UpdateBackCardActivity.this, "请输入开户支行");
+                    return;
+                }
+
                 if (TextUtils.isEmpty(mBinding.edtCardId.getText().toString())) {
                     UITipDialog.showFall(UpdateBackCardActivity.this, "请输入卡号");
                     return;
@@ -169,6 +175,7 @@ public class UpdateBackCardActivity extends AbsBaseLoadActivity {
         object.put("realName", mBinding.editName.getText().toString().trim());
         object.put("bankcardNumber", mBinding.edtCardId.getText().toString().trim());
         object.put("bankName", mBinding.txtBankName.getText().toString().trim());
+        object.put("subbranch", mBinding.editBankNameChild.getText().toString().trim());
         object.put("bankCode", mSelectCardId);
         object.put("code", mBankModel.getCode());
         object.put("status", "1");
@@ -222,6 +229,8 @@ public class UpdateBackCardActivity extends AbsBaseLoadActivity {
         mBinding.editName.setText(mBankModel.getRealName());
         mBinding.edtCardId.setText(mBankModel.getBankcardNumber());
         mSelectCardId = mBankModel.getBankCode();
+
+        mBinding.editBankNameChild.setText(mBankModel.getSubbranch());
 
         if (!TextUtils.isEmpty(mBankModel.getRealName())) {
             mBinding.editName.setEnabled(false);

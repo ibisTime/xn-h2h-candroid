@@ -14,8 +14,10 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.alibaba.fastjson.JSON;
+import com.amap.api.location.AMapLocation;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.base.BaseRefreshHelperActivity;
+import com.cdkj.baselibrary.base.BaseRefreshHelperAndLocationActivity;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
@@ -59,7 +61,7 @@ import retrofit2.Call;
  * Created by cdkj on 2017/10/16.
  */
 
-public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductListModel.ListBean> {
+public class ProductScreeningActivity extends BaseRefreshHelperAndLocationActivity<ProductListModel.ListBean> {
 
     //类型
     private String mTypeCode;
@@ -73,6 +75,7 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
     private ScreeningTypeModel mTypeInfo;
     private boolean mPriceUpstate = true; //默认升序
 
+    private AMapLocation mapLocation;//定位信息
 
     /**
      * @param context
@@ -100,6 +103,8 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
         initListener();
 
         mRefreshHelper.onDefaluteMRefresh(true);
+
+        startLocation();
     }
 
     private void initListener() {
@@ -125,7 +130,7 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
         }
         mTypeInfo = new ScreeningTypeModel();
 
-        if(!TextUtils.isEmpty(mTypeCode)){
+        if (!TextUtils.isEmpty(mTypeCode)) {
             mTypeInfo.setCategory(mTypeCode);
         }
 
@@ -164,6 +169,24 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
             public void onAddressSelect(ScreeningAddressModel address) {
                 mAddressInfo = address;
                 mRefreshHelper.onDefaluteMRefresh(true);
+            }
+
+            @Override
+            public void onLocationClick() {
+                if (mapLocation != null) {
+                    mAddressInfo = new ScreeningAddressModel();
+                    mAddressInfo.setArea(mapLocation.getDistrict());
+                    mAddressInfo.setCity(mapLocation.getCity());
+                    mAddressInfo.setLatitude(mapLocation.getLatitude() + "");
+                    mAddressInfo.setLongitude(mapLocation.getLongitude() + "");
+                    mAddressInfo.setProvince(mapLocation.getProvince() + "");
+                    mRefreshHelper.onDefaluteMRefresh(true);
+                }
+            }
+
+            @Override
+            public void onRefreshLocation() {
+                startLocation();
             }
 
             @Override
@@ -395,7 +418,7 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
 
         if (mRightMenuState != null) {
             map.put("isNew", mRightMenuState.isNew() ? "1" : "0");
-            if(mRightMenuState.isSend()){
+            if (mRightMenuState.isSend()) {
                 map.put("yunfei", "0");
             }
             map.put("minPrice", mRightMenuState.getRequestLowPrice());
@@ -511,6 +534,28 @@ public class ProductScreeningActivity extends BaseRefreshHelperActivity<ProductL
     @Override
     protected String getErrorInfo() {
         return getString(R.string.no_product);
+    }
+
+    @Override
+    protected void locationSuccessful(AMapLocation aMapLocation) {
+        if (aMapLocation == null) return;
+        mapLocation = aMapLocation;
+        mBinding.screeningView.setLocationName(aMapLocation.getCity());
+    }
+
+    @Override
+    protected void locationFailure() {
+
+    }
+
+    @Override
+    protected void onNegativeButton() {
+
+    }
+
+    @Override
+    protected boolean canShowTipsDialog() {
+        return false;
     }
 
     @Override

@@ -351,7 +351,7 @@ public class DateUtil {
     }
 
     public static String getCurrentDate() {
-        return format(new Date(), "yyyy-MM-dd");
+        return format(new Date(), DEFAULT_DATE_FMT);
     }
 
 

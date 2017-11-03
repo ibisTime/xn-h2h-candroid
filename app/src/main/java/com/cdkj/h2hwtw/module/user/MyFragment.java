@@ -92,6 +92,7 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.linUserInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mUserInfoMode == null) return;
                 PersonalPageActivity.open(mActivity, SPUtilHelpr.getUserId());
 //                UserInfoEditActivity.open(mActivity, mUserInfoMode);
             }
@@ -100,6 +101,7 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.linGuanzhu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mUserInfoMode == null) return;
                 FansListActivity.open(mActivity, false);
             }
         });
@@ -107,6 +109,7 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.linFans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mUserInfoMode == null) return;
                 FansListActivity.open(mActivity, true);
             }
         });
@@ -115,6 +118,7 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.linMyAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mUserInfoMode == null) return;
                 MyAccountActivity.open(mActivity);
             }
         });
@@ -130,6 +134,7 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.linJfList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mUserInfoMode == null) return;
                 MyJfListActivity.open(mActivity, mAmountaccountNumber);
             }
         });
@@ -138,6 +143,7 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.linCooupons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mUserInfoMode == null) return;
                 CouponsAllActivity.open(mActivity);
             }
         });
@@ -145,13 +151,16 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.linIRelease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mUserInfoMode == null) return;
                 ReleaseProductListActivity.open(mActivity);
             }
         });
         //我卖出的
         mBinding.linISell.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                if (mUserInfoMode == null) return;
                 SellProductListActivity.open(mActivity);
             }
         });
@@ -159,6 +168,7 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.linAddPreferential.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mUserInfoMode == null) return;
                 ActivityCenterActivity.open(mActivity);
             }
         });
@@ -166,6 +176,7 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.linIWant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mUserInfoMode == null) return;
                 WantProductListActivity.open(mActivity);
             }
         });
@@ -173,6 +184,7 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.linBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mUserInfoMode == null) return;
                 BrowseProductListActivity.open(mActivity);
             }
         });

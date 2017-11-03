@@ -16,7 +16,6 @@ import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseLocationActivity;
-import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.model.QiniuGetTokenModel;
@@ -34,15 +33,12 @@ import com.cdkj.h2hwtw.model.PriceKeyBoardListenerModel;
 import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.cdkj.h2hwtw.model.ReleasePagePhotoModel;
 import com.cdkj.h2hwtw.module.product.preferential.PreferentialProductListActivity;
-import com.cdkj.h2hwtw.module.product.releasesell.ReleaseProductEditActivity;
 import com.cdkj.h2hwtw.pop.PriceKeyboardPop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.qiniu.android.http.ResponseInfo;
 import com.yanzhenjie.album.Album;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -469,6 +465,11 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             }
         });
 
+    }
+
+    @Override
+    protected boolean canShowTipsDialog() {
+        return false;
     }
 
     /**

@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.amap.api.location.AMapLocation;
@@ -21,6 +22,7 @@ import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.nets.NetUtils;
 import com.cdkj.baselibrary.utils.AppUtils;
 import com.cdkj.baselibrary.utils.LogUtil;
+import com.cdkj.baselibrary.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ import java.util.List;
  * 有定位需求页面的Activity都可继承此Activity 实现定位权限申请
  * Created by Administrator on 2017-02-13.
  */
-
+//TODO 定位页面方法接口抽取
 public abstract class BaseLocationActivity extends AbsBaseLoadActivity {
 
     protected static final int PERMISSION__LOCATION_REQUESTCODE = 13;//定位权限检测请求码

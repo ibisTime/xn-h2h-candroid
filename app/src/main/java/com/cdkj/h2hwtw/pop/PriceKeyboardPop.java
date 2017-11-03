@@ -137,21 +137,35 @@ public class PriceKeyboardPop extends BasePopupWindow {
 
                 model.setCanSend(popBinding.checkboxCanSend.isChecked());
                 if (TextUtils.isEmpty(popBinding.editPrice.getText().toString())) {
+                    UITipDialog.showInfo(mContext, "请输入价格");
                     model.setPrice("0");
+                    mPriceEditInputString.setLength(0);
+                    return;
                 } else {
                     model.setPrice(popBinding.editPrice.getText().toString());
                 }
                 if (TextUtils.isEmpty(popBinding.editPriceOld.getText().toString())) {
                     model.setOldPrice("0");
+
+                    UITipDialog.showInfo(mContext, "请输入原价");
+                    mPriceOldEditInputString.setLength(0);
+                    return;
                 } else {
                     model.setOldPrice(popBinding.editPriceOld.getText().toString());
                 }
 
                 if (TextUtils.isEmpty(popBinding.editSendPrice.getText().toString())) {
                     model.setSendPrice("0");
+                    mPriceSendEditInputString.setLength(0);
                 } else {
                     model.setSendPrice(popBinding.editSendPrice.getText().toString());
                 }
+
+                if (!popBinding.checkboxCanSend.isChecked() && TextUtils.isEmpty(popBinding.editSendPrice.getText().toString())) {
+                    UITipDialog.showInfo(mContext, "请输入邮费");
+                    return;
+                }
+
                 if (popBinding.checkboxCanSend.isChecked()) {
                     model.setSendPrice("0");
                 }
@@ -164,8 +178,6 @@ public class PriceKeyboardPop extends BasePopupWindow {
                 dismiss();
             }
         });
-
-
     }
 
     /**

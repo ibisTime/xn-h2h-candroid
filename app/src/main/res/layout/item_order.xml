@@ -180,7 +180,7 @@
                 android:paddingRight="10dp"
                 android:text="取消订单"
                 android:textColor="@color/text_gray_app"
-                android:textSize="16sp"
+                android:textSize="14sp"
                  />
 
             <TextView
@@ -194,7 +194,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/btn_click_un_app"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:visibility="gone"
                 tools:text="取消订单" />
 

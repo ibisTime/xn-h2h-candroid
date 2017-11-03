@@ -111,19 +111,24 @@ public class UserInfoInputUpdateActivity extends AbsBaseLoadActivity {
                         @Override
                         public void onError(int i, String s) {
                             disMissLoading();
+                            EventBusModel e = new EventBusModel();
+                            e.setTag(EventTags.USERNAMEEDITREFRESH);
+                            e.setEvInfo(mBinding.edit.getText().toString());
+                            EventBus.getDefault().post(e);
+                            finish();
                         }
 
                         @Override
                         public void onSuccess() {
                             disMissLoading();
+                            EventBusModel e = new EventBusModel();
+                            e.setTag(EventTags.USERNAMEEDITREFRESH);
+                            e.setEvInfo(mBinding.edit.getText().toString());
+                            EventBus.getDefault().post(e);
                             finish();
                         }
                     });
 
-                    EventBusModel e = new EventBusModel();
-                    e.setTag(EventTags.USERNAMEEDITREFRESH);
-                    e.setEvInfo(mBinding.edit.getText().toString());
-                    EventBus.getDefault().post(e);
 
                 } else {
                     UITipDialog.showFall(UserInfoInputUpdateActivity.this, "操作失败");

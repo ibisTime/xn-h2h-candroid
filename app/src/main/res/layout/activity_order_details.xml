@@ -238,6 +238,17 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tv_pay_info"
+                    style="@style/text_black"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="@dimen/layout_left_right_interval"
+                    android:paddingRight="@dimen/layout_left_right_interval"
+                    android:paddingTop="10dp"
+                    tools:text="支付说明:" />
 
                 <TextView
                     android:id="@+id/tv_logisticsCompany"

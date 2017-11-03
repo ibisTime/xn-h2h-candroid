@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/screening_view_bottom"
     android:background="@color/background_gray_app"
-    android:orientation="vertical"
-    android:visibility="gone">
+    android:visibility="gone"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/lin_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -45,14 +46,18 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_location_city"
                 style="@style/text_black"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="6dp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:text="定位中"
                 android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lin_location_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

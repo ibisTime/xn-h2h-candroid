@@ -147,10 +147,14 @@
                 android:textColor="@color/text_color"
                 android:textSize="14sp" />
 
-            <View
+            <TextView
+                android:textColor="@color/text_black_app"
+                android:id="@+id/tv_jf_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textSize="14sp"
+                tools:text="(多少积分抵扣1元人民币)" />
 
             <CheckBox
                 android:id="@+id/checkbox_pay_jf"

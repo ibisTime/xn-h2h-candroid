@@ -292,6 +292,11 @@ public class MainActivity extends BaseLocationActivity {
     }
 
     @Override
+    protected boolean canShowTipsDialog() {
+        return false;
+    }
+
+    @Override
     public void onBackPressed() {
         showDoubleWarnListen("确认退出" + getString(R.string.app_name) + "？", new CommonDialog.OnPositiveListener() {
             @Override

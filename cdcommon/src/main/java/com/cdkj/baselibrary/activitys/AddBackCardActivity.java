@@ -98,16 +98,21 @@ public class AddBackCardActivity extends AbsBaseLoadActivity {
                     UITipDialog.showFall(AddBackCardActivity.this, "请选择银行");
                     return;
                 }
+
+                if (TextUtils.isEmpty(mBinding.editBankNameChild.getText().toString())) {
+                    UITipDialog.showFall(AddBackCardActivity.this, "请输入开户支行");
+                    return;
+                }
+
                 if (TextUtils.isEmpty(mBinding.edtCardId.getText().toString())) {
                     UITipDialog.showFall(AddBackCardActivity.this, "请输入卡号");
                     return;
                 }
 
-                if (mBinding.edtCardId.getText().toString().length() < 16) {
-                    UITipDialog.showFall(AddBackCardActivity.this, "银行卡号最低为16位数字");
+                if (mBinding.edtCardId.getText().toString().length() < 13) {
+                    UITipDialog.showFall(AddBackCardActivity.this, "请输入正确的银行卡号");
                     return;
                 }
-
 
                 bindCard();
             }
@@ -124,6 +129,7 @@ public class AddBackCardActivity extends AbsBaseLoadActivity {
         object.put("realName", mBinding.editName.getText().toString().trim());
         object.put("bankcardNumber", mBinding.edtCardId.getText().toString().trim());
         object.put("bankName", mBinding.txtBankName.getText().toString().trim());
+        object.put("subbranch", mBinding.editBankNameChild.getText().toString().trim());
         object.put("bankCode", mSelectCardId);
         object.put("currency", "CNY");
         object.put("type", "C");

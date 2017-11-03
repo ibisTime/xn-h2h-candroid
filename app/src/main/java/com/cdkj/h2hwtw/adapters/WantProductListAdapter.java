@@ -45,7 +45,7 @@ public class WantProductListAdapter extends BaseQuickAdapter<WantProductModel, B
         viewHolder.setText(R.id.tv_goods_price, MoneyUtils.showPrice(item.getProduct().getPrice()));
 
         viewHolder.setText(R.id.tv_goods_price_old, MoneyUtils.showPrice(item.getProduct().getOriginalPrice()));
-        viewHolder.setText(R.id.tv_type_name, item.getProduct().getTypeName());
+        viewHolder.setText(R.id.tv_type_name, "来自"+item.getProduct().getTypeName());
         viewHolder.setText(R.id.tv_address, item.getProduct().getProvince() + " " + item.getProduct().getCity() + " " + item.getProduct().getArea());
 
         viewHolder.setGone(R.id.fra_isjoin, TextUtils.equals(item.getProduct().getIsJoin(), "1"));//是否参加了活动 1参加 0否

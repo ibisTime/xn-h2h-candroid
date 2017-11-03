@@ -98,6 +98,14 @@ public class ProductScreeningView extends FrameLayout {
     private ScreeningAddressModel mSelectAddressMode;
     private ScreeningTypeModel mSelectTypeModel;
 
+    //定位
+
+    private TextView mTvLocationCity;//定位城市名
+    private LinearLayout mLinLocationRoot;//定位布局
+    private LinearLayout mLinLocationRefresh;//定位刷新
+
+    private boolean isLocationSucc;//定位是否成功
+
     public ProductScreeningView(@NonNull Context context) {
         this(context, null);
     }
@@ -112,9 +120,44 @@ public class ProductScreeningView extends FrameLayout {
         mSelectAddressMode = new ScreeningAddressModel();
         mSelectTypeModel = new ScreeningTypeModel();
         initLayout();
+        initLocationListener();
         initTabListener();
         initAreaListener();
         initTypeAdapter();
+    }
+
+    /**
+     * 设置定位相关点击事件
+     */
+    private void initLocationListener() {
+
+
+        mTvLocationCity.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null && isLocationSucc) {
+                    mTvArea.setText(mTvLocationCity.getText().toString());
+                    listener.onLocationClick();
+                }
+
+            }
+        });
+
+        mLinLocationRoot.setOnClickListener(new OnClickListener() {  //防止点击View消失
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        mLinLocationRefresh.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null)
+                    listener.onRefreshLocation();
+            }
+        });
+
     }
 
     /**
@@ -232,6 +275,7 @@ public class ProductScreeningView extends FrameLayout {
                         listener.onGetTypeData(mTypeMenuLeftAdapter.getItem(position).getCode(), false);
                     } else {
                         mTabTypeView.setText(mTypeMenuLeftAdapter.getItem(position).getName());
+                        mTypeMenuRightAdapter.replaceData(new ArrayList<ProductTypeModel>());          ///点击的是全部的话清楚小类
                         closeAll();
                         listener.onTypeSelect(null);
                     }
@@ -439,6 +483,10 @@ public class ProductScreeningView extends FrameLayout {
 
         mDissMisVIew = findViewById(R.id.screning_bg_view);
 
+        mTvLocationCity = findViewById(R.id.tv_location_city);
+        mLinLocationRoot = findViewById(R.id.lin_location);
+        mLinLocationRefresh = findViewById(R.id.lin_location_refresh);
+
         mDissMisVIew.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -455,6 +503,16 @@ public class ProductScreeningView extends FrameLayout {
             }
         });
 
+    }
+
+    /**
+     * 设置定位城市名
+     *
+     * @param name
+     */
+    public void setLocationName(String name) {
+        isLocationSucc = true;
+        mTvLocationCity.setText(name);
     }
 
     /**
@@ -536,6 +594,10 @@ public class ProductScreeningView extends FrameLayout {
         void onGetTypeData(String partentCode, boolean isLeft); //点击类型时获取数据
 
         void onAddressSelect(ScreeningAddressModel address);//地址筛选完成
+
+        void onLocationClick();//定位地址点击
+
+        void onRefreshLocation();//刷新定位
 
         void onTypeSelect(ScreeningTypeModel typeModel);//类型筛选完成
 

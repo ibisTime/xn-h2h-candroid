@@ -14,8 +14,10 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.alibaba.fastjson.JSON;
+import com.amap.api.location.AMapLocation;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.base.BaseRefreshHelperActivity;
+import com.cdkj.baselibrary.base.BaseRefreshHelperAndLocationActivity;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
@@ -59,7 +61,7 @@ import retrofit2.Call;
  * Created by cdkj on 2017/10/16.
  */
 
-public class PreferentialProductListActivity extends BaseRefreshHelperActivity<ProductListModel.ListBean> {
+public class PreferentialProductListActivity extends BaseRefreshHelperAndLocationActivity<ProductListModel.ListBean> {
 
     //类型
     private String mTypeCode;
@@ -73,7 +75,9 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
     private ScreeningTypeModel mTypeInfo;
     private boolean mPriceUpstate = true; //默认升序
 
+    private boolean isFirstRequest;//是否进行了第一次筛选
 
+    private AMapLocation mapLocation;//定位信息
     /**
      * @param context
      * @param typeCode 类型编号
@@ -100,6 +104,7 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
         initListener();
 
         mRefreshHelper.onDefaluteMRefresh(true);
+        startLocation();
     }
 
     private void initListener() {
@@ -163,6 +168,24 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
             public void onAddressSelect(ScreeningAddressModel address) {
                 mAddressInfo = address;
                 mRefreshHelper.onDefaluteMRefresh(true);
+            }
+
+            @Override
+            public void onLocationClick() {
+                if (mapLocation != null) {
+                    mAddressInfo = new ScreeningAddressModel();
+                    mAddressInfo.setArea(mapLocation.getDistrict());
+                    mAddressInfo.setCity(mapLocation.getCity());
+                    mAddressInfo.setLatitude(mapLocation.getLatitude() + "");
+                    mAddressInfo.setLongitude(mapLocation.getLongitude() + "");
+                    mAddressInfo.setProvince(mapLocation.getProvince() + "");
+                    mRefreshHelper.onDefaluteMRefresh(true);
+                }
+            }
+
+            @Override
+            public void onRefreshLocation() {
+                startLocation();
             }
 
             @Override
@@ -367,22 +390,8 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
         map.put("start", pageindex + "");
         map.put("status", "3");
         map.put("isJoin", "1");//参加优惠活动
-
         map.put("companyCode", MyCdConfig.COMPANYCODE);
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
-
-        if (mAddressInfo != null) {
-            map.put("area", mAddressInfo.getArea());
-            map.put("city", mAddressInfo.getCity());
-            map.put("province", mAddressInfo.getProvince());
-            map.put("longitude", mAddressInfo.getLongitude());
-            map.put("latitude", mAddressInfo.getLatitude());
-        }
-
-        if (mTypeInfo != null) {
-            map.put("category", mTypeInfo.getCategory());
-            map.put("type", mTypeInfo.getType());
-        }
 
         if (mPriceUpstate) {
             map.put("orderColumn", "price");
@@ -392,14 +401,30 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
             map.put("orderDir", "desc");
         }
 
-        if (mRightMenuState != null) {
-            map.put("isNew", mRightMenuState.isNew() ? "1" : "0");
-            if (mRightMenuState.isSend()) {
-                map.put("yunfei", "0");
+        if (isFirstRequest) {                 //第一次进入页面时请求所有
+            if (mAddressInfo != null) {
+                map.put("area", mAddressInfo.getArea());
+                map.put("city", mAddressInfo.getCity());
+                map.put("province", mAddressInfo.getProvince());
+                map.put("longitude", mAddressInfo.getLongitude());
+                map.put("latitude", mAddressInfo.getLatitude());
             }
-            map.put("minPrice", mRightMenuState.getRequestLowPrice());
-            map.put("maxPrice", mRightMenuState.getRequestHeightPrice());
+
+            if (mTypeInfo != null) {
+                map.put("category", mTypeInfo.getCategory());
+                map.put("type", mTypeInfo.getType());
+            }
+
+            if (mRightMenuState != null) {
+                map.put("isNew", mRightMenuState.isNew() ? "1" : "0");
+                if (mRightMenuState.isSend()) {
+                    map.put("yunfei", "0");
+                }
+                map.put("minPrice", mRightMenuState.getRequestLowPrice());
+                map.put("maxPrice", mRightMenuState.getRequestHeightPrice());
+            }
         }
+
 
         Call call = RetrofitUtils.createApi(MyApiServer.class).getProductList("808025", StringUtils.getJsonToString(map));
 
@@ -410,6 +435,7 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
         call.enqueue(new BaseResponseModelCallBack<ProductListModel>(this) {
             @Override
             protected void onSuccess(ProductListModel data, String SucMessage) {
+                isFirstRequest = true;
                 mRefreshHelper.setData(data.getList());
             }
 
@@ -510,6 +536,28 @@ public class PreferentialProductListActivity extends BaseRefreshHelperActivity<P
     @Override
     protected String getErrorInfo() {
         return getString(R.string.no_product);
+    }
+
+    @Override
+    protected void locationSuccessful(AMapLocation aMapLocation) {
+        if (aMapLocation == null) return;
+        mapLocation = aMapLocation;
+        mBinding.screeningView.setLocationName(aMapLocation.getCity());
+    }
+
+    @Override
+    protected void locationFailure() {
+
+    }
+
+    @Override
+    protected void onNegativeButton() {
+
+    }
+
+    @Override
+    protected boolean canShowTipsDialog() {
+        return false;
     }
 
     @Override

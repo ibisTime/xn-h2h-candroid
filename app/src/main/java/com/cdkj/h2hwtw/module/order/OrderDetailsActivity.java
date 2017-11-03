@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -193,6 +194,13 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
         mBinding.tvPhone.setText(data.getReMobile());
 
 
+        if (TextUtils.equals("1", data.getStatus())) {//如果是待支付状态 则隐藏说明
+            mBinding.tvPayInfo.setVisibility(View.GONE);
+        } else {
+            mBinding.tvPayInfo.setVisibility(View.VISIBLE);
+            mBinding.tvPayInfo.setText(getPayInfo(data));
+        }
+
         if (TextUtils.isEmpty(data.getLogisticsCode())) {
             mBinding.tvLogisticsCode.setText("物流单号:暂无");
         } else {
@@ -200,10 +208,10 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
         }
 
 
-        if (TextUtils.isEmpty(data.getRemark())) {
-            mBinding.tvRemark.setText("买家叮嘱:");
+        if (TextUtils.isEmpty(data.getApplyNote())) {
+            mBinding.tvRemark.setText("买家叮嘱:暂无");
         } else {
-            mBinding.tvRemark.setText("买家叮嘱:" + data.getRemark());
+            mBinding.tvRemark.setText("买家叮嘱:" + data.getApplyNote());
         }
 
 
@@ -217,6 +225,45 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
 
         setShowButtomBtnState(data.getStatus());
 
+    }
+
+    /**
+     * 支付方方式说明
+     *
+     * @param data
+     * @return
+     */
+    @NonNull
+    private String getPayInfo(OrderModel data) {
+        StringBuffer sb = new StringBuffer();
+
+        sb.append("支付方式：");
+
+        if (BigDecimalUtils.doubleValue(data.getAmount1()) > 0) {
+            sb.append("人民币");
+            sb.append(MoneyUtils.showPrice(data.getPayAmount1()));
+        }
+
+        if (BigDecimalUtils.doubleValue(data.getPayAmount2()) > 0) {
+            if (BigDecimalUtils.doubleValue(data.getPayAmount2()) > 0) {
+                sb.append("+积分");
+            } else {
+                sb.append("积分");
+            }
+            sb.append(MoneyUtils.showPrice(data.getPayAmount2()));
+        }
+        if (BigDecimalUtils.doubleValue(data.getPayAmount3()) > 0) {
+
+            if (BigDecimalUtils.doubleValue(data.getAmount1()) > 0 || BigDecimalUtils.doubleValue(data.getPayAmount2()) > 0) {
+                sb.append("+优惠券");
+            } else {
+                sb.append("优惠券");
+            }
+
+            sb.append(MoneyUtils.showPrice(data.getPayAmount3()));
+        }
+
+        return sb.toString();
     }
 
 
@@ -282,8 +329,8 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
                         break;
                     }
                 }
-                if(!isUse){
-                    mBinding.tvLogisticsCompany.setText("物流公司:暂无" );
+                if (!isUse) {
+                    mBinding.tvLogisticsCompany.setText("物流公司:暂无");
                 }
             }
 
@@ -297,6 +344,7 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
             }
         });
     }
+
     /**
      * 根据状态设置底部按钮
      *
@@ -394,8 +442,8 @@ public class OrderDetailsActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<LookCommenModel>(this) {
             @Override
             protected void onSuccess(LookCommenModel data, String SucMessage) {
-                if(TextUtils.isEmpty(data.getContent())){
-                    UITipDialog.showInfo(OrderDetailsActivity.this,"该订单还没有评价");
+                if (TextUtils.isEmpty(data.getContent())) {
+                    UITipDialog.showInfo(OrderDetailsActivity.this, "该订单还没有评价");
                     return;
                 }
 

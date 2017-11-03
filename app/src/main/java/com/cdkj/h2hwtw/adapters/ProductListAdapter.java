@@ -52,7 +52,7 @@ public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBe
 
         viewHolder.setGone(R.id.fra_isjoin, TextUtils.equals(item.getIsJoin(), "1"));//是否参加了活动 1参加 0否
 
-        viewHolder.setText(R.id.tv_zhekou, ProductHelper.getShowDiscount(item.getDiscount()) + "");
+        viewHolder.setText(R.id.tv_zhekou, ProductHelper.getShowDiscount(item.getDiscount()) + "折");
 
         viewHolder.setOnClickListener(R.id.lin_goods, new View.OnClickListener() {
             @Override

@@ -183,7 +183,7 @@
                         android:paddingRight="10dp"
                         tools:text="取消订单"
                         android:textColor="@color/text_money_red"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <View
                         android:layout_width="0dp"
@@ -201,7 +201,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:textColor="@color/btn_click_un_app"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         tools:text="取消订单" />
 
 

@@ -160,7 +160,7 @@ json:{"systemCode":"CD-WTW000016","companyCode":"CD-WTW000016","token":"TSYS_USE
         map.put("deliverer", SPUtilHelpr.getUserId());
         map.put("deliveryDatetime", DateUtil.getCurrentDate());
         map.put("logisticsCode", mBinding.editCode.getText().toString());
-        map.put("logisticsCompany", mSelectCompany.getCompanyCode());
+        map.put("logisticsCompany", mSelectCompany.getDkey());
         Call call = RetrofitUtils.getBaseAPiService().successRequest("808054", StringUtils.getJsonToString(map));
 
         addCall(call);
