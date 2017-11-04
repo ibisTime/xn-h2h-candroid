@@ -102,6 +102,16 @@ public class ProductListModel {
         private String isCollect;
         private String loginLog;
         private String photo;
+
+        public String getActivityType() {
+            return activityType;
+        }
+
+        public void setActivityType(String activityType) {
+            this.activityType = activityType;
+        }
+
+        private String activityType;
         private int totalComment;
 
         public String getPhoto() {

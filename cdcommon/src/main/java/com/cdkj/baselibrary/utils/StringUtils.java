@@ -99,6 +99,20 @@ public class StringUtils {
         }
     }
 
+    public static String subStringEnd(String s, int start) {
+        if (TextUtils.isEmpty(s)) {
+            return "";
+        }
+        return subString(s, start, s.length());
+    }
+
+    public static String subStringLenghtEnd(String s) {
+        if (TextUtils.isEmpty(s)) {
+            return "";
+        }
+        return subString(s, s.length() - 1, s.length());
+    }
+
     //int前面补零
     public static String frontCompWithZoreString(Object sourceDate, int formatLength) {
         try {

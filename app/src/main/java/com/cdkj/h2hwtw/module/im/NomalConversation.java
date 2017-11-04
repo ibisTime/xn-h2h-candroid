@@ -60,7 +60,7 @@ public class NomalConversation extends Conversation {
         imUserInfo.setUserName(getName());
         imUserInfo.setLeftImg(getLogoUrl());
         imUserInfo.setRightImg(SPUtilHelpr.getUserQiniuPhoto());
-        TxImLogingActivity.open(context, imUserInfo, false, false);
+        TxImLogingActivity.open(context, imUserInfo, false, true);
     }
 
     /**

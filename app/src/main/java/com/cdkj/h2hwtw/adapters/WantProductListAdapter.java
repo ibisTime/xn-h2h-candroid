@@ -13,6 +13,7 @@ import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.WantProductModel;
 import com.cdkj.h2hwtw.module.product.ProductDetailActivity;
+import com.cdkj.h2hwtw.other.ProductHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -45,10 +46,12 @@ public class WantProductListAdapter extends BaseQuickAdapter<WantProductModel, B
         viewHolder.setText(R.id.tv_goods_price, MoneyUtils.showPrice(item.getProduct().getPrice()));
 
         viewHolder.setText(R.id.tv_goods_price_old, MoneyUtils.showPrice(item.getProduct().getOriginalPrice()));
-        viewHolder.setText(R.id.tv_type_name, "来自"+item.getProduct().getTypeName());
+        viewHolder.setText(R.id.tv_type_name, "来自" + item.getProduct().getTypeName());
         viewHolder.setText(R.id.tv_address, item.getProduct().getProvince() + " " + item.getProduct().getCity() + " " + item.getProduct().getArea());
 
-        viewHolder.setGone(R.id.fra_isjoin, TextUtils.equals(item.getProduct().getIsJoin(), "1"));//是否参加了活动 1参加 0否
+        viewHolder.setText(R.id.tv_zhekou, ProductHelper.getShowDiscount(item.getProduct().getDiscount())+"折");
+
+        viewHolder.setGone(R.id.fra_isjoin, canShowActivitySing(item.getProduct()));//是否参加了活动 1参加 0否
 
         viewHolder.setOnClickListener(R.id.lin_goods, new View.OnClickListener() {
             @Override
@@ -58,5 +61,18 @@ public class WantProductListAdapter extends BaseQuickAdapter<WantProductModel, B
         });
 
     }
+
+    /**
+     * 是否显示折扣         //是否参加了活动 1是   是否是折扣活动  1折扣活动 2 运费活动
+     */
+    public boolean canShowActivitySing(WantProductModel.ProductBean showData) {
+        if (ProductHelper.isJoinActivity(showData.getIsJoin()) && ProductHelper.isJoinZhekouactivity(showData.getActivityType())) {
+
+            return true;
+
+        }
+        return false;
+    }
+
 
 }

@@ -98,21 +98,44 @@
                     android:textColor="@color/text_black_app"
                     tools:text="时代峻峰赛诺菲塑料袋" />
 
-                <TextView
-                    android:id="@+id/tv_edit_info"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginBottom="30dp"
                     android:layout_marginRight="15dp"
-                    android:background="@drawable/blue_line_txt_type"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="5dp"
-                    android:text="+ 关注"
-                    android:textColor="@color/text_select_app" />
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
 
+                    <TextView
+                        android:id="@+id/tv_edit_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="15dp"
+                        android:background="@drawable/blue_line_txt_type"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="5dp"
+                        android:text="+ 关注"
+                        android:textColor="@color/text_select_app" />
+
+                    <TextView
+                        android:id="@+id/tv_call_to_user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:background="@drawable/blue_line_txt_type"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="5dp"
+                        android:text="私信"
+                        android:textColor="@color/text_select_app" />
+
+
+                </LinearLayout>
             </LinearLayout>
 
         </FrameLayout>

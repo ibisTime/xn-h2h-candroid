@@ -92,6 +92,7 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
                         } else {
                             ReleaseProductEditActivity.open(mActivity, listBean);
                         }
+                        break;
                     case R.id.tv_edit_delet:
                         showDeleteDialog(listBean.getCode(), position);
                         break;
@@ -210,10 +211,16 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
             mType = getArguments().getString("type");
         }
         initRefreshHelper(1, 10);
-        mRefreshHelper.onDefaluteMRefresh(true);
         onRefreshTitle();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(getUserVisibleHint()){
+            mRefreshHelper.onDefaluteMRefresh(true);
+        }
+    }
 
     @Override
     public void getListDataRequest(int pageindex, int limit, final boolean isShowDialog) {
@@ -367,7 +374,7 @@ public class ReleaseProductListFragment extends BaseRefreshHelperFragment {
         emptyTipsBinding.btnGoRelease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProductReleaseActivity.open(mActivity, "");
+                ProductReleaseActivity.open(mActivity, "",false);
             }
         });
 

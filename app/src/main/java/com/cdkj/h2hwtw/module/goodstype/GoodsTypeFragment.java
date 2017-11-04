@@ -73,7 +73,7 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
         mBinding.search.layoutSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SearchActivity.open(mActivity);
+                SearchActivity.open(mActivity, false);
             }
         });
         return mBinding.getRoot();
@@ -234,14 +234,17 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
      * @param data
      */
     private void setTypeMenuData(List<ProductTypeModel> data) {
+
+        if (data.size() < 8) {     //不满8个时不用显示全部按钮
+            mTypeMenuAdapter.replaceData(data);
+            return;
+        }
+
         List<ProductTypeModel> newdadas = new ArrayList<>();
 
         for (int i = 0; i < data.size(); i++) {
-
             ProductTypeModel productTypeModel = data.get(i);
-
             if (productTypeModel == null) continue;
-
             if (i > 6) {                    //只添加前七位
                 break;
             }
@@ -249,7 +252,6 @@ public class GoodsTypeFragment extends BaseRefreshHelperFragment<ProductListMode
         }
 
         ProductTypeModel productTypeModel = new ProductTypeModel();
-
         productTypeModel.setAllMenu(true);
         productTypeModel.setName("全部");
         productTypeModel.setPic("");

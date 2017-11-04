@@ -31,7 +31,6 @@ import com.cdkj.h2hwtw.model.UserInfoModel;
 import com.cdkj.h2hwtw.other.TXImManager;
 import com.qiniu.android.http.ResponseInfo;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
@@ -104,7 +103,7 @@ public class UserInfoEditActivity extends AbsBaseLoadActivity {
         mBinding.linName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserInfoInputUpdateActivity.open(UserInfoEditActivity.this, mBinding.tvName.getText().toString(), UserInfoInputUpdateActivity.TYPE_NAME);
+                UserNickNameUpdateActivity.open(UserInfoEditActivity.this, mBinding.tvName.getText().toString(), UserNickNameUpdateActivity.TYPE_NAME);
             }
         });
         //修改性别
@@ -164,6 +163,15 @@ public class UserInfoEditActivity extends AbsBaseLoadActivity {
 
                 datePickerDialog.show();
 
+            }
+        });
+
+        //个人简介
+        mBinding.linUserInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mData == null) return;
+                UserInfoUpdateActivity.open(UserInfoEditActivity.this, mData.getIntroduce());
             }
         });
     }
@@ -354,6 +362,8 @@ public class UserInfoEditActivity extends AbsBaseLoadActivity {
 
         ImgUtils.loadLogo(this, MyCdConfig.QINIUURL + mData.getPhoto(), mBinding.imgLogo);
 
+        mBinding.tvInfo.setText(mData.getIntroduce());
+
         mBinding.tvName.setText(mData.getNickname());
         if (mData != null) {
             mBinding.tvBirthday.setText(mData.getBirthday());
@@ -379,6 +389,10 @@ public class UserInfoEditActivity extends AbsBaseLoadActivity {
             mBinding.tvName.setText(e.getEvInfo());
             UITipDialog.showSuccess(UserInfoEditActivity.this, "昵称修改成功");
         }
-
+        if (TextUtils.equals(EventTags.USERNAMEEDITREFRESH2, e.getTag()))//刷新用户数据
+        {
+            mData.setIntroduce(e.getEvInfo());
+            mBinding.tvInfo.setText(e.getEvInfo());
+        }
     }
 }

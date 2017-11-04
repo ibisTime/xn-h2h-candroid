@@ -72,6 +72,7 @@ public abstract class Conversation implements Comparable {
 
 
     public String getLogoUrl() {
+
         return logoUrl;
     }
 

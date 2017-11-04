@@ -43,14 +43,14 @@ public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBe
 
         viewHolder.setText(R.id.tv_goods_name, item.getName());
 
-        viewHolder.setGone(R.id.tv_is_new, TextUtils.equals(item.getIsNew(), "1"));
+        viewHolder.setGone(R.id.tv_is_new, ProductHelper.isNewProduct(item.getIsNew()));
         viewHolder.setText(R.id.tv_goods_price, MoneyUtils.showPrice(item.getPrice()));
 
         viewHolder.setText(R.id.tv_goods_price_old, MoneyUtils.showPrice(item.getOriginalPrice()));
         viewHolder.setText(R.id.tv_type_name, "来自" + item.getTypeName());
         viewHolder.setText(R.id.tv_address, item.getProvince() + " " + item.getCity() + " " + item.getArea());
 
-        viewHolder.setGone(R.id.fra_isjoin, TextUtils.equals(item.getIsJoin(), "1"));//是否参加了活动 1参加 0否
+        viewHolder.setGone(R.id.fra_isjoin, canShowActivitySing(item));//是否参加了活动 1参加 0否
 
         viewHolder.setText(R.id.tv_zhekou, ProductHelper.getShowDiscount(item.getDiscount()) + "折");
 
@@ -61,6 +61,18 @@ public class ProductListAdapter extends BaseQuickAdapter<ProductListModel.ListBe
             }
         });
 
+    }
+
+    /**
+     * 是否显示折扣         //是否参加了活动 1是   是否是折扣活动  1折扣活动 2 运费活动
+     */
+    public boolean canShowActivitySing(ProductListModel.ListBean showData) {
+        if (ProductHelper.isJoinActivity(showData.getIsJoin()) && ProductHelper.isJoinZhekouactivity(showData.getActivityType())) {
+
+            return true;
+
+        }
+        return false;
     }
 
 }

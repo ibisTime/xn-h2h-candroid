@@ -28,11 +28,11 @@ import java.util.Map;
 import retrofit2.Call;
 
 /**
- * 我的信息内容输入修改
+ * 我的信息内容输入修改（昵称）
  * Created by 李先俊 on 2017/6/16.
  */
 
-public class UserInfoInputUpdateActivity extends AbsBaseLoadActivity {
+public class UserNickNameUpdateActivity extends AbsBaseLoadActivity {
 
     private ActivityUserinfoUpdateInputBinding mBinding;
 
@@ -50,7 +50,7 @@ public class UserInfoInputUpdateActivity extends AbsBaseLoadActivity {
         if (context == null) {
             return;
         }
-        Intent intent = new Intent(context, UserInfoInputUpdateActivity.class);
+        Intent intent = new Intent(context, UserNickNameUpdateActivity.class);
 
         intent.putExtra("info", info);
         intent.putExtra("opentype", opentype);
@@ -131,13 +131,13 @@ public class UserInfoInputUpdateActivity extends AbsBaseLoadActivity {
 
 
                 } else {
-                    UITipDialog.showFall(UserInfoInputUpdateActivity.this, "操作失败");
+                    UITipDialog.showFall(UserNickNameUpdateActivity.this, "操作失败");
                 }
             }
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
-                UITipDialog.showFall(UserInfoInputUpdateActivity.this, errorCode);
+                UITipDialog.showFall(UserNickNameUpdateActivity.this, errorCode);
             }
 
             @Override

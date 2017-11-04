@@ -114,11 +114,12 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_key_null"
+                    android:id="@+id/tv_key_point"
                     style="@style/text_calculate_number"
-                    android:background="@color/white"
+                    android:background="@drawable/selector_gray"
+                    android:gravity="center"
                     android:tag="."
-                    android:text="" />
+                    android:text="." />
 
                 <View style="@style/style_split_vline" />
 

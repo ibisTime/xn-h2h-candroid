@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.cdkj.baselibrary.api.ResponseInListModel;
@@ -70,7 +71,8 @@ public class ActivityCenterDetailsActivity extends AbsBaseLoadActivity {
             @Override
             public void onClick(View view) {
                 if (mActivityModel == null) return;
-                ProductReleaseActivity.open(ActivityCenterDetailsActivity.this, mActivityModel.getCode());
+                /*type 1折扣活动 2 运费活动*/
+                ProductReleaseActivity.open(ActivityCenterDetailsActivity.this, mActivityModel.getCode(), TextUtils.equals(mActivityModel.getType(), "2"));
             }
         });
     }

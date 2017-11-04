@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.cdkj.baselibrary.activitys.AboutAsActivity;
+import com.cdkj.baselibrary.activitys.ShareActivity;
 import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.api.ResponseInListModel;
 import com.cdkj.baselibrary.appmanager.EventTags;
@@ -21,6 +23,7 @@ import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.interfaces.BaseRefreshCallBack;
 import com.cdkj.baselibrary.interfaces.RefreshHelper;
 import com.cdkj.baselibrary.model.CodeModel;
+import com.cdkj.baselibrary.model.IntroductionInfoModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
@@ -207,7 +210,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
                 imUserInfo.setRightImg(SPUtilHelpr.getUserQiniuPhoto());
                 imUserInfo.setToUserId(mProductData.getStoreCode());
                 imUserInfo.setUserName(mProductData.getNickName());
-                TxImLogingActivity.open(ProductDetailActivity.this, imUserInfo, false, false);
+                TxImLogingActivity.open(ProductDetailActivity.this, imUserInfo, false, true);
 //                ChatC2CActivity.open(ProductDetailActivity.this, imUserInfo);
             }
         });
@@ -220,6 +223,14 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 
                 PersonalPageActivity.open(ProductDetailActivity.this, mProductData.getStoreCode());
 
+            }
+        });
+
+        //分享
+        mBinding.butLayout.btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getShareUrl();
             }
         });
     }
@@ -590,18 +601,20 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         if (showData == null) return;
         //是自己查看就隐藏购买按钮 或是已经下架
         if (TextUtils.equals(showData.getStoreCode(), SPUtilHelpr.getUserId()) || !TextUtils.equals(showData.getStatus(), "3")) {
-            mBinding.butLayout.linBuy.setVisibility(View.GONE);
+            mBinding.butLayout.btnCall.setVisibility(View.GONE);
+            mBinding.butLayout.btnBuy.setVisibility(View.GONE);
+            mBinding.butLayout.btnShare.setVisibility(View.VISIBLE);
         } else {
-            mBinding.butLayout.linBuy.setVisibility(View.VISIBLE);
+            mBinding.butLayout.btnCall.setVisibility(View.VISIBLE);
+            mBinding.butLayout.btnBuy.setVisibility(View.VISIBLE);
+            mBinding.butLayout.btnShare.setVisibility(View.GONE);
         }
 
-        //是否参加了活动 1是
-        if (TextUtils.equals(showData.getIsJoin(), "1")) {
+        //是否参加了活动 1是 是否是折扣活动  1折扣活动 2 运费活动
+        if (ProductHelper.isJoinActivity(showData.getIsJoin()) && ProductHelper.isJoinZhekouactivity(showData.getActivityType())) {
             mBinding.butLayout.tvZhekou.setVisibility(View.VISIBLE);
-            mBinding.butLayout.tvZhekou.setText("已享受"+ProductHelper.getShowDiscount(showData.getDiscount())+"折优惠");
+            mBinding.butLayout.tvZhekou.setText("已享受" + ProductHelper.getShowDiscount(showData.getDiscount()) + "折优惠");
         }
-
-
 
         mImgUrlList.clear();
         mImgUrlList = new ArrayList<>();
@@ -671,6 +684,48 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
                 if (isShowdialog) disMissLoading();
             }
         });
+    }
+
+
+    /**
+     * 获取服务电话
+     */
+    public void getShareUrl() {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("key", "product_recommend");
+        map.put("systemCode", MyCdConfig.SYSTEMCODE);
+        map.put("companyCode", MyCdConfig.COMPANYCODE);
+
+        Call call = RetrofitUtils.getBaseAPiService().getKeySystemInfo("808917", StringUtils.getJsonToString(map));
+
+        addCall(call);
+
+        showLoadingDialog();
+
+        call.enqueue(new BaseResponseModelCallBack<IntroductionInfoModel>(this) {
+            @Override
+            protected void onSuccess(IntroductionInfoModel data, String SucMessage) {
+                if (TextUtils.isEmpty(data.getCvalue()) || mProductData == null) {
+                    return;
+                }
+
+                ShareActivity.open(ProductDetailActivity.this,
+                        data.getCvalue() + mProductData.getStoreCode(), mProductData.getName(), "我淘网");
+
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+                UITipDialog.showFall(ProductDetailActivity.this, errorMessage);
+            }
+
+            @Override
+            protected void onFinish() {
+                disMissLoading();
+            }
+        });
+
     }
 
 

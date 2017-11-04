@@ -57,7 +57,7 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 
 /**
- * 产品筛选
+ * 产品筛选 优惠活动
  * Created by cdkj on 2017/10/16.
  */
 
@@ -118,7 +118,7 @@ public class PreferentialProductListActivity extends BaseRefreshHelperAndLocatio
         mBinding.layoutSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SearchActivity.open(PreferentialProductListActivity.this);
+                SearchActivity.open(PreferentialProductListActivity.this,true);
             }
         });
     }

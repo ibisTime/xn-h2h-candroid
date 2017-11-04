@@ -23,6 +23,8 @@ public class EventTags {
 
     //昵称编辑
     public final static String USERNAMEEDITREFRESH = "8";
+    //昵称编辑
+    public final static String USERNAMEEDITREFRESH2 = "19";
     //添加地址成功
     public final static String ADDRESSUPDATE = "7";
     //发布成功

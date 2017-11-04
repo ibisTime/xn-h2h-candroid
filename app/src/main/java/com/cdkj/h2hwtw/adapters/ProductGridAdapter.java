@@ -12,6 +12,7 @@ import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.module.product.ProductDetailActivity;
+import com.cdkj.h2hwtw.other.ProductHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -40,7 +41,7 @@ public class ProductGridAdapter extends BaseQuickAdapter<ProductListModel.ListBe
 
         viewHolder.setText(R.id.tv_goods_name, item.getName());
 
-        viewHolder.setGone(R.id.tv_is_new, TextUtils.equals(item.getIsNew(), "1"));
+        viewHolder.setGone(R.id.tv_is_new, ProductHelper.isNewProduct(item.getIsNew()));
         viewHolder.setText(R.id.tv_goods_price, MoneyUtils.showPrice(item.getPrice()));
 
         viewHolder.setText(R.id.tv_type_name, item.getTypeName());
@@ -57,9 +58,9 @@ public class ProductGridAdapter extends BaseQuickAdapter<ProductListModel.ListBe
 
         viewHolder.setGone(R.id.img_state, !TextUtils.equals(item.getStatus(), "3"));
 
-        if(TextUtils.equals(item.getStatus(), "4")){
+        if (TextUtils.equals(item.getStatus(), "4")) {
             viewHolder.setImageResource(R.id.img_state, R.drawable.on_sell);
-        }else{
+        } else if (TextUtils.equals(item.getStatus(), "5") || TextUtils.equals(item.getStatus(), "6")) {
             viewHolder.setImageResource(R.id.img_state, R.drawable.down_sell);
         }
 

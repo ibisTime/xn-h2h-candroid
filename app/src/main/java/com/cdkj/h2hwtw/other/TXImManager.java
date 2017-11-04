@@ -45,17 +45,18 @@ public class TXImManager {
      * @param appid
      */
     public void init(int appid) {
-        if (MsfSdkUtils.isMainProcess(MyApplication.getInstance())) {
-            //初始化SDK基本配置
-            TIMSdkConfig config = new TIMSdkConfig(appid)
-                    .enableCrashReport(false)//是否开启错误上报
-                    .enableLogPrint(true)//是否开启日志
-                    .setLogLevel(BuildConfig.IS_DEBUG ? TIMLogLevel.ERROR : TIMLogLevel.OFF);
+        /*if (MsfSdkUtils.isMainProcess(MyApplication.getInstance())) {
 
-            //初始化SDK
-            TIMManager.getInstance().init(MyApplication.getInstance(), config);
+        }*/
+        //初始化SDK基本配置
+        TIMSdkConfig config = new TIMSdkConfig(appid)
+                .enableCrashReport(false)//是否开启错误上报
+                .enableLogPrint(BuildConfig.IS_DEBUG)//是否开启日志
+                .setLogLevel(BuildConfig.IS_DEBUG ? TIMLogLevel.ERROR : TIMLogLevel.OFF);
 
-        }
+        //初始化SDK
+        TIMManager.getInstance().init(MyApplication.getInstance(), config);
+
     }
 
     /**

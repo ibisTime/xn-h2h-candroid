@@ -77,7 +77,6 @@
         <activity
             android:name="com.cdkj.baselibrary.activitys.AboutAsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActivityDialogStyleBottom"
             android:windowSoftInputMode="adjustPan" />
 
     </application>

@@ -1,5 +1,7 @@
 package com.cdkj.h2hwtw.other;
 
+import android.text.TextUtils;
+
 import com.cdkj.baselibrary.utils.BigDecimalUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
@@ -15,6 +17,7 @@ import java.text.NumberFormat;
 
 public class ProductHelper {
 
+      /*3=已上架 4=已卖出，5=已下架 ,6=强制下架*/
 
     /**
      * 总价格 =单价 * 折扣 +加运费
@@ -44,5 +47,48 @@ public class ProductHelper {
         NumberFormat nf = new DecimalFormat("#.##");
         return nf.format(zhek);
     }
+
+    /**
+     * 是否参加了包邮活动
+     *
+     * @param activityType
+     * @return
+     */
+    public static boolean isJoinSendActivity(String activityType) {
+        return TextUtils.equals("2", activityType);
+    }
+
+    /**
+     * 是否参加了折扣活动
+     *
+     * @param activityType
+     * @return
+     */
+    public static boolean isJoinZhekouactivity(String activityType) {
+        return TextUtils.equals("1", activityType);
+    }
+
+    /**
+     * 当前产品是否参加了活动 1是 0否
+     *
+     * @param isJoin
+     * @return
+     */
+    public static boolean isJoinActivity(String isJoin) {
+        return TextUtils.equals("1", isJoin);
+    }
+    /**
+     * 当前产品是否全新
+     *
+     * @param
+     * @return
+     */
+    public static boolean isNewProduct(String isNew) {
+        return TextUtils.equals("1", isNew);
+    }
+
+
+
+
 
 }

@@ -165,6 +165,45 @@
                     android:src="@drawable/more_right" />
 
             </LinearLayout>
+            <View style="@style/style_split_line" />
+            <LinearLayout
+                android:id="@+id/lin_user_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="个人简介"
+                    android:textColor="@color/text_black_app"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_info"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|right"
+                    android:hint="请输入个人简介"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/text_black_app"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/more_right" />
+
+            </LinearLayout>
 
             <View style="@style/style_split_line" />
 

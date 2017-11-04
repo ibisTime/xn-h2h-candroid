@@ -16,6 +16,7 @@ import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseFragment;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
+import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.h2hwtw.MainActivity;
 import com.cdkj.h2hwtw.R;
@@ -90,13 +91,21 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
 
                         if (user == null) continue;
 
+                        LogUtil.E("会话头像"+user.getFaceUrl());
+                        LogUtil.E("会话昵称"+user.getNickName());
+
                         for (Conversation conversation : conversationList) {
 
                             if (conversation == null) continue;
 
                             if (TextUtils.equals(user.getIdentifier(), conversation.getIdentify())) {
 
-                                conversation.setLogoUrl(MyCdConfig.QINIUURL + user.getFaceUrl());
+                                if(!ImgUtils.isHaveHttp(user.getFaceUrl())){
+                                    conversation.setLogoUrl(MyCdConfig.QINIUURL + user.getFaceUrl());
+                                }else{
+                                    conversation.setLogoUrl(user.getFaceUrl());
+                                }
+
                                 conversation.setName(user.getNickName());
                             }
                         }
@@ -104,8 +113,6 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
 
                     Collections.sort(conversationList);
                     adapter.notifyDataSetChanged();
-
-                    showEmpty();
                 }
             });
 
@@ -117,22 +124,6 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
         return view;
     }
 
-    /**
-     * 显示空
-     */
-    private void showEmpty() {
-//        if (conversationList.size() == 0) {
-//            mLinEmptyView.setVisibility(View.VISIBLE);
-//            listView.setVisibility(View.GONE);
-//        } else {
-//            mLinEmptyView.setVisibility(View.GONE);
-//            listView.setVisibility(View.VISIBLE);
-//        }
-
-        LogUtil.E("回话布局" + conversationList.size());
-
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -141,9 +132,10 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
             return;
         }
         if (!TXImManager.getInstance().isLogin()) {   //如果聊天没有登录 则登录聊天
+            LogUtil.E("会话列表腾讯云登录");
             if (startTxLoginNum < 2) {       // 最多重复请求登录2次
                 startTxLoginNum++;
-                TxImLogingActivity.open(mActivity, null, false, true);
+                TxImLogingActivity.open(mActivity, null, false, false);
             }
             return;
         }
@@ -262,7 +254,6 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
             ids.add(conversation.getIdentify());
         }
         friendshipManagerPresenter.searchFriendById(ids);
-        showEmpty();
         if (mActivity instanceof MainActivity) //未读消息数量
             ((MainActivity) mActivity).setMsgUnread(getTotalUnreadNum());
     }

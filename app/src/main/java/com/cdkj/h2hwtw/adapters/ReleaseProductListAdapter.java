@@ -13,6 +13,7 @@ import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.module.product.ProductDetailActivity;
 import com.cdkj.h2hwtw.module.product.releasesell.ReleaseProductListFragment;
+import com.cdkj.h2hwtw.other.ProductHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -41,7 +42,7 @@ public class ReleaseProductListAdapter extends BaseQuickAdapter<ProductListModel
 
         viewHolder.setText(R.id.tv_goods_name, item.getName());
 
-        viewHolder.setGone(R.id.tv_is_new, TextUtils.equals(item.getIsNew(), "1"));
+        viewHolder.setGone(R.id.tv_is_new, ProductHelper.isNewProduct(item.getIsNew()));
         viewHolder.setText(R.id.tv_goods_price, MoneyUtils.showPrice(item.getPrice()));
 
         viewHolder.setText(R.id.tv_goods_price_old, MoneyUtils.showPrice(item.getOriginalPrice()));
@@ -51,6 +52,11 @@ public class ReleaseProductListAdapter extends BaseQuickAdapter<ProductListModel
         viewHolder.addOnClickListener(R.id.tv_down_product);
         viewHolder.addOnClickListener(R.id.tv_edit_product);
 
+        if (TextUtils.equals(item.getStatus(), "4")) {
+            viewHolder.setImageResource(R.id.img_sell_state, R.drawable.on_sell);
+        } else if (TextUtils.equals(item.getStatus(), "5") || TextUtils.equals(item.getStatus(), "6")) {
+            viewHolder.setImageResource(R.id.img_sell_state, R.drawable.down_sell);
+        }
 
         viewHolder.setGone(R.id.img_sell_state, canShowSellSing(item.getStatus()));
 
@@ -98,10 +104,10 @@ public class ReleaseProductListAdapter extends BaseQuickAdapter<ProductListModel
      */
     public boolean canShowSellSing(String status) {
 
-        if (TextUtils.equals(status, "4")) {
-            return true;
+        if (TextUtils.equals(status, "3")) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 }

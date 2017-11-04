@@ -136,7 +136,6 @@ public class WebViewActivity extends AbsBaseLoadActivity {
         map.put("companyCode", MyCdConfig.COMPANYCODE);
 
         Call call = RetrofitUtils.getBaseAPiService().getKeySystemInfo("805917", StringUtils.getJsonToString(map));
-        ;
 
         addCall(call);
 

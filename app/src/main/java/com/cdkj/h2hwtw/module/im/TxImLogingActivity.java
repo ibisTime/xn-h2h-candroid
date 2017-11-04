@@ -37,7 +37,7 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
 
 
     private boolean canOpenMain;
-    private boolean isFromLogin;
+    private boolean isStartChat;
 
     private ActivityTxlogingBinding binding;
     private ImUserInfo imUserInfo;
@@ -46,15 +46,15 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
     /**
      * @param context
      * @param canOpenMain 如果未登录，登录后能否打开主页
-     * @param isFromLogin 是否来自登录页面
+     * @param isStartChat 是否启动聊天
      */
-    public static void open(Activity context, ImUserInfo imUserInfo, boolean canOpenMain, boolean isFromLogin) {
+    public static void open(Activity context, ImUserInfo imUserInfo, boolean canOpenMain, boolean isStartChat) {
         if (context == null) {
             return;
         }
         Intent intent = new Intent(context, TxImLogingActivity.class);
         intent.putExtra("canOpenMain", canOpenMain);
-        intent.putExtra("isFromLogin", isFromLogin);
+        intent.putExtra("isStartChat", isStartChat);
         intent.putExtra("imUserInfo", imUserInfo);
         context.startActivity(intent);
 //        context.overridePendingTransition(0, 0);
@@ -78,7 +78,7 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
         setTitle("");
         if (getIntent() != null) {
             canOpenMain = getIntent().getBooleanExtra("canOpenMain", false);
-            isFromLogin = getIntent().getBooleanExtra("isFromLogin", false);
+            isStartChat = getIntent().getBooleanExtra("isFromLogin", false);
             imUserInfo = getIntent().getParcelableExtra("imUserInfo");
         }
         if (!SPUtilHelpr.isLoginNoStart()) { //如果没有登录的话先登录
@@ -88,7 +88,6 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
             ChatC2CActivity.open(TxImLogingActivity.this, imUserInfo);
             finishNoTransition();
         } else {
-            finishNoTransition();
             getUserInfoRequest(false); //登录--> 获取用户信息 -->获取腾讯签名-->登录腾讯--->登录成功
         }
     }
@@ -241,7 +240,7 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
      */
     private void startChat() {
         disMissLoading();
-        if (!isFromLogin) {
+        if (isStartChat) {
             ChatC2CActivity.open(TxImLogingActivity.this, imUserInfo);
         }
         finishNoTransition();

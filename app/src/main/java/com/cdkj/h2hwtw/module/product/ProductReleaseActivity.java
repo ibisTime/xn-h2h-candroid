@@ -68,17 +68,20 @@ public class ProductReleaseActivity extends BaseLocationActivity {
     private String mType;//类型
 
     private String mActivityCode;//活动编号 如果参加活动需要
+    private boolean mIsJoinSendActivity;//是否参加了免运费活动
 
     /**
      * @param context
-     * @param activityCode 如果参加了优惠活动 则需要传递活动编号
+     * @param activityCode       如果参加了优惠活动 则需要传递活动编号
+     * @param isJoinSendActivity 是否参加了免运费活动
      */
-    public static void open(Context context, String activityCode) {
+    public static void open(Context context, String activityCode, boolean isJoinSendActivity) {
         if (context == null) {
             return;
         }
         Intent intent = new Intent(context, ProductReleaseActivity.class);
         intent.putExtra("activityCode", activityCode);
+        intent.putExtra("isJoinSendActivity", isJoinSendActivity);
         context.startActivity(intent);
     }
 
@@ -97,6 +100,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
 
         if (getIntent() != null) {
             mActivityCode = getIntent().getStringExtra("activityCode");
+            mIsJoinSendActivity = getIntent().getBooleanExtra("isJoinSendActivity", false);
         }
 
         if (isJoinActivity()) {          //参加活动的不允许发布到圈子
@@ -173,7 +177,7 @@ public class ProductReleaseActivity extends BaseLocationActivity {
             @Override
             public void onClick(View view) {
 //                mPriceModel = null;
-                new PriceKeyboardPop(ProductReleaseActivity.this, mPriceModel, new PriceKeyboardPop.PriceKeyBoardPopListener() {
+                new PriceKeyboardPop(ProductReleaseActivity.this, mPriceModel, mIsJoinSendActivity, new PriceKeyboardPop.PriceKeyBoardPopListener() {
                     @Override
                     public void sureInputDone(PriceKeyBoardListenerModel model) {
                         mPriceModel = model;
@@ -404,7 +408,12 @@ public class ProductReleaseActivity extends BaseLocationActivity {
 
         map.put("price", MoneyUtils.getRequestPrice(mPriceModel.getPrice()));
         map.put("originalPrice", MoneyUtils.getRequestPrice(mPriceModel.getOldPrice()));
-        map.put("yunfei", MoneyUtils.getRequestPrice(mPriceModel.getSendPrice()));
+
+        if(mIsJoinSendActivity){
+            map.put("yunfei", "0");
+        }else{
+            map.put("yunfei", MoneyUtils.getRequestPrice(mPriceModel.getSendPrice()));
+        }
 
         map.put("type", mType);
         if (isJoinActivity()) {

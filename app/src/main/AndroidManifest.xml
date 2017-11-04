@@ -288,12 +288,17 @@
             android:windowSoftInputMode="adjustPan" />
         <!--提现成功-->
         <activity
-            android:name=".module.user.info.UserInfoInputUpdateActivity"
+            android:name=".module.user.info.UserNickNameUpdateActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--用户信息编辑-->
         <activity
             android:name=".module.user.info.UserInfoEditActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--用户信息编辑-->
+        <activity
+            android:name=".module.user.info.UserInfoUpdateActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!--积分流水-->

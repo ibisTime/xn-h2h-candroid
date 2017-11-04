@@ -169,7 +169,11 @@ public class MainActivity extends BaseLocationActivity {
         mBinding.layoutRelease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProductReleaseActivity.open(MainActivity.this, "");
+                if (!SPUtilHelpr.isLogin(MainActivity.this, false)) {
+                    setShowButIndex();               //如果没登录 恢复以前按钮状态
+                    return;
+                }
+                ProductReleaseActivity.open(MainActivity.this, "",false);
             }
         });
 

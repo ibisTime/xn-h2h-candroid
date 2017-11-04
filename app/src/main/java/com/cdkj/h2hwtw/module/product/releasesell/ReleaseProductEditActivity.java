@@ -33,6 +33,7 @@ import com.cdkj.h2hwtw.model.ProductTypeModel;
 import com.cdkj.h2hwtw.model.ReleasePagePhotoModel;
 import com.cdkj.h2hwtw.module.product.ProductReleaseActivity;
 import com.cdkj.h2hwtw.module.product.ReleaseTypeSelectActivity;
+import com.cdkj.h2hwtw.other.ProductHelper;
 import com.cdkj.h2hwtw.pop.PriceKeyboardPop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qiniu.android.http.ResponseInfo;
@@ -168,7 +169,7 @@ public class ReleaseProductEditActivity extends AbsBaseLoadActivity {
         }
         mBinding.editDescription.setText(productData.getDescription());
 
-        mBinding.checkboxIsnew.setChecked(TextUtils.equals(productData.getIsNew(), "1"));//是否全新 1全新
+        mBinding.checkboxIsnew.setChecked(ProductHelper.isNewProduct(productData.getIsNew()));//是否全新 1全新
 
         mBinding.checkboxIsPublish.setChecked(TextUtils.equals(productData.getIsPublish(), "1"));//是否发布到圈子 1发布
 
@@ -245,13 +246,15 @@ public class ReleaseProductEditActivity extends AbsBaseLoadActivity {
         mBinding.layoutPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new PriceKeyboardPop(ReleaseProductEditActivity.this, mPriceModel, new PriceKeyboardPop.PriceKeyBoardPopListener() {
-                    @Override
-                    public void sureInputDone(PriceKeyBoardListenerModel model) {
-                        mPriceModel = model;
-                        mBinding.tvPrice.setText(model.getPrice());
-                    }
-                }).showPopupWindow();
+                /*activityType 1折扣活动 2 运费活动*/
+                new PriceKeyboardPop(ReleaseProductEditActivity.this, mPriceModel, ProductHelper.isJoinSendActivity(mProductData.getActivityType()),
+                        new PriceKeyboardPop.PriceKeyBoardPopListener() {
+                            @Override
+                            public void sureInputDone(PriceKeyBoardListenerModel model) {
+                                mPriceModel = model;
+                                mBinding.tvPrice.setText(model.getPrice());
+                            }
+                        }).showPopupWindow();
             }
         });
 
@@ -444,7 +447,12 @@ public class ReleaseProductEditActivity extends AbsBaseLoadActivity {
         map.put("pic", StringUtils.listToString(mPahtRquestList, "||"));
         map.put("price", MoneyUtils.getRequestPrice(mPriceModel.getPrice()));
         map.put("originalPrice", MoneyUtils.getRequestPrice(mPriceModel.getOldPrice()));
-        map.put("yunfei", MoneyUtils.getRequestPrice(mPriceModel.getSendPrice()));
+
+        if (ProductHelper.isJoinSendActivity(mProductData.getActivityType())) {
+            map.put("yunfei", "0");
+        } else {
+            map.put("yunfei", MoneyUtils.getRequestPrice(mPriceModel.getSendPrice()));
+        }
 
         map.put("type", mType);
         map.put("code", mProductData.getCode());

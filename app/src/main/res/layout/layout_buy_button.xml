@@ -3,14 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
-        android:id="@+id/lin_buy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
         android:paddingBottom="5dp"
         android:paddingTop="5dp">
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -46,14 +44,14 @@
             </LinearLayout>
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/tv_zhekou"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:textSize="14sp"
+                android:textSize="12sp"
+                android:visibility="gone"
                 tools:text="已享受5折优惠" />
 
         </LinearLayout>
@@ -64,11 +62,26 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+
+        <Button
+            android:id="@+id/btn_share"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="right|"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/selector_btn_round_red"
+            android:gravity="center"
+            android:text="分享产品"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/btn_call"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/selector_btn_round"
             android:gravity="center"
@@ -81,7 +94,6 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="right|"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"

@@ -60,12 +60,19 @@ public class SearchActivity extends BaseRefreshHelperActivity {
 
     private List<String> searStrings = new ArrayList<>();
 
+    private boolean mIsJoin;
 
-    public static void open(Context context) {
+
+    /**
+     * @param context
+     * @param isJoin  是否参加了优惠活动
+     */
+    public static void open(Context context, boolean isJoin) {
         if (context == null) {
             return;
         }
         Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra("isJoin", isJoin);
         context.startActivity(intent);
     }
 
@@ -87,7 +94,7 @@ public class SearchActivity extends BaseRefreshHelperActivity {
         map.put("pageindex", pageindex + "");
         map.put("start", pageindex + "");
         map.put("status", "3");
-        map.put("isJoin", "0");
+        map.put("isJoin", mIsJoin ? "1" : "0");
         map.put("companyCode", MyCdConfig.COMPANYCODE);
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
         map.put("name", mBinding.editSerchView.getText().toString());
@@ -160,6 +167,9 @@ public class SearchActivity extends BaseRefreshHelperActivity {
 
     @Override
     protected void onInit(Bundle savedInstanceState) {
+        if (getIntent() != null) {
+            mIsJoin = getIntent().getBooleanExtra("isJoin", false);
+        }
         initEditKeyPoard();
         mBinding.tvSearchCancel.setOnClickListener(new View.OnClickListener() {
             @Override

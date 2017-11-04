@@ -162,6 +162,7 @@ public class SettingActivity extends AbsBaseLoadActivity {
         });
 
 
+        //银行卡
         mBinding.layoutBank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,6 +170,7 @@ public class SettingActivity extends AbsBaseLoadActivity {
             }
         });
 
+        //支付密码
         mBinding.linPayAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,6 +178,7 @@ public class SettingActivity extends AbsBaseLoadActivity {
             }
         });
 
+        //关于我们
         mBinding.layoutAboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

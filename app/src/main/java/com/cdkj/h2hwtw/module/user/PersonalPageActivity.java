@@ -26,6 +26,8 @@ import com.cdkj.h2hwtw.databinding.ActivityPersonalPageBinding;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.ReleaseNumModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
+import com.cdkj.h2hwtw.module.im.ImUserInfo;
+import com.cdkj.h2hwtw.module.im.TxImLogingActivity;
 import com.cdkj.h2hwtw.module.user.info.UserInfoEditActivity;
 import com.cdkj.h2hwtw.module.user.login.LoginActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -98,6 +100,24 @@ public class PersonalPageActivity extends BaseRefreshHelperActivity {
         initEditState();
         mBinding.refreshLayout.setEnableRefresh(false);//禁用下拉
         mBinding.rv.setLayoutManager(new ScrollGridLayoutManager(this, 2));
+
+        mBinding.layoutUser.tvCallToUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImUserInfo imUserInfo = new ImUserInfo();
+
+                if (imUserInfo == null) {
+                    return;
+                }
+                imUserInfo.setLeftImg(MyCdConfig.QINIUURL + mUserInfoModel.getPhoto());
+                imUserInfo.setToUserId(mUserInfoModel.getUserId());
+                imUserInfo.setUserName(mUserInfoModel.getNickname());
+                imUserInfo.setRightImg(SPUtilHelpr.getUserQiniuPhoto());
+
+                TxImLogingActivity.open(PersonalPageActivity.this, imUserInfo, false, true);
+            }
+        });
+
         getReleaseSumRequest();
     }
 
@@ -428,6 +448,8 @@ json:{"systemCode":"CD-WTW000016","companyCode":"CD-WTW000016","token":"TSYS_USE
                 sb.append(DateUtil.getDatesBetweenDays(new Date(data.getCreateDatetime())) + "");
                 sb.append("天前加入");
                 sb.append(getString(R.string.app_name));
+                sb.append("\n");
+                sb.append(data.getIntroduce());
                 mBinding.layoutUser.tvCrateTime.setText(sb.toString());
 
                 mBinding.layoutUser.tvInfoGo.setText(DateUtil.getLoginDataInfo2(data.getLoginDatetime()));

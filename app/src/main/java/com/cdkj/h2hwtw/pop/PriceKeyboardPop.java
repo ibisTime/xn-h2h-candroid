@@ -41,10 +41,19 @@ public class PriceKeyboardPop extends BasePopupWindow {
 
     private PriceKeyBoardListenerModel mPriceModel;//包含价格
 
-    public PriceKeyboardPop(Activity context, PriceKeyBoardListenerModel priceModel, PriceKeyBoardPopListener listener) {
+    private boolean mIsJoinSendActivity = false;
+
+    /**
+     * @param context
+     * @param priceModel
+     * @param isJoinSendActivity  是否参加了包邮活动 参加了不能对邮费进行编辑
+     * @param listener
+     */
+    public PriceKeyboardPop(Activity context, PriceKeyBoardListenerModel priceModel, boolean isJoinSendActivity, PriceKeyBoardPopListener listener) {
         super(context);
         mSureListener = listener;
         this.mPriceModel = priceModel;
+        this.mIsJoinSendActivity = isJoinSendActivity;
     }
 
     @Override
@@ -79,10 +88,24 @@ public class PriceKeyboardPop extends BasePopupWindow {
             popBinding.editPrice.setText(mPriceEditInputString.toString());
             popBinding.editPriceOld.setText(mPriceOldEditInputString.toString());
             popBinding.editSendPrice.setText(mPriceSendEditInputString.toString());
-            popBinding.checkboxCanSend.setChecked(mPriceModel.isCanSend());
+
+            if (!mIsJoinSendActivity) {
+                setIsSendState(mPriceModel.isCanSend());
+            } else {
+                popBinding.checkboxCanSend.setChecked(true);
+                popBinding.editSendPrice.setEnabled(false);
+            }
 
             if (!TextUtils.isEmpty(popBinding.editPrice.getText().toString())) {
                 popBinding.editPrice.setSelection(popBinding.editPrice.getText().toString().length());
+            }
+
+        }else{
+            if (!mIsJoinSendActivity) {
+                popBinding.editSendPrice.setEnabled(true);
+            } else {
+                popBinding.checkboxCanSend.setChecked(true);
+                popBinding.editSendPrice.setEnabled(false);
             }
 
         }
@@ -106,25 +129,13 @@ public class PriceKeyboardPop extends BasePopupWindow {
         setEditToouch(popBinding.editPriceOld, 1);
         setEditToouch(popBinding.editSendPrice, 2);
 
-        //如果包邮则输入框禁用
-        popBinding.checkboxCanSend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    mEditIndex = -1;
-                    popBinding.editSendPrice.setText("");
-                    mPriceSendEditInputString.setLength(0);
-                }
-                popBinding.editSendPrice.setEnabled(!b);
-            }
-        });
-
         //包邮点击
         popBinding.linSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                popBinding.checkboxCanSend.setChecked(!popBinding.checkboxCanSend.isChecked());
+                if (!mIsJoinSendActivity) {
+                    setSendState();
+                }
             }
         });
 
@@ -170,6 +181,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
                     model.setSendPrice("0");
                 }
 
+
                 if (mSureListener != null) {
                     mSureListener.sureInputDone(model);
                 }
@@ -178,6 +190,26 @@ public class PriceKeyboardPop extends BasePopupWindow {
                 dismiss();
             }
         });
+    }
+
+    /**
+     * 设置是包邮状态
+     */
+    private void setSendState() {
+        popBinding.checkboxCanSend.setChecked(!popBinding.checkboxCanSend.isChecked());
+        popBinding.editSendPrice.setEnabled(!popBinding.checkboxCanSend.isChecked());
+        if (popBinding.checkboxCanSend.isChecked()) {
+            popBinding.editSendPrice.setText("");
+            mPriceSendEditInputString.setLength(0);
+        }
+    }
+
+    /**
+     * 设置是包邮状态
+     */
+    private void setIsSendState(boolean isSend) {
+        popBinding.checkboxCanSend.setChecked(isSend);
+        popBinding.editSendPrice.setEnabled(!isSend);
     }
 
     /**
@@ -212,7 +244,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
                                  }
                              }, popBinding.layouotKeyboard.tvKey0, popBinding.layouotKeyboard.tvKey1, popBinding.layouotKeyboard.tvKey2, popBinding.layouotKeyboard.tvKey3,
                 popBinding.layouotKeyboard.tvKey4, popBinding.layouotKeyboard.tvKey5, popBinding.layouotKeyboard.tvKey6, popBinding.layouotKeyboard.tvKey7,
-                popBinding.layouotKeyboard.tvKey8, popBinding.layouotKeyboard.tvKey9/*, popBinding.layouotKeyboard.tvKeyNull*/);
+                popBinding.layouotKeyboard.tvKey8, popBinding.layouotKeyboard.tvKey9, popBinding.layouotKeyboard.tvKeyPoint);
     }
 
     /**
@@ -229,11 +261,34 @@ public class PriceKeyboardPop extends BasePopupWindow {
                 if (TextUtils.equals(view.getTag().toString(), "0") && TextUtils.isEmpty(mPriceEditInputString.toString())) { //禁止第一个输入是0
                     return;
                 }
+
+                int indexof = mPriceEditInputString.toString().indexOf(".");
+
+                if (TextUtils.equals(view.getTag().toString(), ".") && indexof != -1) {//禁止输入两个小数点
+                    return;
+                }
+
+
+                if (indexof != -1 && StringUtils.subStringEnd(mPriceEditInputString.toString(), indexof).length() - 1 >= 2) {//小数点后最多输入两位
+                    LogUtil.E(StringUtils.subStringEnd(mPriceEditInputString.toString(), indexof - 1) + "输入");
+                    return;
+                }
+
+                if (TextUtils.equals(view.getTag().toString(), ".") && TextUtils.isEmpty(mPriceEditInputString.toString())) { //禁止第一个输入是.
+                    return;
+                }
+
                 mPriceEditInputString.append(view.getTag().toString());
-                if (new BigDecimal(mPriceEditInputString.toString()).intValue() > 999999) {
+                if (new BigDecimal(mPriceEditInputString.toString()).floatValue() > 999999) {
                     UITipDialog.showInfo(mContext, "价格不能超过999999哦");
                     mPriceEditInputString.deleteCharAt(mPriceEditInputString.toString().length() - 1);
+
                     return;
+                }
+
+                if (new BigDecimal(mPriceEditInputString.toString()).floatValue() == 999999 &&
+                        TextUtils.equals(StringUtils.subStringLenghtEnd(mPriceEditInputString.toString()), ".")) {                      //去除999999.的情况
+                    mPriceEditInputString.deleteCharAt(mPriceEditInputString.toString().length() - 1);
                 }
 
                 popBinding.editPrice.setText(mPriceEditInputString.toString());
@@ -243,10 +298,28 @@ public class PriceKeyboardPop extends BasePopupWindow {
                 if (TextUtils.equals(view.getTag().toString(), "0") && TextUtils.isEmpty(mPriceOldEditInputString.toString())) { //禁止第一个输入是0
                     return;
                 }
+
+                int indexof1 = mPriceOldEditInputString.toString().indexOf(".");
+                if (TextUtils.equals(view.getTag().toString(), ".") && indexof1 != -1) { //禁止输入两个小数点
+                    return;
+                }
+                if (indexof1 != -1 && StringUtils.subStringEnd(mPriceOldEditInputString.toString(), indexof1).length() - 1 >= 2) {//小数点后最多输入两位
+                    LogUtil.E(StringUtils.subStringEnd(mPriceOldEditInputString.toString(), indexof1 - 1) + "输入");
+                    return;
+                }
+
+                if (TextUtils.equals(view.getTag().toString(), ".") && TextUtils.isEmpty(mPriceOldEditInputString.toString())) { //禁止第一个输入是0
+                    return;
+                }
                 mPriceOldEditInputString.append(view.getTag().toString());
 
-                if (new BigDecimal(mPriceOldEditInputString.toString()).intValue() > 999999) {
+                if (new BigDecimal(mPriceOldEditInputString.toString()).floatValue() > 999999) {
                     UITipDialog.showInfo(mContext, "原价不能超过999999哦");
+                    mPriceOldEditInputString.deleteCharAt(mPriceOldEditInputString.toString().length() - 1);
+                }
+
+                if (new BigDecimal(mPriceOldEditInputString.toString()).floatValue() == 999999 &&
+                        TextUtils.equals(StringUtils.subStringLenghtEnd(mPriceOldEditInputString.toString()), ".")) {                      //去除999999.的情况
                     mPriceOldEditInputString.deleteCharAt(mPriceOldEditInputString.toString().length() - 1);
                 }
 
@@ -254,14 +327,37 @@ public class PriceKeyboardPop extends BasePopupWindow {
                 popBinding.editPriceOld.setSelection(mPriceOldEditInputString.toString().length());
                 break;
             case 2:
+
+                if (popBinding.checkboxCanSend.isChecked()) { //如果选择包邮则禁止输入
+                    return;
+                }
+
                 if (TextUtils.equals(view.getTag().toString(), "0") && TextUtils.isEmpty(mPriceSendEditInputString.toString())) { //禁止第一个输入是0
                     return;
                 }
+                int indexof2 = mPriceSendEditInputString.toString().indexOf(".");
+                if (TextUtils.equals(view.getTag().toString(), ".") && indexof2 != -1) { //禁止输入两个小数点
+                    return;
+                }
+                if (indexof2 != -1 && StringUtils.subStringEnd(mPriceSendEditInputString.toString(), indexof2).length() - 1 >= 2) {//小数点后最多输入两位
+                    LogUtil.E(StringUtils.subStringEnd(mPriceSendEditInputString.toString(), indexof2 - 1) + "输入");
+                    return;
+                }
+
+                if (TextUtils.equals(view.getTag().toString(), ".") && TextUtils.isEmpty(mPriceSendEditInputString.toString())) { //禁止第一个输入是0
+                    return;
+                }
                 mPriceSendEditInputString.append(view.getTag().toString());
-                if (new BigDecimal(mPriceSendEditInputString.toString()).intValue() > 999) {
+                if (new BigDecimal(mPriceSendEditInputString.toString()).floatValue() > 999) {
                     UITipDialog.showInfo(mContext, "运费价不能超过999哦");
                     mPriceSendEditInputString.deleteCharAt(mPriceSendEditInputString.toString().length() - 1);
                 }
+
+                if (new BigDecimal(mPriceSendEditInputString.toString()).floatValue() == 999 &&
+                        TextUtils.equals(StringUtils.subStringLenghtEnd(mPriceSendEditInputString.toString()), ".")) {                      //去除999999.的情况
+                    mPriceSendEditInputString.deleteCharAt(mPriceSendEditInputString.toString().length() - 1);
+                }
+
                 popBinding.editSendPrice.setText(mPriceSendEditInputString.toString());
                 popBinding.editSendPrice.setSelection(mPriceSendEditInputString.toString().length());
                 break;

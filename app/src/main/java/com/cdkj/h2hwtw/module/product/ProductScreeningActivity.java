@@ -118,7 +118,7 @@ public class ProductScreeningActivity extends BaseRefreshHelperAndLocationActivi
         mBinding.layoutSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SearchActivity.open(ProductScreeningActivity.this);
+                SearchActivity.open(ProductScreeningActivity.this,false);
             }
         });
     }

@@ -3,6 +3,7 @@ package com.cdkj.baselibrary.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -21,7 +22,7 @@ public class ImgUtils {
 
     public static void loadImg(Object obj, Object imgid, ImageView img) {
 
-        LogUtil.E("图片"+imgid);
+        LogUtil.E("图片" + imgid);
 
         if (imgid instanceof Integer || imgid instanceof String) {
 
@@ -180,6 +181,16 @@ public class ImgUtils {
 
         }
 
+    }
+
+    /**
+     * 用于判断链接是否添加了七牛
+     * @param url
+     * @return
+     */
+    public static boolean isHaveHttp(String url) {
+        if (TextUtils.isEmpty(url)) return false;
+        return url.indexOf("http:") != -1;
     }
 
 
