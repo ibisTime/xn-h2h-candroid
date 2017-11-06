@@ -75,7 +75,12 @@ public class ProductScreeningActivity extends BaseRefreshHelperAndLocationActivi
     private ScreeningTypeModel mTypeInfo;
     private boolean mPriceUpstate = true; //默认升序
 
+
     private AMapLocation mapLocation;//定位信息
+
+
+    private boolean isRightScreening;//是否进行了第一次右筛选
+    private boolean isPriceScreening = false; //默认升序 是否进行了价格排序 第一次进入时默认排序
 
     /**
      * @param context
@@ -118,7 +123,7 @@ public class ProductScreeningActivity extends BaseRefreshHelperAndLocationActivi
         mBinding.layoutSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SearchActivity.open(ProductScreeningActivity.this,false);
+                SearchActivity.open(ProductScreeningActivity.this, false);
             }
         });
     }
@@ -197,6 +202,7 @@ public class ProductScreeningActivity extends BaseRefreshHelperAndLocationActivi
 
             @Override
             public void onPriceSelect(boolean isUpPrice) {
+                isPriceScreening = true;
                 mPriceUpstate = isUpPrice;
                 mRefreshHelper.onDefaluteMRefresh(true);
             }
@@ -210,6 +216,7 @@ public class ProductScreeningActivity extends BaseRefreshHelperAndLocationActivi
     private void initRightScreeningMenu() {
 
         mRightMenuState = new ScreeningRightMenuState();
+
 
         mBinding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED); //关闭手势滑动
 
@@ -289,7 +296,7 @@ public class ProductScreeningActivity extends BaseRefreshHelperAndLocationActivi
         mBinding.rightMenu.btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                isRightScreening = true;
                 saveRightMenuState();
                 mBinding.drawer.closeDrawer(Gravity.RIGHT);
                 rightMenuReset();
@@ -302,6 +309,7 @@ public class ProductScreeningActivity extends BaseRefreshHelperAndLocationActivi
         mBinding.rightMenu.btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isRightScreening = false;
                 rightMenuReset();
             }
         });
@@ -395,6 +403,11 @@ public class ProductScreeningActivity extends BaseRefreshHelperAndLocationActivi
         map.put("companyCode", MyCdConfig.COMPANYCODE);
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
 
+
+        if (mTypeInfo != null) {
+            map.put("category", mTypeInfo.getCategory());
+            map.put("type", mTypeInfo.getType());
+        }
         if (mAddressInfo != null) {
             map.put("area", mAddressInfo.getArea());
             map.put("city", mAddressInfo.getCity());
@@ -403,26 +416,24 @@ public class ProductScreeningActivity extends BaseRefreshHelperAndLocationActivi
             map.put("latitude", mAddressInfo.getLatitude());
         }
 
-        if (mTypeInfo != null) {
-            map.put("category", mTypeInfo.getCategory());
-            map.put("type", mTypeInfo.getType());
+        if (isPriceScreening) {
+            if (mPriceUpstate) {
+                map.put("orderColumn", "price");
+                map.put("orderDir", "asc");
+            } else {
+                map.put("orderColumn", "price");
+                map.put("orderDir", "desc");
+            }
         }
 
-        if (mPriceUpstate) {
-            map.put("orderColumn", "price");
-            map.put("orderDir", "asc");
-        } else {
-            map.put("orderColumn", "price");
-            map.put("orderDir", "desc");
-        }
-
-        if (mRightMenuState != null) {
+        if (isRightScreening && mRightMenuState != null) {
             map.put("isNew", mRightMenuState.isNew() ? "1" : "0");
             if (mRightMenuState.isSend()) {
                 map.put("yunfei", "0");
             }
             map.put("minPrice", mRightMenuState.getRequestLowPrice());
             map.put("maxPrice", mRightMenuState.getRequestHeightPrice());
+
         }
 
         Call call = RetrofitUtils.createApi(MyApiServer.class).getProductList("808025", StringUtils.getJsonToString(map));

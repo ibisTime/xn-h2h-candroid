@@ -67,7 +67,7 @@ public class MyJfListActivity extends BaseRefreshHelperActivity<BillModel> {
         map.put("currency", "JF");
         map.put("start", pageIndex + "");
         map.put("limit", "10");
-        Call call = RetrofitUtils.createApi(MyApiServer.class).getBillList("802520", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApiServer.class).getBillList("802524", StringUtils.getJsonToString(map));
 
         addCall(call);
 

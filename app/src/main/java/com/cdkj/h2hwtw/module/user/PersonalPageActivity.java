@@ -101,6 +101,10 @@ public class PersonalPageActivity extends BaseRefreshHelperActivity {
         mBinding.refreshLayout.setEnableRefresh(false);//禁用下拉
         mBinding.rv.setLayoutManager(new ScrollGridLayoutManager(this, 2));
 
+        if (TextUtils.equals(mUserId, SPUtilHelpr.getUserId())) {    //如果是自己的话去掉私信按钮
+            mBinding.layoutUser.tvCallToUser.setVisibility(View.GONE);
+        }
+
         mBinding.layoutUser.tvCallToUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -449,7 +453,10 @@ json:{"systemCode":"CD-WTW000016","companyCode":"CD-WTW000016","token":"TSYS_USE
                 sb.append("天前加入");
                 sb.append(getString(R.string.app_name));
                 sb.append("\n");
-                sb.append(data.getIntroduce());
+                if (!TextUtils.isEmpty(data.getIntroduce())) {
+                    sb.append(data.getIntroduce());
+                }
+
                 mBinding.layoutUser.tvCrateTime.setText(sb.toString());
 
                 mBinding.layoutUser.tvInfoGo.setText(DateUtil.getLoginDataInfo2(data.getLoginDatetime()));

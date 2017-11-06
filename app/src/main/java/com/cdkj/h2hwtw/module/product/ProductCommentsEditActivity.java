@@ -1,6 +1,7 @@
 package com.cdkj.h2hwtw.module.product;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
+import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.databinding.ActivityCommentsEditBinding;
@@ -86,9 +88,16 @@ public class ProductCommentsEditActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<CodeModel>(this) {
             @Override
             protected void onSuccess(CodeModel data, String SucMessage) {
-                if (!TextUtils.isEmpty(data.getCode())) {
-                    EventBus.getDefault().post(EventTags.RELEASESCOMMENTS);
-                    finish();
+                EventBus.getDefault().post(EventTags.RELEASESCOMMENTS);
+                if (!TextUtils.isEmpty(data.getCode()) && StringUtils.isFilterComments(data.getCode())) {
+                } else {
+                    UITipDialog.showSuccess(ProductCommentsEditActivity.this, "评论包含敏感词汇,需要审核才能展示", new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+
+                            finish();
+                        }
+                    });
                 }
             }
 

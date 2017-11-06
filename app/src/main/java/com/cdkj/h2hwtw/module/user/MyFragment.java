@@ -134,7 +134,7 @@ public class MyFragment extends BaseLazyFragment {
         mBinding.linJfList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mUserInfoMode == null) return;
+                if (mUserInfoMode == null || TextUtils.isEmpty(mAmountaccountNumber)) return;
                 MyJfListActivity.open(mActivity, mAmountaccountNumber);
             }
         });

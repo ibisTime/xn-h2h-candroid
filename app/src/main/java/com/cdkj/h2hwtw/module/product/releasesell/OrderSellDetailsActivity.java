@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 
+import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
@@ -32,8 +34,11 @@ import com.cdkj.h2hwtw.databinding.ActivityOrderDetailsBinding;
 import com.cdkj.h2hwtw.model.LookCommenModel;
 import com.cdkj.h2hwtw.model.OrderModel;
 import com.cdkj.h2hwtw.module.order.OrderDetailsActivity;
+import com.cdkj.h2hwtw.other.OrderHelper;
+import com.cdkj.h2hwtw.other.ProductHelper;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -58,9 +63,8 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
 
     private OrderModel mOrderData;//订单数据
 
-    private SellProductListAdapter mOrderListAdapter = new SellProductListAdapter(new ArrayList<OrderModel>());//用户获取状态
     private InputDialog CancelInputDialog;
-    private InputDialog CancePaylInputDialog;
+//    private InputDialog CancePaylInputDialog;
 
     /**
      * @param context
@@ -167,11 +171,11 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
 
         mBinding.tvOrderCreateData.setText("下单时间:" + DateUtil.formatStringData(data.getApplyDatetime(), DateUtil.DEFAULT_DATE_FMT));
 
-        mBinding.tvOrderState.setText("订单状态:" + getStateString(data.getStatus()));
+        mBinding.tvOrderState.setText("订单状态:" + OrderHelper.getOrderStateString(data.getStatus()));
 
         mBinding.tvPrice.setText("X1");
         mBinding.tvOrderPriceAll.setText(MoneyUtils.getShowPriceSign(data.getAmount1()));
-        BigDecimal money = BigDecimalUtils.add(data.getAmount1(), data.getYunfei());
+        BigDecimal money = OrderHelper.getAllMoney(data);
         mBinding.tvOrderPriceAll2.setText(MoneyUtils.getShowPriceSign(money));
         mBinding.tvYunfei.setText(MoneyUtils.getShowPriceSign(data.getYunfei()));
 
@@ -179,7 +183,7 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
         mBinding.tvAddress.setText("收货地址:" + data.getReAddress());
         mBinding.tvPhone.setText(data.getReMobile());
 
-        if (TextUtils.equals("1", data.getStatus())) {//如果是待支付状态 则隐藏说明
+        if (OrderHelper.isWaitePayOrder(data.getStatus())) {//如果是待支付状态 则隐藏说明
             mBinding.tvPayInfo.setVisibility(View.GONE);
         } else {
             mBinding.tvPayInfo.setVisibility(View.VISIBLE);
@@ -252,40 +256,6 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
     }
 
 
-    public String getStateString(String status) {
-        /*1 待支付"，2 已支付，3 已发货，4 已收货，5 已评论，6 退款申请，7 退款失败，8 退款成功 ，91取消订单*/
-
-        if (TextUtils.equals("1", status)) {
-            return getString(R.string.order_state_1);
-        }
-        if (TextUtils.equals("2", status)) {
-            return getString(R.string.order_state_2);
-        }
-        if (TextUtils.equals("3", status)) {
-            return getString(R.string.order_state_3);
-        }
-        if (TextUtils.equals("4", status)) {
-            return getString(R.string.order_state_4);
-        }
-        if (TextUtils.equals("5", status)) {
-            return getString(R.string.order_state_5);
-        }
-        if (TextUtils.equals("6", status)) {
-            return getString(R.string.order_state_6);
-        }
-        if (TextUtils.equals("7", status)) {
-            return getString(R.string.order_state_7);
-        }
-        if (TextUtils.equals("8", status)) {
-            return getString(R.string.order_state_8);
-        }
-        if (TextUtils.equals("91", status)) {
-            return getString(R.string.order_state_91);
-        }
-        return "暂无";
-    }
-
-
     /**
      * 根据状态设置底部按钮
      *
@@ -293,19 +263,23 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
      */
     public void setShowButtomBtnState(String showState) {
 
-        mBinding.tvCancel.setText(mOrderListAdapter.getDoStateString(showState));
-        mBinding.tvStateBottom.setText(mOrderListAdapter.getStateString(showState));
 
-        if (mOrderListAdapter.canShowDoBtn(showState)) {
+        mBinding.tvCancel.setText(OrderHelper.getDoStateString(showState));
+
+        if (OrderHelper.canShowDoBtn(showState)) {
             mBinding.tvCancel.setVisibility(View.VISIBLE);
+            mBinding.linButState.setVisibility(View.VISIBLE);
         } else {
             mBinding.tvCancel.setVisibility(View.GONE);
+            mBinding.linButState.setVisibility(View.GONE);
         }
-        if (!mOrderListAdapter.canShowStateBtn(showState)) {
-            mBinding.tvStateBottom.setVisibility(View.VISIBLE);
-        } else {
-            mBinding.tvStateBottom.setVisibility(View.GONE);
-        }
+
+        mBinding.tvCancel.setBackgroundColor(ContextCompat.getColor(this, R.color.btn_click_un_app));
+        mBinding.tvCancel.setTextColor(ContextCompat.getColor(this, R.color.white_app));
+
+        mBinding.tvStateBottom.setVisibility(View.GONE);
+//        mBinding.tvStateBottom.setText(OrderHelper.getSellStateString(showState));
+
     }
 
 
@@ -318,16 +292,16 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
 
         if (orderModel == null) return;
 
-        if (TextUtils.equals(orderModel.getStatus(), "1")) {//取消订单 待发货
+        if (OrderHelper.isWaitePayOrder(orderModel.getStatus())) {//取消订单
             showCancelInputDialog(orderModel.getCode());
         }
-        if (TextUtils.equals(orderModel.getStatus(), "6")) {//退款申请
+        if (OrderHelper.isBackPayOrder(orderModel.getStatus())) {//退款申请
             showBackPayDialog(orderModel.getCode());
         }
-        if (TextUtils.equals(orderModel.getStatus(), "2")) {//发货
+        if (OrderHelper.isPayDoneOrder(orderModel.getStatus())) {//发货
             showSendOrderDialog(orderModel.getCode());
         }
-        if (TextUtils.equals(orderModel.getStatus(), "5")) {//查看评价
+        if (OrderHelper.isCommentsDoneOrder(orderModel.getStatus())) {//查看评价
             showCommentDialog(orderModel.getCode());
         }
 
@@ -347,73 +321,7 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
      * 显示是否退款弹框
      */
     public void showBackPayDialog(final String code) {
-
-        CommonDialog commonDialog = new CommonDialog(this).builder()
-                .setTitle("提示").setContentMsg("确认退款?")
-                .setPositiveBtn("是", new CommonDialog.OnPositiveListener() {
-                    @Override
-                    public void onPositive(View view) {
-                        backPayRequest(code, true);
-                    }
-                })
-                .setNegativeBtn("否", new CommonDialog.OnNegativeListener() {
-                    @Override
-                    public void onNegative(View view) {
-                        backPayRequest(code, false);
-                    }
-                });
-
-        commonDialog.setCancelable(true);
-        commonDialog.setCanceledOnTouchOutside(true);
-
-        commonDialog.show();
-
-    }
-
-    /**
-     * 退款请求
-     *
-     * @param code
-     * @param isSure 是否同意退款
-     */
-    private void backPayRequest(String code, boolean isSure) {
-
-        /*code（必填） 编号 string
- remark（选填） 备注 string
- result（必填） 审核结果 string 0 不同意，1同意
- updater（必填） 更新人 string
-*/
-        Map map = new HashMap();
-
-        map.put("code", code);
-        map.put("remark", "");
-        map.put("updater", SPUtilHelpr.getUserId());
-        map.put("result", isSure ? "1" : "0");
-
-        Call call = RetrofitUtils.getBaseAPiService().successRequest("808062", StringUtils.getJsonToString(map));
-
-        showLoadingDialog();
-
-        addCall(call);
-
-        call.enqueue(new BaseResponseModelCallBack(this) {
-            @Override
-            protected void onSuccess(Object data, String SucMessage) {
-                UITipDialog.showSuccess(OrderSellDetailsActivity.this, "处理退款信息成功");
-                getOrderRequest(mOrderCode);
-                changeRefreshOrderList();
-            }
-
-            @Override
-            protected void onReqFailure(String errorCode, String errorMessage) {
-                UITipDialog.showFall(OrderSellDetailsActivity.this, errorMessage);
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
+        SureBackPayActivity.open(OrderSellDetailsActivity.this, code);
 
     }
 
@@ -539,7 +447,7 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
 
         Map map = RetrofitUtils.getRequestMap();
         map.put("orderCode", orderCode);
-
+        map.put("status", "AB");
         Call call = RetrofitUtils.createApi(MyApiServer.class).getCommenDetails("801029", StringUtils.getJsonToString(map));
 
         showLoadingDialog();
@@ -549,6 +457,10 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
             protected void onSuccess(LookCommenModel data, String SucMessage) {
                 if (TextUtils.isEmpty(data.getContent())) {
                     UITipDialog.showInfo(OrderSellDetailsActivity.this, "该订单还没有评价");
+                    return;
+                }
+                if (!StringUtils.isFilterCommentsByState(data.getStatus())) {
+                    UITipDialog.showInfo(OrderSellDetailsActivity.this, "该评价存在敏感词，平台审核中.");
                     return;
                 }
 
@@ -572,6 +484,15 @@ public class OrderSellDetailsActivity extends AbsBaseLoadActivity {
         });
 
 
+    }
+
+    @Subscribe
+    public void EventRefreshList(String tag) {
+        if (TextUtils.equals(tag, EventTags.BACKPAYSUCC)) { //处理退款信息成功
+            getOrderRequest(mOrderCode);
+            changeRefreshOrderList();
+            return;
+        }
     }
 
 

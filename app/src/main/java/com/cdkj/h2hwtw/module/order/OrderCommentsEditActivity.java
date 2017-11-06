@@ -1,6 +1,7 @@
 package com.cdkj.h2hwtw.module.order;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.utils.ToastUtil;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.databinding.ActivityCommentsEditBinding;
+import com.cdkj.h2hwtw.module.product.ProductCommentsEditActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -62,7 +64,7 @@ public class OrderCommentsEditActivity extends AbsBaseLoadActivity {
     public void topTitleViewRightClick() {
 
         if (TextUtils.isEmpty(mBinding.editInfo.getText().toString())) {
-            UITipDialog.showFall(this, "请输入留言内容");
+            UITipDialog.showFall(this, "请输入内容");
             return;
         }
 
@@ -106,10 +108,21 @@ public class OrderCommentsEditActivity extends AbsBaseLoadActivity {
         call.enqueue(new BaseResponseModelCallBack<String>(this) {
             @Override
             protected void onSuccess(String data, String SucMessage) {
-                if (!TextUtils.isEmpty(data)) {
-                    EventBus.getDefault().post(EventTags.RELEASESCOMMENTSORDER);
-                    ToastUtil.show(OrderCommentsEditActivity.this, "评价成功");
-                    finish();
+                EventBus.getDefault().post(EventTags.RELEASESCOMMENTSORDER);
+                if (!TextUtils.isEmpty(data) && StringUtils.isFilterComments(data)) {
+                    UITipDialog.showSuccess(OrderCommentsEditActivity.this, "评价成功", new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            finish();
+                        }
+                    });
+                } else {
+                    UITipDialog.showSuccess(OrderCommentsEditActivity.this, "评价包含敏感词汇,需要审核才能展示", new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            finish();
+                        }
+                    });
                 }
             }
 

@@ -395,6 +395,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/ActivityDialogStyleBottomAPP"
             android:windowSoftInputMode="adjustPan" />
+       <!--确认退款-->
+        <activity
+            android:name=".module.product.releasesell.SureBackPayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityDialogStyleBottomAPP"
+            android:windowSoftInputMode="adjustPan" />
 
         <!--卖出订单详情-->
         <activity

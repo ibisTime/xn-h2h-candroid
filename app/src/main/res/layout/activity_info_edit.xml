@@ -13,6 +13,7 @@
             android:layout_height="200dp"
             android:background="@color/white"
             android:gravity="top"
+            android:maxLength="70"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="10dp"

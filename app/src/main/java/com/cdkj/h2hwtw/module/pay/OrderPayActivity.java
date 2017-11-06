@@ -99,7 +99,7 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         mBinding.tvPayPrice.setText(mPrice);
 
         initListener();
-        getJfDkInfo();
+        getJFAmountRequest();
         getAmountRequest(true);
     }
 
@@ -396,6 +396,46 @@ public class OrderPayActivity extends AbsBaseLoadActivity {
         });
 
     }
+
+    /**
+     * 获取积分请求
+     */
+    private void getJFAmountRequest() {
+        if (!SPUtilHelpr.isLoginNoStart()) {  //没有登录不用请求
+            return;
+        }
+        Map<String, String> map = new HashMap<>();
+
+        map.put("userId", SPUtilHelpr.getUserId());
+        map.put("currency", "JF");
+        map.put("token", SPUtilHelpr.getUserToken());
+
+        Call call = RetrofitUtils.createApi(MyApiServer.class).getAmount("802503", StringUtils.getJsonToString(map));
+
+        addCall(call);
+
+
+        call.enqueue(new BaseResponseListCallBack<AmountModel>(this) {
+            @Override
+            protected void onSuccess(List<AmountModel> data, String SucMessage) {
+
+                if (data != null && data.size() > 0 && data.get(0) != null) {
+                    mBinding.tvJfNum.setText("(当前可用积分" + MoneyUtils.showPrice(data.get(0).getAmount()) + ")");
+                }
+
+            }
+
+            @Override
+            protected void onReqFailure(String errorCode, String errorMessage) {
+            }
+
+            @Override
+            protected void onFinish() {
+                getJfDkInfo();
+            }
+        });
+    }
+
 
     /**
      * 获取积分抵扣详情

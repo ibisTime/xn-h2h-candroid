@@ -75,9 +75,12 @@ public class PreferentialProductListActivity extends BaseRefreshHelperAndLocatio
     private ScreeningTypeModel mTypeInfo;
     private boolean mPriceUpstate = true; //默认升序
 
-    private boolean isFirstRequest;//是否进行了第一次筛选
+    private boolean isRightScreening;//是否进行了第一次右筛选
 
     private AMapLocation mapLocation;//定位信息
+
+    private boolean isPriceScreening = false; //默认升序 是否进行了价格排序 第一次进入时默认排序
+
     /**
      * @param context
      * @param typeCode 类型编号
@@ -118,7 +121,7 @@ public class PreferentialProductListActivity extends BaseRefreshHelperAndLocatio
         mBinding.layoutSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SearchActivity.open(PreferentialProductListActivity.this,true);
+                SearchActivity.open(PreferentialProductListActivity.this, true);
             }
         });
     }
@@ -196,6 +199,7 @@ public class PreferentialProductListActivity extends BaseRefreshHelperAndLocatio
 
             @Override
             public void onPriceSelect(boolean isUpPrice) {
+                isPriceScreening = true;
                 mPriceUpstate = isUpPrice;
                 mRefreshHelper.onDefaluteMRefresh(true);
             }
@@ -288,7 +292,7 @@ public class PreferentialProductListActivity extends BaseRefreshHelperAndLocatio
         mBinding.rightMenu.btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                isRightScreening = true;
                 saveRightMenuState();
                 mBinding.drawer.closeDrawer(Gravity.RIGHT);
                 rightMenuReset();
@@ -299,8 +303,10 @@ public class PreferentialProductListActivity extends BaseRefreshHelperAndLocatio
         });
         //重置
         mBinding.rightMenu.btnReset.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                isRightScreening = false;
                 rightMenuReset();
             }
         });
@@ -393,36 +399,36 @@ public class PreferentialProductListActivity extends BaseRefreshHelperAndLocatio
         map.put("companyCode", MyCdConfig.COMPANYCODE);
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
 
-        if (mPriceUpstate) {
-            map.put("orderColumn", "price");
-            map.put("orderDir", "asc");
-        } else {
-            map.put("orderColumn", "price");
-            map.put("orderDir", "desc");
+        if (isPriceScreening) {
+            if (mPriceUpstate) {
+                map.put("orderColumn", "price");
+                map.put("orderDir", "asc");
+            } else {
+                map.put("orderColumn", "price");
+                map.put("orderDir", "desc");
+            }
+
         }
 
-        if (isFirstRequest) {                 //第一次进入页面时请求所有
-            if (mAddressInfo != null) {
-                map.put("area", mAddressInfo.getArea());
-                map.put("city", mAddressInfo.getCity());
-                map.put("province", mAddressInfo.getProvince());
-                map.put("longitude", mAddressInfo.getLongitude());
-                map.put("latitude", mAddressInfo.getLatitude());
-            }
+        if (mAddressInfo != null) {
+            map.put("area", mAddressInfo.getArea());
+            map.put("city", mAddressInfo.getCity());
+            map.put("province", mAddressInfo.getProvince());
+            map.put("longitude", mAddressInfo.getLongitude());
+            map.put("latitude", mAddressInfo.getLatitude());
+        }
+        if (mTypeInfo != null) {
+            map.put("category", mTypeInfo.getCategory());
+            map.put("type", mTypeInfo.getType());
+        }
 
-            if (mTypeInfo != null) {
-                map.put("category", mTypeInfo.getCategory());
-                map.put("type", mTypeInfo.getType());
+        if (isRightScreening && mRightMenuState != null) {
+            map.put("isNew", mRightMenuState.isNew() ? "1" : "0");
+            if (mRightMenuState.isSend()) {
+                map.put("yunfei", "0");
             }
-
-            if (mRightMenuState != null) {
-                map.put("isNew", mRightMenuState.isNew() ? "1" : "0");
-                if (mRightMenuState.isSend()) {
-                    map.put("yunfei", "0");
-                }
-                map.put("minPrice", mRightMenuState.getRequestLowPrice());
-                map.put("maxPrice", mRightMenuState.getRequestHeightPrice());
-            }
+            map.put("minPrice", mRightMenuState.getRequestLowPrice());
+            map.put("maxPrice", mRightMenuState.getRequestHeightPrice());
         }
 
 
@@ -435,7 +441,6 @@ public class PreferentialProductListActivity extends BaseRefreshHelperAndLocatio
         call.enqueue(new BaseResponseModelCallBack<ProductListModel>(this) {
             @Override
             protected void onSuccess(ProductListModel data, String SucMessage) {
-                isFirstRequest = true;
                 mRefreshHelper.setData(data.getList());
             }
 

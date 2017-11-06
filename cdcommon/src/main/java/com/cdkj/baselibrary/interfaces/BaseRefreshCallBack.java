@@ -1,8 +1,10 @@
 package com.cdkj.baselibrary.interfaces;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.databinding.EmptyViewBinding;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -11,7 +13,7 @@ import java.util.List;
 
 /**
  * 刷新方法回调
- * Created by 李先俊 on 2017/10/17.
+ * Created by cdkj on 2017/10/17.
  */
 
 public abstract class BaseRefreshCallBack<T> implements RefreshInterface {
@@ -19,7 +21,7 @@ public abstract class BaseRefreshCallBack<T> implements RefreshInterface {
 
     @Override
     public boolean loadDeflutEmptyView() {
-        return true;
+        return false;
     }
 
     @Override

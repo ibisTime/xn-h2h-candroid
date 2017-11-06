@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by 李先俊 on 2017/8/8.
  */
-
+// TODO 去除去除EmptyViewBinding
 public interface RefreshInterface<T> {
 
 

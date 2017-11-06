@@ -15,6 +15,7 @@ import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.h2hwtw.R;
 import com.cdkj.h2hwtw.model.AddressModel;
 import com.cdkj.h2hwtw.model.OrderModel;
+import com.cdkj.h2hwtw.other.OrderHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -41,7 +42,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderModel, BaseViewHolde
 
         viewHolder.setText(R.id.tv_quantity, "X1");
         viewHolder.setText(R.id.tv_price, MoneyUtils.getShowPriceSign(item.getAmount1()));
-        BigDecimal allMoney = getAllMoney(item);//价格加运费 折扣后台已经计算
+        BigDecimal allMoney = OrderHelper.getAllMoney(item);//价格加运费 折扣后台已经计算
         viewHolder.setText(R.id.tv_price_all, MoneyUtils.getShowPriceSign(allMoney));
         viewHolder.setText(R.id.txt_time, DateUtil.formatStringData(item.getApplyDatetime(), DateUtil.DATE_YMD));
 
@@ -51,7 +52,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderModel, BaseViewHolde
         }
 
 
-        viewHolder.setText(R.id.tv_order_state, getStateString(item.getStatus()));
+        viewHolder.setText(R.id.tv_order_state, OrderHelper.getOrderDoStateString(item.getStatus()));
         viewHolder.setText(R.id.tv_cancel_order, getStateCancelString(item.getStatus()));
 
         viewHolder.setGone(R.id.tv_cancel_order, canShowCancel(item.getStatus()));
@@ -60,11 +61,6 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderModel, BaseViewHolde
         viewHolder.addOnClickListener(R.id.tv_order_state);
         viewHolder.addOnClickListener(R.id.tv_cancel_order);
 
-    }
-
-
-    public BigDecimal getAllMoney(OrderModel item) {
-        return BigDecimalUtils.add(item.getAmount1(), item.getYunfei());
     }
 
     public String getStateCancelString(String status) {
@@ -118,38 +114,5 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderModel, BaseViewHolde
         return true;
     }
 
-
-    public String getStateString(String status) {
-        /*1 待支付"，2 已支付，3 已发货，4 已收货，5 已评论，6 退款申请，7 退款失败，8 退款成功 ，91取消订单*/
-
-        if (TextUtils.equals("1", status)) {
-            return "立即支付";
-        }
-        if (TextUtils.equals("2", status)) {
-            return "催货";
-        }
-        if (TextUtils.equals("3", status)) {
-            return "确认收货";
-        }
-        if (TextUtils.equals("4", status)) {
-            return "待评价";
-        }
-        if (TextUtils.equals("5", status)) {
-            return "已完成";
-        }
-        if (TextUtils.equals("6", status)) {
-            return "退款中";
-        }
-        if (TextUtils.equals("7", status)) {
-            return "退款失败";
-        }
-        if (TextUtils.equals("8", status)) {
-            return "已退款";
-        }
-        if (TextUtils.equals("91", status)) {
-            return "已取消";
-        }
-        return "";
-    }
 
 }

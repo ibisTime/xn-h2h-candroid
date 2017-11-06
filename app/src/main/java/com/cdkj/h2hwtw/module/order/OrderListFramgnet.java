@@ -28,6 +28,7 @@ import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.model.LookCommenModel;
 import com.cdkj.h2hwtw.model.OrderModel;
 import com.cdkj.h2hwtw.module.pay.OrderPayActivity;
+import com.cdkj.h2hwtw.other.OrderHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -178,17 +179,17 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
      */
     private void doSomtingByState(OrderModel state) {
 
-        if (TextUtils.equals("1", state.getStatus())) {      //待支付跳转到支付页面
-            OrderPayActivity.open(mActivity, MoneyUtils.getShowPriceSign(mOrderAdapter.getAllMoney(state)), state.getCode(), false);
+        if (OrderHelper.isWaitePayOrder(state.getStatus())) {      //待支付跳转到支付页面
+            OrderPayActivity.open(mActivity, MoneyUtils.getShowPriceSign(OrderHelper.getAllMoney(state)), state.getCode(), false);
             return;
         }
 
-        if (TextUtils.equals("2", state.getStatus())) {  //待发货 申请催货
+        if (OrderHelper.isPayDoneOrder(state.getStatus())) {  //待发货 申请催货
             showCuiHuoDialog(state.getCode());
             return;
         }
 
-        if (TextUtils.equals("3", state.getStatus())) {//确认收货
+        if (OrderHelper.isSendDoneOrder(state.getStatus())) {//确认收货
             showSureGetOrderDialog(state.getCode());
             return;
         }
@@ -330,23 +331,23 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
      */
     private void doCancelByState(OrderModel state) {
 
-        if (TextUtils.equals("1", state.getStatus())) {      //待支付取消订单
+        if (OrderHelper.isWaitePayOrder(state.getStatus())) {      //待支付取消订单
             showCancelInputDialog(state.getCode());
             return;
         }
 
-        if (TextUtils.equals("2", state.getStatus())) {//待发货 申请退款
+        if (OrderHelper.isPayDoneOrder(state.getStatus())) {//待发货 申请退款
             showCancePaylInputDialog(state.getCode());
             return;
         }
 
-        if (TextUtils.equals("4", state.getStatus())) {//已收货 待评价
+        if (OrderHelper.isGetDoneOrder(state.getStatus())) {//已收货 待评价
             if (state.getProductOrderList() != null && state.getProductOrderList().size() > 0 && state.getProductOrderList().get(0) != null) {
                 OrderCommentsEditActivity.open(mActivity, state.getProductOrderList().get(0).getCode(), state.getCode());
             }
             return;
         }
-        if (TextUtils.equals("5", state.getStatus())) {//查看评价
+        if (OrderHelper.isCommentsDoneOrder(state.getStatus())) {//查看评价
             showCommentDialog(state.getCode());
             return;
         }
@@ -362,7 +363,7 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
 
         final Map map = RetrofitUtils.getRequestMap();
         map.put("orderCode", orderCode);
-
+        map.put("status", "AB");
         Call call = RetrofitUtils.createApi(MyApiServer.class).getCommenDetails("801029", StringUtils.getJsonToString(map));
 
         showLoadingDialog();
@@ -373,6 +374,10 @@ public class OrderListFramgnet extends BaseRefreshHelperFragment<OrderModel> {
 
                 if(TextUtils.isEmpty(data.getContent())){
                     UITipDialog.showInfo(mActivity,"该订单还没有评价");
+                    return;
+                }
+                if (!StringUtils.isFilterCommentsByState(data.getStatus())) {
+                    UITipDialog.showInfo(mActivity, "该评价存在敏感词，平台审核中.");
                     return;
                 }
 

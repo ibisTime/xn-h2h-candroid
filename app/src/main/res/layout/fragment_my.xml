@@ -222,7 +222,7 @@
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:gravity="left"
-                        android:maxLength="1"
+                        android:maxLines="1"
                         android:text="0"
                         android:textColor="@color/text_select_app"
                         android:textSize="16sp" />

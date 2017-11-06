@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
+ * 产品状态辅助
  * Created by cdkj on 2017/11/2.
  */
 
@@ -77,6 +78,7 @@ public class ProductHelper {
     public static boolean isJoinActivity(String isJoin) {
         return TextUtils.equals("1", isJoin);
     }
+
     /**
      * 当前产品是否全新
      *
@@ -86,9 +88,6 @@ public class ProductHelper {
     public static boolean isNewProduct(String isNew) {
         return TextUtils.equals("1", isNew);
     }
-
-
-
 
 
 }

@@ -139,7 +139,7 @@ public class ProductScreeningView extends FrameLayout {
                     mTvArea.setText(mTvLocationCity.getText().toString());
                     listener.onLocationClick();
                 }
-
+                closeAll();
             }
         });
 

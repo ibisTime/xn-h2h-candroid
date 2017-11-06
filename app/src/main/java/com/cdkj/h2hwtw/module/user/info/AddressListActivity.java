@@ -23,6 +23,7 @@ import com.cdkj.h2hwtw.api.MyApiServer;
 import com.cdkj.h2hwtw.model.AddressModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
@@ -190,6 +191,38 @@ public class AddressListActivity extends BaseRefreshHelperActivity<AddressModel>
     @Override
     public BaseQuickAdapter getAdapter(List<AddressModel> listData) {
         addressListAdapter = new AddressListAdapter(listData);
+        addressListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.layout_delete://删除
+                        deleteAddress(position);
+                        break;
+                    case R.id.layout_edit://编辑
+                        AddressModel addressModel = (AddressModel) addressListAdapter.getItem(position);
+                        AddAddressActivity.open(AddressListActivity.this, addressModel, false);
+                        break;
+
+                    case R.id.real_address://设置默认地址
+                        AddressModel addr = (AddressModel) addressListAdapter.getItem(position);
+                        if (addr == null) return;
+                        setDefaultAddress(addr.getCode());
+                        break;
+                }
+
+            }
+        });
+
+        addressListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (isSelect) { //选择地址
+                    AddressModel addr = (AddressModel) addressListAdapter.getItem(position);
+                    EventBus.getDefault().post(addr);
+                    finish();
+                }
+            }
+        });
         return addressListAdapter;
     }
 
@@ -246,30 +279,6 @@ public class AddressListActivity extends BaseRefreshHelperActivity<AddressModel>
             mBaseBinding.titleView.setMidTitle(getString(R.string.address_manager));
         }
 
-        if (mRefreshHelper.getmAdapter() != null) {
-            mRefreshHelper.getmAdapter().setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
-                    switch (view.getId()) {
-                        case R.id.layout_delete://删除
-                            deleteAddress(position);
-                            break;
-                        case R.id.layout_edit://编辑
-                            AddressModel addressModel = (AddressModel) mRefreshHelper.getmAdapter().getItem(position);
-                            AddAddressActivity.open(AddressListActivity.this, addressModel, false);
-                            break;
-
-                        case R.id.real_address://选择
-                            AddressModel addr = (AddressModel) mRefreshHelper.getmAdapter().getItem(position);
-                            if (addr == null) return;
-                            setDefaultAddress(addr.getCode());
-                            break;
-                    }
-
-                }
-            });
-        }
         //禁用刷新加载
         mRefreshHelper.getmRefreshLayout().setEnableRefresh(false);
         mRefreshHelper.getmRefreshLayout().setEnableLoadmore(false);

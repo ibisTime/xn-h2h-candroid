@@ -20,11 +20,9 @@ public class EventTags {
     public final static String LOGINREFRESH = "6";
 
 
-
     //昵称编辑
     public final static String USERNAMEEDITREFRESH = "8";
-    //昵称编辑
-    public final static String USERNAMEEDITREFRESH2 = "19";
+
     //添加地址成功
     public final static String ADDRESSUPDATE = "7";
     //发布成功
@@ -52,4 +50,8 @@ public class EventTags {
 
     //支付成功
     public final static String PAYSUCC = "18";
+    //个人简介编辑
+    public final static String USERNAMEEDITREFRESH2 = "19";
+    //支付成功
+    public final static String BACKPAYSUCC = "20";
 }

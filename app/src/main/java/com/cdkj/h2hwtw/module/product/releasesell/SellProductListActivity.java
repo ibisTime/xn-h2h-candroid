@@ -27,6 +27,7 @@ import com.cdkj.h2hwtw.model.LookCommenModel;
 import com.cdkj.h2hwtw.model.OrderModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.module.order.OrderDetailsActivity;
+import com.cdkj.h2hwtw.other.OrderHelper;
 import com.cdkj.h2hwtw.pop.SureSendOrderPop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -75,16 +76,16 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
                 if (orderModel == null) return;
                 switch (view.getId()) {
                     case R.id.tv_cancel_order:
-                        if (TextUtils.equals(orderModel.getStatus(), "1")) {//取消订单 待发货
+                        if (OrderHelper.isWaitePayOrder(orderModel.getStatus())) {//取消订单
                             showCancelInputDialog(orderModel.getCode());
                         }
-                        if (TextUtils.equals(orderModel.getStatus(), "6")) {//退款申请
+                        if (OrderHelper.isBackPayOrder(orderModel.getStatus())) {//退款申请
                             showBackPayDialog(orderModel.getCode());
                         }
-                        if (TextUtils.equals(orderModel.getStatus(), "2")) {//发货
+                        if (OrderHelper.isPayDoneOrder(orderModel.getStatus())) {//发货
                             showSendOrderDialog(orderModel.getCode());
                         }
-                        if (TextUtils.equals(orderModel.getStatus(), "5")) {//查看评价
+                        if (OrderHelper.isCommentsDoneOrder(orderModel.getStatus())) {//查看评价
                             showCommentDialog(orderModel.getCode());
                         }
 
@@ -105,7 +106,7 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
 
         Map map = RetrofitUtils.getRequestMap();
         map.put("orderCode", orderCode);
-
+        map.put("status", "AB");
         Call call = RetrofitUtils.createApi(MyApiServer.class).getCommenDetails("801029", StringUtils.getJsonToString(map));
 
         showLoadingDialog();
@@ -113,8 +114,12 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
         call.enqueue(new BaseResponseModelCallBack<LookCommenModel>(this) {
             @Override
             protected void onSuccess(LookCommenModel data, String SucMessage) {
-                if(TextUtils.isEmpty(data.getContent())){
-                    UITipDialog.showInfo(SellProductListActivity.this,"该订单还没有评价");
+                if (TextUtils.isEmpty(data.getContent())) {
+                    UITipDialog.showInfo(SellProductListActivity.this, "该订单还没有评价");
+                    return;
+                }
+                if (!StringUtils.isFilterCommentsByState(data.getStatus())) {
+                    UITipDialog.showInfo(SellProductListActivity.this, "该评价存在敏感词，平台审核中.");
                     return;
                 }
 
@@ -274,74 +279,9 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
      * 显示是否退款弹框
      */
     public void showBackPayDialog(final String code) {
-
-        CommonDialog commonDialog = new CommonDialog(this).builder()
-                .setTitle("提示").setContentMsg("确认退款?")
-                .setPositiveBtn("是", new CommonDialog.OnPositiveListener() {
-                    @Override
-                    public void onPositive(View view) {
-                        backPayRequest(code, true);
-                    }
-                })
-                .setNegativeBtn("否", new CommonDialog.OnNegativeListener() {
-                    @Override
-                    public void onNegative(View view) {
-                        backPayRequest(code, false);
-                    }
-                });
-
-        commonDialog.setCancelable(true);
-        commonDialog.setCanceledOnTouchOutside(true);
-
-        commonDialog.show();
-
+        SureBackPayActivity.open(SellProductListActivity.this, code);
     }
 
-    /**
-     * 退款请求
-     *
-     * @param code
-     * @param isSure 是否同意退款
-     */
-    private void backPayRequest(String code, boolean isSure) {
-
-        /*code（必填） 编号 string
- remark（选填） 备注 string
- result（必填） 审核结果 string 0 不同意，1同意
- updater（必填） 更新人 string
-*/
-        Map map = new HashMap();
-
-        map.put("code", code);
-        map.put("remark", "");
-        map.put("updater", SPUtilHelpr.getUserId());
-        map.put("result", isSure ? "1" : "0");
-
-        Call call = RetrofitUtils.getBaseAPiService().successRequest("808062", StringUtils.getJsonToString(map));
-
-        showLoadingDialog();
-
-        addCall(call);
-
-        call.enqueue(new BaseResponseModelCallBack(this) {
-            @Override
-            protected void onSuccess(Object data, String SucMessage) {
-                UITipDialog.showSuccess(SellProductListActivity.this, "处理退款信息成功");
-                mRefreshHelper.onDefaluteMRefresh(false);
-            }
-
-            @Override
-            protected void onReqFailure(String errorCode, String errorMessage) {
-                UITipDialog.showFall(SellProductListActivity.this, errorMessage);
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
-
-    }
 
     @Subscribe
     public void EventListener(String tag) {
@@ -357,6 +297,12 @@ public class SellProductListActivity extends BaseRefreshHelperActivity {
                 mRefreshHelper.onDefaluteMRefresh(false);
             }
         }
+
+        if (TextUtils.equals(tag, EventTags.BACKPAYSUCC)) {//退款成功
+            mRefreshHelper.onDefaluteMRefresh(false);
+            return;
+        }
     }
+
 
 }

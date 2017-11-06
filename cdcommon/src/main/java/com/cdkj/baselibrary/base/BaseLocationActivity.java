@@ -99,11 +99,6 @@ public abstract class BaseLocationActivity extends AbsBaseLoadActivity {
      * 启动定位
      */
     protected void startLocation() {
-
-        if (!NetUtils.isNetworkConnected(CdApplication.getContext())) {
-            mBaseBinding.contentView.setShowText("暂无网络");
-            return;
-        }
         // 启动定位
         //如果Android6.0进行安卓权限检测
         if (AppUtils.getAndroidVersion(Build.VERSION_CODES.M)) {

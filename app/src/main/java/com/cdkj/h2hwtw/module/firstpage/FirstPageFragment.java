@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.cdkj.baselibrary.activitys.WebViewActivity;
@@ -17,6 +18,7 @@ import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
+import com.cdkj.baselibrary.databinding.EmptyViewBinding;
 import com.cdkj.baselibrary.interfaces.BaseRefreshCallBack;
 import com.cdkj.baselibrary.interfaces.RefreshHelper;
 import com.cdkj.baselibrary.model.IntroductionInfoModel;
@@ -225,6 +227,11 @@ public class FirstPageFragment extends BaseLazyFragment {
             }
 
             @Override
+            public View getEmptyView() {
+                return DataBindingUtil.inflate(mActivity.getLayoutInflater(), R.layout.layout_first_no_order, null, false).getRoot();
+            }
+
+            @Override
             public void getListDataRequest(int pageindex, int limit, final boolean isShowDialog) {
                 Map<String, String> map = new HashMap();
                 map.put("limit", limit + "");
@@ -307,6 +314,11 @@ public class FirstPageFragment extends BaseLazyFragment {
             }
 
             @Override
+            public View getEmptyView() {
+                return DataBindingUtil.inflate(mActivity.getLayoutInflater(), R.layout.layout_first_no_order, null, false).getRoot();
+            }
+
+            @Override
             public BaseQuickAdapter getAdapter(List listData) {
                 ProductListAdapter mProductAdapter = new ProductListAdapter(listData);
 //                mProductAdapter.setEmptyView();
@@ -357,7 +369,6 @@ public class FirstPageFragment extends BaseLazyFragment {
 
                     }
                 });
-
             }
         });
 

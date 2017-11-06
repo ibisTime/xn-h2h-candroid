@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.cdkj.baselibrary.activitys.AboutAsActivity;
 import com.cdkj.baselibrary.activitys.ShareActivity;
 import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.api.ResponseInListModel;
@@ -27,7 +26,6 @@ import com.cdkj.baselibrary.model.IntroductionInfoModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
-import com.cdkj.baselibrary.utils.BigDecimalUtils;
 import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.MoneyUtils;
@@ -42,7 +40,6 @@ import com.cdkj.h2hwtw.databinding.ActivityProductDetailBinding;
 import com.cdkj.h2hwtw.model.CommentsModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.model.UserInfoModel;
-import com.cdkj.h2hwtw.module.im.ChatC2CActivity;
 import com.cdkj.h2hwtw.module.im.ImUserInfo;
 import com.cdkj.h2hwtw.module.im.TxImLogingActivity;
 import com.cdkj.h2hwtw.module.order.ProductBuyActivity;
@@ -370,6 +367,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
         map.put("entityCode", code);
         map.put("systemCode", MyCdConfig.SYSTEMCODE);
         map.put("companyCode", MyCdConfig.COMPANYCODE);
+        map.put("status", "AB");
 
         Call call = RetrofitUtils.getBaseAPiService().intRequest("801027", StringUtils.getJsonToString(map));
 
@@ -579,7 +577,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
-                UITipDialog.showFall(ProductDetailActivity.this, "评论列表" + errorMessage);
+
             }
 
             @Override

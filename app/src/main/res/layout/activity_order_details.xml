@@ -291,6 +291,7 @@
         </ScrollView>
 
         <LinearLayout
+            android:id="@+id/lin_but_state"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:orientation="horizontal">

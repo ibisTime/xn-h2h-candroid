@@ -25,6 +25,7 @@ import com.cdkj.h2hwtw.databinding.ActivityProductBuyBinding;
 import com.cdkj.h2hwtw.model.AddressModel;
 import com.cdkj.h2hwtw.model.ProductListModel;
 import com.cdkj.h2hwtw.module.pay.OrderPayActivity;
+import com.cdkj.h2hwtw.module.user.info.AddAddressActivity;
 import com.cdkj.h2hwtw.module.user.info.AddressListActivity;
 import com.cdkj.h2hwtw.other.ProductHelper;
 
@@ -49,6 +50,8 @@ public class ProductBuyActivity extends AbsBaseLoadActivity {
 
     private AddressModel mAddressModel;//地址数据
 
+    private boolean isSelectAddress;//是否选择了地址 用于添加地址时使用
+
     public static void open(Context context, ProductListModel.ListBean mProductData) {
         if (context == null) {
             return;
@@ -68,6 +71,8 @@ public class ProductBuyActivity extends AbsBaseLoadActivity {
     @Override
     public void afterCreate(Bundle savedInstanceState) {
         mBaseBinding.titleView.setMidTitle("订单提交");
+        isSelectAddress = false;
+
 
         if (getIntent() != null) {
             mProductData = getIntent().getParcelableExtra("productData");
@@ -88,11 +93,6 @@ public class ProductBuyActivity extends AbsBaseLoadActivity {
         mBinding.layoutAddress.linChangeAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (mAddressModel == null) {
-//                    return;
-//                }
-//                AddAddressActivity.open(ProductBuyActivity.this, mAddressModel);
-
                 AddressListActivity.open(ProductBuyActivity.this, true);
             }
         });
@@ -100,8 +100,7 @@ public class ProductBuyActivity extends AbsBaseLoadActivity {
         mBinding.layoutAddress.linAddaddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AddAddressActivity.open(ProductBuyActivity.this, null);
-                AddressListActivity.open(ProductBuyActivity.this, true);
+                AddAddressActivity.open(ProductBuyActivity.this, null, true);
             }
         });
 
@@ -134,14 +133,16 @@ public class ProductBuyActivity extends AbsBaseLoadActivity {
 
         call.enqueue(new BaseResponseListCallBack<AddressModel>(this) {
 
-
             @Override
             protected void onSuccess(List<AddressModel> data, String SucMessage) {
                 if (data == null || data.isEmpty()) {
                     setShowAddressData(null);
                     return;
                 }
-                setShowAddressData(data.get(0));
+
+                if (!isSelectAddress) {
+                    setShowAddressData(data.get(0));
+                }
             }
 
             @Override
@@ -267,6 +268,17 @@ public class ProductBuyActivity extends AbsBaseLoadActivity {
             finish();
             return;
         }
+    }
+
+    /**
+     * 地址选择
+     *
+     * @param
+     */
+    @Subscribe
+    public void EventAddSelect(AddressModel addressModel) {
+        isSelectAddress = true;
+        setShowAddressData(addressModel);
     }
 
 }

@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by 李先俊 on 2017/10/15.
  */
-//TODO 刷新辅助类优化 刷新动作监听分离 去除SmartRefreshLayout
+//TODO 刷新辅助类优化 刷新动作监听分离 去除SmartRefreshLayout 去除EmptyViewBinding() 方法 loadDeflutEmptyView()方法
 public class RefreshHelper<T> {
 
     private RefreshInterface mRefreshInterface;//刷新接口

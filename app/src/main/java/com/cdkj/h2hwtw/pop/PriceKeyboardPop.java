@@ -46,7 +46,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
     /**
      * @param context
      * @param priceModel
-     * @param isJoinSendActivity  是否参加了包邮活动 参加了不能对邮费进行编辑
+     * @param isJoinSendActivity 是否参加了包邮活动 参加了不能对邮费进行编辑
      * @param listener
      */
     public PriceKeyboardPop(Activity context, PriceKeyBoardListenerModel priceModel, boolean isJoinSendActivity, PriceKeyBoardPopListener listener) {
@@ -100,7 +100,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
                 popBinding.editPrice.setSelection(popBinding.editPrice.getText().toString().length());
             }
 
-        }else{
+        } else {
             if (!mIsJoinSendActivity) {
                 popBinding.editSendPrice.setEnabled(true);
             } else {
@@ -146,7 +146,7 @@ public class PriceKeyboardPop extends BasePopupWindow {
             public void onClick(View view) {
                 PriceKeyBoardListenerModel model = new PriceKeyBoardListenerModel();
 
-                model.setCanSend(popBinding.checkboxCanSend.isChecked());
+
                 if (TextUtils.isEmpty(popBinding.editPrice.getText().toString())) {
                     UITipDialog.showInfo(mContext, "请输入价格");
                     model.setPrice("0");
@@ -177,10 +177,15 @@ public class PriceKeyboardPop extends BasePopupWindow {
                     return;
                 }
 
+                model.setCanSend(popBinding.checkboxCanSend.isChecked());
+
                 if (popBinding.checkboxCanSend.isChecked()) {
                     model.setSendPrice("0");
                 }
 
+                if (new BigDecimal(mPriceSendEditInputString.toString()).floatValue() == 0) {                      //去除0000.0000的情况
+                    model.setSendPrice("0");
+                }
 
                 if (mSureListener != null) {
                     mSureListener.sureInputDone(model);
@@ -332,9 +337,6 @@ public class PriceKeyboardPop extends BasePopupWindow {
                     return;
                 }
 
-                if (TextUtils.equals(view.getTag().toString(), "0") && TextUtils.isEmpty(mPriceSendEditInputString.toString())) { //禁止第一个输入是0
-                    return;
-                }
                 int indexof2 = mPriceSendEditInputString.toString().indexOf(".");
                 if (TextUtils.equals(view.getTag().toString(), ".") && indexof2 != -1) { //禁止输入两个小数点
                     return;

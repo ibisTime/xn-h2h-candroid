@@ -20,7 +20,7 @@
     <string name="order_state_2">已支付</string>
     <string name="order_state_3">已发货</string>
     <string name="order_state_4">已收货</string>
-    <string name="order_state_5">已评论</string>
+    <string name="order_state_5">已评价</string>
     <string name="order_state_6">退款申请</string>
     <string name="order_state_7">退款失败</string>
     <string name="order_state_8">退款成功</string>
