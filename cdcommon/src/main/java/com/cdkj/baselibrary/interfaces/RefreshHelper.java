@@ -241,7 +241,6 @@ public class RefreshHelper<T> {
                 }
             }
         }
-
         if (mRefreshInterface.loadDeflutEmptyView() && mEmptyBinding != null) {
             mEmptyBinding.tv.setText(mErrorInfo);
             if (mErrorImg <= 0) {
