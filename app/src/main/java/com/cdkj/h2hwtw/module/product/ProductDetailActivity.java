@@ -709,7 +709,7 @@ public class ProductDetailActivity extends AbsBaseLoadActivity {
                 }
 
                 ShareActivity.open(ProductDetailActivity.this,
-                        data.getCvalue() + mProductData.getStoreCode(), mProductData.getName(), "我淘网");
+                        data.getCvalue() + mProductData.getCode(), mProductData.getName(), "我淘网");
 
             }
 

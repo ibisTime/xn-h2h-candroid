@@ -4,9 +4,11 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="@color/background_gray_app"
         android:gravity="center"
+        android:paddingBottom="35dp"
+        android:paddingTop="35dp"
         android:text="暂无产品"
         android:textColor="@color/text_color"
         android:textSize="14sp" />

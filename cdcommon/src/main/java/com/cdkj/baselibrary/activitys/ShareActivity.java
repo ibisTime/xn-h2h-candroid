@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.databinding.ActivityShareBinding;
+import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.WxUtil;
 
 
@@ -51,6 +52,8 @@ public class ShareActivity extends Activity {
             mShareInfo = getIntent().getStringExtra("shareInfo");
             mShareTile = getIntent().getStringExtra("shareTitle");
         }
+
+        LogUtil.E("分享"+mShareUrl);
 
         initListener();
 

@@ -41,6 +41,8 @@ import java.util.List;
 /**
  * 会话列表界面
  */
+
+//TODO 腾讯云IM Module整理
 public class ImFragment extends BaseLazyFragment implements ConversationView, FriendshipMessageView, GroupManageMessageView {
 
 
@@ -91,8 +93,8 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
 
                         if (user == null) continue;
 
-                        LogUtil.E("会话头像"+user.getFaceUrl());
-                        LogUtil.E("会话昵称"+user.getNickName());
+                        LogUtil.E("会话头像" + user.getFaceUrl());
+                        LogUtil.E("会话昵称" + user.getNickName());
 
                         for (Conversation conversation : conversationList) {
 
@@ -100,9 +102,9 @@ public class ImFragment extends BaseLazyFragment implements ConversationView, Fr
 
                             if (TextUtils.equals(user.getIdentifier(), conversation.getIdentify())) {
 
-                                if(!ImgUtils.isHaveHttp(user.getFaceUrl())){
+                                if (!ImgUtils.isHaveHttp(user.getFaceUrl())) {
                                     conversation.setLogoUrl(MyCdConfig.QINIUURL + user.getFaceUrl());
-                                }else{
+                                } else {
                                     conversation.setLogoUrl(user.getFaceUrl());
                                 }
 
