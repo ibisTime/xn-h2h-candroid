@@ -52,7 +52,7 @@ import retrofit2.Call;
  * Created by cdkj on 2017/10/10.
  */
 
-//TODO 发布接口参数
+
 public class ProductReleaseActivity extends BaseLocationActivity {
 
     private ActivityReleaseBinding mBinding;

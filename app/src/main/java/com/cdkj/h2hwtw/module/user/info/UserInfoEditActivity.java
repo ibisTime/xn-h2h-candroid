@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.cdkj.baselibrary.activitys.ImageSelectActivity;
+import com.cdkj.baselibrary.activitys.ImageSelectActivity2;
 import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
@@ -96,7 +97,7 @@ public class UserInfoEditActivity extends AbsBaseLoadActivity {
         mBinding.linLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImageSelectActivity.launch(UserInfoEditActivity.this, PHOTOFLAG);
+                ImageSelectActivity2.launch(UserInfoEditActivity.this, PHOTOFLAG);
             }
         });
         //修改昵称

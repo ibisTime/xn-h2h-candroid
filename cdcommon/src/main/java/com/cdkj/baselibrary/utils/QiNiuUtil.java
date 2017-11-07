@@ -65,7 +65,7 @@ public class QiNiuUtil {
                     .map(new Function<String, byte[]>() {
                         @Override
                         public byte[] apply(@NonNull String s) throws Exception {
-                            return AppUtils.compressImage(s);
+                            return BitmapUtils.compressImage(s);
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())
@@ -217,7 +217,7 @@ public class QiNiuUtil {
                 .map(new Function<String, byte[]>() {
                     @Override
                     public byte[] apply(@NonNull String s) throws Exception {
-                        return AppUtils.compressImage(s);
+                        return BitmapUtils.compressImage(s);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())

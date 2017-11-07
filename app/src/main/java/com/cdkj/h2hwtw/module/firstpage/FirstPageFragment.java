@@ -227,6 +227,11 @@ public class FirstPageFragment extends BaseLazyFragment {
             }
 
             @Override
+            public boolean loadDeflutEmptyView() {
+                return false;
+            }
+
+            @Override
             public View getEmptyView() {
                 return DataBindingUtil.inflate(mActivity.getLayoutInflater(), R.layout.layout_first_no_order, null, false).getRoot();
             }

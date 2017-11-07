@@ -31,7 +31,7 @@ import java.util.List;
  * 有定位需求页面的Activity都可继承此Activity 实现定位权限申请
  * Created by Administrator on 2017-02-13.
  */
-//TODO 定位页面方法接口抽取
+//定位页面方法接口抽取  已完成 使用见 LocationHelper BaseLocationActivity将停用
 public abstract class BaseLocationActivity extends AbsBaseLoadActivity {
 
     protected static final int PERMISSION__LOCATION_REQUESTCODE = 13;//定位权限检测请求码

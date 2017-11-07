@@ -55,6 +55,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/ActivityDialogStyleBottom"
             android:windowSoftInputMode="adjustPan" />
+        <!--图片选择-->
+        <activity
+            android:name=".activitys.ImageSelectActivity2"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityDialogStyleBottom"
+            android:windowSoftInputMode="adjustPan" />
         <!--支付密码修改-->
         <activity
             android:name="com.cdkj.baselibrary.activitys.PayPwdModifyActivity"

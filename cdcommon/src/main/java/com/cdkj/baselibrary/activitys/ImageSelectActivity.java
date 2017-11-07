@@ -9,9 +9,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,17 +24,13 @@ import android.widget.Toast;
 import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.dialog.CommonDialog;
 import com.cdkj.baselibrary.utils.AppUtils;
+import com.cdkj.baselibrary.utils.BitmapUtils;
 import com.cdkj.baselibrary.utils.FileProviderHelper;
 import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.baselibrary.utils.SystemUtils;
 import com.cdkj.baselibrary.utils.ToastUtil;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -51,13 +44,11 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.cdkj.baselibrary.appmanager.MyCdConfig.CACHDIR;
-
 /**
  * 打开相机 相册 图片裁剪 功能
  */
 
-// TODO Activity和拍照方法分离优化 bitmapUtils抽取
+// TODO Activity和拍照方法分离优化
 public class ImageSelectActivity extends Activity implements View.OnClickListener {
 
     private TextView tv_take_capture;// 拍照
@@ -65,13 +56,11 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
     private TextView tv_cancle;// 取消
     private View empty_view;// 取消
 
-
     public final static String staticPath = "imgSelect";
 
     private boolean isSplit = false;//执行相机或拍照后是否需要裁剪 默认不需要
 
     private String photoPath;//拍照图片路径
-
 
     public final static int CAPTURE_PHOTO_CODE = 3;//相机
     public final static int CAPTURE_WALBUM_CODE = 4;//相册
@@ -164,22 +153,16 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.tv_take_capture) {
+            permissionCheck(CAPTURE_PERMISSION_CODE); //6.0系统申请相机权限
 
-        try {
-            int i = v.getId();
-            if (i == R.id.tv_take_capture) {
-                permissionCheck(CAPTURE_PERMISSION_CODE); //6.0系统申请相机权限
+        } else if (i == R.id.tv_alumb) {
+            permissionCheck(CAPTURE_PERMISSION_CODD_2);
 
-            } else if (i == R.id.tv_alumb) {
-                permissionCheck(CAPTURE_PERMISSION_CODD_2);
-
-            } else if (i == R.id.empty_view || i == R.id.tv_cancle) {
-                finish();
-
-            }
-        } catch (Exception e) {
-            Toast.makeText(ImageSelectActivity.this, "出现未知错误", Toast.LENGTH_SHORT);
+        } else if (i == R.id.empty_view || i == R.id.tv_cancle) {
             finish();
+
         }
     }
 
@@ -189,9 +172,9 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
      * @return
      */
     private void startCamera() {
-        if (hasCamera())  //判读有没有可用相机
+        if (hasCamera())  //判断有没有可用相机
         {
-            getImageFromCamera();
+            startImageFromCamera();
         } else {
             if (isFinishing()) {
                 return;
@@ -216,10 +199,7 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
     public void startPhotoZoom(File uri) {
 
         /*
-         * 至于下面这个Intent的ACTION是怎么知道的，大家可以看下自己路径下的如下网页
-		 * yourself_sdk_path/docs/reference/android/content/Intent.html
-		 * 直接在里面Ctrl+F搜：CROP ，之前小马没仔细看过，其实安卓系统早已经有自带图片裁剪功能, 是直接调本地库的，小马不懂C C++
-		 * 这个不做详细了解去了，有轮子就用轮子，不再研究轮子是怎么 制做的了...吼吼
+         * yourself_sdk_path/docs/reference/android/content/Intent.html
 		 */
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(getImageContentUri(uri), "image/*");
@@ -232,9 +212,7 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
         intent.putExtra("outputX", 200);
         intent.putExtra("outputY", 200);
         intent.putExtra("return-data", true);
-
         startActivityForResult(intent, CAPTURE_ZOOM_CODE);
-
     }
 
     /**
@@ -277,8 +255,8 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
          * 下面这句话，与其它方式写是一样的效果，如果：
          * intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
          * intent.setType(""image/*");设置数据类型
-         * 如果朋友们要限制上传到服务器的图片类型时可以直接写如："image/jpeg 、 image/png等的类型"
-         * 这个地方小马有个疑问，希望高手解答下：就是这个数据URI与类型为什么要分两种形式来写呀？有什么区别？
+         * 如果要限制上传到服务器的图片类型时可以直接写如："image/jpeg 、 image/png等的类型"
+         *
          */
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 "image/jpeg");
@@ -288,7 +266,7 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
 
 
     // 调相机拍照
-    private void getImageFromCamera() {
+    private void startImageFromCamera() {
         String SDState = Environment.getExternalStorageState();
 //        isSplit = true;
         if (SDState.equals(Environment.MEDIA_MOUNTED)) {
@@ -382,9 +360,9 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
                                     public Bitmap apply(@NonNull String s) throws Exception {
                                         Bitmap bitmap;
                                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                                            bitmap = decodeBitmapFromFile(imageUrl.getPath(), 480, 800);
+                                            bitmap = BitmapUtils.decodeBitmapFromFile(imageUrl.getPath(), 480, 800);
                                         } else {
-                                            bitmap = decodeBitmapFromFile(photoPath, 480, 800);
+                                            bitmap = BitmapUtils.decodeBitmapFromFile(photoPath, 480, 800);
                                         }
                                         LogUtil.E("poto1");
                                         return bitmap;
@@ -394,7 +372,7 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
                                 .map(new Function<Bitmap, String>() {
                                     @Override
                                     public String apply(@NonNull Bitmap bitmap) throws Exception {
-                                        String path = saveBitmapFile(bitmap, "camera");
+                                        String path = BitmapUtils.saveBitmapFile(bitmap, "camera");
                                         LogUtil.E("poto2");
                                         return path;
                                     }
@@ -426,7 +404,7 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
                             .map(new Function<Bitmap, String>() {
                                 @Override
                                 public String apply(@NonNull Bitmap bitmap) throws Exception {
-                                    String path = saveBitmapFile(bitmap, "split");  //图片名称
+                                    String path = BitmapUtils.saveBitmapFile(bitmap, "split");  //图片名称
                                     return path;
                                 }
                             })
@@ -455,59 +433,6 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
         }
     }
 
-    /**
-     * 读取图片的旋转的角度
-     *
-     * @param path 图片绝对路径
-     * @return 图片的旋转角度
-     */
-    private int getBitmapDegree(String path) {
-        int degree = 0;
-        try {
-            // 从指定路径下读取图片，并获取其EXIF信息
-            ExifInterface exifInterface = new ExifInterface(path);
-            // 获取图片的旋转信息
-            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                    ExifInterface.ORIENTATION_NORMAL);
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    degree = 90;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    degree = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    degree = 270;
-                    break;
-            }
-        } catch (IOException e) {
-            LogUtil.E("图片旋转角度异常" + e);
-        }
-        LogUtil.E("图片旋转角度" + degree);
-        return degree;
-    }
-
-    /*
-   * 旋转图片
-   * @param angle
-   * @param bitmap
-   * @return Bitmap
-   */
-    public Bitmap rotaingImageView(int angle, Bitmap bitmap) {
-        try {
-            //旋转图片 动作
-            Matrix matrix = new Matrix();
-            ;
-            matrix.postRotate(angle);
-            // 创建新的图片
-            Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
-                    bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            return resizedBitmap;
-        } catch (Exception e) {
-
-        }
-        return bitmap;
-    }
 
     /**
      * 判断是否存在可用相机
@@ -520,92 +445,7 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
         List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
     }
-
-    /**
-     * 压缩Bitmap的大小
-     *
-     * @param imagePath     图片文件路径
-     * @param requestWidth  压缩到想要的宽度
-     * @param requestHeight 压缩到想要的高度
-     * @return Bitmap
-     */
-    public Bitmap decodeBitmapFromFile(String imagePath, int requestWidth, int requestHeight) {
-        if (!TextUtils.isEmpty(imagePath)) {
-            if (requestWidth <= 0 || requestHeight <= 0) {
-                Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-                return bitmap;
-            }
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;//不加载图片到内存，仅获得图片宽高
-            BitmapFactory.decodeFile(imagePath, options);
-            if (options.outHeight == -1 || options.outWidth == -1) {
-                try {
-                    ExifInterface exifInterface = new ExifInterface(imagePath);
-                    int height = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_LENGTH, ExifInterface.ORIENTATION_NORMAL);//获取图片的高度
-                    int width = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_WIDTH, ExifInterface.ORIENTATION_NORMAL);//获取图片的宽度
-                    options.outWidth = width;
-                    options.outHeight = height;
-
-                } catch (IOException e) {
-                }
-            }
-            int degree = getBitmapDegree(imagePath);//获取旋转角度
-
-            options.inSampleSize = calculateInSampleSize(options, requestWidth, requestHeight); //计算获取新的采样率
-//            options.inSampleSize = Math.min(options.outWidth / requestWidth, options.outHeight / requestHeight);
-
-            options.inJustDecodeBounds = false;
-
-
-            if (degree == 0) {
-                return BitmapFactory.decodeFile(imagePath, options);
-            } else {
-                return rotaingImageView(degree, BitmapFactory.decodeFile(imagePath, options));
-            }
-
-        } else {
-            LogUtil.E("拍照生成图片false");
-            return null;
-        }
-
-
-    }
-
-//    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-//        int height = options.outHeight;
-//        int width = options.outWidth;
-//        int inSampleSize = 1;
-//        if (height > reqHeight || width > reqWidth) {
-//            int halfHeight = height / 2;
-//
-//            for (int halfWidth = width / 2; halfHeight / inSampleSize > reqHeight && halfWidth / inSampleSize > reqWidth; inSampleSize *= 2) {
-//            }
-//
-//            long totalPixels = (long) (width * height / inSampleSize);
-//
-//            for (long totalReqPixelsCap = (long) (reqWidth * reqHeight * 2); totalPixels > totalReqPixelsCap; totalPixels /= 2L) {
-//                inSampleSize *= 2;
-//            }
-//        }
-//
-//        return inSampleSize;
-//    }
-
-
-    public static int calculateInSampleSize(BitmapFactory.Options options,
-                                            int reqWidth, int reqHeight) {
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-        if (height > reqHeight || width > reqWidth) {
-            final int heightRatio = Math.round((float) height / (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-        }
-        return inSampleSize;
-    }
-
-	/*
+    /*
 *
      * 相机权限申请
      * @param poto
@@ -680,67 +520,6 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-
-    /**
-     * 保存bitmap 图片
-     *
-     * @param bitmap
-     * @param imageName
-     * @return
-     */
-    public String saveBitmapFile(Bitmap bitmap, String imageName) {
-
-        File file1 = new File(getDirectory());
-        if (!file1.exists()) {
-            file1.mkdirs();
-        }
-        String filename = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA)
-                .format(new Date());
-        String imagename = filename + imageName + ".jpg";
-        File file = new File(file1, imagename);
-        try {
-            if (file.exists()) {
-                file.delete();
-                file.createNewFile();
-            } else {
-                file.createNewFile();
-            }
-            FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (Exception e) {
-        }
-
-        return file.getPath();
-    }
-
-
-    /**
-     * 获得缓存目录
-     **/
-    public String getDirectory() {
-        String dir = getSDPath() + "/" + CACHDIR;
-        LogUtil.E("拍照图片路径" + dir);
-        return dir;
-    }
-
-    /**
-     * 取SD卡路径
-     **/
-    private String getSDPath() {
-        File sdDir = null;
-        boolean sdCardExist = Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
-        if (sdCardExist) {
-            sdDir = Environment.getExternalStorageDirectory(); // 获取根目录
-        }
-        if (sdDir != null) {
-            return sdDir.toString();
-        } else {
-            return "";
-        }
-    }
 
     /**
      * MIUI系统的相册选择
