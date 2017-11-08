@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.cdkj.baselibrary.interfaces.CameraPhotoListener;
@@ -33,6 +34,9 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * 拍照、相册辅助类
+ * 使用注意 需要在启动页面中调用onActivityResult处理拍照回调
+ * 调用onRequestPermissionsResult处理权限回调
+ * 调用clear方法防止内存泄漏
  * Created by cdkj on 2017/11/7.
  */
 
@@ -44,6 +48,7 @@ public class CameraHelper {
     public final static int CAPTURE_ZOOM_CODE = 5;//裁剪
 
     private Activity mActivity;
+    private Fragment mFragment;
     private Uri imageUrl;
     protected CompositeDisposable mSubscription;
     private PermissionHelper mPreHelper;//权限请求
@@ -55,14 +60,15 @@ public class CameraHelper {
 
     private CameraPhotoListener mCameraPhotoListener;
 
-    //需要进行定位功能的权限
+    //需要的权限
     private String[] needLocationPermissions = {
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
 
     /**
-     * @param mActivity
+     * @param mActivity          在Activity界面使用
      * @param isSplit             是否裁剪
      * @param cameraPhotoListener 获取图片监听
      */
@@ -72,6 +78,20 @@ public class CameraHelper {
         this.mCameraPhotoListener = cameraPhotoListener;
         mSubscription = new CompositeDisposable();
         mPreHelper = new PermissionHelper(mActivity);
+
+    }
+
+    /**
+     * @param fragment        在fragment页面使用
+     * @param isSplit             是否裁剪
+     * @param cameraPhotoListener 获取图片监听
+     */
+    public CameraHelper(@NonNull Fragment fragment, boolean isSplit, @NonNull CameraPhotoListener cameraPhotoListener) {
+        this.isSplit = isSplit;
+        this.mFragment = fragment;
+        this.mCameraPhotoListener = cameraPhotoListener;
+        mSubscription = new CompositeDisposable();
+        mPreHelper = new PermissionHelper(mFragment);
 
     }
 
@@ -137,10 +157,18 @@ public class CameraHelper {
      * @return
      */
     public boolean hasCamera() {
-        PackageManager packageManager = mActivity.getPackageManager();
+        if (mActivity != null) {
+            PackageManager packageManager = mActivity.getPackageManager();
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            return list.size() > 0;
+        }
+
+        PackageManager packageManager = mFragment.getContext().getPackageManager();
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
+
     }
 
     // 调相机拍照
@@ -159,11 +187,21 @@ public class CameraHelper {
             String filename = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA)
                     .format(new Date()) + "camera.jpg";
             File file = new File(Environment.getExternalStorageDirectory(), filename);
-            imageUrl = FileProviderHelper.getUriForFile(mActivity, file);
+            if (mActivity != null) {
+                imageUrl = FileProviderHelper.getUriForFile(mActivity, file);
+                photoPath = file.getAbsolutePath();
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUrl);
+                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+                mActivity.startActivityForResult(intent, CAPTURE_PHOTO_CODE);
+                return;
+            }
+
+            imageUrl = FileProviderHelper.getUriForFile(mFragment.getContext(), file);
             photoPath = file.getAbsolutePath();
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUrl);
             intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-            mActivity.startActivityForResult(intent, CAPTURE_PHOTO_CODE);
+            mFragment.startActivityForResult(intent, CAPTURE_PHOTO_CODE);
+
         } else {
             mCameraPhotoListener.onPhotoFailure("内存卡不存在");
         }
@@ -317,14 +355,27 @@ public class CameraHelper {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            Cursor cursor = mActivity.getContentResolver().query(selectedImage,
+            if (mActivity != null) {
+                Cursor cursor = mActivity.getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+                mCameraPhotoListener.onPhotoSuccessful(picturePath);
+                return;
+            }
+
+            Cursor cursor = mFragment.getContext().getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
-           mCameraPhotoListener.onPhotoSuccessful(picturePath);
+            mCameraPhotoListener.onPhotoSuccessful(picturePath);
+
         }
     }
 
@@ -339,12 +390,23 @@ public class CameraHelper {
         String scheme = localUri.getScheme();
         String imagePath = "";
         if ("content".equals(scheme)) {
+            if (mActivity != null) {
+                String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                Cursor c = mActivity.getContentResolver().query(localUri, filePathColumns, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                imagePath = c.getString(columnIndex);
+                c.close();
+                return imagePath;
+            }
             String[] filePathColumns = {MediaStore.Images.Media.DATA};
-            Cursor c = mActivity.getContentResolver().query(localUri, filePathColumns, null, null, null);
+            Cursor c = mFragment.getContext().getContentResolver().query(localUri, filePathColumns, null, null, null);
             c.moveToFirst();
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
             imagePath = c.getString(columnIndex);
             c.close();
+            return imagePath;
+
         } else if ("file".equals(scheme)) {//小米4选择云相册中的图片是根据此方法获得路径
             imagePath = localUri.getPath();
         }
@@ -363,7 +425,12 @@ public class CameraHelper {
          * yourself_sdk_path/docs/reference/android/content/Intent.html
 		 */
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(getImageContentUri(uri), "image/*");
+        if (mActivity != null) {
+            intent.setDataAndType(getImageContentUri(uri), "image/*");
+        } else {
+            intent.setDataAndType(getImageContentUriFragment(uri), "image/*");
+        }
+
         // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
         intent.putExtra("crop", "true");
         // aspectX aspectY 是宽高的比例
@@ -373,7 +440,11 @@ public class CameraHelper {
         intent.putExtra("outputX", 200);
         intent.putExtra("outputY", 200);
         intent.putExtra("return-data", true);
-        mActivity.startActivityForResult(intent, CAPTURE_ZOOM_CODE);
+        if (mActivity != null) {
+            mActivity.startActivityForResult(intent, CAPTURE_ZOOM_CODE);
+            return;
+        }
+        mFragment.startActivityForResult(intent, CAPTURE_ZOOM_CODE);
     }
 
 
@@ -402,6 +473,38 @@ public class CameraHelper {
                 ContentValues values = new ContentValues();
                 values.put(MediaStore.Images.Media.DATA, filePath);
                 return mActivity.getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    /**
+     * 7.0适配
+     * 转换 content:// uri
+     *
+     * @param imageFile
+     * @return
+     */
+    public Uri getImageContentUriFragment(File imageFile) {
+        String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = mFragment.getContext().getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.Images.Media._ID},
+                MediaStore.Images.Media.DATA + "=? ",
+                new String[]{filePath}, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor
+                    .getColumnIndex(MediaStore.MediaColumns._ID));
+            Uri baseUri = Uri.parse("content://media/external/images/media");
+            return Uri.withAppendedPath(baseUri, "" + id);
+        } else {
+            if (imageFile.exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, filePath);
+                return mFragment.getContext().getContentResolver().insert(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             } else {
                 return null;
@@ -450,6 +553,7 @@ public class CameraHelper {
             mSubscription.clear();
         }
         mActivity = null;
+        mFragment = null;
     }
 
 
