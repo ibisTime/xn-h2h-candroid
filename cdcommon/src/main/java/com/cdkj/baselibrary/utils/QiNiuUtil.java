@@ -33,7 +33,7 @@ import retrofit2.Call;
 /**
  * Created by LeiQ on 2016/12/29.
  */
-// TODO 七牛工具类需要优化 压缩上传分离 使用方法优化
+// TODO 七牛工具类需要优化 压缩上传分离 使用方法优化见QiNiuHelper
 public class QiNiuUtil {
 
     private static final String ANDROID = "ANDROID";

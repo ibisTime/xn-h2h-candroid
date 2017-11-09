@@ -8,6 +8,7 @@ import android.os.Build;
 import java.io.File;
 
 /**
+ * 7.0适配
  * Created by cdkj on 2017/8/21.
  */
 
