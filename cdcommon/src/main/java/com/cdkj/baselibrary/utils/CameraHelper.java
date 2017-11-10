@@ -68,13 +68,13 @@ public class CameraHelper {
     };
 
     /**
-     * @param mActivity          在Activity界面使用
+     * @param activity            在Activity界面使用
      * @param isSplit             是否裁剪
      * @param cameraPhotoListener 获取图片监听
      */
-    public CameraHelper(@NonNull Activity mActivity, boolean isSplit, @NonNull CameraPhotoListener cameraPhotoListener) {
+    public CameraHelper(@NonNull Activity activity, boolean isSplit, @NonNull CameraPhotoListener cameraPhotoListener) {
         this.isSplit = isSplit;
-        this.mActivity = mActivity;
+        this.mActivity = activity;
         this.mCameraPhotoListener = cameraPhotoListener;
         mSubscription = new CompositeDisposable();
         mPreHelper = new PermissionHelper(mActivity);
@@ -82,7 +82,7 @@ public class CameraHelper {
     }
 
     /**
-     * @param fragment        在fragment页面使用
+     * @param fragment            在fragment页面使用
      * @param isSplit             是否裁剪
      * @param cameraPhotoListener 获取图片监听
      */
