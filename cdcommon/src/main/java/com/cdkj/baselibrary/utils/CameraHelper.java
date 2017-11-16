@@ -3,6 +3,7 @@ package com.cdkj.baselibrary.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -16,6 +17,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
+import com.cdkj.baselibrary.activitys.CropActivity;
 import com.cdkj.baselibrary.interfaces.CameraPhotoListener;
 
 import java.io.File;
@@ -39,13 +41,15 @@ import io.reactivex.schedulers.Schedulers;
  * 调用clear方法防止内存泄漏
  * Created by cdkj on 2017/11/7.
  */
-
+//TODO 裁剪接口抽取
 public class CameraHelper {
 
 
     public final static int CAPTURE_PHOTO_CODE = 3;//相机
     public final static int CAPTURE_WALBUM_CODE = 4;//相册
     public final static int CAPTURE_ZOOM_CODE = 5;//裁剪
+
+    private int mRequestCode = -1;//用于记录是相机还是相册裁剪
 
     private Activity mActivity;
     private Fragment mFragment;
@@ -56,9 +60,13 @@ public class CameraHelper {
 
     private String photoPath;//拍照图片路径
     public final static String staticPath = "imgSelect";
+    public final static String cropPath = "cropPath";
+
     private boolean isSplit = false;//执行相机或拍照后是否需要裁剪 默认不需要
 
     private CameraPhotoListener mCameraPhotoListener;
+
+    private CamerahelperCropInterface mCamerahelperCropInterface;//裁剪接口
 
     //需要的权限
     private String[] needLocationPermissions = {
@@ -66,6 +74,16 @@ public class CameraHelper {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
+
+
+    /**
+     * 设置裁剪接口
+     *
+     * @param mCamerahelperCropInterface
+     */
+    public void setmCamerahelperCropInterface(CamerahelperCropInterface mCamerahelperCropInterface) {
+        this.mCamerahelperCropInterface = mCamerahelperCropInterface;
+    }
 
     /**
      * @param activity            在Activity界面使用
@@ -78,7 +96,7 @@ public class CameraHelper {
         this.mCameraPhotoListener = cameraPhotoListener;
         mSubscription = new CompositeDisposable();
         mPreHelper = new PermissionHelper(mActivity);
-
+        mCamerahelperCropInterface = new defaultCropInterface();
     }
 
     /**
@@ -92,7 +110,7 @@ public class CameraHelper {
         this.mCameraPhotoListener = cameraPhotoListener;
         mSubscription = new CompositeDisposable();
         mPreHelper = new PermissionHelper(mFragment);
-
+        mCamerahelperCropInterface = new defaultCropInterface();
     }
 
     /**
@@ -129,7 +147,7 @@ public class CameraHelper {
      * @param type 判断是相册还是相机
      */
     private void requestPermissions(final int type) {
-
+        mRequestCode = type;
         mPreHelper.requestPermissions(new PermissionHelper.PermissionListener() {
             @Override
             public void doAfterGrand(String... permission) {
@@ -145,7 +163,7 @@ public class CameraHelper {
 
             @Override
             public void doAfterDenied(String... permission) {
-                mCameraPhotoListener.noPermissions();
+                mCameraPhotoListener.noPermissions(type);
             }
         }, needLocationPermissions);
     }
@@ -174,9 +192,11 @@ public class CameraHelper {
     // 调相机拍照
     private void startImageFromCamera() {
 
+        mRequestCode = CAPTURE_PHOTO_CODE;
+
         if (!hasCamera())  //判断有没有可用相机
         {
-            mCameraPhotoListener.onPhotoFailure("没有可用相机");
+            mCameraPhotoListener.onPhotoFailure(CAPTURE_PHOTO_CODE, "没有可用相机");
             return;
         }
 
@@ -203,7 +223,7 @@ public class CameraHelper {
             mFragment.startActivityForResult(intent, CAPTURE_PHOTO_CODE);
 
         } else {
-            mCameraPhotoListener.onPhotoFailure("内存卡不存在");
+            mCameraPhotoListener.onPhotoFailure(CAPTURE_PHOTO_CODE, "内存卡不存在");
         }
     }
 
@@ -220,13 +240,20 @@ public class CameraHelper {
         }
         switch (requestCode) {
             case CAPTURE_WALBUM_CODE:// 相册
+                mRequestCode = CAPTURE_WALBUM_CODE;
                 abumNext(data);
                 break;
             case CAPTURE_PHOTO_CODE:// 拍照
+                mRequestCode = CAPTURE_PHOTO_CODE;
                 cameraNext();
                 break;
             case CAPTURE_ZOOM_CODE:  //图片裁剪
-                zoomNext(data);
+                if (data == null || TextUtils.isEmpty(data.getStringExtra(cropPath))) {
+                    mCameraPhotoListener.onPhotoFailure(CAPTURE_ZOOM_CODE, "图片获取失败");
+                    return;
+                }
+                mCameraPhotoListener.onPhotoSuccessful(mRequestCode, data.getStringExtra(cropPath));
+//                zoomNext(data, mRequestCode);
                 break;
             default:
                 break;
@@ -238,7 +265,7 @@ public class CameraHelper {
      *
      * @param data
      */
-    private void zoomNext(Intent data) {
+    private void zoomNext(Intent data, final int requestCode) {
         Bundle extras = data.getExtras();
         Bitmap photo = extras.getParcelable("data");
 
@@ -256,12 +283,12 @@ public class CameraHelper {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String path) throws Exception {
-                        mCameraPhotoListener.onPhotoSuccessful(path);
+                        mCameraPhotoListener.onPhotoSuccessful(requestCode, path);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        mCameraPhotoListener.onPhotoFailure("图片获取失败");
+                        mCameraPhotoListener.onPhotoFailure(requestCode, "图片获取失败");
                     }
                 }));
     }
@@ -272,9 +299,11 @@ public class CameraHelper {
     private void cameraNext() {
         if (isSplit) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                startPhotoZoom(new File(imageUrl.getPath()));
+                startCrop(imageUrl.getPath());
+//                startPhotoZoom(new File(imageUrl.getPath()));
             } else {
-                startPhotoZoom(new File(photoPath));
+                startCrop(photoPath);
+//                startPhotoZoom(new File(photoPath));
             }
 
         } else {
@@ -286,11 +315,10 @@ public class CameraHelper {
                         public Bitmap apply(@NonNull String s) throws Exception {
                             Bitmap bitmap;
                             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                                bitmap = BitmapUtils.decodeBitmapFromFile(imageUrl.getPath(), 480, 800);
+                                bitmap = BitmapUtils.decodeBitmapFromFile(imageUrl.getPath(), BitmapUtils.picWidth, BitmapUtils.picHeight);
                             } else {
-                                bitmap = BitmapUtils.decodeBitmapFromFile(photoPath, 480, 800);
+                                bitmap = BitmapUtils.decodeBitmapFromFile(photoPath, BitmapUtils.picWidth, BitmapUtils.picHeight);
                             }
-                            LogUtil.E("poto1");
                             return bitmap;
                         }
                     })
@@ -299,7 +327,6 @@ public class CameraHelper {
                         @Override
                         public String apply(@NonNull Bitmap bitmap) throws Exception {
                             String path = BitmapUtils.saveBitmapFile(bitmap, "camera");
-                            LogUtil.E("poto2");
                             return path;
                         }
                     })
@@ -307,12 +334,12 @@ public class CameraHelper {
                     .subscribe(new Consumer<String>() {
                         @Override
                         public void accept(String s) throws Exception {
-                            mCameraPhotoListener.onPhotoSuccessful(s);
+                            mCameraPhotoListener.onPhotoSuccessful(CAPTURE_PHOTO_CODE, s);
                         }
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            mCameraPhotoListener.onPhotoFailure("图片获取失败");
+                            mCameraPhotoListener.onPhotoFailure(CAPTURE_PHOTO_CODE, "图片获取失败");
                         }
                     }));
         }
@@ -324,6 +351,7 @@ public class CameraHelper {
      * @param data
      */
     private void abumNext(Intent data) {
+        if (data == null) return;
         Uri imageUri = data.getData();
 
         if ("Xiaomi".equals(Build.MANUFACTURER) || SystemUtils.isMIUI())   //小米相册兼容代码
@@ -331,52 +359,59 @@ public class CameraHelper {
             String imgP = setPhotoForMiuiSystem(data);
 
             if (imageUri == null) {
-                mCameraPhotoListener.onPhotoFailure("图片获取失败");
+                mCameraPhotoListener.onPhotoFailure(CAPTURE_WALBUM_CODE, "图片获取失败");
                 return;
             }
             if (isSplit) {
-                startPhotoZoom(new File(imgP));
+//                startPhotoZoom(new File(imgP));
+                startCrop(imgP);
                 return;
             }
 
             if (!TextUtils.isEmpty(imgP)) {
-                mCameraPhotoListener.onPhotoSuccessful(imgP);
+                mCameraPhotoListener.onPhotoSuccessful(CAPTURE_WALBUM_CODE, imgP);
             }
             return;
         }
         if (imageUri == null) {
-            mCameraPhotoListener.onPhotoFailure("图片获取失败");
+            mCameraPhotoListener.onPhotoFailure(CAPTURE_WALBUM_CODE, "图片获取失败");
             return;
         }
 
-        if (isSplit) {
-            startPhotoZoom(new File(imageUri.getPath()));
-        } else {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        Uri selectedImage = data.getData();
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            if (mActivity != null) {
-                Cursor cursor = mActivity.getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);
-                cursor.close();
-                mCameraPhotoListener.onPhotoSuccessful(picturePath);
-                return;
-            }
-
-            Cursor cursor = mFragment.getContext().getContentResolver().query(selectedImage,
+        if (mActivity != null) {
+            Cursor cursor = mActivity.getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
-            mCameraPhotoListener.onPhotoSuccessful(picturePath);
+            mCameraPhotoListener.onPhotoSuccessful(CAPTURE_WALBUM_CODE, picturePath);
 
+            if (isSplit) {
+                startCrop(picturePath);
+//            startPhotoZoom(new File(imageUri.getPath()));
+            }
+            return;
         }
+
+        Cursor cursor = mFragment.getContext().getContentResolver().query(selectedImage,
+                filePathColumn, null, null, null);
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+        cursor.close();
+        mCameraPhotoListener.onPhotoSuccessful(CAPTURE_WALBUM_CODE, picturePath);
+
+        if (isSplit) {
+            startCrop(picturePath);
+//            startPhotoZoom(new File(imageUri.getPath()));
+        }
+
     }
 
 
@@ -415,7 +450,21 @@ public class CameraHelper {
 
 
     /**
-     * 裁剪图片方法实现
+     * 启动裁剪页面
+     *
+     * @param path
+     */
+    public void startCrop(String path) {
+        if (mCamerahelperCropInterface == null) return;
+        if (mActivity != null) {
+            mCamerahelperCropInterface.startCropFromActivity(mActivity, mRequestCode, path);
+            return;
+        }
+        mCamerahelperCropInterface.startCropFromFragment(mFragment, mRequestCode, path);
+    }
+
+    /**
+     * 系统裁剪图片方法实现 华为裁剪为圆形没做兼容处理
      *
      * @param uri
      */
@@ -522,12 +571,16 @@ public class CameraHelper {
          * 如果要限制上传到服务器的图片类型时可以直接写如："image/jpeg 、 image/png等的类型"
          *
          */
+        mRequestCode = CAPTURE_WALBUM_CODE;
         Intent intent = new Intent(Intent.ACTION_PICK, null);
 
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                "image/jpeg");
-
-        mActivity.startActivityForResult(intent, CAPTURE_WALBUM_CODE);
+                "image/*");
+        if (mActivity != null) {
+            mActivity.startActivityForResult(intent, CAPTURE_WALBUM_CODE);
+            return;
+        }
+        mFragment.startActivityForResult(intent, CAPTURE_WALBUM_CODE);
     }
 
 
@@ -556,5 +609,36 @@ public class CameraHelper {
         mFragment = null;
     }
 
+    /**
+     * 裁剪接口
+     */
+    public interface CamerahelperCropInterface {
+        void startCropFromActivity(Activity context, int requestCode, String path);//从Activity页面启动
+
+        void startCropFromFragment(Fragment fragment, int requestCode, String path);//从fragment页面启动
+    }
+
+
+    /**
+     * 默认裁剪实现
+     */
+    class defaultCropInterface implements CamerahelperCropInterface {
+
+        @Override
+        public void startCropFromActivity(Activity context, int requestCode, String path) {
+            Intent intent = new Intent(context, CropActivity.class);
+            intent.putExtra(cropPath, path);
+            intent.putExtra("code", requestCode);
+            context.startActivityForResult(intent, CAPTURE_ZOOM_CODE);
+        }
+
+        @Override
+        public void startCropFromFragment(Fragment context, int requestCode, String path) {
+            Intent intent = new Intent(context.getContext(), CropActivity.class);
+            intent.putExtra(cropPath, path);
+            intent.putExtra("code", requestCode);
+            context.startActivityForResult(intent, CAPTURE_ZOOM_CODE);
+        }
+    }
 
 }

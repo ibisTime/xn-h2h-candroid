@@ -21,6 +21,11 @@ import java.util.regex.Pattern;
 public class StringUtils {
 
 
+    /**
+     * 把一个对象序列化为json字符串 序列化操作应该进行线程处理
+     * @param object
+     * @return
+     */
     public static String getJsonToString(Object object) {
 
         if (object == null) {

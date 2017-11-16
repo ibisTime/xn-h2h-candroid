@@ -136,19 +136,19 @@ public class ImageSelectActivity2 extends Activity implements View.OnClickListen
     }
 
     @Override
-    public void onPhotoSuccessful(String path) {
+    public void onPhotoSuccessful(int code,String path) {
         setResult(Activity.RESULT_OK, new Intent().putExtra(CameraHelper.staticPath, path));
         finish();
     }
 
     @Override
-    public void onPhotoFailure(String msg) {
+    public void onPhotoFailure(int code,String msg) {
         ToastUtil.show(this, msg);
         finish();
     }
 
     @Override
-    public void noPermissions() {
+    public void noPermissions(int code) {
         ToastUtil.show(this, "没有获取到权限，无法使用相机和相册功能");
     }
 }

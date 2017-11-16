@@ -84,6 +84,14 @@
             android:name="com.cdkj.baselibrary.activitys.AboutAsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.cdkj.baselibrary.activitys.CropTestActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.cdkj.baselibrary.activitys.CropActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
     </application>
 

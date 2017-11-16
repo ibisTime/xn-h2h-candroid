@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#000000</color>
-    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimary">#00ffffff</color>
+    <color name="colorPrimaryDark">#00ffffff</color>
     <color name="colorAccent">#48b0fb</color>
 
     <color name="gray_bg">#f6f6f6</color>
@@ -56,9 +56,20 @@
 
     <color name="updateProgress">#3DA3FF</color>
 
+<!--caijianView-->
+    <color name="white_translucent">#AAFFFFFF</color>
+    <color name="black_translucent">#B0000000</color>
+
+    <color name="border">@color/white_translucent</color>
+    <color name="guideline">@color/white_translucent</color>
+    <color name="corner">@android:color/white</color>
+    <color name="surrounding_area">@color/black_translucent</color>
+
+
     <!--app模块 相同 -->
 
     <color name="line_gray_cd">#dedede</color>
     <color name="text_black_cd">#484848</color>
+
 
 </resources>

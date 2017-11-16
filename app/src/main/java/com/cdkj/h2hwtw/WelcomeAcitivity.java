@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.cdkj.baselibrary.activitys.CropActivity;
+import com.cdkj.baselibrary.activitys.CropTestActivity;
 import com.cdkj.baselibrary.base.BaseActivity;
 import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.h2hwtw.module.im.TxImLogingActivity;
@@ -42,10 +44,10 @@ public class WelcomeAcitivity extends BaseActivity {
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Long>() {
+
                     @Override
                     public void accept(Long aLong) throws Exception {
                         MainActivity.open(WelcomeAcitivity.this);
-
                     }
                 }, new Consumer<Throwable>() {
                     @Override

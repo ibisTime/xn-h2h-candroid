@@ -3,6 +3,8 @@ package com.cdkj.baselibrary.nets;
 
 import com.cdkj.baselibrary.utils.LogUtil;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -19,16 +21,18 @@ public class OkHttpUtils {
     private final static int WRITE_TIMEOUT = 35;//请求超时
 
 
-    private OkHttpUtils() {}
+    private OkHttpUtils() {
+    }
 
-    private  static OkHttpClient client;
+    private static OkHttpClient client;
 
     /**
      * 获取 OkHttpClient 对象
+     *
      * @return OkHttpClient
      */
     public static OkHttpClient getInstance() {
-        if(client==null){
+        if (client == null) {
             client = new OkHttpClient.Builder()
                     .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                     .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
@@ -51,13 +55,24 @@ public class OkHttpUtils {
      */
     private static HttpLoggingInterceptor getInterceptor(boolean isShow) {
 
-        HttpLoggingInterceptor interceptor;
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                try {
+                    LogUtil.I("okhttp: " + URLDecoder.decode(message, "utf-8")); //post请求FormUrlEncoded注解 unicode 转码
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    LogUtil.I("okhttp log error: " + message);
+                }
+            }
+        });
 
         if (isShow) {
-               interceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+            interceptor = interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         } else {
-               interceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE);
+            interceptor = interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
+
 
         return interceptor;
     }

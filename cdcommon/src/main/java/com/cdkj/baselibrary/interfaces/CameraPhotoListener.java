@@ -7,10 +7,10 @@ package com.cdkj.baselibrary.interfaces;
 
 public interface CameraPhotoListener {
 
-    void onPhotoSuccessful(String path);
+    void onPhotoSuccessful(int requestCode, String path);
 
-    void onPhotoFailure(String msg);
+    void onPhotoFailure(int requestCode, String msg);
 
-    void noPermissions();//没有权限
+    void noPermissions(int requestCode);//没有权限
 
 }

@@ -6,6 +6,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,6 +25,9 @@ import static com.cdkj.baselibrary.appmanager.MyCdConfig.CACHDIR;
 
 public class BitmapUtils {
 
+    public static final int picWidth = 720;
+    public static final int picHeight = 1280;
+
     /**
      * 图片质量压缩法
      *
@@ -40,7 +44,7 @@ public class BitmapUtils {
         boptions.inJustDecodeBounds = true;//只解析图片边沿，获取宽高
         BitmapFactory.decodeFile(filePath, boptions);
         // 计算缩放比
-        boptions.inSampleSize = calculateInSampleSize(boptions, 480, 800);
+        boptions.inSampleSize = calculateInSampleSize(boptions, picWidth, picHeight);
         // 完整解析图片返回bitmap
         boptions.inJustDecodeBounds = false;
 
@@ -56,7 +60,6 @@ public class BitmapUtils {
             while ((baos.toByteArray().length / 1024) > 150) {  //循环判断如果压缩后图片是否大于150kb,大于继续压缩
                 baos.reset();//重置baos即清空baos
                 image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
-
                 options -= 10;//每次都减少10
                 if (options <= 10) {
                     break;
@@ -89,7 +92,9 @@ public class BitmapUtils {
             //旋转图片 动作
             Matrix matrix = new Matrix();
             ;
-            matrix.postRotate(angle);
+            if (angle > 0) {
+                matrix.postRotate(angle);
+            }
             // 创建新的图片
             Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
                     bitmap.getWidth(), bitmap.getHeight(), matrix, true);
@@ -101,12 +106,25 @@ public class BitmapUtils {
     }
 
     /**
+     * 读取bitmap并旋转
+     *
+     * @param path
+     * @return
+     */
+    public static Bitmap decodeFileAndRotaing(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return null;
+        }
+        return BitmapUtils.rotaingImageView(getBitmapDegree(path), BitmapFactory.decodeFile(path));
+    }
+
+    /**
      * 读取图片的旋转的角度
      *
      * @param path 图片绝对路径
      * @return 图片的旋转角度
      */
-    private static int getBitmapDegree(String path) {
+    public static int getBitmapDegree(String path) {
         int degree = 0;
         try {
             // 从指定路径下读取图片，并获取其EXIF信息
@@ -132,6 +150,7 @@ public class BitmapUtils {
         return degree;
     }
 
+/*
 
     public static int calculateInSampleSize(BitmapFactory.Options options,
                                             int reqWidth, int reqHeight) {
@@ -145,7 +164,49 @@ public class BitmapUtils {
         }
         return inSampleSize;
     }
+*/
 
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // 源图片的高度和宽度
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth) {
+            // 计算出实际宽高和目标宽高的比率
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+        return inSampleSize;
+    }
+
+    //来自luban的压缩算法
+    private static int calculateInSampleSize(BitmapFactory.Options options) {
+        int srcWidth = options.outWidth % 2 == 1 ? options.outWidth + 1 : options.outWidth;
+        int srcHeight = options.outHeight % 2 == 1 ? options.outHeight + 1 : options.outHeight;
+
+        int longSide = Math.max(srcWidth, srcHeight);
+        int shortSide = Math.min(srcWidth, srcHeight);
+
+        float scale = ((float) shortSide / longSide);
+        if (scale <= 1 && scale > 0.5625) {
+            if (longSide < 1664) {
+                return 1;
+            } else if (longSide >= 1664 && longSide < 4990) {
+                return 2;
+            } else if (longSide > 4990 && longSide < 10240) {
+                return 4;
+            } else {
+                return longSide / 1280 == 0 ? 1 : longSide / 1280;
+            }
+        } else if (scale <= 0.5625 && scale > 0.5) {
+            return longSide / 1280 == 0 ? 1 : longSide / 1280;
+        } else {
+            return (int) Math.ceil(longSide / (1280.0 / scale));
+        }
+    }
 
     /**
      * 压缩Bitmap的大小
@@ -156,44 +217,37 @@ public class BitmapUtils {
      * @return Bitmap
      */
     public static Bitmap decodeBitmapFromFile(String imagePath, int requestWidth, int requestHeight) {
-        if (!TextUtils.isEmpty(imagePath)) {
-            if (requestWidth <= 0 || requestHeight <= 0) {
-                Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-                return bitmap;
-            }
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;//不加载图片到内存，仅获得图片宽高
-            BitmapFactory.decodeFile(imagePath, options);
-            if (options.outHeight == -1 || options.outWidth == -1) {
-                try {
-                    ExifInterface exifInterface = new ExifInterface(imagePath);
-                    int height = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_LENGTH, ExifInterface.ORIENTATION_NORMAL);//获取图片的高度
-                    int width = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_WIDTH, ExifInterface.ORIENTATION_NORMAL);//获取图片的宽度
-                    options.outWidth = width;
-                    options.outHeight = height;
-
-                } catch (IOException e) {
-                }
-            }
-            int degree = getBitmapDegree(imagePath);//获取旋转角度
-
-            options.inSampleSize = calculateInSampleSize(options, requestWidth, requestHeight); //计算获取新的采样率
-//            options.inSampleSize = Math.min(options.outWidth / requestWidth, options.outHeight / requestHeight);
-
-            options.inJustDecodeBounds = false;
-
-
-            if (degree == 0) {
-                return BitmapFactory.decodeFile(imagePath, options);
-            } else {
-                return rotaingImageView(degree, BitmapFactory.decodeFile(imagePath, options));
-            }
-
-        } else {
-            LogUtil.E("拍照生成图片false");
+        if (TextUtils.isEmpty(imagePath)) {
             return null;
         }
+        if (requestWidth <= 0 || requestHeight <= 0) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            return bitmap;
+        }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;//不加载图片到内存，仅获得图片宽高
+        BitmapFactory.decodeFile(imagePath, options);
+        if (options.outHeight == -1 || options.outWidth == -1) {
+            try {
+                ExifInterface exifInterface = new ExifInterface(imagePath);
+                int height = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_LENGTH, ExifInterface.ORIENTATION_NORMAL);//获取图片的高度
+                int width = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_WIDTH, ExifInterface.ORIENTATION_NORMAL);//获取图片的宽度
+                options.outWidth = width;
+                options.outHeight = height;
 
+            } catch (IOException e) {
+            }
+        }
+        int degree = getBitmapDegree(imagePath);//获取旋转角度
+        options.inSampleSize = calculateInSampleSize(options, requestWidth, requestHeight); //计算获取新的采样率
+        LogUtil.E("图片缩放比例" + options.inSampleSize);
+        options.inJustDecodeBounds = false;
+
+        if (degree == 0) {
+            return BitmapFactory.decodeFile(imagePath, options);
+        } else {
+            return rotaingImageView(degree, BitmapFactory.decodeFile(imagePath, options));
+        }
     }
 
 
@@ -258,7 +312,6 @@ public class BitmapUtils {
             return "";
         }
     }
-
 
 
     public static String getImageWidthHeight(String path) {

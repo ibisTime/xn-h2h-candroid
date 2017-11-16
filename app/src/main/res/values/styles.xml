@@ -134,6 +134,8 @@
         <item name="android:windowActionModeOverlay">false</item>
         <item name="android:windowContentOverlay">@null</item>
         <!-- 模糊 -->
+        <!--设置状态栏颜色-->
+        <item name="colorPrimaryDark">@android:color/transparent</item>
     </style>
 
 
@@ -150,6 +152,7 @@
         <!-- 背景透明 -->
         <item name="android:backgroundDimEnabled">false</item>
         <!-- 模糊 -->
+        <item name="colorPrimaryDark">@android:color/transparent</item>
     </style>
 
 
