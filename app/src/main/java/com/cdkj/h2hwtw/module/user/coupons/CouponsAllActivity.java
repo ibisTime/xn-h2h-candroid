@@ -27,7 +27,7 @@ public class CouponsAllActivity extends CommonTablayoutActivity {
 
     @Override
     public void topTitleViewRightClick() {
-        WebViewActivity.openkey(this,"优惠券说明","cardsTradition");
+        WebViewActivity.openkey(this, "优惠券说明", "cardsTradition");
     }
 
     @Override
@@ -39,12 +39,10 @@ public class CouponsAllActivity extends CommonTablayoutActivity {
 
     @Override
     public List<Fragment> getFragments() {
-
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(CouponsFragment.getInstanse(0));
         fragments.add(CouponsFragment.getInstanse(1));
         fragments.add(CouponsFragment.getInstanse(3));
-
         return fragments;
     }
 

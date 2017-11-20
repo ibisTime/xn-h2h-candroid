@@ -38,7 +38,6 @@ public class PermissionHelper {
     public PermissionHelper(@NonNull Object object){
         checkCallingObjectSuitability(object);
         this.mContext = object;
-
     }
 
 
@@ -237,7 +236,7 @@ public class PermissionHelper {
 
 
     @TargetApi(11)
-    private static Activity getActivity(@NonNull Object object) {
+    public static Activity getActivity(@NonNull Object object) {
         if (object instanceof Activity) {
             return ((Activity) object);
         } else if (object instanceof android.support.v4.app.Fragment) {

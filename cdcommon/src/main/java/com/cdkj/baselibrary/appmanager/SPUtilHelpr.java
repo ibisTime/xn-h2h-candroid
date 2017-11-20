@@ -4,12 +4,8 @@ package com.cdkj.baselibrary.appmanager;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.cdkj.baselibrary.CdApplication;
 import com.cdkj.baselibrary.utils.SPUtils;
-
-import static com.cdkj.baselibrary.appmanager.MyCdConfig.PROJECTNAME;
-import static com.cdkj.baselibrary.appmanager.RouteHelper.APPLOGIN;
 
 /**
  * SPUtils 工具辅助类

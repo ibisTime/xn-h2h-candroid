@@ -3,6 +3,7 @@ package com.cdkj.h2hwtw.api;
 import com.cdkj.baselibrary.api.BaseResponseListModel;
 import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.api.ResponseInListModel;
+import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.model.IntroductionDkeyModel;
 import com.cdkj.h2hwtw.model.ActivityCenterModel;

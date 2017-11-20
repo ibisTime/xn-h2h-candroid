@@ -34,7 +34,7 @@ import retrofit2.Call;
  * Created by 李先俊 on 2017/6/29.
  */
 
-public class BackCardListActivity extends BaseRefreshHelperActivity<BankCardModel> {
+public class BackCandListActivity extends BaseRefreshHelperActivity<BankCardModel> {
 
     private boolean mIsselect;//用户打开类型是否是选择银行卡
 
@@ -45,7 +45,7 @@ public class BackCardListActivity extends BaseRefreshHelperActivity<BankCardMode
         if (context == null) {
             return;
         }
-        Intent intent = new Intent(context, BackCardListActivity.class);
+        Intent intent = new Intent(context, BackCandListActivity.class);
         intent.putExtra("isSelect", isSelect);
         context.startActivity(intent);
     }
@@ -59,7 +59,7 @@ public class BackCardListActivity extends BaseRefreshHelperActivity<BankCardMode
 
     @Override
     public void topTitleViewRightClick() {
-        AddBackCardActivity.open(BackCardListActivity.this);
+        AddBankCardActivity.open(BackCandListActivity.this);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class BackCardListActivity extends BaseRefreshHelperActivity<BankCardMode
                             EventBus.getDefault().post(bankCardModel);
                             finish();
                         } else {
-                            UpdateBackCardActivity.open(mContext, bankCardModel);
+                            UpdateBankCardActivity.open(mContext, bankCardModel);
                         }
                     }
                 });
@@ -132,7 +132,7 @@ public class BackCardListActivity extends BaseRefreshHelperActivity<BankCardMode
 
             @Override
             protected void onReqFailure(String errorCode, String errorMessage) {
-                UITipDialog.showFall(BackCardListActivity.this, errorMessage);
+                UITipDialog.showFall(BackCandListActivity.this, errorMessage);
             }
 
             @Override

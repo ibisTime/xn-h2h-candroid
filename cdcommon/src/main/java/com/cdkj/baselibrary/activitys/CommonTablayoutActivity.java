@@ -42,11 +42,8 @@ public abstract class CommonTablayoutActivity extends AbsBaseLoadActivity {
         List<Fragment> mFragments = getFragments();
         List<String> mTitles = getFragmentTitles();
 
-        if (mFragments != null && mTitles != null && mFragments.size() == mTitles.size()) {
-            for (int i = 0; i < mFragments.size(); i++) {
-                tablayoutAdapter.addFrag(mFragments.get(i), mTitles.get(i));
-            }
-        }
+        tablayoutAdapter.addFrag(mFragments, mTitles);
+        
         mTabLayoutBinding.viewpager.setAdapter(tablayoutAdapter);
         mTabLayoutBinding.tablayout.setupWithViewPager(mTabLayoutBinding.viewpager);        //viewpager和tablayout关联
         mTabLayoutBinding.viewpager.setOffscreenPageLimit(tablayoutAdapter.getCount());

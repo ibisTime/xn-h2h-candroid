@@ -6,10 +6,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 
-import com.cdkj.baselibrary.activitys.BackCardListActivity;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.h2hwtw.R;
-import com.cdkj.h2hwtw.databinding.ActivityGetMoneyBinding;
 import com.cdkj.h2hwtw.databinding.ActivityGetmoneySuccessfulBinding;
 
 /**

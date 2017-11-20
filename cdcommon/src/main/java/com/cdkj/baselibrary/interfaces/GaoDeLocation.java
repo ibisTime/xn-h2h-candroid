@@ -43,7 +43,6 @@ public class GaoDeLocation implements LocationInterface {
                 stopLocation();
             }
         });
-
     }
 
     @Override
@@ -97,4 +96,5 @@ public class GaoDeLocation implements LocationInterface {
         locationModel.setLongitude(aMapLocation.getLongitude() + "");
         return locationModel;
     }
+
 }

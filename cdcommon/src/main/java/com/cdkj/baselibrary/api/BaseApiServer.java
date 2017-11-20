@@ -12,7 +12,6 @@ import com.cdkj.baselibrary.model.UserLoginModel;
 import com.cdkj.baselibrary.model.pay.AliPayRequestMode;
 import com.cdkj.baselibrary.model.pay.WxPayRequestModel;
 
-import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

@@ -28,9 +28,19 @@ public class TablayoutAdapter extends FragmentPagerAdapter {
         return mFragmentList.size();
     }
 
-    public void addFrag(Fragment fragment, String title) {
-        mFragmentList.add(fragment);
-        mFragmentTitleList.add(title); }
+    public void addFrag(List<Fragment> fragment, List<String> title) {
+        if (fragment == null || title == null) {
+            return;
+        }
+        if (fragment.isEmpty() || title.isEmpty()) {
+            return;
+        }
+        if (fragment.size() != title.size()) {
+            return;
+        }
+        mFragmentList.addAll(fragment);
+        mFragmentTitleList.addAll(title);
+    }
 
     @Override
     public CharSequence getPageTitle(int position) {

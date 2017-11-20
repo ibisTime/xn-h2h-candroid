@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.cdkj.baselibrary.activitys.AboutAsActivity;
-import com.cdkj.baselibrary.activitys.BackCardListActivity;
+import com.cdkj.baselibrary.activitys.BackCandListActivity;
 import com.cdkj.baselibrary.activitys.FindPwdActivity;
 import com.cdkj.baselibrary.activitys.ImageSelectActivity;
 import com.cdkj.baselibrary.activitys.PayPwdModifyActivity;
@@ -166,7 +166,7 @@ public class SettingActivity extends AbsBaseLoadActivity {
         mBinding.layoutBank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BackCardListActivity.open(SettingActivity.this, false);
+                BackCandListActivity.open(SettingActivity.this, false);
             }
         });
 

@@ -11,7 +11,7 @@ import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.databinding.ActivityCropTestBinding;
 import com.cdkj.baselibrary.interfaces.CameraPhotoListener;
-import com.cdkj.baselibrary.utils.CameraHelper;
+import com.cdkj.baselibrary.utils.CameraHelper2;
 import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.LogUtil;
 
@@ -25,7 +25,7 @@ public class CropTestActivity extends AbsBaseLoadActivity {
 
     private ActivityCropTestBinding mBindnig;
 
-    private CameraHelper mCameraHelper;
+    private CameraHelper2 mCameraHelper;
 
     /**
      * @param context
@@ -48,7 +48,7 @@ public class CropTestActivity extends AbsBaseLoadActivity {
     @Override
     public void afterCreate(Bundle savedInstanceState) {
 
-        mCameraHelper = new CameraHelper(this, true, new CameraPhotoListener() {
+        mCameraHelper = new CameraHelper2(CropTestActivity.this, new CameraPhotoListener() {
             @Override
             public void onPhotoSuccessful(int requestCode, String path) {
                 LogUtil.E("图片"+path);

@@ -47,7 +47,8 @@ public class WelcomeAcitivity extends BaseActivity {
 
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        MainActivity.open(WelcomeAcitivity.this);
+//                        MainActivity.open(WelcomeAcitivity.this);
+                        CropTestActivity.open(WelcomeAcitivity.this);
                     }
                 }, new Consumer<Throwable>() {
                     @Override

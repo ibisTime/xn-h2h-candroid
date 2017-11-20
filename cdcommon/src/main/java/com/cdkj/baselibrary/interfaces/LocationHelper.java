@@ -41,6 +41,7 @@ public class LocationHelper {
         this.mLocationInterface = locationInterface;
         this.mLocationInterface.init(locationCallBackListener);
         this.mLocationCallBackListener = locationCallBackListener;
+        mPreHelper = new PermissionHelper(mContext);
     }
 
     public LocationHelper(@NonNull Fragment obj, @NonNull LocationInterface locationInterface, @NonNull LocationCallBackListener locationCallBackListener) {
@@ -67,8 +68,6 @@ public class LocationHelper {
      * 请求定位权限
      */
     private void requestPermissions() {
-
-
         mPreHelper.requestPermissions(new PermissionHelper.PermissionListener() {
             @Override
             public void doAfterGrand(String... permission) {

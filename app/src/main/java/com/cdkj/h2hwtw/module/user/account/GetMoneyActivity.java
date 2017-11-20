@@ -5,25 +5,21 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 
-import com.cdkj.baselibrary.activitys.BackCardListActivity;
+import com.cdkj.baselibrary.activitys.BackCandListActivity;
 import com.cdkj.baselibrary.activitys.PayPwdModifyActivity;
 import com.cdkj.baselibrary.appmanager.MyCdConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
 import com.cdkj.baselibrary.dialog.CommonDialog;
-import com.cdkj.baselibrary.dialog.InputDialog;
 import com.cdkj.baselibrary.dialog.UITipDialog;
 import com.cdkj.baselibrary.model.BankCardModel;
 import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.model.IntroductionInfoModel;
-import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.model.MyBankCardListMode;
-import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.MoneyUtils;
@@ -89,7 +85,7 @@ public class GetMoneyActivity extends AbsBaseLoadActivity {
         mBinding.linSelectBankcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BackCardListActivity.open(GetMoneyActivity.this, true);
+                BackCandListActivity.open(GetMoneyActivity.this, true);
             }
         });
 

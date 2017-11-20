@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cdkj.baselibrary.api.BaseResponseModel;
 import com.cdkj.baselibrary.appmanager.SPUtilHelpr;
 import com.cdkj.baselibrary.base.AbsBaseLoadActivity;
@@ -101,6 +102,7 @@ public class TxImLogingActivity extends AbsBaseLoadActivity {
 
         map.put("userId", SPUtilHelpr.getUserId());
         map.put("token", SPUtilHelpr.getUserToken());
+
 
         Call call = RetrofitUtils.createApi(MyApiServer.class).getUserInfoDetails("805121", StringUtils.getJsonToString(map));
 

@@ -31,4 +31,8 @@ public class MyCdConfig {
     public static final String CACHDIR = "piccach" + PROJECTNAME;
 
 
+    public final static String getBaseUrl() {
+        return FILE_NAME;
+    }
+
 }
