@@ -25,8 +25,15 @@ public abstract class BaseRefreshCallBack2<T> implements RefreshInterface2 {
     }
 
     @Override
-    public void showErrorView(String errorMsg) {
+    public void showErrorState(String errorMsg, int img) {
         emptyViewBinding.tv.setText(errorMsg);
+        emptyViewBinding.img.setImageResource(img);
+    }
+
+    @Override
+    public void showEmptyState(String errorMsg, int errorImg) {
+        emptyViewBinding.tv.setText(errorMsg);
+        emptyViewBinding.img.setImageResource(errorImg);
     }
 
     @Override
@@ -37,15 +44,6 @@ public abstract class BaseRefreshCallBack2<T> implements RefreshInterface2 {
     @Override
     public void onLoadMore(int pageindex, int limit) {
 
-    }
-
-    /**
-     * 设置错误情况图片
-     *
-     * @param img
-     */
-    public void setErrorImg(int img) {
-        emptyViewBinding.img.setImageResource(img);
     }
 
 }

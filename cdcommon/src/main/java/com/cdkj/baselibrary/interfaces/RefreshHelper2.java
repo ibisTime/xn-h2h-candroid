@@ -1,14 +1,10 @@
 package com.cdkj.baselibrary.interfaces;
 
 import android.app.Activity;
-import android.content.Context;
-import android.support.annotation.DrawableRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 
-import com.cdkj.baselibrary.databinding.EmptyViewBinding;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -99,7 +95,6 @@ public class RefreshHelper2<T> {
             mRecyclerView.setAdapter(mAdapter);
         }
         initRefreshLayout();
-
     }
 
 
@@ -163,7 +158,7 @@ public class RefreshHelper2<T> {
 
 
     //加载错误布局
-    public void loadError(String str) {
+    public void loadError(String str,int img) {
 
         if (mRefreshLayout != null) {
             if (mRefreshLayout.isRefreshing()) { //停止刷新
@@ -175,7 +170,7 @@ public class RefreshHelper2<T> {
         }
 
         if (mEmptyView != null && mDataList.isEmpty()) {
-            mRefreshInterface.showErrorView(str);
+            mRefreshInterface.showErrorState(str,img);
             if (mAdapter != null) mAdapter.setEmptyView(mEmptyView);
         }
     }
@@ -186,7 +181,7 @@ public class RefreshHelper2<T> {
      *
      * @param datas
      */
-    public void setData(List<T> datas) {
+    public void setData(List<T> datas, String emp,int img) {
         if (mRefreshLayout != null) {
             if (mRefreshLayout.isRefreshing()) {
                 mRefreshLayout.finishRefresh();
@@ -210,7 +205,6 @@ public class RefreshHelper2<T> {
                 mPageIndex--;
             } else {
                 mDataList.addAll(datas);
-
                 if (mAdapter != null) {
                     mAdapter.notifyDataSetChanged();
                 }
@@ -218,6 +212,7 @@ public class RefreshHelper2<T> {
         }
 
         if (mEmptyView != null && mDataList.isEmpty()) {
+            mRefreshInterface.showEmptyState(emp,img);
             if (mAdapter != null) mAdapter.setEmptyView(mEmptyView);
         }
     }

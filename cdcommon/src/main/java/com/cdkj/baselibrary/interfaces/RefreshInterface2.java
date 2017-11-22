@@ -2,6 +2,7 @@ package com.cdkj.baselibrary.interfaces;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -12,6 +13,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import java.util.List;
 
 /**
+ * 根据需求自己定义
  * Created by 李先俊 on 2017/8/8.
  */
 public interface RefreshInterface2<T> {
@@ -24,13 +26,14 @@ public interface RefreshInterface2<T> {
 
     View getEmptyView(Activity context);
 
-    void showErrorView(String errorMsg);
+    void showErrorState(String errorMsg,@DrawableRes int errorImg);
+
+    void showEmptyState(String errorMsg,@DrawableRes int errorImg);
 
     void onRefresh(int pageindex, int limit);
 
     void onLoadMore(int pageindex, int limit);
 
     void getListDataRequest(int pageindex, int limit, boolean isShowDialog);
-
 
 }
